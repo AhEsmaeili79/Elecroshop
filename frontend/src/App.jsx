@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Home from './components/Home';
+import UserProfile from './components/UserProfile';
 
 const App = () => {
     const token = localStorage.getItem('token'); // Check if the user is logged in
@@ -10,6 +11,8 @@ const App = () => {
     return (
         <Router>
             <Routes>
+                <Route path="/profile" element={token ? <UserProfile /> : <Navigate to="/login" />} />
+                
                 <Route 
                     path="/signup" 
                     element={token ? <Navigate to="/home" /> : <Signup />} 

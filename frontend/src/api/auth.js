@@ -17,3 +17,24 @@ export const logout = () => {
         localStorage.removeItem('username'); // Clear username
     });
 };
+
+const API_URL = 'http://localhost:8000/api/'; // Adjust based on your setup
+
+export const getUserInfo = async (token) => {
+    const response = await axios.get(`${API_URL}profile/`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response;
+};
+
+export const updateUserInfo = async (token, userData) => {
+    const response = await axios.patch(`${API_URL}profile/`, userData, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data', // Important for file uploads
+        },
+    });
+    return response;
+};
