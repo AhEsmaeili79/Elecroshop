@@ -1,32 +1,21 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Signup from './components/Signup';
-import Login from './components/Login';
-import Home from './components/Home';
-import UserProfile from './components/UserProfile';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./pages/login";
+import Signup from "./pages/Signup";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
-    const token = localStorage.getItem('token'); // Check if the user is logged in
-
     return (
         <Router>
-            <Routes>
-                <Route path="/profile" element={token ? <UserProfile /> : <Navigate to="/login" />} />
-                
-                <Route 
-                    path="/signup" 
-                    element={token ? <Navigate to="/home" /> : <Signup />} 
-                />
-                <Route 
-                    path="/login" 
-                    element={token ? <Navigate to="/home" /> : <Login />} 
-                />
-                <Route 
-                    path="/home" 
-                    element={token ? <Home /> : <Navigate to="/login" />} 
-                />
-                <Route path="*" element={<Navigate to={token ? "/home" : "/login"} />} />
-            </Routes>
+            <AuthProvider>
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="/profile" element={<Profile />} />
+                </Routes>
+            </AuthProvider>
         </Router>
     );
 };

@@ -1,11 +1,8 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import CustomUserViewSet, UserProfileView
-
-router = DefaultRouter()
-router.register(r"users", CustomUserViewSet)
+from .views import UserProfileUpdateView
 
 urlpatterns = [
-    path("", include(router.urls)),  # Include user-related routes
-    path("profile/", UserProfileView.as_view(), name="user-profile"),
+    path("auth/", include("djoser.urls")),
+    path("auth/", include("djoser.urls.jwt")),
+    path("profile/", UserProfileUpdateView.as_view(), name="user-profile-update"),
 ]
