@@ -1,6 +1,3 @@
-// Authentication functions (login, signup, logout)
-
-// src/components/api/auth.js
 import axios from 'axios';
 
 // Define your API base URL
@@ -18,15 +15,23 @@ export const loginUser = async (username, password) => {
   return response.data;
 };
 
+
 // Function to sign up a user
 export const signupUser = async (username, email, password) => {
-  const response = await axios.post(`${API_URL}/signup/`, {
-    username,
-    email,
-    password,
-  });
-  return response.data;
+  try {
+    const response = await axios.post(`${API_URL}/signup/`, {
+      username,
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    // Log the error message from the response if available
+    console.error('Signup error:', error.response ? error.response.data : error.message);
+    throw error; // Rethrow the error after logging it
+  }
 };
+
 
 // Function to log out a user
 export const logoutUser = async () => {
@@ -50,6 +55,7 @@ export const logoutUser = async () => {
   localStorage.removeItem('refresh_token');
   return response.data;
 };
+
 
 // Function to refresh the access token
 export const refreshToken = async () => {

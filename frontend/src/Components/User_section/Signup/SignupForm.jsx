@@ -2,67 +2,51 @@
 import React, { useState } from 'react';
 import { signupUser } from '../../api/auth'; // Import the signup API function
 
-const SignupForm = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
+const Signup = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      await signupUser(formData);
-      alert('Signup successful!');
-      // Redirect or perform other actions on successful signup
+      await signupUser(username, email, password);
+      // Redirect to login or another page after successful signup
+      window.location.href = '/login'; 
     } catch (error) {
-      setError('Failed to signup. Please try again.');
-      console.error('Signup error:', error);
+      setError('Signup failed. Please try again.');
+      console.error('Signup failed:', error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSignup}>
       {error && <p>{error}</p>}
-      <label>
-        Username:
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        Email:
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-      </label>
+      <input
+        type="text"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder="Username"
+        required
+      />
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Email"
+        required
+      />
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Password"
+        required
+      />
       <button type="submit">Signup</button>
     </form>
   );
 };
 
-export default SignupForm;
+export default Signup;
