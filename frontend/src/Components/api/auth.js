@@ -1,4 +1,6 @@
-// src/api.js
+// Authentication functions (login, signup, logout)
+
+// src/components/api/auth.js
 import axios from 'axios';
 
 // Define your API base URL
@@ -26,22 +28,6 @@ export const signupUser = async (username, email, password) => {
   return response.data;
 };
 
-// Function to fetch user data
-export const fetchUserData = async () => {
-    const token = localStorage.getItem('token'); // Get the token from local storage
-    try {
-        const response = await axios.get(`${API_URL}/user/`, {
-            headers: {
-                Authorization: `Bearer ${token}`, // Include the token in the request headers
-            },
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Failed to fetch user data:', error);
-        throw error;
-    }
-};
-
 // Function to log out a user
 export const logoutUser = async () => {
   const refreshToken = localStorage.getItem('refresh_token');
@@ -65,18 +51,6 @@ export const logoutUser = async () => {
   return response.data;
 };
 
-
-export const updateUser = async (userData) => {
-    const token = localStorage.getItem('token'); // Get the token from local storage
-    const response = await axios.patch(`${API_URL}/user/`, userData, {
-        headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the request headers
-            'Content-Type': 'multipart/form-data', // Specify content type for FormData
-        },
-    });
-    return response.data;
-};
-
 // Function to refresh the access token
 export const refreshToken = async () => {
   const refreshToken = localStorage.getItem('refresh_token');
@@ -94,4 +68,3 @@ export const refreshToken = async () => {
     // Optionally handle logout or redirection to login page
   }
 };
-

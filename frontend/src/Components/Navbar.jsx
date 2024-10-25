@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { logoutUser } from '../api'; // Import the logout function
+import { logoutUser } from './api/auth'; // Import the logout function
 
 function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to manage login status

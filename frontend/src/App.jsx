@@ -1,9 +1,9 @@
 // src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './Components/Login';
-import Signup from './Components/Signup';
-import Home from './Components/Home';
-import UserProfile from './Components/UserProfile'; // Importing UserProfile
+import Login from './Components/Login/Login';
+import Signup from './Components/Signup/Signup';
+import Home from './Components/Home/Home';
+import UserProfile from './Components/UserProfile/UserProfile'; // Importing UserProfile
 import Navbar from './Components/Navbar'; // Assuming you have a Navbar for navigation
 import Logout from './Components/Logout';
 
