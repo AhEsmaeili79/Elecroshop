@@ -18,19 +18,15 @@ const UserProfile = () => {
     additional_information: '',
     profile_image: null,
   });
-  const [imagePreview, setImagePreview] = useState(null); // State for image preview
+  const [imagePreview, setImagePreview] = useState(null);
 
   // Fetch user data
   const getUserData = async () => {
     try {
       const data = await fetchUserData();
       setUserData(data);
-      setFormData((prevData) => ({
-        ...prevData,
-        ...data,
-      }));
-      // Set the initial image preview
-      setImagePreview(data.profile_image); // Assuming profile_image is a URL string
+      setFormData({ ...formData, ...data });
+      setImagePreview(data.profile_image);
     } catch (error) {
       setError('Failed to fetch user data.');
       console.error('Error fetching user data:', error);
@@ -44,27 +40,26 @@ const UserProfile = () => {
   // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   // Handle image upload
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setFormData({ ...formData, profile_image: file });
-    
-    // Create a local URL for the uploaded image
+    setFormData((prevData) => ({ ...prevData, profile_image: file }));
+
     if (file) {
       const previewUrl = URL.createObjectURL(file);
-      setImagePreview(previewUrl); // Set the image preview
+      setImagePreview(previewUrl);
     }
+    console.log(previewUrl);
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedData = new FormData();
-    
-    // Append all data including the image
+
     for (const key in formData) {
       updatedData.append(key, formData[key]);
     }
@@ -72,7 +67,7 @@ const UserProfile = () => {
     try {
       await updateUser(updatedData);
       alert('User information updated successfully!');
-      getUserData(); // Fetch updated user data
+      getUserData();
     } catch (error) {
       setError('Failed to update user data.');
       console.error('Error updating user data:', error);
@@ -86,39 +81,23 @@ const UserProfile = () => {
       {userData && (
         <div>
           <h3>User Information:</h3>
-          {/* Display the profile image */}
           <img
-            src={imagePreview ? imagePreview : 'path/to/default/image.jpg'}
+            src={imagePreview || 'path/to/default/image.jpg'}
             alt="Profile"
-            style={{ width: '100px', height: '100px', borderRadius: '10%' }} // Circle image style
+            style={{ width: '100px', height: '100px', borderRadius: '10%' }}
           />
           <form onSubmit={handleSubmit}>
             <label>
               Username:
-              <input
-                type="text"
-                name="username"
-                value={userData.username}
-                readOnly // Make this field read-only
-              />
+              <input type="text" name="username" value={userData.username} readOnly />
             </label>
             <label>
               Email:
-              <input
-                type="email"
-                name="email"
-                value={userData.email}
-                readOnly // Make this field read-only
-              />
+              <input type="email" name="email" value={userData.email} readOnly />
             </label>
             <label>
               Role:
-              <input
-                type="text"
-                name="role"
-                value={userData.role}
-                readOnly // Make this field read-only
-              />
+              <input type="text" name="role" value={userData.role} readOnly />
             </label>
             <label>
               First Name:
@@ -127,7 +106,7 @@ const UserProfile = () => {
                 name="first_name"
                 value={formData.first_name}
                 onChange={handleChange}
-                required // Optional: make it required if necessary
+                required
               />
             </label>
             <label>
@@ -137,7 +116,7 @@ const UserProfile = () => {
                 name="last_name"
                 value={formData.last_name}
                 onChange={handleChange}
-                required // Optional: make it required if necessary
+                required
               />
             </label>
             <label>
