@@ -1,23 +1,27 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Login from "./pages/login";
-import Signup from "./pages/Signup";
-import Home from "./pages/Home";
-import Profile from "./pages/Profile";
-import { AuthProvider } from "./context/AuthContext";
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './Components/Login';
+import Signup from './Components/Signup';
+import Home from './Components/Home';
+import UserProfile from './Components/UserProfile'; // Importing UserProfile
+import Navbar from './Components/Navbar'; // Assuming you have a Navbar for navigation
+import Logout from './Components/Logout';
 
-const App = () => {
-    return (
-        <Router>
-            <AuthProvider>
-                <Routes>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/" element={<Home />} />
-                    <Route path="/profile" element={<Profile />} />
-                </Routes>
-            </AuthProvider>
-        </Router>
-    );
-};
+function App() {
+  return (
+    <Router>
+      <Navbar />
+      <Routes> {/* Use Routes instead of Switch */}
+        <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<UserProfile />} /> {/* Route for UserProfile */}
+        <Route path="/logout" element={<Logout />} /> {/* Route for UpdateUser */}
+        {/* Add more routes as needed */}
+      </Routes>
+    </Router>
+  );
+}
+
 
 export default App;

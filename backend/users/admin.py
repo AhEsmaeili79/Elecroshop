@@ -1,8 +1,15 @@
 from django.contrib import admin
-from .models import CustomUser
+from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
-# Register your models here.
-@admin.register(CustomUser)
-class CustomerAdmin(admin.ModelAdmin):
-    list_display = ["id", "email", "username"]
+class UserAdmin(DefaultUserAdmin):
+    # Display specific fields on the user list page
+    list_display = ("username", "email", "is_staff", "is_active", "date_joined")
+    list_filter = ("is_staff", "is_active", "date_joined")
+    search_fields = ("username", "email")
+
+
+admin.site.register(User, UserAdmin)

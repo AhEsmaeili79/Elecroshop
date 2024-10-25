@@ -1,24 +1,59 @@
 # users/serializers.py
-from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
-from users.models import CustomUser
-
-
-class UserCreateSerializer(BaseUserCreateSerializer):
-    class Meta(BaseUserCreateSerializer.Meta):
-        model = CustomUser
-        fields = ("id", "email", "username", "password")
-
-
+from enum import unique
 from rest_framework import serializers
-from .models import CustomUser
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
+class UserSignupSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
-        model = CustomUser
+        model = User
+        fields = ["username", "email", "password"]
+
+    def create(self, validated_data):
+        user = User(**validated_data)
+        user.set_password(validated_data["password"])  # Hash the password
+        user.save()
+        return user
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
         fields = [
-            "username",
+            "first_name",
+            "last_name",
+            "profile_image",
+            "phonenumber",
+            "date_birth",
+            "address",
+            "city",
+            "street",
+            "floor",
+            "apartment",
+            "role",
+            "zip_code",
+            "additional_information",
+        ]
+
+
+class UserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(read_only=True)
+    username = serializers.CharField(read_only=True)
+    role = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = [
             "email",
+            "username",
+            "role",
+            "first_name",
+            "last_name",
+            "profile_image",
             "phonenumber",
             "date_birth",
             "address",
@@ -27,12 +62,5 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "floor",
             "apartment",
             "zip_code",
-            "profile_image",
             "additional_information",
         ]
-        extra_kwargs = {
-            "username": {
-                "read_only": True
-            },  # Username should be read-only if you don't want to allow changes
-            "email": {"required": True},  # Ensure email is always required
-        }

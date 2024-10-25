@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from datetime import timedelta
-import os
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-f_7exf)f2s0hwk^fny1=^yo0=@wex4etoqh1tx3hc07*e#tyxw"
+SECRET_KEY = "django-insecure-0om%u())twk(j(dqh5-*#4584vyvpa=nu58)6fp67s8f=pz3*w"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "djoser",
-    "users",  # Your users app
+    "rest_framework_simplejwt.token_blacklist",  # JWT support
+    "rest_framework_simplejwt",
+    "users",
     "corsheaders",
 ]
 
@@ -129,23 +130,34 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "users.CustomUser"
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # React Vite URL
-]
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=3),
+}
 
+
+# myproject/settings.py
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        # Add any other authentication classes you need
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.AllowAny",  # Ensure this is set to AllowAny for public access
     ),
 }
 
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-}
-# Media files settings
+AUTH_USER_MODEL = "users.CustomUser"
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Update this to the actual address of your React app
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
