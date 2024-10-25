@@ -1,6 +1,6 @@
 // src/Logout.jsx
 import React from 'react';
-import { logoutUser } from './api/auth'; // Import the logout function
+import { logoutUser } from '../api/auth'; // Import the logout function
 
 const Logout = () => {
   const handleLogout = async () => {

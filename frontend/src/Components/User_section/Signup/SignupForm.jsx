@@ -1,6 +1,6 @@
 // src/components/Signup/SignupForm.jsx
 import React, { useState } from 'react';
-import { signupUser } from '../api/auth'; // Import the signup API function
+import { signupUser } from '../../api/auth'; // Import the signup API function
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({

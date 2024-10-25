@@ -1,11 +1,11 @@
 // src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './Components/Login/Login';
-import Signup from './Components/Signup/Signup';
+import Login from './Components/User_section/Login/Login';
+import Signup from './Components/User_section/Signup/Signup';
 import Home from './Components/Home/Home';
-import UserProfile from './Components/UserProfile/UserProfile'; // Importing UserProfile
-import Navbar from './Components/Navbar'; // Assuming you have a Navbar for navigation
-import Logout from './Components/Logout';
+import UserProfile from './Components/User_section/UserProfile/UserProfile'; // Importing UserProfile
+import Navbar from './Components/Home/Navbar'; // Assuming you have a Navbar for navigation
+import Logout from './Components/Home/Logout';
 
 function App() {
   return (

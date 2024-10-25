@@ -1,6 +1,6 @@
 // src/components/UserProfile/UserProfile.jsx
 import React, { useEffect, useState } from 'react';
-import { fetchUserData, updateUser } from '../api/user'; // Import the necessary API functions
+import { fetchUserData, updateUser } from '../../api/user'; // Import the necessary API functions
 import UserProfileForm from './UserProfileForm';
 import UserProfileImage from './UserProfileImage';
 

@@ -1,6 +1,6 @@
 // src/components/Login/LoginForm.jsx
 import React, { useState } from 'react';
-import { loginUser } from '../api/auth'; // Import the login API function
+import { loginUser } from '../../api/auth'; // Import the login API function
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
