@@ -3,17 +3,18 @@ import axios from 'axios';
 
 const API_URL = 'http://127.0.0.1:8000/api/role_request';
 
+// Existing function to create a new role request
 export const createRoleRequest = async () => {
-  const token = localStorage.getItem('token');
-  const response = await axios.post(
-    `${API_URL}/request/`,
-    {},
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    }
-  );
-  return response.data;
-};
+    const token = localStorage.getItem('token');
+    const response = await axios.post(
+      `${API_URL}/request/`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  };
 
 export const fetchRoleRequests = async () => {
     const accessToken = localStorage.getItem('token'); // Retrieve token from local storage
@@ -47,3 +48,36 @@ export const updateRoleRequest = async (requestId, status) => {
       throw error; // Rethrow the error to handle it later
     }
   };
+
+
+// Fetch the user's existing role request
+export const fetchUserRoleRequest = async () => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${API_URL}/request/user/`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data; // Return the user's role request
+  };
+
+// Cancel the existing role request
+export const cancelRoleRequest = async (requestId) => {
+    const token = localStorage.getItem('token');
+    console.log('Cancelling request with token:', token);  // Debugging line
+    const response = await axios.patch(`${API_URL}/request/${requestId}/`, 
+        { status: "canceled" }, // Send the cancellation request with status "canceled"
+        {
+            headers: { Authorization: `Bearer ${token}` },
+        }
+    );
+    return response.data;
+};
+
+
+// Function to fetch user's latest role request status
+export const fetchUserRoleRequestStatus = async () => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${API_URL}/request/status/`, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+};

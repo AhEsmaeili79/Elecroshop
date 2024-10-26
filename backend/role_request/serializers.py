@@ -25,8 +25,8 @@ class RoleRequestSerializer(serializers.ModelSerializer):
             "user",
             "status",
             "request_time",
-        ]  # Include all necessary fields
+        ]
         read_only_fields = [
-            "user",
+            "user",  # Make sure user is read-only
             "request_time",
-        ]  # Prevent user and request_time from being set directly
+        ]

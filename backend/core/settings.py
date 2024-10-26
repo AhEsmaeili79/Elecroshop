@@ -145,10 +145,9 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",  # Make sure this is set correctly
+        "rest_framework.permissions.AllowAny",  # Ensure this is set to AllowAny for public access
     ),
 }
-
 
 AUTH_USER_MODEL = "users.CustomUser"
 
