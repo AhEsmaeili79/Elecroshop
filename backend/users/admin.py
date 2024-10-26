@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class UserAdmin(DefaultUserAdmin):
+class UserAdmin(admin.ModelAdmin):
     # Display specific fields on the user list page
     list_display = ("username", "email", "is_staff", "is_active", "date_joined")
     list_filter = ("is_staff", "is_active", "date_joined")
