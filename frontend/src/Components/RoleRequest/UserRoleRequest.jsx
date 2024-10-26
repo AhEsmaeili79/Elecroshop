@@ -69,7 +69,7 @@ const UserRoleRequest = ({ user }) => {
           <button onClick={handleDeleteRequest}>Delete Request</button>
         </div>
       ) : (
-        <p>Your request is currently in "{requestStatus}" status.</p>
+        <p>Your request is currently in Pending status.</p>
       )}
       {message && <p>{message}</p>}
     </div>
