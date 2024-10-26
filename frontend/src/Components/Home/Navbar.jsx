@@ -33,7 +33,10 @@ function Navbar() {
         <li><Link to="/">Home</Link></li>
         {isLoggedIn ? (
           <>
-            <li><Link to="/profile">Profile</Link></li> {/* Link to UserProfile */}
+            <li><Link to="/profile">Profile</Link></li>
+            <li><Link to="/manage-requests">manage role</Link></li>
+            <li><Link to="/request-role">request role</Link></li>
+             {/* Link to UserProfile */}
             <li>
               <button onClick={handleLogout}>Logout</button>
             </li>

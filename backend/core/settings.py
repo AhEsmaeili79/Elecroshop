@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "users",
     "corsheaders",
+    "role_request",
 ]
 
 MIDDLEWARE = [
@@ -142,12 +143,12 @@ SIMPLE_JWT = {
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-        # Add any other authentication classes you need
     ),
     "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.AllowAny",  # Ensure this is set to AllowAny for public access
+        "rest_framework.permissions.IsAuthenticated",  # Make sure this is set correctly
     ),
 }
+
 
 AUTH_USER_MODEL = "users.CustomUser"
 
