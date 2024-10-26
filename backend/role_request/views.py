@@ -122,6 +122,7 @@ class UserRoleRequestStatusView(generics.RetrieveAPIView):
                 "request_time": latest_request.request_time,
                 "can_request_again": can_request_again,
                 "request_id": latest_request.id,
+                "denied_time": latest_request.denied_time,
             }
         )
 

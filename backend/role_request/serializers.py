@@ -20,13 +20,9 @@ class RoleRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RoleRequest
-        fields = [
-            "id",
-            "user",
-            "status",
-            "request_time",
-        ]
+        fields = ["id", "user", "status", "request_time", "denied_time"]
         read_only_fields = [
             "user",  # Make sure user is read-only
             "request_time",
+            "denied_time",
         ]

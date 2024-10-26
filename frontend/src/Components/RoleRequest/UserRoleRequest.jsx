@@ -7,7 +7,9 @@ const UserRoleRequest = ({ user }) => {
   const [message, setMessage] = useState('');
   const [requestId, setRequestId] = useState(null);
   const [requestTime, setRequestTime] = useState(null);
+  const [requestdenid, setRequestTimeDenid] = useState(null);
 
+  
   useEffect(() => {
     const getRequestStatus = async () => {
       try {
@@ -16,6 +18,8 @@ const UserRoleRequest = ({ user }) => {
         setCanRequestAgain(data.can_request_again);
         setRequestId(data.request_id);
         setRequestTime(data.request_time);
+        setRequestTimeDenid(data.denied_time)
+        console.log(data);
       } catch (error) {
         console.error('Failed to fetch role request status:', error);
       }
@@ -54,13 +58,18 @@ const UserRoleRequest = ({ user }) => {
       ) : requestStatus === 'pending' ? (
         <div>
           <p>Your request is pending approval.</p>
-          {requestTime && (
-            <p>Request Time: {new Date(requestTime).toLocaleString()}</p>
-          )}
+          <p>Request Time: {new Date(requestTime).toLocaleString()}</p>
           <button onClick={handleDeleteRequest}>Cancel Request</button>
         </div>
+      ) : requestStatus === 'denied' ? (
+        <div>
+          <p>Your request has been denied.</p>
+          <p>Denied Time: {new Date(requestdenid).toLocaleString()}</p>
+          <p>Status: Denied</p>
+          <button onClick={handleDeleteRequest}>Delete Request</button>
+        </div>
       ) : (
-        <p></p>
+        <p>Your request is currently in "{requestStatus}" status.</p>
       )}
       {message && <p>{message}</p>}
     </div>
