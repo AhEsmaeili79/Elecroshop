@@ -5,7 +5,7 @@ import Signup from './Components/User_section/Signup/Signup';
 import Home from './Components/Home/Home';
 import UserProfile from './Components/User_section/UserProfile/UserProfile'; // Importing UserProfile
 import Navbar from './Components/Home/Navbar'; // Assuming you have a Navbar for navigation
-import Logout from './Components/Home/Logout';
+import Logout from './Components/User_section/Logout/Logout';
 
 function App() {
   return (
