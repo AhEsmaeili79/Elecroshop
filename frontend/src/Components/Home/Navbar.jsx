@@ -36,6 +36,8 @@ function Navbar() {
             <li><Link to="/profile">Profile</Link></li>
             <li><Link to="/manage-requests">manage role</Link></li>
             <li><Link to="/request-role">request role</Link></li>
+            <li><Link to="/seller/products">My Products</Link></li>
+            <li><Link to="/seller/add-product">Add Product</Link></li>
              {/* Link to UserProfile */}
             <li>
               <button onClick={handleLogout}>Logout</button>

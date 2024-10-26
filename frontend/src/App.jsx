@@ -10,6 +10,10 @@ import { fetchUserData } from './Components/api/user';
 import { useEffect, useState } from 'react';
 import UserRoleRequest from './Components/RoleRequest/UserRoleRequest';
 import AdminRoleRequests from './Components/RoleRequest/AdminRoleRequests';
+import AddProduct from './Components/seller/AddProduct';
+import SellerProducts from './Components/seller/SellerProductList';
+import EditProduct from './Components/seller/EditProduct';
+
 
 
 function App() {
@@ -45,7 +49,13 @@ function App() {
         {user && user.role === 'admin' && (
           <Route path="/manage-requests" element={<AdminRoleRequests />} />
         )}
-        
+        {user && user.role === 'seller' && (
+          <>
+            <Route path="/seller/products" element={<SellerProducts />} />
+            <Route path="/seller/add-product" element={<AddProduct />} />
+            <Route path="/seller/edit-product/:productId" element={<EditProduct />} />
+          </>
+        )}
       </Routes>
     </Router>
   );
