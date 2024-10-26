@@ -18,35 +18,33 @@ class RoleRequestCreateView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)  # Save the current user
+        serializer.save(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
-        # Check for existing request (either pending or canceled)
-        existing_request = (
+        # Get the latest request for this user, if it exists
+        latest_request = (
             RoleRequest.objects.filter(user=request.user)
             .order_by("-request_time")
             .first()
         )
 
-        if existing_request:
-            # Check if the existing request is canceled and if it's been less than an hour
-            if existing_request.status == "canceled":
-                time_since_cancellation = (
-                    timezone.now() - existing_request.canceled_time
+        # Check if there's an existing request within the past 24 hours
+        if latest_request:
+            time_since_last_request = timezone.now() - latest_request.request_time
+            if time_since_last_request < timedelta(hours=24):
+                return Response(
+                    {"error": "You can only submit a new request once every 24 hours."},
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
-                if time_since_cancellation < timezone.timedelta(hours=1):
-                    return Response(
-                        {
-                            "error": "You can only send a new request after one hour from cancellation."
-                        },
-                        status=status.HTTP_400_BAD_REQUEST,
-                    )
+            else:
+                # Delete the old request if it’s older than 24 hours
+                latest_request.delete()
 
+        # No recent request found or old request deleted, so create a new one
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            self.perform_create(serializer)  # This should save the user correctly
+            self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -80,41 +78,6 @@ class RoleRequestUpdateView(generics.UpdateAPIView):
 
         request_instance.save()
         return Response({"message": "Status updated successfully"}, status=200)
-
-
-class RoleRequestCancelView(generics.UpdateAPIView):
-    queryset = RoleRequest.objects.all()
-    serializer_class = RoleRequestSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def patch(self, request, *args, **kwargs):
-        # Retrieve the role request instance based on the provided ID in the URL
-        request_instance = self.get_object()
-
-        # Ensure the request belongs to the current authenticated user
-        if request_instance.user != request.user:
-            return Response(
-                {"error": "You are not authorized to cancel this request."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        # Check if the user can cancel their request
-        if request_instance.status == "pending":
-            request_instance.status = "canceled"
-            request_instance.canceled_time = (
-                timezone.now()
-            )  # Track when the request was canceled
-            request_instance.save()
-
-            return Response(
-                {"message": "Role request canceled successfully."},
-                status=status.HTTP_200_OK,
-            )
-
-        return Response(
-            {"error": "Only pending requests can be canceled."},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
 
 
 class UserRoleRequestView(generics.RetrieveAPIView):
@@ -160,4 +123,27 @@ class UserRoleRequestStatusView(generics.RetrieveAPIView):
                 "can_request_again": can_request_again,
                 "request_id": latest_request.id,
             }
+        )
+
+
+class RoleRequestDeleteView(generics.DestroyAPIView):
+    queryset = RoleRequest.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        # Retrieve the role request instance based on the provided ID in the URL
+        request_instance = self.get_object()
+
+        # Ensure the request belongs to the current authenticated user
+        if request_instance.user != request.user:
+            return Response(
+                {"error": "You are not authorized to Cancel this request."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        # Delete the role request instance
+        request_instance.delete()
+        return Response(
+            {"message": "Role request Canceled successfully."},
+            status=status.HTTP_204_NO_CONTENT,
         )

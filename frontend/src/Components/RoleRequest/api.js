@@ -59,19 +59,6 @@ export const fetchUserRoleRequest = async () => {
     return response.data; // Return the user's role request
   };
 
-// Cancel the existing role request
-export const cancelRoleRequest = async (requestId) => {
-    const token = localStorage.getItem('token');
-    console.log('Cancelling request with token:', token);  // Debugging line
-    const response = await axios.patch(`${API_URL}/request/${requestId}/`, 
-        { status: "canceled" }, // Send the cancellation request with status "canceled"
-        {
-            headers: { Authorization: `Bearer ${token}` },
-        }
-    );
-    return response.data;
-};
-
 
 // Function to fetch user's latest role request status
 export const fetchUserRoleRequestStatus = async () => {
@@ -80,4 +67,14 @@ export const fetchUserRoleRequestStatus = async () => {
         headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
+};
+
+
+// Delete the existing role request
+export const deleteRoleRequest = async (requestId) => {
+  const token = localStorage.getItem('token');
+  const response = await axios.delete(`${API_URL}/request/${requestId}/delete/`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
 };
