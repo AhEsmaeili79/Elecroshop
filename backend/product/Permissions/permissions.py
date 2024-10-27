@@ -11,14 +11,11 @@ class IsSellerOrReadOnly(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        # Allow any authenticated user to view (GET) products
+        # Allow read access to any user
         if request.method in permissions.SAFE_METHODS:
             return True
-
-        # Only allow sellers or admins to create, update, and delete products
-        return request.user.is_authenticated and (
-            request.user.role == "seller" or request.user.role == "admin"
-        )
+        # Allow write access only to sellers
+        return request.user.is_authenticated and request.user.role == "seller"
 
     def has_object_permission(self, request, view, obj):
         # Allow read-only permissions for any authenticated user

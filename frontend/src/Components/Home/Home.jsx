@@ -48,8 +48,10 @@ const Home = () => {
       {userData && (
         <>
           <WelcomeMessage username={userData.username} role={userData.role} />
+          {userData.profile_image && (
           <UserProfileImage profileImage={userData.profile_image} />
-        </>
+          )}
+          </>
       )}
       <div className="latest-products">
         <h2>Latest Products</h2>

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchUserData, updateUser } from '../../api/user'; // Import the necessary API functions
 import UserProfileForm from './UserProfileForm';
 import UserProfileImage from './UserProfileImage';
+import './css/UserProfileForm.css';
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
