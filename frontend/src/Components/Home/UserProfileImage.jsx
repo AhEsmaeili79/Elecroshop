@@ -1,6 +1,5 @@
 // src/components/Home/UserProfileImage.jsx
 import React from 'react';
-
 const UserProfileImage = ({ profileImage }) => (
   <img
     src={profileImage || 'path/to/default/image.jpg'} // Fallback to a default image

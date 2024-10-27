@@ -62,7 +62,7 @@ const Home = () => {
                 <div className="product-card">
                   <img src={product.main_photo} alt={product.name} className="product-image" />
                   <h3 className="product-name">{product.name}</h3>
-                  <p className="product-price">Price: ${product.price}</p>
+                  <p className="product-price">قیمت: {product.price} تومان</p>
                 </div>
               </Link>
             ))}
