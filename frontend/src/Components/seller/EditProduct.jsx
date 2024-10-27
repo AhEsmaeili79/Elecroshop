@@ -1,12 +1,13 @@
 // src/Components/Seller/EditProduct.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchProducts, updateProduct, deleteProduct } from '../api/product';
+import { fetchProduct, updateProduct, deleteProduct } from '../api/product';
 
 const EditProduct = () => {
-  const { productId } = useParams();  // Get the product ID from URL parameters
+  const { productId } = useParams();  
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     price: '',
@@ -18,21 +19,18 @@ const EditProduct = () => {
   useEffect(() => {
     const loadProduct = async () => {
       try {
-        const productData = await fetchProducts(); // Fetch all products of the seller
-        const currentProduct = productData.find((prod) => prod.id === parseInt(productId));
-
-        if (currentProduct) {
-          setProduct(currentProduct);
-          setFormData({
-            name: currentProduct.name,
-            price: currentProduct.price,
-            count: currentProduct.count,
-            model: currentProduct.model,
-            main_photo: currentProduct.main_photo,
-          });
-        }
+        const productData = await fetchProduct(productId); // Fetch the specific product by ID
+        setProduct(productData);
+        setFormData({
+          name: productData.name,
+          price: productData.price,
+          count: productData.count,
+          model: productData.model,
+          main_photo: productData.main_photo,
+        });
       } catch (error) {
         console.error("Failed to load product:", error);
+        setError("Error loading product details.");
       }
     };
 
@@ -41,43 +39,37 @@ const EditProduct = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-
   const handleFileChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      main_photo: e.target.files[0],
-    }));
+    setFormData((prevData) => ({ ...prevData, main_photo: e.target.files[0] }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedFormData = new FormData();
-
     Object.keys(formData).forEach((key) => {
       updatedFormData.append(key, formData[key]);
     });
 
     try {
-      await updateProduct(productId, updatedFormData); // Call the update API
-      navigate('/seller/products'); // Redirect to the product list
+      await updateProduct(productId, updatedFormData);
+      alert("Product updated successfully.");
+      navigate('/seller/products'); // Redirect to product list
     } catch (error) {
       console.error("Failed to update product:", error);
+      setError("Error updating product.");
     }
   };
 
   const handleDelete = async () => {
     try {
       await deleteProduct(productId);
-      console.log('Product deleted successfully');
-      // Optionally, you may want to redirect or update the UI after deletion
+      alert("Product deleted successfully.");
+      navigate('/seller/products');
     } catch (err) {
-      setError('Error deleting product');
+      setError('Error deleting product.');
       console.error(err);
     }
   };
@@ -89,7 +81,12 @@ const EditProduct = () => {
   return (
     <div>
       <h1>Edit Product</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
+      <label htmlFor="">
+          Main image:
+        <img src={formData.main_photo} alt={formData.name} className="product-image" />
+        </label>
         <label>
           Name:
           <input
@@ -97,6 +94,7 @@ const EditProduct = () => {
             name="name"
             value={formData.name}
             onChange={handleInputChange}
+            required
           />
         </label>
         <label>
@@ -106,6 +104,7 @@ const EditProduct = () => {
             name="price"
             value={formData.price}
             onChange={handleInputChange}
+            required
           />
         </label>
         <label>
@@ -115,6 +114,7 @@ const EditProduct = () => {
             name="count"
             value={formData.count}
             onChange={handleInputChange}
+            required
           />
         </label>
         <label>
@@ -124,8 +124,10 @@ const EditProduct = () => {
             name="model"
             value={formData.model}
             onChange={handleInputChange}
+            required
           />
         </label>
+      
         <label>
           Main Photo:
           <input

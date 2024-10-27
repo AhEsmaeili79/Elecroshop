@@ -15,6 +15,7 @@ const axiosInstance = axios.create({
   },
 });
 
+// SellerProductList.jsx
 export const fetchSellerProducts = async () => {
   try {
     const response = await axiosInstance.get('');
@@ -25,18 +26,7 @@ export const fetchSellerProducts = async () => {
   }
 };
 
-export const createProduct = async (productData) => {
-  try {
-    const response = await axiosInstance.post('', productData);
-    return response.data;
-  } catch (error) {
-    console.error('Error creating product:', error);
-    throw error;
-  }
-};
-
-// Add other CRUD operations if needed
-
+// AddProduct.jsx
 export const addProduct = async (productData) => {
   try {
     // Get the token from localStorage (or wherever you store it)
@@ -56,33 +46,39 @@ export const addProduct = async (productData) => {
   }
 };
 
+
+
+
+// EditProduct.jsx
+export const fetchProduct = async (productId) => {
+  try {
+    const response = await axiosInstance.get(`${productId}/`); // Append the product ID to the URL
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching product with ID ${productId}:`, error);
+    throw error;
+  }
+};
+
+
+export const updateProduct = async (productId, productData) => {
+  try {
+    const response = await axiosInstance.put(`${productId}/`, productData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating product:', error);
+    throw error;
+  }
+};
+
 export const deleteProduct = async (productId) => {
   try {
     const response = await axiosInstance.delete(`${productId}/`);
     return response.data;
   } catch (error) {
     console.error('Error deleting product:', error);
-    throw error;
-  }
-};
-
-export const fetchProducts = async () => {
-  try {
-    const response = await axiosInstance.get('');
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    throw error;
-  }
-};
-
-// Function to update a product
-export const updateProduct = async (productId, productData) => {
-  try {
-    const response = await axiosInstance.put(`${productId}/`, productData);
-    return response.data;
-  } catch (error) {
-    console.error('Error updating product:', error);
     throw error;
   }
 };
