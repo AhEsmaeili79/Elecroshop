@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",  # JWT support
     "rest_framework_simplejwt",
-    "users",
     "corsheaders",
+    "users",
     "role_request",
     "product",
+    "cart",
 ]
 
 MIDDLEWARE = [

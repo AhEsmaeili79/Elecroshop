@@ -6,7 +6,7 @@ import Login from './Components/User_section/Login/Login';
 import Signup from './Components/User_section/Signup/Signup';
 import UserProfile from './Components/User_section/UserProfile/UserProfile';
 import Logout from './Components/User_section/Logout/Logout';
-
+import Cart from './Components/Cart/Cart';
 // General components
 import Home from './Components/Home/Home';
 import Navbar from './Components/Home/Navbar';
@@ -69,6 +69,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/product/:productId" element={<ProductDetail />} />

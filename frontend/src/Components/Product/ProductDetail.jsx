@@ -1,14 +1,14 @@
-// src/components/Product/ProductDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchProductDetails } from './api';
+import { fetchProductDetails, addProductToCart } from './api';
 import './css/ProductDetail.css';
 
 const ProductDetail = () => {
-  const { productId } = useParams(); // Get the product ID from the URL
+  const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     const getProductDetails = async () => {
@@ -26,6 +26,16 @@ const ProductDetail = () => {
     getProductDetails();
   }, [productId]);
 
+  const handleAddToCart = async () => {
+    try {
+      await addProductToCart(product.id, quantity); // Send product.id and quantity
+      alert('Product added to cart');
+    } catch (error) {
+      console.error('Error adding product to cart:', error);
+      alert(error.message); // Show error message to the user
+    }
+  };
+
   if (loading) return <p>Loading product details...</p>;
   if (error) return <p>{error}</p>;
   if (!product) return <p>Product not found.</p>;
@@ -38,7 +48,16 @@ const ProductDetail = () => {
       <p className="product-count">Available Count: {product.count}</p>
       <p className="product-model">Model: {product.model}</p>
       <p className="product-description">Description: {product.description}</p>
-      {/* Add any other product details you wish to display */}
+
+      {/* Quantity input */}
+      <input
+        type="number"
+        min="1"
+        value={quantity}
+        onChange={(e) => setQuantity(Number(e.target.value))}
+      />
+
+      <button onClick={handleAddToCart}>Add to Cart</button>
     </div>
   );
 };

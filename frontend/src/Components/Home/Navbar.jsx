@@ -51,6 +51,7 @@ function Navbar() {
         {isLoggedIn ? (
           <>
             <li><Link to="/profile">Profile</Link></li>
+            <li><Link to="/cart">Cart</Link></li>
             {user && user.role === 'admin' && (
               <li><Link to="/manage-requests">manage role</Link></li>
             )}
