@@ -1,0 +1,93 @@
+/* src/Components/Seller/css/EditProduct.css */
+
+.edit-product-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .edit-product-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input-field,
+  .file-input {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .input-field:focus,
+  .file-input:focus {
+    border-color: #3d85c6;
+    outline: none;
+  }
+  
+  .product-image {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .save-button,
+  .delete-button {
+    padding: 12px;
+    width: 48%;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .save-button {
+    background-color: #3d85c6;
+    color: white;
+  }
+  
+  .save-button:hover {
+    background-color: #306798;
+  }
+  
+  .delete-button {
+    background-color: #d9534f;
+    color: white;
+  }
+  
+  .delete-button:hover {
+    background-color: #c9302c;
+  }
+  
+  .error-message {
+    color: #a94442;
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+  }
+  

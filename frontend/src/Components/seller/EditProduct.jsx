@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchProduct, updateProduct, deleteProduct } from '../api/product';
+import './css/EditProduct.css';
 
 const EditProduct = () => {
-  const { productId } = useParams();  
+  const { productId } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState('');
@@ -19,7 +20,7 @@ const EditProduct = () => {
   useEffect(() => {
     const loadProduct = async () => {
       try {
-        const productData = await fetchProduct(productId); // Fetch the specific product by ID
+        const productData = await fetchProduct(productId);
         setProduct(productData);
         setFormData({
           name: productData.name,
@@ -33,7 +34,6 @@ const EditProduct = () => {
         setError("Error loading product details.");
       }
     };
-
     loadProduct();
   }, [productId]);
 
@@ -56,7 +56,7 @@ const EditProduct = () => {
     try {
       await updateProduct(productId, updatedFormData);
       alert("Product updated successfully.");
-      navigate('/seller/products'); // Redirect to product list
+      navigate('/seller/products');
     } catch (error) {
       console.error("Failed to update product:", error);
       setError("Error updating product.");
@@ -79,13 +79,13 @@ const EditProduct = () => {
   }
 
   return (
-    <div>
+    <div className="edit-product-container">
       <h1>Edit Product</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-      <label htmlFor="">
-          Main image:
-        <img src={formData.main_photo} alt={formData.name} className="product-image" />
+      {error && <p className="error-message">{error}</p>}
+      <form onSubmit={handleSubmit} className="edit-product-form">
+        <label htmlFor="main_photo">
+          Current Image:
+          <img src={formData.main_photo} alt={formData.name} className="product-image" />
         </label>
         <label>
           Name:
@@ -95,6 +95,7 @@ const EditProduct = () => {
             value={formData.name}
             onChange={handleInputChange}
             required
+            className="input-field"
           />
         </label>
         <label>
@@ -105,6 +106,7 @@ const EditProduct = () => {
             value={formData.price}
             onChange={handleInputChange}
             required
+            className="input-field"
           />
         </label>
         <label>
@@ -115,6 +117,7 @@ const EditProduct = () => {
             value={formData.count}
             onChange={handleInputChange}
             required
+            className="input-field"
           />
         </label>
         <label>
@@ -125,19 +128,22 @@ const EditProduct = () => {
             value={formData.model}
             onChange={handleInputChange}
             required
+            className="input-field"
           />
         </label>
-      
         <label>
           Main Photo:
           <input
             type="file"
             name="main_photo"
             onChange={handleFileChange}
+            className="file-input"
           />
         </label>
-        <button type="submit">Save Changes</button>
-        <button type="button" onClick={handleDelete}>Delete Product</button>
+        <div className="button-group">
+          <button type="submit" className="save-button">Save Changes</button>
+          <button type="button" onClick={handleDelete} className="delete-button">Delete Product</button>
+        </div>
       </form>
     </div>
   );

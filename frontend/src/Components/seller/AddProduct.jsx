@@ -1,6 +1,7 @@
 // src/Components/Seller_section/AddProduct/AddProduct.jsx
 import React, { useState } from 'react';
 import { addProduct } from '../api/product';
+import './css/AddProduct.css'; // Import the CSS file
 
 function AddProduct() {
   const [productData, setProductData] = useState({
@@ -8,11 +9,11 @@ function AddProduct() {
     price: '',
     count: '',
     model: '',
-    main_photo: null, // For file upload
+    main_photo: null,
   });
-  
-  const [successMessage, setSuccessMessage] = useState(''); // State for success message
-  const [errorMessage, setErrorMessage] = useState(''); // State for error message
+
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -27,17 +28,14 @@ function AddProduct() {
     e.preventDefault();
     const formData = new FormData();
 
-    // Append all product data to formData
     for (const key in productData) {
       formData.append(key, productData[key]);
     }
 
     try {
       const newProduct = await addProduct(formData);
-      console.log('Product added:', newProduct);
-      setSuccessMessage('Product added successfully!'); // Set success message
-      setErrorMessage(''); // Clear error message
-      // Optionally, clear the form data after successful submission
+      setSuccessMessage('Product added successfully!');
+      setErrorMessage('');
       setProductData({
         name: '',
         price: '',
@@ -47,23 +45,24 @@ function AddProduct() {
       });
     } catch (error) {
       console.error('Error adding product:', error);
-      setErrorMessage('Error adding product. Please try again.'); // Set error message
-      setSuccessMessage(''); // Clear success message
+      setErrorMessage('Error adding product. Please try again.');
+      setSuccessMessage('');
     }
   };
 
   return (
-    <div>
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>} {/* Display success message */}
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* Display error message */}
-      <form onSubmit={handleSubmit}>
+    <div className="add-product-container">
+      {successMessage && <p className="message success">{successMessage}</p>}
+      {errorMessage && <p className="message error">{errorMessage}</p>}
+      <form onSubmit={handleSubmit} className="add-product-form">
         <input
           type="text"
           name="name"
           placeholder="Product Name"
           value={productData.name}
           onChange={handleChange}
-          required // Mark as required
+          required
+          className="input-field"
         />
         <input
           type="number"
@@ -71,7 +70,8 @@ function AddProduct() {
           placeholder="Price"
           value={productData.price}
           onChange={handleChange}
-          required // Mark as required
+          required
+          className="input-field"
         />
         <input
           type="number"
@@ -79,7 +79,8 @@ function AddProduct() {
           placeholder="Count"
           value={productData.count}
           onChange={handleChange}
-          required // Mark as required
+          required
+          className="input-field"
         />
         <input
           type="text"
@@ -87,15 +88,17 @@ function AddProduct() {
           placeholder="Model"
           value={productData.model}
           onChange={handleChange}
-          required // Mark as required
+          required
+          className="input-field"
         />
         <input
           type="file"
           name="main_photo"
           onChange={handleChange}
-          required // Mark as required
+          required
+          className="file-input"
         />
-        <button type="submit">Add Product</button>
+        <button type="submit" className="submit-button">Add Product</button>
       </form>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { fetchUserData } from '../api/user';
 import { logoutUser } from '../api/auth'; // Import the logout function
 
 function Navbar() {
@@ -27,6 +28,22 @@ function Navbar() {
     }
   };
 
+  const [user, setUser] = useState(null); // State to store user data
+
+  // Fetch user data when the component mounts
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const data = await fetchUserData();
+        setUser(data); // Set the fetched user data
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+
+    getUserData();
+  }, []);
+
   return (
     <nav>
       <ul>
@@ -34,11 +51,18 @@ function Navbar() {
         {isLoggedIn ? (
           <>
             <li><Link to="/profile">Profile</Link></li>
-            <li><Link to="/manage-requests">manage role</Link></li>
-            <li><Link to="/request-role">request role</Link></li>
-            <li><Link to="/seller/products">My Products</Link></li>
-            <li><Link to="/seller/add-product">Add Product</Link></li>
-             {/* Link to UserProfile */}
+            {user && user.role === 'admin' && (
+              <li><Link to="/manage-requests">manage role</Link></li>
+            )}
+            {user && user.role === 'customer' && (
+              <li><Link to="/request-role">request role</Link></li>
+            )}
+            {user && user.role === 'seller' && (
+              <>
+                <li><Link to="/seller/products">My Products</Link></li>
+                <li><Link to="/seller/add-product">Add Product</Link></li>
+              </>
+            )}
             <li>
               <button onClick={handleLogout}>Logout</button>
             </li>
@@ -49,7 +73,6 @@ function Navbar() {
             <li><Link to="/login">Login</Link></li>
           </>
         )}
-        {/* Add more links as needed */}
       </ul>
     </nav>
   );

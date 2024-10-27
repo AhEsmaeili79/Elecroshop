@@ -13,6 +13,7 @@ import AdminRoleRequests from './Components/RoleRequest/AdminRoleRequests';
 import AddProduct from './Components/seller/AddProduct';
 import SellerProducts from './Components/seller/SellerProductList';
 import EditProduct from './Components/seller/EditProduct';
+import ProductDetail from './Components/Product/ProductDetail';
 
 
 
@@ -40,6 +41,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<UserProfile />} /> {/* Route for UserProfile */}
+        <Route path="/product/:productId" element={<ProductDetail />} />
         <Route path="/logout" element={<Logout />} /> {/* Route for UpdateUser */}
         {user && user.role === 'customer' && (
           <Route path="/request-role" element={<UserRoleRequest user={user} />} />
