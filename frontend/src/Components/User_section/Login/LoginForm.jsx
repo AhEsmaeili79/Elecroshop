@@ -12,7 +12,7 @@ const Login = () => {
     try {
       await loginUser(username, password);
       // Redirect to home or another page after successful login
-      window.location.href = '/home'; 
+      window.location.href = '/'; 
     } catch (error) {
       setError('Login failed. Please check your credentials.');
       console.error('Login failed:', error);
