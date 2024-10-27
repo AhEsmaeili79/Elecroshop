@@ -1,21 +1,28 @@
-// src/App.jsx
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// User-related components
 import Login from './Components/User_section/Login/Login';
 import Signup from './Components/User_section/Signup/Signup';
-import Home from './Components/Home/Home';
-import UserProfile from './Components/User_section/UserProfile/UserProfile'; // Importing UserProfile
-import Navbar from './Components/Home/Navbar'; // Assuming you have a Navbar for navigation
+import UserProfile from './Components/User_section/UserProfile/UserProfile';
 import Logout from './Components/User_section/Logout/Logout';
-import { fetchUserData } from './Components/api/user';
-import { useEffect, useState } from 'react';
-import UserRoleRequest from './Components/RoleRequest/UserRoleRequest';
-import AdminRoleRequests from './Components/RoleRequest/AdminRoleRequests';
-import AddProduct from './Components/seller/AddProduct';
-import SellerProducts from './Components/seller/SellerProductList';
-import EditProduct from './Components/seller/EditProduct';
+
+// General components
+import Home from './Components/Home/Home';
+import Navbar from './Components/Home/Navbar';
 import ProductDetail from './Components/Product/ProductDetail';
 
+// Seller-related components
+import AddProduct from './Components/seller/AddProduct/AddProduct';
+import SellerProducts from './Components/seller/ProductList/SellerProductList';
+import EditProduct from './Components/seller/EditProduct/EditProduct';
 
+// Role request components
+import UserRoleRequest from './Components/RoleRequest/UserRoleRequest';
+import AdminRoleRequests from './Components/RoleRequest/AdminRoleRequests';
+
+// API
+import { fetchUserData } from './Components/api/user';
 
 function App() {
   const [user, setUser] = useState(null); // State to store user data
@@ -33,35 +40,45 @@ function App() {
 
     getUserData();
   }, []);
-  return (
-    <Router>
-      <Navbar />
-      <Routes> {/* Use Routes instead of Switch */}
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<UserProfile />} /> {/* Route for UserProfile */}
-        <Route path="/product/:productId" element={<ProductDetail />} />
-        <Route path="/logout" element={<Logout />} /> {/* Route for UpdateUser */}
-        {user && user.role === 'customer' && (
-          <Route path="/request-role" element={<UserRoleRequest user={user} />} />
-        )}
 
-        {/* Route for admin to manage role requests */}
-        {user && user.role === 'admin' && (
-          <Route path="/manage-requests" element={<AdminRoleRequests />} />
-        )}
-        {user && user.role === 'seller' && (
+  // Function to render routes based on user role
+  const renderRoleSpecificRoutes = () => {
+    if (!user) return null;
+
+    switch (user.role) {
+      case 'customer':
+        return <Route path="/request-role" element={<UserRoleRequest user={user} />} />;
+      case 'admin':
+        return <Route path="/manage-requests" element={<AdminRoleRequests />} />;
+      case 'seller':
+        return (
           <>
             <Route path="/seller/products" element={<SellerProducts />} />
             <Route path="/seller/add-product" element={<AddProduct />} />
             <Route path="/seller/edit-product/:productId" element={<EditProduct />} />
           </>
-        )}
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/product/:productId" element={<ProductDetail />} />
+        <Route path="/logout" element={<Logout />} />
+        
+        {/* Render role-specific routes */}
+        {renderRoleSpecificRoutes()}
       </Routes>
     </Router>
   );
 }
-
 
 export default App;

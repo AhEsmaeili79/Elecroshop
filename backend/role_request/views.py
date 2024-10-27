@@ -7,11 +7,11 @@ from .models import RoleRequest
 from .serializers import RoleRequestSerializer
 from django.contrib.auth import get_user_model
 from rest_framework import status
-from .permissions import IsAdminOrSuperUser
 
 User = get_user_model()
 
 
+# View for creating a new role request
 class RoleRequestCreateView(generics.CreateAPIView):
     queryset = RoleRequest.objects.all()
     serializer_class = RoleRequestSerializer
@@ -48,12 +48,14 @@ class RoleRequestCreateView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# View for listing all role requests (admin only)
 class RoleRequestListView(generics.ListAPIView):
     queryset = RoleRequest.objects.all()
     serializer_class = RoleRequestSerializer
     permission_classes = [permissions.IsAdminUser]
 
 
+# View for updating an existing role request
 class RoleRequestUpdateView(generics.UpdateAPIView):
     queryset = RoleRequest.objects.all()
     serializer_class = RoleRequestSerializer
@@ -80,6 +82,7 @@ class RoleRequestUpdateView(generics.UpdateAPIView):
         return Response({"message": "Status updated successfully"}, status=200)
 
 
+# View for retrieving a user's role request details
 class UserRoleRequestView(generics.RetrieveAPIView):
     serializer_class = RoleRequestSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -92,6 +95,7 @@ class UserRoleRequestView(generics.RetrieveAPIView):
             return None  # Handle the case where the user does not have a request
 
 
+# View for checking the status of a user's role request
 class UserRoleRequestStatusView(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -127,6 +131,7 @@ class UserRoleRequestStatusView(generics.RetrieveAPIView):
         )
 
 
+# View for deleting a user's role request
 class RoleRequestDeleteView(generics.DestroyAPIView):
     queryset = RoleRequest.objects.all()
     permission_classes = [permissions.IsAuthenticated]

@@ -1,0 +1,81 @@
+/* src/Components/Seller/EditProduct/EditProduct.css */
+
+.edit-product-container {
+    max-width: 600px; /* Set a max width for the container */
+    margin: 20px auto; /* Center the container */
+    padding: 20px; /* Padding inside the container */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: #fff; /* White background */
+  }
+  
+  .title{
+    color: #000;
+  }
+  /* Styles for the edit product form */
+  .edit-product-form {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+  }
+  
+  /* Styles for input fields */
+  .input-field, .file-input {
+    margin-bottom: 15px; /* Space between fields */
+    padding: 10px; /* Padding inside the fields */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+  }
+  
+  /* Focus state for input fields */
+  .input-field:focus, .file-input:focus {
+    border-color: #007BFF; /* Blue border on focus */
+    outline: none; /* Remove default outline */
+  }
+  
+  /* Button group styling */
+  .button-group {
+    display: flex; /* Use flexbox for button alignment */
+    justify-content: space-between; /* Space buttons evenly */
+  }
+  
+  /* Styles for buttons */
+  .save-button, .delete-button {
+    padding: 10px; /* Padding inside the buttons */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Base font size */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+  }
+  
+  /* Save button styles */
+  .save-button {
+    background-color: #007BFF; /* Blue background */
+    color: white; /* White text */
+    border: none; /* Remove default border */
+  }
+  
+  .save-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Delete button styles */
+  .delete-button {
+    background-color: #dc3545; /* Red background */
+    color: white; /* White text */
+    border: none; /* Remove default border */
+  }
+  
+  .delete-button:hover {
+    background-color: #c82333; /* Darker red on hover */
+  }
+  
+  /* General error message styles */
+  .error-message {
+    color: #dc3545; /* Red color for error messages */
+    margin: 10px 0; /* Space around messages */
+  }
+  
+  .product-image{
+    width:auto;
+  }
