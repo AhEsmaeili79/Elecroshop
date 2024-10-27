@@ -1,30 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { fetchCartItems, updateCartItemQuantity, removeCartItem } from './api/cartApi';
+import CartItem from './CartItem';
 import './css/Cart.css';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  // Fetch cart items on component mount
   useEffect(() => {
-    fetchCartItems();
-  }, []);
+    const getCartItems = async () => {
+      try {
+        const items = await fetchCartItems();
+        setCartItems(items);
+        calculateTotalPrice(items);
+      } catch (error) {
+        console.error('Error fetching cart items:', error);
+      }
+    };
 
-  // Fetch cart items and calculate total price
-  const fetchCartItems = async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:8000/api/cart-items/', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include the token for authentication
-        },
-      });
-      setCartItems(response.data);
-      calculateTotalPrice(response.data);
-    } catch (error) {
-      console.error('Error fetching cart items:', error);
-    }
-  };
+    getCartItems();
+  }, []);
 
   // Calculate total price based on cart items
   const calculateTotalPrice = (items) => {
@@ -32,44 +27,37 @@ const Cart = () => {
     setTotalPrice(total);
   };
 
-  // Update item quantity in cart
-  const updateCartItemQuantity = async (itemId, quantity) => {
+  // Handle quantity updates and update total price in real-time
+  const handleUpdateQuantity = async (itemId, quantity) => {
     if (quantity < 1) return; // Prevent quantity from being less than 1
     try {
-      const response = await axios.patch(`http://127.0.0.1:8000/api/cart-items/${itemId}/`, {
-        quantity,
-      }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include the token for authentication
-        },
+      const updatedItem = await updateCartItemQuantity(itemId, quantity);
+      setCartItems((prevItems) => {
+        const updatedItems = prevItems.map((item) =>
+          item.id === itemId ? { ...item, quantity: updatedItem.quantity } : item
+        );
+        calculateTotalPrice(updatedItems); // Update total price immediately
+        return updatedItems; // Return updated items for state
       });
-      const updatedItems = cartItems.map((item) =>
-        item.id === itemId ? { ...item, quantity: response.data.quantity } : item
-      );
-      setCartItems(updatedItems);
-      calculateTotalPrice(updatedItems);
     } catch (error) {
       console.error('Error updating cart item quantity:', error);
     }
   };
 
-  // Remove item from cart
-  const removeCartItem = async (itemId) => {
+  // Handle item removal and update total price in real-time
+  const handleRemoveItem = async (itemId) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/cart-items/${itemId}/`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include the token for authentication
-        },
+      await removeCartItem(itemId);
+      setCartItems((prevItems) => {
+        const updatedItems = prevItems.filter((item) => item.id !== itemId);
+        calculateTotalPrice(updatedItems); // Update total price immediately
+        return updatedItems; // Return updated items for state
       });
-      const updatedItems = cartItems.filter((item) => item.id !== itemId);
-      setCartItems(updatedItems);
-      calculateTotalPrice(updatedItems);
     } catch (error) {
       console.error('Error removing cart item:', error);
     }
   };
 
-  // Render cart items
   return (
     <div className="cart-container">
       <h1>Your Cart</h1>
@@ -78,19 +66,12 @@ const Cart = () => {
       ) : (
         <div className="cart-items">
           {cartItems.map((item) => (
-            <div key={item.id} className="cart-item">
-              <img src={item.product.main_photo} alt={item.product.name} className="cart-item-image" />
-              <div className="cart-item-details">
-                <h2>{item.product.name}</h2>
-                <p>Price: ${item.product.price.toFixed(2)}</p>
-                <div className="quantity-controls">
-                  <button onClick={() => updateCartItemQuantity(item.id, item.quantity - 1)}>-</button>
-                  <span>{item.quantity}</span>
-                  <button onClick={() => updateCartItemQuantity(item.id, item.quantity + 1)}>+</button>
-                </div>
-                <button onClick={() => removeCartItem(item.id)} className="remove-button">Remove</button>
-              </div>
-            </div>
+            <CartItem 
+              key={item.id} 
+              item={item} 
+              onUpdateQuantity={handleUpdateQuantity} 
+              onRemove={handleRemoveItem} 
+            />
           ))}
           <div className="cart-total">
             <h3>Total Price: ${totalPrice.toFixed(2)}</h3>
