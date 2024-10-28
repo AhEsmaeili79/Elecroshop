@@ -27,5 +27,13 @@
   .product-description {
     font-size: 1.2em;
     margin: 5px 0;
+    color: #000;
   }
   
+  .quantity{
+    color: black;
+  }
+
+  button{
+    background-color: #000;
+  }

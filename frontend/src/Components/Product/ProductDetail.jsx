@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchProductDetails, addProductToCart } from './api';
+import { fetchProductDetails, addProductToCart, fetchCartItem, updateCartItemQuantity, removeCartItem } from './api';
 import './css/ProductDetail.css';
 
 const ProductDetail = () => {
@@ -8,6 +8,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [cartItem, setCartItem] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
@@ -23,16 +24,55 @@ const ProductDetail = () => {
       }
     };
 
+    const getCartItem = async () => {
+      try {
+        const item = await fetchCartItem(productId);
+        if (item) {
+          setCartItem(item);
+          setQuantity(item.quantity);
+        }
+      } catch (error) {
+        console.error('Error fetching cart item:', error);
+      }
+    };
+
     getProductDetails();
+    getCartItem();
   }, [productId]);
 
   const handleAddToCart = async () => {
     try {
-      await addProductToCart(product.id, quantity); // Send product.id and quantity
-      alert('Product added to cart');
+      const addedItem = await addProductToCart(product.id, quantity);
+      setCartItem(addedItem);
     } catch (error) {
       console.error('Error adding product to cart:', error);
-      alert(error.message); // Show error message to the user
+      alert(error.message);
+    }
+  };
+
+  const handleQuantityChange = async (newQuantity) => {
+    if (newQuantity < 1) return;
+
+    if (newQuantity === 0 && cartItem) {
+      await handleRemoveFromCart();
+    } else {
+      try {
+        const updatedItem = await updateCartItemQuantity(cartItem.id, newQuantity);
+        setQuantity(updatedItem.quantity);
+        setCartItem(updatedItem);
+      } catch (error) {
+        console.error('Error updating cart item quantity:', error);
+      }
+    }
+  };
+
+  const handleRemoveFromCart = async () => {
+    try {
+      await removeCartItem(cartItem.id);
+      setCartItem(null);
+      setQuantity(1);
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
     }
   };
 
@@ -49,15 +89,25 @@ const ProductDetail = () => {
       <p className="product-model">Model: {product.model}</p>
       <p className="product-description">Description: {product.description}</p>
 
-      {/* Quantity input */}
-      <input
-        type="number"
-        min="1"
-        value={quantity}
-        onChange={(e) => setQuantity(Number(e.target.value))}
-      />
-
-      <button onClick={handleAddToCart}>Add to Cart</button>
+      {cartItem ? (
+        <div className="quantity-controls">
+          <button
+            onClick={() => {
+              if (quantity === 1) {
+                handleRemoveFromCart(); // Remove from cart if quantity is 1
+              } else {
+                handleQuantityChange(quantity - 1); // Otherwise, decrease quantity
+              }
+            }}
+          >
+            -
+          </button>
+          <span className='quantity'>{quantity}</span>
+          <button onClick={() => handleQuantityChange(quantity + 1)}>+</button>
+        </div>
+      ) : (
+        <button onClick={handleAddToCart}>Add to Cart</button>
+      )}
     </div>
   );
 };
