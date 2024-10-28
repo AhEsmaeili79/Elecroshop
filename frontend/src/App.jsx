@@ -21,6 +21,14 @@ import EditProduct from './Components/seller/EditProduct/EditProduct';
 import UserRoleRequest from './Components/RoleRequest/UserRoleRequest';
 import AdminRoleRequests from './Components/RoleRequest/AdminRoleRequests';
 
+
+// Category components
+import CategoryList from './Components/Category/CategoryList';
+import SubCategoryList from './Components/Category/SubCategoryList';
+import BrandList from './Components/Category/BrandList';
+import ModelList from './Components/Category/ModelList';
+
+
 // API
 import { fetchUserData } from './Components/api/user';
 
@@ -49,13 +57,24 @@ function App() {
       case 'customer':
         return <Route path="/request-role" element={<UserRoleRequest user={user} />} />;
       case 'admin':
-        return <Route path="/manage-requests" element={<AdminRoleRequests />} />;
+        return (
+          <>
+            <Route path="/manage-requests" element={<AdminRoleRequests />} />
+            <Route path="/categories" element={<CategoryList />} />
+            <Route path="/subcategories" element={<SubCategoryList />} />
+          </>
+          );
+          
       case 'seller':
         return (
           <>
             <Route path="/seller/products" element={<SellerProducts />} />
             <Route path="/seller/add-product" element={<AddProduct />} />
             <Route path="/seller/edit-product/:productId" element={<EditProduct />} />
+            <Route path="/categories" element={<CategoryList />} />
+            <Route path="/subcategories" element={<SubCategoryList />} />
+            <Route path="/brands" element={<BrandList />} />
+            <Route path="/models" element={<ModelList />} />
           </>
         );
       default:

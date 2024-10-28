@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "role_request",
     "product",
     "cart",
+    "category",
 ]
 
 MIDDLEWARE = [

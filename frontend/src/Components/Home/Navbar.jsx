@@ -53,7 +53,11 @@ function Navbar() {
             <li><Link to="/profile">Profile</Link></li>
             <li><Link to="/cart">Cart</Link></li>
             {user && user.role === 'admin' && (
-              <li><Link to="/manage-requests">manage role</Link></li>
+              <>
+                <li><Link to="/manage-requests">manage role</Link></li>
+                <li><Link to="/categories">Categories</Link></li>
+                <li><Link to="/subcategories">SubCategories</Link></li>
+              </>
             )}
             {user && user.role === 'customer' && (
               <li><Link to="/request-role">request role</Link></li>
@@ -62,6 +66,10 @@ function Navbar() {
               <>
                 <li><Link to="/seller/products">My Products</Link></li>
                 <li><Link to="/seller/add-product">Add Product</Link></li>
+                <li><Link to="/categories">Categories</Link></li>
+                <li><Link to="/subcategories">SubCategories</Link></li>
+                <li><Link to="/brands">Brands</Link></li>
+                <li><Link to="/models">Models</Link></li>
               </>
             )}
             <li>
