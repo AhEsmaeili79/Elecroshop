@@ -104,6 +104,7 @@ const ProductDetail = () => {
           </button>
           <span className='quantity'>{quantity}</span>
           <button onClick={() => handleQuantityChange(quantity + 1)}>+</button>
+          <span className='total-price'>total Price:${product.price * quantity}</span>
         </div>
       ) : (
         <button onClick={handleAddToCart}>Add to Cart</button>

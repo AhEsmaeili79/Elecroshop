@@ -8,7 +8,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
         <img src={item.product.main_photo} alt={item.product.name} className="cart-item-image" />
         <div className="cart-item-details">
           <h2>{item.product.name}</h2>
-          <p>Price: ${item.product.price.toFixed(2)}</p>
+          <p>Price: ${item.product.price.toFixed(2) * item.quantity}</p>
           <div className="quantity-controls">
             <button onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}>-</button>
             <span>{item.quantity}</span>
