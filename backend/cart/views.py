@@ -1,9 +1,8 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import Cart, CartItem
+from .models import Cart, CartItem, get_or_create_cart
 from .serializers import CartSerializer, CartItemSerializer
-from .models import get_or_create_cart
 
 
 class CartViewSet(viewsets.ViewSet):
@@ -25,16 +24,33 @@ class CartItemViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         cart = get_or_create_cart(request.user)
-        print(self.request.user.id)
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(cart=cart)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        product_id = request.data.get("product_id")
+        quantity = request.data.get(
+            "quantity", 1
+        )  # Default to 1 if quantity is not provided
 
-    def update(self, request, pk=None):
+        # Check if the item already exists in the cart
+        existing_item = CartItem.objects.filter(
+            cart=cart, product_id=product_id
+        ).first()
+
+        if existing_item:
+            # If the product is already in the cart, increase the quantity
+            existing_item.quantity += quantity
+            existing_item.save()
+            serializer = self.get_serializer(existing_item)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            # If the product is not in the cart, create a new item
+            serializer = self.get_serializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save(cart=cart)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, pk=None, partial=False):
         cart_item = self.get_object()
-        serializer = self.get_serializer(cart_item, data=request.data, partial=True)
+        serializer = self.get_serializer(cart_item, data=request.data, partial=partial)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

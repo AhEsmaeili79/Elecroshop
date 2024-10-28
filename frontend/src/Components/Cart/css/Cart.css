@@ -87,3 +87,10 @@
     margin-top: 20px;
   }
   
+  .product-link{
+    color: #fff;
+  }
+
+  a.product-link:hover{
+    color: #0f0f0f;
+  }
