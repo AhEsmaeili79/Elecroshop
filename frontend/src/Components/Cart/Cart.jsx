@@ -1,4 +1,6 @@
+// Cart.jsx
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Replace useHistory with useNavigate
 import { fetchCartItems, updateCartItemQuantity, removeCartItem } from './api/cartApi';
 import CartItem from './CartItem';
 import './css/Cart.css';
@@ -6,6 +8,7 @@ import './css/Cart.css';
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const getCartItems = async () => {
@@ -21,6 +24,11 @@ const Cart = () => {
     getCartItems();
   }, []);
 
+  // Navigate to another page (for example, to checkout)
+  const handleCheckout = () => {
+    navigate('/checkout'); // Use navigate instead of history.push
+  };
+
   // Calculate total price based on cart items
   const calculateTotalPrice = (items) => {
     const total = items.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
@@ -29,15 +37,15 @@ const Cart = () => {
 
   // Handle quantity updates and update total price in real-time
   const handleUpdateQuantity = async (itemId, quantity) => {
-    if (quantity < 1) return; // Prevent quantity from being less than 1
+    if (quantity < 1) return;
     try {
       const updatedItem = await updateCartItemQuantity(itemId, quantity);
       setCartItems((prevItems) => {
         const updatedItems = prevItems.map((item) =>
           item.id === itemId ? { ...item, quantity: updatedItem.quantity } : item
         );
-        calculateTotalPrice(updatedItems); // Update total price immediately
-        return updatedItems; // Return updated items for state
+        calculateTotalPrice(updatedItems);
+        return updatedItems;
       });
     } catch (error) {
       console.error('Error updating cart item quantity:', error);
@@ -50,8 +58,8 @@ const Cart = () => {
       await removeCartItem(itemId);
       setCartItems((prevItems) => {
         const updatedItems = prevItems.filter((item) => item.id !== itemId);
-        calculateTotalPrice(updatedItems); // Update total price immediately
-        return updatedItems; // Return updated items for state
+        calculateTotalPrice(updatedItems);
+        return updatedItems;
       });
     } catch (error) {
       console.error('Error removing cart item:', error);
@@ -76,6 +84,9 @@ const Cart = () => {
           <div className="cart-total">
             <h3>Total Price: ${totalPrice}</h3>
           </div>
+          <button onClick={handleCheckout} className="checkout-button">
+            Proceed to Checkout
+          </button>
         </div>
       )}
     </div>

@@ -21,6 +21,11 @@ import EditProduct from './Components/seller/EditProduct/EditProduct';
 import UserRoleRequest from './Components/RoleRequest/UserRoleRequest';
 import AdminRoleRequests from './Components/RoleRequest/AdminRoleRequests';
 
+// Order components
+import Checkout from './Components/order/Checkout';
+import OrderDetail from './Components/order/OrderDetail';
+import OrderSummary from './Components/order/OrderSummary';
+import OrderConfirmation from './Components/order/OrderConfirmation';
 
 // Category components
 import CategoryList from './Components/Category/CategoryList';
@@ -55,7 +60,12 @@ function App() {
     
     switch (user.role) {
       case 'customer':
-        return <Route path="/request-role" element={<UserRoleRequest user={user} />} />;
+        return (
+          <> 
+            <Route path="/request-role" element={<UserRoleRequest user={user} />} />;
+            
+          </>
+        );
       case 'admin':
         return (
           <>
@@ -93,7 +103,11 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/product/:productId" element={<ProductDetail />} />
         <Route path="/logout" element={<Logout />} />
-        
+        <Route path="/Checkout" element={<Checkout />} />
+        <Route path="/OrderSummary" element={<OrderSummary />} />
+        <Route path="/OrderDetail" element={<OrderDetail />} />
+        <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
+    
         {/* Render role-specific routes */}
         {renderRoleSpecificRoutes()}
       </Routes>

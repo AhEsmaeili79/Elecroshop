@@ -85,7 +85,7 @@ const ProductDetail = () => {
       <h1 className="product-name">{product.name}</h1>
       <img src={product.main_photo} alt={product.name} className="product-image" />
       <p className="product-price">Price: ${product.price}</p>
-      <p className="product-count">Available Count: {product.count}</p>
+      <p className="product-count">Available Count: {product.quantity}</p>
       <p className="product-model">Model: {product.model}</p>
       <p className="product-description">Description: {product.description}</p>
 

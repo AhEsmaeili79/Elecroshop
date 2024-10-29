@@ -6,7 +6,7 @@ from django.conf import settings
 class Product(models.Model):
     name = models.CharField(max_length=255)
     price = models.PositiveIntegerField(blank=False)
-    count = models.IntegerField(blank=False)
+    quantity = models.IntegerField(blank=False)
     model = models.CharField(max_length=255)
     is_favorited_by = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="favorite_products", blank=True
@@ -19,4 +19,6 @@ class Product(models.Model):
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"ProductName: {self.name}, Count: {self.count}, Seller: {self.seller}"
+        return (
+            f"ProductName: {self.name}, Count: {self.quantity}, Seller: {self.seller}"
+        )

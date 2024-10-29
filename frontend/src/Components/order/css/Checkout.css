@@ -1,0 +1,75 @@
+.checkout-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: #747474;
+    border-radius: 8px;
+  }
+  
+  .checkout-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .cart-items, .order-summary, .checkout-form {
+    margin-bottom: 20px;
+  }
+  
+  .cart-items h3, .order-summary h3, .checkout-form h3 {
+    margin-bottom: 10px;
+  }
+  
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .cart-item:last-child {
+    border-bottom: none;
+  }
+  
+  .cart-item p {
+    margin: 0;
+  }
+  
+  .order-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .order-summary-table th, .order-summary-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .order-summary-table th {
+    background-color: #5f5f5f;
+  }
+  
+  .checkout-form input, .checkout-form select {
+    width: 95%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .checkout-form button {
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+  
+  .checkout-form button:hover {
+    background-color: #0056b3;
+  }
+  
