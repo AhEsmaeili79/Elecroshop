@@ -9,7 +9,7 @@ import Logout from './Components/User_section/Logout/Logout';
 import Cart from './Components/Cart/Cart';
 // General components
 import Home from './Components/Home/Home';
-import Navbar from './Components/Home/Navbar';
+import Navbar from './Components/Navbar/Navbar';
 import ProductDetail from './Components/Product/ProductDetail';
 
 // Seller-related components
@@ -52,7 +52,7 @@ function App() {
   // Function to render routes based on user role
   const renderRoleSpecificRoutes = () => {
     if (!user) return null;
-
+    
     switch (user.role) {
       case 'customer':
         return <Route path="/request-role" element={<UserRoleRequest user={user} />} />;
