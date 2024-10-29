@@ -46,10 +46,13 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
-      <NavLinks isLoggedIn={isLoggedIn} user={user} />
-      <AuthButtons isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-    </nav>
+    <>
+      <nav className="navbar">
+        <NavLinks isLoggedIn={isLoggedIn} user={user} />
+        <AuthButtons isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+      </nav>
+      <div className="space"></div>
+    </>
   );
 };
 

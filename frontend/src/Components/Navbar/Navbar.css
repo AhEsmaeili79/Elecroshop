@@ -4,47 +4,59 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1rem;
-    background-color: #333;
-    color: #fff;
-  }
-  
-  .nav-links {
+    background-color: #2c3e50; /* Darker shade for better contrast */
+    color: #ecf0f1; /* Light color for text */
+    position: fixed;
+    top: 0;
+    width: 98.5%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    z-index: 1000;
+    height: 70px; /* Ensure it stays above other content */
+}
+
+.nav-links {
     list-style: none;
     display: flex;
-    gap: 1rem;
-  }
-  
-  .nav-links a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0.5rem;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-  }
-  
-  .nav-links a:hover {
-    background-color: #555;
-  }
-  
-  .auth-buttons {
+    gap: 1.5rem; /* Increased gap for better spacing */
+}
+
+.nav-links a {
+    color: #ecf0f1;
+    text-decoration: none; /* Remove underline from links */
+    padding: 0.5rem 1rem;
+    border-radius: 5px; /* Slightly larger radius for a softer look */
+    transition: background-color 0.2s ease, color 0.2s ease; /* Smooth transitions */
+}
+
+
+.nav-links a:hover {
+    background-color: #2980b9; /* Lively hover effect */
+    color: #fff; /* Maintain contrast */
+}
+
+.auth-buttons {
     display: flex;
     gap: 1rem;
-  }
-  
-  .auth-buttons a,
-  .auth-buttons button {
+}
+
+.auth-buttons a,
+.auth-buttons button {
     color: #fff;
-    text-decoration: none;
-    background: #007bff;
+    text-decoration: none; /* Remove underline from buttons */
+    background: #3498db; /* Brighter blue for buttons */
     border: none;
     padding: 0.5rem 1rem;
-    border-radius: 4px;
+    border-radius: 5px; /* Match nav-links */
     cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .auth-buttons a:hover,
-  .auth-buttons button:hover {
-    background-color: #0056b3;
-  }
-  
+    transition: background-color 0.2s ease, transform 0.2s ease; /* Added transform */
+}
+
+.auth-buttons a:hover,
+.auth-buttons button:hover {
+    background-color: #2980b9; /* Same hover effect */
+    transform: translateY(-2px); /* Lift effect on hover */
+}
+
+.space{
+    margin-bottom:100px ;
+}

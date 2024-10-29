@@ -16,16 +16,10 @@ export const fetchModels = async () => {
 
 // Fetch all categories
 export const fetchCategories = async () => {
-    const response = await axios.get(`${API_URL}/categories/`);
-    return response.data;
-  };
+  const response = await axios.get(`${API_URL}/categories/`, getAuthHeaders());
+  return response.data;
+};
 
-// Fetch all subcategories
-export const fetchSubCategories = async () => {
-    const response = await axios.get(`${API_URL}/subcategories/`);
-    return response.data;
-  };
-  
 
 // Fetch details for a single category
 export const fetchCategoryDetail = async (categoryId) => {
@@ -41,9 +35,9 @@ export const fetchBrands = async () => {
 
 // Add a new category (Admin/Seller only)
 export const addCategory = async (categoryData) => {
-    const response = await axios.post(`${API_URL}/categories/`, categoryData, getAuthHeaders());
-    return response.data;
-  };
+  const response = await axios.post(`${API_URL}/categories/`, categoryData, getAuthHeaders());
+  return response.data;
+};
 
 // Add a new model
 export const addModel = async (modelData) => {
@@ -79,8 +73,20 @@ export const deleteCategory = async (categoryId) => {
 };
 
 
+
 // Add a new subcategory under a specific category
+export const fetchSubCategories = async () => {
+  const response = await axios.get(`${API_URL}/subcategories/`, getAuthHeaders());
+  return response.data;
+};
+
+// Add a new subcategory
 export const addSubCategory = async (subcategoryData) => {
-    const response = await axios.post(`${API_URL}/subcategories/`, subcategoryData, getAuthHeaders());
-    return response.data;
-  };
+  const response = await axios.post(`${API_URL}/subcategories/`, subcategoryData, getAuthHeaders());
+  return response.data;
+};
+
+// Delete a subcategory
+export const deleteSubCategory = async (subCategoryId) => {
+  await axios.delete(`${API_URL}/subcategories/${subCategoryId}/`, getAuthHeaders());
+};

@@ -1,30 +1,42 @@
 # category/serializers.py
-from django.forms import CharField
 from rest_framework import serializers
 from .models import Category, SubCategory, Brand, Model
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source="owner.username")
+
     class Meta:
         model = Category
-        fields = ["id", "name"]
+        fields = ["id", "name", "owner"]
 
 
 class SubCategorySerializer(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True)
+    owner = serializers.ReadOnlyField(source="owner.username")
+    category_name = serializers.ReadOnlyField(source="category.name")
 
     class Meta:
         model = SubCategory
-        fields = ["id", "name", "category"]
+        fields = ["id", "name", "category", "owner", "category_name"]
+        read_only_fields = [
+            "owner"
+        ]  # Make owner read-only if you don't want to expose it in API
+
+    def create(self, validated_data):
+        return super().create(validated_data)
 
 
 class BrandSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source="owner.username")
+
     class Meta:
         model = Brand
-        fields = ["id", "name"]
+        fields = ["id", "name", "owner"]
 
 
 class ModelSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source="owner.username")
+
     class Meta:
         model = Model
-        fields = ["id", "name", "brand", "sub_category"]
+        fields = ["id", "name", "brand", "sub_category", "owner"]

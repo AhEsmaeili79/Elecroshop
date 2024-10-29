@@ -1,70 +1,69 @@
 // src/components/Category/SubCategoryList.jsx
-
 import React, { useEffect, useState } from 'react';
-import { fetchSubCategories, fetchCategories, addSubCategory } from './api';
+import { fetchSubCategories, addSubCategory, deleteSubCategory, fetchCategories } from './api';
+import './css/SubCategoryList.css'; 
 
 const SubCategoryList = () => {
   const [subCategories, setSubCategories] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]); // New state for categories
   const [newSubCategoryName, setNewSubCategoryName] = useState('');
-  const [selectedCategoryId, setSelectedCategoryId] = useState('');
+  const [selectedCategoryId, setSelectedCategoryId] = useState(''); // State for selected category
+  const [error, setError] = useState(null);
+
+  // Fetch subcategories and categories
+  const fetchData = async () => {
+    try {
+      const [subCatData, categoryData] = await Promise.all([fetchSubCategories(), fetchCategories()]);
+      setSubCategories(subCatData);
+      setCategories(categoryData); // Set categories
+    } catch (err) {
+      setError('Error fetching data: ' + err.message);
+    }
+  };
 
   useEffect(() => {
-    const getSubCategories = async () => {
-      const data = await fetchSubCategories();
-      setSubCategories(data);
-    };
-
-    const getCategories = async () => {
-      const data = await fetchCategories();
-      setCategories(data);
-    };
-
-    getSubCategories();
-    getCategories();
+    fetchData();
   }, []);
 
-  // Handle adding a new subcategory
+  // Add a new subcategory
   const handleAddSubCategory = async (e) => {
     e.preventDefault();
-
-    if (!newSubCategoryName || !selectedCategoryId) {
-      alert('Please provide both a category and subcategory name.');
-      return;
-    }
-
     try {
-      const newSubCategory = await addSubCategory({
-        name: newSubCategoryName,
-        category: selectedCategoryId,  // Pass the selected category ID
-      });
+      const newSubCategory = await addSubCategory({ name: newSubCategoryName, category: selectedCategoryId });
+      setSubCategories([...subCategories, newSubCategory]);
+      setNewSubCategoryName('');
+      setSelectedCategoryId(''); // Reset selected category
+    } catch (err) {
+      setError('Error adding subcategory: ' + err.message);
+    }
+  };
 
-      // Update the subcategories list with the newly added subcategory
-      setSubCategories((prevSubCategories) => [...prevSubCategories, newSubCategory]);
-      setNewSubCategoryName(''); // Clear the input
-      setSelectedCategoryId(''); // Reset the category dropdown
-    } catch (error) {
-      console.error('Error adding subcategory:', error);
-      alert('Failed to add subcategory. Please try again.');
+  // Delete a subcategory
+  const handleDeleteSubCategory = async (id) => {
+    try {
+      await deleteSubCategory(id);
+      setSubCategories(subCategories.filter((subCat) => subCat.id !== id));
+    } catch (err) {
+      setError('Error deleting subcategory: ' + err.message);
     }
   };
 
   return (
-    <div>
-      <h2>SubCategories</h2>
-      
-      {/* Form to add a new subcategory */}
+    <div className="subcategory-container">
+      <h2>SubCategory List</h2>
+      {error && <p className="error">{error}</p>}
       <form onSubmit={handleAddSubCategory}>
         <input
           type="text"
-          placeholder="Subcategory Name"
           value={newSubCategoryName}
           onChange={(e) => setNewSubCategoryName(e.target.value)}
+          placeholder="New SubCategory Name"
+          required
         />
-
         <select
           value={selectedCategoryId}
           onChange={(e) => setSelectedCategoryId(e.target.value)}
+          required
         >
           <option value="">Select Category</option>
           {categories.map((category) => (
@@ -73,21 +72,22 @@ const SubCategoryList = () => {
             </option>
           ))}
         </select>
-        
-        <button type="submit">Add Subcategory</button>
+        <button type="submit">Add SubCategory</button>
       </form>
-
-      {/* Display list of subcategories */}
       <ul>
         {subCategories.map((subCategory) => (
           <li key={subCategory.id}>
             {console.log(subCategory)}
-            {subCategory.name} (Category: {subCategory.category.name})
+            <span className='category-name'>
+            <strong>Sub Category:</strong> {subCategory.name} | <strong> Category:</strong> {subCategory.category_name} | <strong>Owner:</strong> {subCategory.owner} 
+            </span>
+            <button onClick={() => handleDeleteSubCategory(subCategory.id)}>Delete</button>
           </li>
         ))}
       </ul>
     </div>
   );
+  
 };
 
 export default SubCategoryList;
