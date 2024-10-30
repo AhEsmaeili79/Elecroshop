@@ -23,8 +23,8 @@ import AdminRoleRequests from './Components/RoleRequest/AdminRoleRequests';
 
 // Order components
 import Checkout from './Components/order/Checkout/Checkout';
-import OrderDetail from './Components/order/OrderList/OrderDetail';
-import OrderList from './Components/order/OrderList/OrdersList';
+import OrderDetail from './Components/order/OrderList/OrderDetail/OrderDetail';
+import OrderList from './Components/order/OrderList/OrdersList/OrdersList';
 import OrderConfirmation from './Components/order/OrderConfirmation/OrderConfirmation';
 
 // Category components

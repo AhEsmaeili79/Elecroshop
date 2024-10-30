@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { fetchOrderDetails } from '../api/orderApi'; // Make sure this function is defined correctly
-import './css/OrderDetail.css'; // Optional CSS for styling
+import { fetchOrderDetails } from '../api/orderApi'; // Ensure this function is defined
+import OrderDetailItem from './OrderDetailItem';
+import './css/OrderDetail.css'; // Optional: Create a CSS file for styling
 
 const OrderDetail = () => {
     const { orderId } = useParams();
@@ -12,7 +13,7 @@ const OrderDetail = () => {
     useEffect(() => {
         const getOrderDetails = async () => {
             try {
-                const data = await fetchOrderDetails(orderId); // Fetch the order details
+                const data = await fetchOrderDetails(orderId);
                 setOrderDetails(data);
             } catch (err) {
                 setError('Failed to fetch order details. Please try again later.');
@@ -25,7 +26,7 @@ const OrderDetail = () => {
         getOrderDetails();
     }, [orderId]);
 
-    if (loading) return <div className="loading-message">Loading order details...</div>;
+    if (loading) return <div>Loading order details...</div>;
     if (error) return <div className="error-message">{error}</div>;
     if (!orderDetails) return <div>No order details found.</div>;
 
@@ -43,16 +44,7 @@ const OrderDetail = () => {
             <h3>Items:</h3>
             <ul className="order-items">
                 {orderDetails.items.map(item => (
-                    <li key={item.id} className="order-item">
-                        <Link to={`/product/${item.product}`} className="product-link">
-                            <img 
-                                src={item.product_image} 
-                                alt={item.product_name} 
-                                style={{ width: '50px', height: '50px', marginRight: '10px' }}
-                            />
-                            {item.product_name} - ${item.product_price} x {item.quantity}
-                        </Link>
-                    </li>
+                    <OrderDetailItem key={item.id} item={item} />
                 ))}
             </ul>
             <Link to="/orders" className="back-link">Back to Orders</Link>

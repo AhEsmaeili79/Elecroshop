@@ -1,0 +1,18 @@
+.order-detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.product-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+}
+
+.product-image {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}

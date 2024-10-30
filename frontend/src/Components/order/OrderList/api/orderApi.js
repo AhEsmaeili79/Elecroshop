@@ -15,9 +15,8 @@ export const fetchOrderDetails = async (orderId) => {
     const response = await fetch(`http://127.0.0.1:8000/api/order/orders/${orderId}/`, {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
-            // Add authentication token if needed
-        },
+            'Authorization': `Bearer ${localStorage.getItem('token')}` // Replace with your auth method
+        }
     });
 
     if (!response.ok) {
