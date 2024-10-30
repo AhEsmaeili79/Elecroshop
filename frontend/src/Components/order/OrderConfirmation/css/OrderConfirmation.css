@@ -1,0 +1,53 @@
+/* OrderConfirmation.css */
+
+:root {
+    --primary-color: #0073e6;
+    --secondary-color: #666;
+    --background-color: #f9f9f9;
+    --font-family: Arial, sans-serif;
+}
+
+.order-confirmation {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--background-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-family);
+}
+
+.confirmation-header {
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.confirmation-header h1 {
+    margin: 0;
+    font-size: 1.8em;
+}
+
+.order-summary h2, .order-summary h3, .order-total h3 {
+    color: var(--secondary-color);
+    text-align: center;
+}
+
+.items-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.error-message, .loading-message {
+    text-align: center;
+    font-size: 1.1em;
+    color: var(--primary-color);
+    padding: 10px;
+}
+
+.order-total {
+    text-align: center;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-top: 20px;
+}

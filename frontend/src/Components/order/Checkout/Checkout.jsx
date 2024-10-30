@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
-import { fetchCartItems } from '../Cart/api/cartApi'; // Ensure this is the correct import
-import { createOrder } from './api/orderApi'; // Ensure this is the correct import
+import { fetchCartItems } from '../../Cart/api/cartApi'; // Ensure this is the correct import
+import { createOrder } from '../api/orderApi'; // Ensure this is the correct import
 
 const Checkout = () => {
     const [cartItems, setCartItems] = useState([]);

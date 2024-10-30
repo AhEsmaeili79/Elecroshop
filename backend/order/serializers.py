@@ -1,13 +1,25 @@
+# serializers.py
 from rest_framework import serializers
 from .models import Order, OrderItem
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source="product.name", read_only=True)
+    product_image = serializers.ImageField(
+        source="product.main_photo", read_only=True
+    )  # Assuming the product has an image field
+    product_price = serializers.IntegerField(source="product.price", read_only=True)
 
     class Meta:
         model = OrderItem
-        fields = ["id", "product", "product_name", "quantity"]
+        fields = [
+            "id",
+            "product",
+            "product_name",
+            "product_image",
+            "product_price",
+            "quantity",
+        ]
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -42,7 +54,7 @@ class OrderSerializer(serializers.ModelSerializer):
         # Create OrderItem instances for each item
         for item_data in items_data:
             OrderItem.objects.create(
-                order=order, **item_data  # Link each item to the order
-            )
+                order=order, **item_data
+            )  # Link each item to the order
 
         return order

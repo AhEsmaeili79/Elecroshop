@@ -1,0 +1,30 @@
+.order-detail {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #000;
+}
+
+.order-items {
+    list-style-type: none;
+    padding: 0;
+}
+
+.order-item {
+    margin-bottom: 10px;
+}
+
+.product-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: blue;
+}
