@@ -17,7 +17,7 @@ const ReviewList = ({ reviews }) => {
                         {review.user_first_name} {review.user_last_name} {review.is_buyer && <span>(Buyer)</span>}
                     </div>
                 )}
-                <div className="review-rating">Rating: {review.rating}</div>
+                <div>Rating: <span  className="review-rating">{'⭐'.repeat(review.rating)}</span>{'☆'.repeat(5 - review.rating)}</div>
                 <div className="review-comment">{review.comment}</div>
                 <div className="review-date">{new Date(review.created_at).toLocaleDateString()}</div>
             </div>
@@ -28,3 +28,5 @@ const ReviewList = ({ reviews }) => {
 };
 
 export default ReviewList;
+
+
