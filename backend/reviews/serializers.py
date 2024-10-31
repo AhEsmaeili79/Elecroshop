@@ -19,3 +19,11 @@ class ReviewSerializer(serializers.ModelSerializer):
             "created_at",
         ]
         read_only_fields = ["user", "created_at"]
+
+    def validate(self, attrs):
+        # Check if the user has already reviewed the product
+        if Review.objects.filter(
+            user=self.context["request"].user, product=attrs["product"]
+        ).exists():
+            raise serializers.ValidationError("You have already reviewed this product.")
+        return attrs
