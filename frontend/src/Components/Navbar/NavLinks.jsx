@@ -30,7 +30,10 @@ const NavLinks = ({ isLoggedIn, user }) => {
                   </>
                 )}
                 {user && user.role === 'customer' && (
-                  <li><Link to="/request-role">Request Role</Link></li>
+                  <>
+                    <li><Link to="/request-role">Request Role</Link></li>
+                    <li><Link to="/orders">Order</Link></li>
+                  </>
                 )}
                 {user && user.role === 'seller' && (
                   <>
