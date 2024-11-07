@@ -1,7 +1,8 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 const SellerOrderItem = ({ item }) => {
   return (
+    <Link to={`/product/${item.product}`} className="product-link">
     <li className="order-item">
       <img
         src={item.product_image}
@@ -12,6 +13,7 @@ const SellerOrderItem = ({ item }) => {
       <p>Quantity: {item.quantity}</p>
       <p>Price per Unit: ${item.product_price}</p>
     </li>
+    </Link>
   );
 };
 

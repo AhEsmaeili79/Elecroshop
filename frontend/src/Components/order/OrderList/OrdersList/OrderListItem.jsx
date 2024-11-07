@@ -13,7 +13,7 @@ const OrderListItem = ({ order }) => {
             <p>Status: {order.status}</p>
             <p>Order Date: {new Date(order.created_at).toLocaleDateString()}</p>
             </Link>
-            <h3>Items:</h3>
+            <h3>:</h3>
             <ul>
               {order.items.map((item) => (
                 <li key={item.id} className="order-item">
