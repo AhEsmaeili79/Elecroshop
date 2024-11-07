@@ -43,6 +43,8 @@ const NavLinks = ({ isLoggedIn, user }) => {
                     <li><Link to="/subcategories">SubCategories</Link></li>
                     <li><Link to="/brands">Brands</Link></li>
                     <li><Link to="/models">Models</Link></li>
+                    <li><Link to="/seller/orders">Orders List</Link></li>
+                    
                   </>
                 )}
               </ul>

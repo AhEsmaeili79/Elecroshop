@@ -9,6 +9,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
         source="product.main_photo", read_only=True
     )  # Assuming the product has an image field
     product_price = serializers.IntegerField(source="product.price", read_only=True)
+    product_seller = serializers.CharField(source="product.seller", read_only=True)
 
     class Meta:
         model = OrderItem
@@ -18,6 +19,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "product_name",
             "product_image",
             "product_price",
+            "product_seller",
             "quantity",
         ]
 
@@ -40,6 +42,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "items",
         ]
         read_only_fields = [
+            
             "user",
             "order_code",
             "shipment_price",

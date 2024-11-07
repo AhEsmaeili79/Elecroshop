@@ -1,0 +1,31 @@
+/* SellerOrders.css */
+.seller-orders-container {
+  padding: 20px;
+}
+
+.order-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  color: black;
+}
+
+.order-card h2 {
+  font-size: 1.5em;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.product-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+}

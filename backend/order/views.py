@@ -1,6 +1,7 @@
 # views.py
 from django.utils.crypto import get_random_string
 from rest_framework import viewsets
+from .permissions import IsCustomerOrSeller
 from rest_framework.permissions import IsAuthenticated
 from .models import Order
 from .serializers import OrderSerializer
@@ -13,11 +14,21 @@ class OrderViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = OrderSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsCustomerOrSeller]
 
     def get_queryset(self):
-        # Only return the orders that belong to the authenticated user
-        return Order.objects.filter(user=self.request.user)
+            """
+            Returns the queryset of orders based on the role of the authenticated user:
+            - If the user is a customer, only their own orders are returned.
+            - If the user is a seller, orders for their own products are returned.
+            """
+            user = self.request.user
+            if user.role=='seller':  # Assuming `is_seller` is an attribute on the user model
+                # Filter orders containing items where the product's seller is the user
+                return Order.objects.filter(items__product__seller=user).distinct()
+            else:
+                # For customers, return only their own orders
+                return Order.objects.filter(user=user)
 
     def perform_create(self, serializer):
         """

@@ -26,6 +26,7 @@ import Checkout from './Components/order/Checkout/Checkout';
 import OrderDetail from './Components/order/OrderList/OrderDetail/OrderDetail';
 import OrderList from './Components/order/OrderList/OrdersList/OrdersList';
 import OrderConfirmation from './Components/order/OrderConfirmation/OrderConfirmation';
+import SellerOrdersPage from './Components/seller/OrderList/SellerOrdersPage';
 
 // Category components
 import CategoryList from './Components/Category/CategoryList';
@@ -85,6 +86,7 @@ function App() {
             <Route path="/subcategories" element={<SubCategoryList />} />
             <Route path="/brands" element={<BrandList />} />
             <Route path="/models" element={<ModelList />} />
+            <Route path="/seller/orders" element={<SellerOrdersPage />} />
           </>
         );
       default:

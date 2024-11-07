@@ -1,6 +1,6 @@
 # /views.py
 
-from typing_extensions import ReadOnly
+# from typing_extensions import ReadOnly
 from rest_framework import viewsets, permissions
 from .models import Product
 from .serializers import ProductSerializer
