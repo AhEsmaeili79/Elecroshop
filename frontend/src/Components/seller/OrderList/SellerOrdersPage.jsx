@@ -1,7 +1,7 @@
-// SellerOrders.jsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './css/SellerOrdersPage.css'; // Create this file for styling
+import { getSellerOrders } from './api/Seller_order_list'; // Import the API service
+import SellerOrderDetails from './SellerOrderDetails'; // Import the new Order Details component
+import './css/SellerOrdersPage.css'; // CSS for styling
 
 const SellerOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -12,14 +12,10 @@ const SellerOrders = () => {
   useEffect(() => {
     const fetchSellerOrders = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/order/orders/', {
-          headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}` // Replace with your auth method
-          }
-      });
-        setOrders(response.data);
+        const data = await getSellerOrders();
+        setOrders(data);
       } catch (error) {
-        setError('Failed to load orders.');
+        setError(error.message);
         console.error('Error fetching seller orders:', error);
       } finally {
         setLoading(false);
@@ -39,27 +35,7 @@ const SellerOrders = () => {
         <p>No orders found for your products.</p>
       ) : (
         orders.map((order) => (
-          <div key={order.id} className="order-card">
-            <h2>Order Code: {order.order_code}</h2>
-            <p>Total Price: ${order.total_price}</p>
-            <p>Shipment Price: ${order.shipment_price}</p>
-            <p>Payment Type: {order.payment_type}</p>
-            <p>Status: {order.status}</p>
-            <p>Order Date: {new Date(order.created_at).toLocaleDateString()}</p>
-
-            <h3>Items:</h3>
-            <ul>
-              {order.items.map((item) => (
-                <li key={item.id} className="order-item">
-                  <img src={item.product_image} alt={item.product_name} className="product-image" />
-                  <p>Product: {item.product_name}</p>
-                  <p>Quantity: {item.quantity}</p>
-                  <p>Seller: {item.product_seller}</p>
-                  <p>Price per Unit: ${item.product_price}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <SellerOrderDetails key={order.id} order={order} />
         ))
       )}
     </div>
