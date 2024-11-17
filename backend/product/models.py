@@ -4,6 +4,13 @@ from category.models import Category
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.utils import timezone
+
+class Color(models.Model):
+    color_hex = models.CharField(max_length=255, default='#fff')
+    
+    def __str__(self):
+        return f"Color: {self.color_hex}"
 
 
 class Product(models.Model):
@@ -11,6 +18,7 @@ class Product(models.Model):
     price = models.PositiveIntegerField(blank=False)
     quantity = models.IntegerField(blank=False)
     model = models.CharField(max_length=255)
+    desc = models.TextField(null=True)
     is_favorited_by = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="favorite_products", blank=True
     )
@@ -18,9 +26,10 @@ class Product(models.Model):
     photo1 = models.ImageField(upload_to="products/%Y/%m/%d/", blank=True)
     photo2 = models.ImageField(upload_to="products/%Y/%m/%d/", blank=True)
     photo3 = models.ImageField(upload_to="products/%Y/%m/%d/", blank=True)
-    photo4 = models.ImageField(upload_to="products/%Y/%m/%d/", blank=True)
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    
+    colors = models.ManyToManyField(Color, related_name="products", blank=True)
 
     def __str__(self):
         return f"ProductName: {self.name}, Count: {self.quantity}, Seller: {self.seller}"
@@ -35,9 +44,7 @@ class Product(models.Model):
             self.photo2 = self.resize_image(self.photo2)
         if self.photo3:
             self.photo3 = self.resize_image(self.photo3)
-        if self.photo4:
-            self.photo4 = self.resize_image(self.photo4)
-        
+            
         super(Product, self).save(*args, **kwargs)
 
     def resize_image(self, image_field):
@@ -49,7 +56,7 @@ class Product(models.Model):
             img = img.convert('RGB')
 
         # Resize the image
-        img = img.resize((221, 221), Image.Resampling.LANCZOS)
+        img = img.resize((500, 500), Image.Resampling.LANCZOS)
 
         # Save it into a BytesIO object to convert it back to an InMemoryUploadedFile
         img_io = BytesIO()
@@ -65,3 +72,15 @@ class Product(models.Model):
         )
 
         return image_file
+
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    added_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ('user', 'product')  # Prevents adding the same product to the wishlist multiple times
+
+    def __str__(self):
+        return f"{self.user} - {self.product.name} Wishlist"

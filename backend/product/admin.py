@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Product
+from .models import Product,Color,Wishlist
 
 
 # Register your models here.
@@ -9,3 +9,7 @@ class Productadmin(admin.ModelAdmin):
 
 
 admin.site.register(Product, Productadmin)
+
+
+admin.site.register(Color)
+admin.site.register(Wishlist)

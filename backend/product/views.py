@@ -2,8 +2,10 @@
 
 # from typing_extensions import ReadOnly
 from rest_framework import viewsets, permissions
-from .models import Product
-from .serializers import ProductSerializer
+from .models import Product, Wishlist
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from .serializers import ProductSerializer,WishlistSerializer
 from .Pagination.pagination import ProductPagination
 from .Permissions.permissions import IsSellerOrReadOnly
 
@@ -31,3 +33,49 @@ class CustomerProductViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Product.objects.all()  # Fetch all products
     serializer_class = ProductSerializer
     permission_classes = []  # Allow read-only access to everyone
+
+
+
+
+class WishlistViewSet(viewsets.ViewSet):
+    permission_classes = [permissions.IsAuthenticated]  # Only authenticated users can manage their wishlist
+
+    def list(self, request):
+        """
+        Get all products in the user's wishlist
+        """
+        wishlist = Wishlist.objects.filter(user=request.user)
+        serializer = WishlistSerializer(wishlist, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def add_to_wishlist(self, request, pk=None):
+        """
+        Add product to wishlist
+        """
+        try:
+            product = Product.objects.get(id=pk)
+        except Product.DoesNotExist:
+            return Response({"detail": "Product not found."}, status=404)
+
+        # Create wishlist entry
+        wishlist_item = Wishlist.objects.create(user=request.user, product=product)
+        return Response({"detail": "Product added to wishlist."}, status=201)
+
+    @action(detail=True, methods=['delete'])
+    def remove_from_wishlist(self, request, pk=None):
+        """
+        Remove product from wishlist
+        """
+        try:
+            product = Product.objects.get(id=pk)
+        except Product.DoesNotExist:
+            return Response({"detail": "Product not found."}, status=404)
+
+        # Remove from wishlist if it exists
+        try:
+            wishlist_item = Wishlist.objects.get(user=request.user, product=product)
+            wishlist_item.delete()
+            return Response({"detail": "Product removed from wishlist."}, status=200)
+        except Wishlist.DoesNotExist:
+            return Response({"detail": "Product not in your wishlist."}, status=404)
