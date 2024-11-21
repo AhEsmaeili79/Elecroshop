@@ -11,6 +11,7 @@ class Review(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE
     )  # Assuming you have a Product model
+    title = models.CharField(max_length=25,default='No Title')
     rating = models.PositiveIntegerField()
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
