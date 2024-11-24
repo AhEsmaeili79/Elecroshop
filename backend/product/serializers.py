@@ -35,6 +35,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "colors",
             "is_in_wishlist",
         ]
+    
     def get_is_in_wishlist(self, obj):
         user = self.context.get('request').user  # Get the current user from the request context
         if user.is_authenticated:
@@ -43,12 +44,13 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class WishlistSerializer(serializers.ModelSerializer):
-    product = serializers.CharField(source='product.id', read_only=True)
+    product = ProductSerializer(read_only=True)
+    product_id = serializers.CharField(source='product.id', read_only=True)
     added_at = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Wishlist
-        fields = ['product', 'added_at','user']
+        fields = ['product_id', 'added_at', 'user', 'product']
 
     def create(self, validated_data):
         user = self.context['request'].user
@@ -60,4 +62,4 @@ class WishlistSerializer(serializers.ModelSerializer):
 
         # Add the product to the wishlist
         wishlist_item = Wishlist.objects.create(user=user, product=product)
-        return wishlist_item
+        return wishlist_item 

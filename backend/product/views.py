@@ -1,11 +1,8 @@
-# /views.py
-
-# from typing_extensions import ReadOnly
 from rest_framework import viewsets, permissions
 from .models import Product, Wishlist
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import ProductSerializer,WishlistSerializer
+from .serializers import ProductSerializer, WishlistSerializer
 from .Pagination.pagination import ProductPagination
 from .Permissions.permissions import IsSellerOrReadOnly
 
@@ -35,8 +32,6 @@ class CustomerProductViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = []  # Allow read-only access to everyone
 
 
-
-
 class WishlistViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]  # Only authenticated users can manage their wishlist
 
@@ -45,7 +40,7 @@ class WishlistViewSet(viewsets.ViewSet):
         Get all products in the user's wishlist
         """
         wishlist = Wishlist.objects.filter(user=request.user)
-        serializer = WishlistSerializer(wishlist, many=True)
+        serializer = WishlistSerializer(wishlist, many=True, context={'request': request})  # Pass the request context
         return Response(serializer.data)
 
     @action(detail=True, methods=['post'])
