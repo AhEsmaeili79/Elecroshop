@@ -167,6 +167,20 @@ CORS_ALLOWED_ORIGINS = [
     "https://moboshop.liara.run",
 ]
 
+CORS_ALLOW_HEADERS = [
+    "Authorization",
+    "Content-Type",
+    "X-Requested-With",
+    "Accept",
+    "Origin",
+    "X-CSRFToken",  # Include this if you're using CSRF protection
+]
+
+CORS_EXPOSE_HEADERS = [
+    "Authorization",  # Expose the Authorization header if you are using JWT tokens
+]
+
+
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
 
