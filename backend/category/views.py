@@ -20,14 +20,12 @@ class CategoryViewSet(viewsets.ModelViewSet):
         if self.request.user.is_authenticated:
             if self.request.user.is_staff:
                 return super().get_queryset()  # Return all categories for admin
-            return self.queryset.filter(
-                owner=self.request.user
-            )  # Return user's categories
-        return Category.objects.none()  # No categories for unauthenticated users
+            return self.queryset.filter(owner=self.request.user)  # Return user's categories
+        # Allow unauthenticated users to see categories in read-only mode
+        return Category.objects.all()  # All categories can be viewed, but not modified for unauthenticated users
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
-
 
 class SubCategoryViewSet(viewsets.ModelViewSet):
     queryset = SubCategory.objects.all()
