@@ -20,5 +20,9 @@ class IsAdminOrOwnerOrReadOnly(permissions.BasePermission):
         # Allow read-only methods for everyone
         if request.method in permissions.SAFE_METHODS:
             return True
+
+        # Log the user IDs for debugging
+        print(f"Checking permission for review owner {obj.user.id} and user {request.user.id}")
+        
         # Allow owners of the object or admins to modify/delete
         return obj.user == request.user or request.user.is_staff

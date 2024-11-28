@@ -3,7 +3,6 @@ from .models import Review
 from .serializers import ReviewSerializer
 from .permissions import IsAdminOrOwnerOrReadOnly
 
-
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     permission_classes = [IsAdminOrOwnerOrReadOnly]
@@ -28,5 +27,6 @@ class ReviewViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
+        # Ensure the user is assigned when creating a review
         serializer.save(user=self.request.user)
-
+        print(f"Review created by user: {self.request.user.id}")
