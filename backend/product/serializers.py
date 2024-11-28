@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Product, Color, Wishlist  # Import the Color model
-
+from category.serializers import CategorySerializer
 # Create the ColorSerializer to handle color-related information
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,9 +10,8 @@ class ColorSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     # Access seller's name directly
     seller = serializers.CharField(source="seller.username", read_only=True)
-    category = serializers.CharField(source="category.name", read_only=True)
+    category = CategorySerializer(read_only=True)
     is_in_wishlist = serializers.SerializerMethodField()
-
     # Use the ColorSerializer to handle multiple colors
     colors = ColorSerializer(many=True, read_only=True)
     
