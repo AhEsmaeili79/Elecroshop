@@ -1,8 +1,8 @@
 from rest_framework import viewsets, permissions
-from .models import Product, Wishlist
+from .models import Product, Wishlist,Color
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import ProductSerializer, WishlistSerializer
+from .serializers import ProductSerializer, WishlistSerializer,ColorSerializer
 from .Pagination.pagination import ProductPagination
 from .Permissions.permissions import IsSellerOrReadOnly
 
@@ -74,3 +74,9 @@ class WishlistViewSet(viewsets.ViewSet):
             return Response({"detail": "Product removed from wishlist."}, status=200)
         except Wishlist.DoesNotExist:
             return Response({"detail": "Product not in your wishlist."}, status=404)
+
+
+class ColorViewSet(viewsets.ModelViewSet):
+    queryset = Color.objects.all()
+    serializer_class = ColorSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]  # Read-only for unauthenticated users, write for authenticated ones

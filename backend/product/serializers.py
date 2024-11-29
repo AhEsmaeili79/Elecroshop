@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Product, Color, Wishlist  # Import the Color model
 from category.serializers import CategorySerializer
 # Create the ColorSerializer to handle color-related information
+
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Color
