@@ -28,7 +28,7 @@ class Product(models.Model):
     photo3 = models.ImageField(upload_to="products/%Y/%m/%d/", blank=True)
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    
+    created_at = models.DateTimeField(auto_now_add=True)
     colors = models.ManyToManyField(Color, related_name="products", blank=True)
 
     def __str__(self):

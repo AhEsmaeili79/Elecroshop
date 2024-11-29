@@ -33,6 +33,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "is_favorited_by", 
             "colors",
             "is_in_wishlist",
+            "created_at",
         ]
     
     def get_is_in_wishlist(self, obj):
