@@ -57,15 +57,19 @@ class WishlistViewSet(viewsets.ViewSet):
     @action(detail=True, methods=['post'])
     def add_to_wishlist(self, request, pk=None):
         """
-        Add product to wishlist
+        Add product to wishlist, if not already in the wishlist
         """
         try:
             product = Product.objects.get(id=pk)
         except Product.DoesNotExist:
             return Response({"detail": "Product not found."}, status=404)
 
+        # Check if the product is already in the wishlist
+        if Wishlist.objects.filter(user=request.user, product=product).exists():
+            return Response({"detail": "Product is already in your wishlist."}, status=400)
+
         # Create wishlist entry
-        wishlist_item = Wishlist.objects.create(user=request.user, product=product)
+        Wishlist.objects.create(user=request.user, product=product)
         return Response({"detail": "Product added to wishlist."}, status=201)
 
     @action(detail=True, methods=['delete'])
@@ -85,7 +89,6 @@ class WishlistViewSet(viewsets.ViewSet):
             return Response({"detail": "Product removed from wishlist."}, status=200)
         except Wishlist.DoesNotExist:
             return Response({"detail": "Product not in your wishlist."}, status=404)
-
 
 class ColorViewSet(viewsets.ModelViewSet):
     queryset = Color.objects.all()
