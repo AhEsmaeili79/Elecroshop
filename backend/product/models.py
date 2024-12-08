@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from category.models import Category
+from category.models import Category , Brand
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -30,6 +30,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
     colors = models.ManyToManyField(Color, related_name="products", blank=True)
+    brand = models.ForeignKey(Brand,on_delete=models.CASCADE,default=1, related_name="products")
 
     def __str__(self):
         return f"ProductName: {self.name}, Count: {self.quantity}, Seller: {self.seller}"

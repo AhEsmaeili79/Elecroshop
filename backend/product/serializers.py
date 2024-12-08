@@ -33,6 +33,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "category", 
             "is_favorited_by", 
             "colors",
+            "brand",
             "is_in_wishlist",
             "created_at",
         ]
