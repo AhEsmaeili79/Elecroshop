@@ -37,23 +37,37 @@ class CustomerProductViewSet(viewsets.ReadOnlyModelViewSet):
         queryset = Product.objects.all()  # Default to all products
 
         # Filter by category - support multiple categories
-        category_ids = self.request.query_params.getlist('category', [])
+        category_ids = self.request.query_params.get('category', '')
         if category_ids:
-            queryset = queryset.filter(category__id__in=category_ids)
+            category_ids_list = category_ids.split(',')  # Split by commas
+            # Remove 'category-' prefix and convert to integers
+            category_ids_list = [int(id.replace('category-', '')) for id in category_ids_list]
+            queryset = queryset.filter(category__id__in=category_ids_list)
 
         # Filter by brand - support multiple brands
-        brand_ids = self.request.query_params.getlist('brand', [])
+        brand_ids = self.request.query_params.get('brand', '')
         if brand_ids:
-            queryset = queryset.filter(brand__id__in=brand_ids)
+            # If the 'brand' is passed as a comma-separated string
+            brand_ids_list = brand_ids.split(',')  # Split by commas
+            # Remove 'brand-' prefix and convert to integers
+            brand_ids_list = [int(id.replace('brand-', '')) for id in brand_ids_list]
+            queryset = queryset.filter(brand__id__in=brand_ids_list)
 
-        # Filter by color - support multiple colors
-        color_ids = self.request.query_params.getlist('color', [])
+        # Filter by color - support both comma-separated and multiple '&' parameters
+        color_ids = self.request.query_params.get('color', '')
         if color_ids:
-            queryset = queryset.filter(colors__id__in=color_ids)
+            if ',' in color_ids:
+                # If the color values are comma-separated, split them manually
+                color_ids_list = color_ids.split(',')
+            else:
+                # If there are multiple 'color' query parameters, use getlist()
+                color_ids_list = self.request.query_params.getlist('color')
+
+            # Remove 'color-' prefix and convert to integers
+            color_ids_list = [int(id.replace('color-', '')) for id in color_ids_list]
+            queryset = queryset.filter(colors__id__in=color_ids_list)
 
         return queryset
-
-
 
 class WishlistViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]  # Only authenticated users can manage their wishlist
