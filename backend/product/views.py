@@ -26,22 +26,34 @@ class ProductViewSet(viewsets.ModelViewSet):
         serializer.save(seller=self.request.user)
 
 
-class CustomerProductViewSet(viewsets.ReadOnlyModelViewSet):
+class CustomerProductViewSet(viewsets.ReadOnlyModelViewSet): 
     serializer_class = ProductSerializer
     permission_classes = []  # Allow read-only access to everyone
     
     def get_queryset(self):
-            """
-            This method customizes the queryset based on the category filter in the request.
-            """
-            queryset = Product.objects.all()  # Default to all products
-            category_id = self.request.query_params.get('category', None)  # Get the 'category' filter from the query params
-            
-            if category_id:
-                # Filter the products by category if category is provided in the query params
-                queryset = queryset.filter(category__id=category_id)
-            
-            return queryset
+        """
+        This method customizes the queryset based on the category, color, and brand filters in the request.
+        """
+        queryset = Product.objects.all()  # Default to all products
+
+        # Filter by category - support multiple categories
+        category_ids = self.request.query_params.getlist('category', [])
+        if category_ids:
+            queryset = queryset.filter(category__id__in=category_ids)
+
+        # Filter by brand - support multiple brands
+        brand_ids = self.request.query_params.getlist('brand', [])
+        if brand_ids:
+            queryset = queryset.filter(brand__id__in=brand_ids)
+
+        # Filter by color - support multiple colors
+        color_ids = self.request.query_params.getlist('color', [])
+        if color_ids:
+            queryset = queryset.filter(colors__id__in=color_ids)
+
+        return queryset
+
+
 
 class WishlistViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]  # Only authenticated users can manage their wishlist

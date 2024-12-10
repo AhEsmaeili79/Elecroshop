@@ -18,7 +18,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.user.is_staff:
+            if self.request.user.is_superuser:
                 return super().get_queryset()  # Return all categories for admin
             return self.queryset.filter(owner=self.request.user)  # Return user's categories
         # Allow unauthenticated users to see categories in read-only mode
@@ -34,7 +34,7 @@ class SubCategoryViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.user.is_staff:
+            if self.request.user.is_superuser:
                 return super().get_queryset()  # Return all subcategories for admin
             return self.queryset.filter(
                 owner=self.request.user
@@ -46,16 +46,17 @@ class SubCategoryViewSet(viewsets.ModelViewSet):
 
 
 class BrandViewSet(viewsets.ModelViewSet):
-    queryset = Brand.objects.all()  # Default queryset for the router
+    queryset = Brand.objects.all()
     serializer_class = BrandSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrAdminOrReadOnly]
+    permission_classes = [IsOwnerOrAdminOrReadOnly]
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.user.is_staff:
-                return super().get_queryset()  # Return all brands for admin
-            return self.queryset.filter(owner=self.request.user)  # Return user's brands
-        return Brand.objects.none()
+            if self.request.user.is_superuser:
+                return super().get_queryset()  # Return all categories for admin
+            return self.queryset.filter(owner=self.request.user)  # Return user's categories
+        # Allow unauthenticated users to see categories in read-only mode
+        return Brand.objects.all()  # All categories can be viewed, but not modified for unauthenticated users
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -68,7 +69,7 @@ class ModelViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.user.is_staff:
+            if self.request.user.is_superuser:
                 return super().get_queryset()  # Return all models for admin
             return self.queryset.filter(owner=self.request.user)  # Return user's models
         return Model.objects.none()
