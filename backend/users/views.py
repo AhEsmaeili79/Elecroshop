@@ -56,7 +56,7 @@ class UserDetailView(generics.RetrieveAPIView):
 # View for retrieving and updating user profile
 class UserProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]  # Only authenticated users can access this view
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
         return self.request.user  # Return the logged-in user
