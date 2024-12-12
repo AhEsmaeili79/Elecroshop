@@ -1,12 +1,15 @@
 # users/views.py
 
-from rest_framework import status, generics, permissions
+from rest_framework import status, generics, permissions,viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import UserSignupSerializer, UserSerializer,AddressSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
+from .permissions import IsOwner
+from .models import Address
+from rest_framework.exceptions import PermissionDenied
 
 User = get_user_model()
 
@@ -70,9 +73,35 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Return errors if validation fails
 
 
-class AddressProfileView(generics.RetrieveUpdateAPIView):
+class AddressViewSet(viewsets.ModelViewSet):
     serializer_class = AddressSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    
-    def get_object(self):
-        return self.request.user  # Return the logged-in user
+    permission_classes = [permissions.IsAuthenticated, IsOwner]
+
+    def get_queryset(self):
+        """
+        Ensure the user only sees their own addresses.
+        This will return all addresses for the currently authenticated user.
+        """
+        return Address.objects.filter(username=self.request.user)
+
+    def perform_create(self, serializer):
+        """
+        Automatically set the logged-in user as the owner of the address.
+        """
+        serializer.save(username=self.request.user)
+
+    def perform_update(self, serializer):
+        """
+        Ensure the user can only update their own addresses.
+        """
+        if serializer.instance.username != self.request.user:
+            raise PermissionDenied("You do not have permission to edit this address.")
+        serializer.save()
+
+    def perform_destroy(self, instance):
+        """
+        Ensure the user can only delete their own addresses.
+        """
+        if instance.username != self.request.user:
+            raise PermissionDenied("You do not have permission to delete this address.")
+        instance.delete()

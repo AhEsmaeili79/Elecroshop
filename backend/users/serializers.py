@@ -74,16 +74,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AddressSerializer(serializers.ModelSerializer):
-    username = serializers.ReadOnlyField(source="user.id")
     class Meta:
         model = Address
-        fields = [
-            'username',
-            'titleAddress',
-            "city",
-            "street",
-            "floor",
-            "apartment",
-            "zip_code",
-            "address",
-        ]
+        fields = ['id', 'username', 'titleAddress', 'address', 'city', 'street', 'floor', 'apartment', 'zip_code']
+        read_only_fields = ['username']
+
+    def create(self, validated_data):
+        validated_data['username'] = self.context['request'].user
+        return super().create(validated_data)

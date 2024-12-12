@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
 from django.contrib.auth import get_user_model
+from .models import Address
 
 User = get_user_model()
 
@@ -13,3 +14,8 @@ class UserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(User, UserAdmin)
+
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ("username", "titleAddress", "city")
+    
+admin.site.register(Address, AddressAdmin)

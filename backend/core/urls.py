@@ -22,13 +22,15 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/users/", include("users.urls")),
-    path("api/", include("product.urls")),
-    path("api/", include("cart.urls")),
-    path("api/category/", include("category.urls")),
-    path("api/role_request/", include("role_request.urls")),
-    path("api/order/", include("order.urls")),
-    path("api/", include("reviews.urls")),
+    path("api/", include([
+        path("users/", include("users.urls")),
+        path("category/", include("category.urls")),
+        path("role_request/", include("role_request.urls")),
+        path("order/", include("order.urls")),
+        path("", include("reviews.urls")),
+        path("", include("product.urls")),
+        path("", include("cart.urls")),
+    ])),
 ]
 
 
