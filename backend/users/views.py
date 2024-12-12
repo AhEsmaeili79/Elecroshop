@@ -3,7 +3,7 @@
 from rest_framework import status, generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSignupSerializer, UserSerializer
+from .serializers import UserSignupSerializer, UserSerializer,AddressSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
@@ -68,3 +68,11 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
             serializer.save()  # Save the updated user data
             return Response(serializer.data)  # Return the updated user data
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Return errors if validation fails
+
+
+class AddressProfileView(generics.RetrieveUpdateAPIView):
+    serializer_class = AddressSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get_object(self):
+        return self.request.user  # Return the logged-in user

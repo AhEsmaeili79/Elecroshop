@@ -2,7 +2,7 @@
 import os
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-
+from .models import Address
 User = get_user_model()
 
 
@@ -71,3 +71,19 @@ class UserSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class AddressSerializer(serializers.ModelSerializer):
+    username = serializers.ReadOnlyField(source="user.id")
+    class Meta:
+        model = Address
+        fields = [
+            'username',
+            'titleAddress',
+            "city",
+            "street",
+            "floor",
+            "apartment",
+            "zip_code",
+            "address",
+        ]

@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,  # View to obtain access and refresh tokens
     TokenRefreshView,  # View to refresh access tokens
 )
-from .views import SignupView, UserDetailView, LogoutView, UserProfileView
+from .views import SignupView, UserDetailView, LogoutView, UserProfileView,AddressProfileView
 
 urlpatterns = [
     # Endpoint for user signup
@@ -22,4 +22,5 @@ urlpatterns = [
     # path("signup/", SignupView.as_view(), name="signup"),  # This line is redundant
     # Endpoint to retrieve and update user profile information
     path("user/", UserProfileView.as_view(), name="update-user"),
+    path("user/addresses/", AddressProfileView.as_view(), name="address-user"),
 ]
