@@ -40,11 +40,19 @@ class UserSerializer(serializers.ModelSerializer):
             "profile_image",
             "phonenumber",
             "date_birth",
-            "address",
-            "city",
-            "street",
-            "floor",
-            "apartment",
-            "zip_code",
             "additional_information",
         ]
+
+    def update(self, instance, validated_data):
+        # If 'profile_image' is not in the validated data, keep the current image
+        profile_image = validated_data.pop('profile_image', None)
+        if profile_image is not None:
+            instance.profile_image = profile_image
+
+        # Update other fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+        return instance
+

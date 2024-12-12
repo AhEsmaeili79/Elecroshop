@@ -56,21 +56,15 @@ class UserDetailView(generics.RetrieveAPIView):
 # View for retrieving and updating user profile
 class UserProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]  # Only authenticated users can access this view
+    permission_classes = [permissions.IsAuthenticated]  # Only authenticated users can access this view
 
     def get_object(self):
         return self.request.user  # Return the logged-in user
 
     def patch(self, request, *args, **kwargs):
         user = self.get_object()
-        serializer = self.get_serializer(
-            user, data=request.data, partial=True
-        )  # Allow partial updates
+        serializer = self.get_serializer(user, data=request.data, partial=True)  # Allow partial updates
         if serializer.is_valid():
             serializer.save()  # Save the updated user data
             return Response(serializer.data)  # Return the updated user data
-        return Response(
-            serializer.errors, status=status.HTTP_400_BAD_REQUEST
-        )  # Return errors if validation fails
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Return errors if validation fails
