@@ -14,6 +14,15 @@ def generate_order_code():
     return str(random.randint(1000000, 9999999))
 
 
+class ShipmentPrice(models.Model):
+    title = models.CharField(max_length=20)
+    price = models.PositiveIntegerField()
+
+    def __str__(self):
+        return (
+            f" Title:{self.title} Price:{self.price}"
+        )
+
 class Order(models.Model):
     ORDER_STATUS_CHOICES = [
         ("canceled", "Canceled"),
@@ -22,17 +31,21 @@ class Order(models.Model):
         ("delivered", "Delivered"),
         ("returned", "Returned"),
     ]
-
+    payment_type = [
+        ("cash", "Cash"),
+        ("credit_card", "Credit card"),
+    ]
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_code = models.CharField(
         max_length=7, unique=True, default=generate_order_code
     )
-    shipment_price = models.DecimalField(
-        max_digits=10, decimal_places=2, default=10.00, editable=False
-    )
+    shipment_price = models.ForeignKey(ShipmentPrice, on_delete=models.CASCADE)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
-    payment_type = models.CharField(max_length=20)  # 'cash' or 'credit_card'
+    payment_type = models.CharField(
+        max_length=20, choices=payment_type, default="cash"
+    )
     status = models.CharField(
         max_length=20, choices=ORDER_STATUS_CHOICES, default="pending"
     )

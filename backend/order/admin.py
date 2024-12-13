@@ -1,7 +1,7 @@
 # order/admin.py
 
 from django.contrib import admin
-from .models import Order, OrderItem
+from .models import Order, OrderItem,ShipmentPrice
 
 
 class OrderItemInline(admin.TabularInline):
@@ -41,3 +41,4 @@ class OrderItemAdmin(admin.ModelAdmin):
 # Register your models
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
+admin.site.register(ShipmentPrice,admin.ModelAdmin)
