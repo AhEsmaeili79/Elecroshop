@@ -42,3 +42,5 @@ class Address(models.Model):
     apartment = models.IntegerField(blank=True, null=True)
     zip_code = models.IntegerField(blank=True, null=True)
     
+    def __str__(self):
+        return f"{self.titleAddress or 'Address'} for {self.username}"

@@ -3,6 +3,8 @@ import random
 from django.db import models
 from django.contrib.auth import get_user_model
 from product.models import Product
+from users.models import Address
+
 
 User = get_user_model()
 
@@ -29,7 +31,7 @@ class Order(models.Model):
         max_digits=10, decimal_places=2, default=10.00, editable=False
     )
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    address = models.TextField()
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
     payment_type = models.CharField(max_length=20)  # 'cash' or 'credit_card'
     status = models.CharField(
         max_length=20, choices=ORDER_STATUS_CHOICES, default="pending"
