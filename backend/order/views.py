@@ -1,10 +1,11 @@
 from django.utils.crypto import get_random_string
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
-from .models import Order
-from .serializers import OrderSerializer
+from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly, IsAdminUser
+from .models import Order, ShipmentPrice
+from .serializers import OrderSerializer,ShipmentPriceSerializer
 from cart.models import get_or_create_cart
 from .permissions import IsCustomerOrSeller
+from rest_framework.viewsets import ModelViewSet
 
 class OrderViewSet(viewsets.ModelViewSet):
     """
@@ -52,3 +53,14 @@ class OrderViewSet(viewsets.ModelViewSet):
             item.product.quantity -= item.quantity
             item.product.save()
         cart_items.delete()  # Clear the cart items
+
+
+
+class ShipmentPriceViewSet(ModelViewSet):
+    queryset = ShipmentPrice.objects.all()
+    serializer_class = ShipmentPriceSerializer
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [IsAuthenticatedOrReadOnly()]
+        return [IsAdminUser()]

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Order, OrderItem
+from .models import Order, OrderItem, ShipmentPrice
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source="product.name", read_only=True)
@@ -63,3 +63,13 @@ class OrderSerializer(serializers.ModelSerializer):
             OrderItem.objects.create(order=order, **item_data)  # Link each item to the order
 
         return order
+
+
+
+from rest_framework import serializers
+from .models import ShipmentPrice
+
+class ShipmentPriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShipmentPrice
+        fields = '__all__'

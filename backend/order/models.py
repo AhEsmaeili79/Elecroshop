@@ -5,14 +5,11 @@ from django.contrib.auth import get_user_model
 from product.models import Product
 from users.models import Address
 
-
 User = get_user_model()
-
 
 # Helper function to generate a 7-digit random order code
 def generate_order_code():
     return str(random.randint(1000000, 9999999))
-
 
 class ShipmentPrice(models.Model):
     title = models.CharField(max_length=20)
@@ -35,7 +32,6 @@ class Order(models.Model):
         ("cash", "Cash"),
         ("credit_card", "Credit card"),
     ]
-    
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_code = models.CharField(
         max_length=7, unique=True, default=generate_order_code
@@ -53,7 +49,6 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.order_code} by {self.user.username}"
-
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
