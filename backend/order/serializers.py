@@ -36,22 +36,20 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = [
             "id",
-            "user",
             "order_code",
             "shipment_price",
-            "total_price",
             "address",
             "payment_type",
-            "status",
-            "created_at",
             "items",
         ]
         read_only_fields = [
             "user",
             "order_code",
-            "shipment_price",
             "status",
             "created_at",
+            "total_price",  # Total price should be read-only, no user input
+            "user",
+            "status",
         ]
 
     def create(self, validated_data):
@@ -64,12 +62,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
         return order
 
-
-
-from rest_framework import serializers
-from .models import ShipmentPrice
-
 class ShipmentPriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShipmentPrice
-        fields = '__all__'
+        fields = ['id','title','price']

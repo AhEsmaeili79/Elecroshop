@@ -24,6 +24,7 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ("order_code", "user__username", "address")
     list_filter = ("status", "payment_type")
     inlines = [OrderItemInline]  # Display OrderItem as inline
+    readonly_fields = ("total_price",)  # Make total_price read-only
 
 
 class OrderItemAdmin(admin.ModelAdmin):
