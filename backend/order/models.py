@@ -37,7 +37,6 @@ class Order(models.Model):
         max_length=7, unique=True, default=generate_order_code
     )
     shipment_price = models.ForeignKey(ShipmentPrice, on_delete=models.CASCADE)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     payment_type = models.CharField(
         max_length=20, choices=payment_type, default="cash"
@@ -49,6 +48,7 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.order_code} by {self.user.username}"
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)

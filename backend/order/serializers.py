@@ -47,7 +47,6 @@ class OrderSerializer(serializers.ModelSerializer):
             "order_code",
             "status",
             "created_at",
-            "total_price",  # Total price should be read-only, no user input
             "user",
             "status",
         ]
