@@ -41,12 +41,15 @@ class OrderSerializer(serializers.ModelSerializer):
             "address",
             "payment_type",
             "items",
+            'created_at_date',
+            'created_at_time',
         ]
         read_only_fields = [
             "user",
             "order_code",
             "status",
-            "created_at",
+            "created_at_date",
+            "created_at_time",
             "user",
             "status",
         ]

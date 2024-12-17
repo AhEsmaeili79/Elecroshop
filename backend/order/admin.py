@@ -18,7 +18,7 @@ class OrderAdmin(admin.ModelAdmin):
         "address",
         "payment_type",
         "status",
-        "created_at",
+        "created_at_date",
     )
     search_fields = ("order_code", "user__username", "address")
     list_filter = ("status", "payment_type")

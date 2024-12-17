@@ -4,7 +4,9 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from product.models import Product
 from users.models import Address
+from utils.utils import get_persian_datetime
 
+persian_date, persian_time = get_persian_datetime()
 User = get_user_model()
 
 # Helper function to generate a 7-digit random order code
@@ -44,7 +46,8 @@ class Order(models.Model):
     status = models.CharField(
         max_length=20, choices=ORDER_STATUS_CHOICES, default="pending"
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at_date = models.DateField(default=persian_date)
+    created_at_time = models.TimeField(auto_now=True)
 
     def __str__(self):
         return f"Order {self.order_code} by {self.user.username}"

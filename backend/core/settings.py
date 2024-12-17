@@ -43,10 +43,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # libraries
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",  # JWT support
     "rest_framework_simplejwt",
     "corsheaders",
+    'jalali_date',
+    # apps
     "users",
     "role_request",
     "product",
@@ -122,11 +125,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
-
+# TIME_ZONE = "UTC"
+TIME_ZONE = 'Asia/Tehran'
 USE_I18N = True
-
+USE_L10N = True
 USE_TZ = True
 
 
