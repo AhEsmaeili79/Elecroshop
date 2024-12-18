@@ -11,6 +11,7 @@ class Cartadmin(admin.ModelAdmin):
         "product_id",
         "quantity",
         "total_price",
+        'color'
     ]
 
 

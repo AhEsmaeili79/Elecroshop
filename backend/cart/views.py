@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Cart, CartItem, get_or_create_cart
 from .serializers import CartSerializer, CartItemSerializer
-from product.models import Product,Color
+from product.models import Product, Color
 
 class CartViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -25,8 +25,10 @@ class CartItemViewSet(viewsets.ModelViewSet):
     def create(self, request):
         cart = get_or_create_cart(request.user)
         product_id = request.data.get("product_id")
+        quantity = request.data.get(
+            "quantity", 1
+        )  # Default to 1 if quantity is not provided
         color_id = request.data.get("color_id")
-        quantity = request.data.get("quantity", 1)  # Default to 1 if quantity is not provided
 
         # Check if the product and color combination is valid
         product = Product.objects.filter(id=product_id).first()
@@ -42,27 +44,40 @@ class CartItemViewSet(viewsets.ModelViewSet):
         existing_item = CartItem.objects.filter(cart=cart, product=product, color=color).first()
 
         if existing_item:
-            # If the product with the same color is already in the cart, increase the quantity
-            existing_item.quantity += quantity
+            # If the product is already in the cart, increase the quantity
+            existing_item.quantity = quantity
+            existing_item.color = color
             existing_item.save()
             serializer = self.get_serializer(existing_item)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            # If the product with the specified color is not in the cart, create a new item
+            # If the product is not in the cart, create a new item
             serializer = self.get_serializer(data=request.data)
             if serializer.is_valid():
                 serializer.save(cart=cart)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
     def update(self, request, pk=None, partial=False):
         cart_item = self.get_object()
+
+        if 'quantity' in request.data and 'color' not in request.data:
+            try:
+                quantity = int(request.data['quantity'])
+                if quantity > 0:
+                    cart_item.quantity = quantity
+                    cart_item.save()
+                    return Response(self.get_serializer(cart_item).data, status=status.HTTP_200_OK)
+                return Response({"detail": "Quantity must be greater than zero."}, status=status.HTTP_400_BAD_REQUEST)
+            except ValueError:
+                return Response({"detail": "Invalid quantity value."}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = self.get_serializer(cart_item, data=request.data, partial=partial)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     def destroy(self, request, pk=None):
         cart_item = self.get_object()

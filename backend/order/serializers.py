@@ -7,8 +7,8 @@ class OrderItemSerializer(serializers.ModelSerializer):
     product_image = serializers.ImageField(source="product.main_photo", read_only=True)
     product_price = serializers.IntegerField(source="product.price", read_only=True)
     product_seller = serializers.CharField(source="product.seller", read_only=True)
-    # color = serializers.CharField(source="product.colors", read_only=True)
-    
+    color = ColorSerializer(read_only=True)
+
     class Meta:
         model = OrderItem
         fields = [
@@ -19,16 +19,15 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "product_price",
             "product_seller",
             "quantity",
+            "color",  # Include color field
         ]
 
     def to_representation(self, instance):
-        """
-        Override the to_representation method to filter out items that do not belong to the seller.
-        """
         user = self.context.get('request').user
         if user.role == 'seller' and instance.product.seller != user:
             return {}  # Return empty data for items not belonging to the seller
         return super().to_representation(instance)
+
 
 class ShipmentPriceSerializer(serializers.ModelSerializer):
     class Meta:

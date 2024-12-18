@@ -57,9 +57,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
-    # color = models.ForeignKey(Color, on_delete=models.PROTECT)
+    color = models.ForeignKey(Color, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return (
-            f"{self.product.name} (x{self.quantity}) in Order {self.order.order_code}"
-        )
+        return f"{self.product.name} (x{self.quantity}) in Order {self.order.order_code}"

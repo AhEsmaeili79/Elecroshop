@@ -50,6 +50,7 @@ class OrderViewSet(viewsets.ModelViewSet):
                 order=order,
                 product=item.product,
                 quantity=item.quantity,
+                color=item.color
             )
             item.product.quantity -= item.quantity
             item.product.save()
