@@ -33,6 +33,7 @@ class OrderItemAdmin(admin.ModelAdmin):
         "order__user",
         "product__name",
         "product__seller",
+        # "color",
         "quantity",
     )
 

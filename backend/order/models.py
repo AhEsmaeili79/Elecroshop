@@ -2,7 +2,7 @@
 import random
 from django.db import models
 from django.contrib.auth import get_user_model
-from product.models import Product
+from product.models import Product, Color
 from users.models import Address
 from utils.utils import get_persian_datetime
 
@@ -57,6 +57,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
+    # color = models.ForeignKey(Color, on_delete=models.PROTECT)
 
     def __str__(self):
         return (
