@@ -19,7 +19,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "product_price",
             "product_seller",
             "quantity",
-            'color',
         ]
 
     def to_representation(self, instance):

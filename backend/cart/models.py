@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from product.models import Product  # assuming Product model is in products app
+from product.models import Product,Color  # assuming Product model is in products app
 
 
 class Cart(models.Model):
@@ -18,8 +18,8 @@ class Cart(models.Model):
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, related_name="cart_items", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    color = models.ForeignKey(Color, on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField(default=1)
-
     def __str__(self):
         return f"{self.product.name} in {self.cart.user.username}'s cart"
 

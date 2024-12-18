@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Cart, CartItem
-from product.serializers import ProductSerializer  # assuming you have this
-from product.models import Product
+from product.serializers import ProductSerializer,ColorSerializer  # assuming you have this
+from product.models import Product,Color
 
 
 class CartItemSerializer(serializers.ModelSerializer):
@@ -9,12 +9,15 @@ class CartItemSerializer(serializers.ModelSerializer):
     product_id = serializers.PrimaryKeyRelatedField(
         queryset=Product.objects.all(), source="product", write_only=True
     )
+    color_id = serializers.PrimaryKeyRelatedField(
+        queryset=Color.objects.all(), source="color", write_only=True
+    )
+    color = ColorSerializer(read_only=True)
 
     class Meta:
         model = CartItem
-        fields = ["id", "product", "product_id", "quantity", "total_price"]
-
-
+        fields = ["id", "product", "product_id", "color", "color_id", "quantity", "total_price"]
+        
 class CartSerializer(serializers.ModelSerializer):
     cart_items = CartItemSerializer(many=True, read_only=True)
     total_price = serializers.ReadOnlyField()
