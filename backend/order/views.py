@@ -16,10 +16,16 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
+        order_code = self.request.query_params.get('order_code', None)
+        
+        if order_code:
+            return Order.objects.filter(order_code=order_code)
+        
         if user.role == 'seller':
             return Order.objects.filter(items__product__seller=user).distinct()
         else:
             return Order.objects.filter(user=user)
+
 
     def perform_create(self, serializer):
         """
