@@ -1,0 +1,92 @@
+/* Wrapper for CartSection and CartSummary */
+.cart-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px; /* Padding for the whole container */
+  }
+  
+  /* CartSection (Main cart items) */
+  .cart-content .col-lg-9 {
+    flex: 2; /* Take up more space */
+    max-width: 75%; /* Adjust max-width to be larger */
+    padding: 20px; /* Add padding to CartSection */
+    background-color: #fff; /* Optional: background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: shadow */
+    border-radius: 8px; /* Optional: rounded corners */
+  }
+  
+  /* CartSummary (Order summary) */
+  .cart-content aside.col-lg-3 {
+    flex: 1; /* Take up less space */
+    max-width: 25%; /* Adjust max-width to be smaller */
+    padding: 20px; /* Padding for CartSummary */
+    background-color: #fff; /* Optional: background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: shadow */
+    border-radius: 8px; /* Optional: rounded corners */
+  }
+  
+  /* CartBottom styles - Full width under the section and summary */
+  .cart .cart-bottom {
+    width: 100%; /* Make CartBottom take full width */
+    margin-top: 20px; /* Space between CartBottom and the sections above */
+    padding: 20px; /* Padding for the bottom section */
+    background-color: #fff; /* Optional: background color */
+    border-radius: 8px; /* Optional: rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: shadow */
+  }
+  
+  /* Custom class for additional styling */
+  .bottom {
+    padding: 20px;
+  }
+  
+  /* Responsive Styles for Cart layout */
+  @media (max-width: 980px) {
+    /* Keep cart sections (CartSection + CartSummary) on one line */
+    .cart-content {
+      flex-wrap: nowrap; /* Prevent wrapping */
+      padding: 10px; /* Less padding on smaller screens */
+    }
+  
+    /* CartSection and CartSummary should both stay in their respective spaces */
+    .cart-content .col-lg-9,
+    .cart-content aside.col-lg-3 {
+      max-width: 50%; /* Adjust widths for smaller screens to keep them side by side */
+      padding: 10px; /* Padding for smaller screens */
+    }
+  
+    /* Ensure full-width CartBottom on smaller screens */
+    .cart .cart-bottom {
+      max-width: 100%;
+      padding: 10px; /* Adjust padding on smaller screens */
+    }
+  }
+  
+
+  @media (max-width: 500px) {
+    .cart-content {
+      flex-direction: column; /* Stack CartSection and CartSummary */
+      padding: 10px; /* Less padding for very small screens */
+    }
+  
+    .cart-content .col-lg-9 {
+      max-width: 100%; /* Full width for CartSection */
+    }
+  
+    .cart-content aside.col-lg-3 {
+      max-width: 100%; /* Full width for CartSummary */
+      margin-top: 20px;
+    }
+  
+    .cart .cart-bottom {
+      width: 100%;
+      padding: 10px; /* Padding for bottom */
+    }
+  
+    .cart-content .col-lg-9,
+    .cart-content aside.col-lg-3 {
+      padding: 10px; /* Adjust padding */
+    }
+  }
+  

@@ -1,0 +1,37 @@
+.product-color-option {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 5px;
+    border: 1px solid #000; /* Default border */
+    position: relative; /* For absolute positioning of the icon */
+  }
+  
+  .product-color-option.selected {
+    border: 2px solid #dbdbdb; /* Border for selected color */
+  }
+  
+  /* When a color is selected, apply the custom styles */
+  .product-color-option.selected::before {
+    content: '\ec2d'; /* Add the character/icon (you can change this if needed) */
+    color: #dbdbdb;
+    font-family: 'molla'; /* Specify the font family */
+    font-size: 1rem;
+    line-height: 1;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    opacity: 1; /* Make the icon visible */
+    visibility: visible; /* Ensure the icon is visible */
+    transition: opacity 0.01s;
+    margin-top: -.4rem;
+    margin-left: -.5rem;
+  }
+  
+  /* Optional for better accessibility */
+  .product-color-option .sr-only {
+    display: none;
+  }
+  

@@ -1,0 +1,23 @@
+label.custom-control-label{
+    font-size: 14px;
+}
+
+.filter-colors a{
+    border:.2rem solid #dbdbdb;
+}
+
+.filter-colors a:after{
+    color:#dbdbdb ;
+    font-family: 'molla';
+    content: '\ec2d';
+    font-size: 1rem;
+    line-height: 1;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .01s;
+    margin-top: -.4rem;
+    margin-left: -.5rem;
+}

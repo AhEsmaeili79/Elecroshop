@@ -1,0 +1,81 @@
+/* Modal Overlay */
+.custom-modal-new {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-overlay-new {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Content */
+.modal-content-new {
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+}
+
+.modal-header-new {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-modal-new {
+  font-size: 1.5rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.form-group-new {
+  margin-bottom: 1rem;
+}
+
+.form-group-new label {
+  font-weight: bold;
+}
+
+.form-group-new input,
+.form-group-new textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal-footer-new {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+/* Button Styles for Add New Address */
+.btn-success-new {
+  margin-top: 20px;
+}
+
+.address-edit-new {
+  margin-left: 5px;
+}
+
+.address-edit-new:hover {
+  cursor: pointer;
+}

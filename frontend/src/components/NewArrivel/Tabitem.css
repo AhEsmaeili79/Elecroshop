@@ -1,0 +1,16 @@
+/* Nav Tab Active State Animation */
+.nav-pills .nav-item {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  
+  /* CSS for category content fade-in/fade-out */
+  .category-content {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .category-content.visible {
+    opacity: 1;
+  }
+  

@@ -1,0 +1,81 @@
+/* Styles for the review form */
+.review-form {
+    max-width: 1100px; /* Reduced max-width for a smaller form */
+    margin: 0 auto;
+    padding: 15px; /* Reduced padding */
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+  }
+  
+  .review-form .form-group {
+    margin-bottom: 12px; /* Reduced margin between form groups */
+  }
+  
+  .review-form .form-group label {
+    font-size: 14px; /* Smaller label font */
+    font-weight: bold;
+    display: block;
+    margin-bottom: 6px; /* Reduced space below labels */
+  }
+  
+  .review-form .form-group input,
+  .review-form .form-group select,
+  .review-form .form-group textarea {
+    width: 100%;
+    padding: 8px; /* Reduced padding */
+    font-size: 14px; /* Slightly smaller font size */
+    border: 1px solid #ccc;
+    border-radius: 4px; /* Slightly smaller border radius */
+    box-sizing: border-box;
+  }
+  
+  .review-form .form-group input:focus,
+  .review-form .form-group select:focus,
+  .review-form .form-group textarea:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  .review-form .form-group textarea {
+    height: 100px; /* Reduced height for the textarea */
+    resize: vertical;
+  }
+  
+  /* Star Rating */
+  .stars {
+    display: inline-block;
+    font-size: 20px; /* Smaller star size */
+    color: #ccc;
+  }
+  
+  .stars .star {
+    cursor: pointer;
+    margin-right: 4px; /* Reduced margin between stars */
+  }
+  
+  .stars .star.filled {
+    color: gold;
+  }
+  
+  .review-form .submit-btn {
+    width: 100%;
+    padding: 10px; /* Reduced padding for the button */
+    font-size: 16px; /* Slightly smaller font size */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px; /* Reduced border radius */
+    cursor: pointer;
+  }
+  
+  .review-form .submit-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .review-form .submit-btn:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  

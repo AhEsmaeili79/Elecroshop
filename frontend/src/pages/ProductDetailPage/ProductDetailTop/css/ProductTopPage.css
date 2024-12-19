@@ -1,0 +1,71 @@
+.quantity-input {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .quantity-input input {
+    width: 60px;
+    padding: 5px 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  .quantity-input button {
+    position: absolute;
+    top: 49%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: 1px solid #ffffff;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .quantity-input .btn-decrement {
+    left: 3px;
+    /* Position the decrement button to the left */
+  }
+  
+  .quantity-input .btn-increment {
+    right: 3px;
+     /* Position the increment button to the right */
+  }
+  
+  .quantity-input button:hover {
+    color:#39f ;
+  }
+  
+  .quantity-input button:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+  }
+  
+  .btn-cart:hover span{
+    color: #fff;
+    cursor: pointer;
+  }
+
+  
+  a.btn-cart.removecartbtn{
+    color: rgb(196, 95, 36);
+    border-color: rgb(196, 95, 36);
+    text-decoration: none !important;
+  }
+  a.btn-cart.removecartbtn:hover{
+    background-color: rgb(196, 95, 36);
+    text-decoration: none !important;
+    border-color: rgb(196, 95, 36);
+    box-shadow: none !important;
+    color: #fff;
+    cursor: pointer;
+  }
+  a.btn-cart.removecartbtn span{
+    text-decoration: none !important;
+    box-shadow: none;
+  }
