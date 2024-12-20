@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { fetchCartItems } from '../../api/cartApi';
-import { createOrder } from '../../api/orderApi';
+import { Link, useNavigate } from 'react-router-dom';
+import { createOrder, fetchCartItems } from "../../api/orderApi";
 import { getAddress, addAddress } from "../../api/addresses";
 import { fetchUserData } from "../../api/user";
-import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from "../../contexts/CartContext";
 import './css/CheckoutForm.css';
 

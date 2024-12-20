@@ -1,6 +1,6 @@
-import BreadCrumb from "../Header/Breadcrumb/BreadCrumb";
-import CheckoutForm from "./Components/CheckoutForm";
-import ChekcoutHeader from "./Components/checkoutheader";
+import BreadCrumb from "../../components/Breadcrumb/BreadCrumb";
+import CheckoutForm from "./CheckoutForm";
+import ChekcoutHeader from "../../components/Header/CheckoutHeader/checkoutheader";
 
 const Body = () => {
     return(
