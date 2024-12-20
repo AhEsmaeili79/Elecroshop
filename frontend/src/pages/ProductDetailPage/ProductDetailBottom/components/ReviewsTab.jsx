@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { fetchReviews, deleteReview } from '../api/reviews';
+import { useEffect, useState } from 'react';
+import { fetchReviews, deleteReview } from '../../../../api/reviews';
 import ReviewForm from './ReviewForm';
 import ReviewList from './ReviewList';
 

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import BreadCrumb from "../Header/Breadcrumb/BreadCrumb";
-import ProductTopPage from "./ProductDetailTop/ProductTopPage";
+import BreadCrumb from '../../components/Breadcrumb/BreadCrumb';
+import ProductTopPage from "../../pages/ProductDetailPage/ProductDetailTop/ProductTopPage";
 import ProductTabs from "./ProductDetailBottom/ProductTabs";
 
 const Body = () => {

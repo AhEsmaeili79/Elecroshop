@@ -31,6 +31,23 @@ export const submitReview = async (reviewData) => {
     }
 };
 
+// Delete a review by ID
+export const deleteReview = async (reviewId) => {
+    try {
+        await axios.delete(`${API_URL}${reviewId}/`, getAuthHeaders());
+    } catch (error) {
+        console.error('Failed to delete review:', error);
+        throw error; // Re-throw the error for further handling
+    }
+};
 
-
-
+// Update a review by ID
+export const updateReview = async (reviewId, reviewData) => {
+    try {
+      const response = await axios.put(`${API_URL}${reviewId}/`, reviewData, getAuthHeaders());
+      return response.data;
+    } catch (error) {
+      console.error('Failed to update review:', error);
+      throw error;
+    }
+  };

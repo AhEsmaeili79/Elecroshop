@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { deleteReview } from '../api/reviews'; // Import deleteReview function
-import {fetchUserData} from '../api/users';
+import { useEffect, useState } from 'react';
+import { fetchUserData } from '../../../../api/user';
 
 const ReviewList = ({ reviews, onDelete, onEdit }) => {
   const [currentUserId, setCurrentUserId] = useState(null);

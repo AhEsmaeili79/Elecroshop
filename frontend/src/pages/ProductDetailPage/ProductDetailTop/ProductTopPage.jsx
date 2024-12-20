@@ -7,12 +7,12 @@ import {
   addToWishlist,
   removeFromWishlist,
   fetchWishlist,
-} from "../api/productdetail";
+} from "../../../api/productdetail.js";
 import ProductGallery from "./Components/ProductGallery";
 import ProductDetails from "./Components/ProductDetails";
-import "./ProductTopPage.css";
-import { fetchAllCartItems } from "../../Wishlist/api/cartApi";
-import { useCart } from '../../../contexts/CartContext.jsx'; // Importing useCart hook
+import "./css/ProductTopPage.css";
+import { fetchAllCartItems } from "../../../api/cartApi.js";
+import { useCart } from "../../../contexts/CartContext.jsx";
 
 const ProductTopPage = ({ productId }) => {
   const [product, setProduct] = useState(null);

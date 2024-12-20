@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { submitReview, updateReview } from '../api/reviews';
+import  { useState, useEffect } from 'react';
+import { submitReview, updateReview } from '../../../../api/reviews';
 import './css/review.css';
 
 const ReviewForm = ({ productId, onSubmit, reviewToEdit, clearEdit }) => {
