@@ -1,5 +1,5 @@
 // src/components/Trending.jsx
-import TabItem from "../../components/ItemTitle";
+import TabItem from "../NewArrivel/TabItem";
 
 const ItemTitle = () => {
     const tabs = [

@@ -1,4 +1,4 @@
-import { useUserData } from '../../hook/useUserData'; // Import the custom hook
+import { useUserData } from '../../../hooks/useUserData'; // Import the custom hook
 import ProfileImageUpload from './ProfileImageUpload'; // Import the image upload component
 import InputField from './InputField'; // Import the input field component
 import SubmitButton from './SubmitButton'; // Import the submit button component

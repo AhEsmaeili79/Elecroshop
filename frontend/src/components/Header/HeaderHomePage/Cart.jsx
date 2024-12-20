@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useCart } from '../../../contexts/CartContext'; // Adjust the path
-import { removeCartItem } from '../../Cart/api/cartApi'; // Adjust the path
+import { useCart } from '../../../contexts/CartContext';
+import { removeCartItem } from '../../../api/cartApi';
 
 const Cart = () => {
     const { cartItems, setCartItems } = useCart();

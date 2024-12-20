@@ -2,15 +2,15 @@
 import OwlCarousel from 'react-owl-carousel'; // Import the React Owl Carousel component
 import 'owl.carousel/dist/assets/owl.carousel.css'; // Import the styles
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-import ProductCard from '../../components/ProductCard';
+import ProductCard from '../../components/ProductCard/ProductCard';
 
 // Product Images
-import product1 from "../../../../assets/images/demos/demo-4/products/product-6.jpg";
-import product2 from "../../../../assets/images/demos/demo-4/products/product-7.jpg";
-import product3 from "../../../../assets/images/demos/demo-4/products/product-8.jpg";
-import product4 from "../../../../assets/images/demos/demo-4/products/product-9.jpg";
-import product5 from "../../../../assets/images/demos/demo-4/products/product-5.jpg";
-import banner from "../../../../assets/images/demos/demo-4/banners/banner-4.jpg"
+import product1 from "../../assets/images/demos/demo-4/products/product-6.jpg";
+import product2 from "../../assets/images/demos/demo-4/products/product-7.jpg";
+import product3 from "../../assets/images/demos/demo-4/products/product-8.jpg";
+import product4 from "../../assets/images/demos/demo-4/products/product-9.jpg";
+import product5 from "../../assets/images/demos/demo-4/products/product-5.jpg";
+import banner from "../../assets/images/demos/demo-4/banners/banner-4.jpg"
 
 // Utility function to shuffle the array
 const shuffleArray = (array) => {

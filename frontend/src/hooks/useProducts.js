@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
-import { fetchReviews } from "../api/reviewApi";
-import { fetchCategories } from '../../../Home/new-arrivals/api/categoryapi';
+import { fetchReviews } from "../api/reviews";
+import { fetchCategories } from '../api/Category';
 
 const useProducts = () => {
     const [products, setProducts] = useState([]);

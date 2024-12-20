@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import WishlistButton from "./WishlistButton";
 import QuantityInput from "./QuantityInput";
-import ColorOptions from "./ColorOptions";
-import { fetchReviews } from '../../api/reviewApi'; // Import the fetchReviews API function
-import { useCart } from '../../../../contexts/CartContext.jsx';  // Importing useCart hook
+import ColorOptions from "../../../../utils/ColorOptions.jsx";
+import { fetchReviews } from "../../../../api/reviews.js";
+// import { useCart } from '../../../../contexts/CartContext.jsx';  // Importing useCart hook
 
 const ProductDetails = ({
   product,

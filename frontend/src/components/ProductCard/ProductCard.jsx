@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   addProductToCart,
   updateCartItemQuantity,
   removeCartItem,
   fetchCartItem,
-} from './api/cartapi';
-import { fetchReviews } from '../../ProductDetail/api/reviewApi'; // Import the fetchReviews function
-import './css/productsection.css';
-import { Link } from 'react-router-dom';
-import { useCart } from '../../../contexts/CartContext'; // Import the useCart hook
-import { useWishlist } from '../../../contexts/WishlistContext'; // Import the useWishlist hook
-import ColorOptions from '../../ProductDetail/ProductDetailTop/Components/ColorOptions';
+} from '../../api/cartApi';
+import { fetchReviews } from '../../api/reviews';
+import './css/ProductListCard.css';
+import { useCart } from '../../contexts/CartContext'; // Import the useCart hook
+import { useWishlist } from '../../contexts/WishlistContext'; // Import the useWishlist hook
+import ColorOptions from '../../utils/ColorOptions';
 
 
 const ProductCard = ({ product, index }) => {

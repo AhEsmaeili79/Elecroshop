@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import './css/Aside.css';
-import { fetchCategories, fetchBrands } from './api/Category';
-import { fetchColors } from './api/Colors';
+import './Aside.css';
+import { fetchCategories, fetchBrands } from '../../api/Category';
+import { fetchColors } from '../../api/Colors';
 
 const AsideProduct = ({ setSelectedCategory, CategoryFiltered, setSelectedBrand, setSelectedColor, setPriceRange, priceRange }) => {
   // State definitions

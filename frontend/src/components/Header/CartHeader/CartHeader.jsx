@@ -1,5 +1,5 @@
-import bgImage from "../../../../assets/images/page-header-bg.jpg";
-import BreadCrumb from "../../../Header/Breadcrumb/BreadCrumb";
+import bgImage from "../../../assets/images/page-header-bg.jpg";
+import BreadCrumb from "../../Breadcrumb/BreadCrumb";
 
 const CartHeader = () => {
     return (

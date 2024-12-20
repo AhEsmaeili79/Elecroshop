@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchCategories } from './api/categoryapi'; 
+import { fetchCategories } from '../../api/Category'; 
 import TabItem from './TabItem';
 import './css/Tabitem.css'
 

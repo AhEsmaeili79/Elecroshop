@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { fetchCartItems, updateCartItemQuantity, removeCartItem } from '../../api/cartApi';
+import { fetchCartItems, updateCartItemQuantity, removeCartItem } from '../../../api/cartApi';
 import CartItem from './CartItem';
 
 const CartSection = ({ cartItems, setCartItems, setTotalPrice }) => {

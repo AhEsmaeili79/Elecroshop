@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useWishlist } from '../../../contexts/WishlistContext'; // Adjust the import to your context location
+import { useWishlist } from '../../contexts/WishlistContext'; // Adjust the import to your context location
 
 const Wishlist = () => {
   const { wishlistItems, isWishlistLoading } = useWishlist(); // Destructure wishlist data and loading state

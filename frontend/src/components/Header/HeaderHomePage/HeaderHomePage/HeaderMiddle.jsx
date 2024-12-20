@@ -2,7 +2,7 @@ import React from 'react';
 import Wishlist from './Wishlist';
 import Favorites from './Favorites';
 import Cart from './Cart';
-import Logo from '../../../assets/images/logo.png';
+import Logo from '../../assets/images/logo.png';
 import SearchComponent from './Search';
 
 

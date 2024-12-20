@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchOrderDetails } from '../UserDetail/api/orderApi';
-import BreadCrumb from '../Header/Breadcrumb/BreadCrumb';
+import { fetchOrderDetails } from '../../api/orderApi';
+import BreadCrumb from '../../components/Breadcrumb/BreadCrumb';
 import OrderProducts from './OrderProducts';
 // import './css/orderDetail.css'; // Updated CSS filename to avoid conflict
 

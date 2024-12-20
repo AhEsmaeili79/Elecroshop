@@ -1,8 +1,8 @@
 import  { useEffect, useState } from 'react';
-import { fetchUserOrders } from '../../api/orderApi';
-import { fetchShippingOptions } from '../../../Cart/api/shipment';
-import './css/OrdersList.css'; // Import the CSS file
 import { Link } from 'react-router-dom';
+import { fetchUserOrders } from '../../api/orderApi';
+import { fetchShippingOptions } from '../../api/shipment';
+import './css/OrdersList.css'; // Import the CSS file
 
 
 const OrdersList = () => {

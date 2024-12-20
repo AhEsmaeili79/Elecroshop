@@ -254,7 +254,7 @@ const ProductListCard = ({ product, reviewsData }) => {
     );
 };
 
-ProductCards.propTypes = {
+ProductListCard.propTypes = {
     product: PropTypes.shape({
         id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,

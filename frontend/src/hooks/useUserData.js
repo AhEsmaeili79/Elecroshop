@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchUserData, updateUser } from '../../api/user';
+import { fetchUserData, updateUser } from '../api/user';
 
 export const useUserData = () => {
     const [formData, setFormData] = useState({

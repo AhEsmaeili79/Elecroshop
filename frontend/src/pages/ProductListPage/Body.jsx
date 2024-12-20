@@ -4,7 +4,7 @@ import AsideProduct from "../../components/Aside/Aside";
 import ProductListHeader from "../../components/Header/ProductListHeader/ProductListHeader";
 import ToolBox from "../../components/Toolbox/Toolbox";
 import ProductListCard from "../../components/ProductCard/ProductListCard";
-import { useProducts } from "../../hooks/useProducts";
+import  useProducts from "../../hooks/useProducts";
 
 
 const Body = () => {

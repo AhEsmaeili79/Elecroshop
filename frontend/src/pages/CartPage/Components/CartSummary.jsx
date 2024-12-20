@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
-import { fetchShippingOptions } from '../../api/shipment'; // Import the API call function
+import { fetchShippingOptions } from '../../../api/shipment'; // Import the API call function
 
 const CartSummary = ({ cartItems, totalPrice }) => {
   const [shippingOptions, setShippingOptions] = useState([]);

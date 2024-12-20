@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 // Set up the base URL for the API
-// const API_URL = "http://127.0.0.1:8000/api/users/addresses/";
-const API_URL = `${process.env.REACT_APP_API_URL}/users/addresses/`;
+const API_URL = "http://127.0.0.1:8000/api/users/addresses/";
 
 // Get the token from local storage
 const token = localStorage.getItem('token');

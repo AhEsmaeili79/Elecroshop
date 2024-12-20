@@ -13,7 +13,21 @@ const getAuthHeaders = () => ({
   },
 });
 
+// Fetch cart items from the server
+export const fetchCartItems = async () => {
+  const response = await axios.get(CART_API_URL, getAuthHeaders());
+  return response.data;
+};
 
+export const fetchCartItem = async (productId, color_id) => {
+  try {
+    const response = await axios.get(CART_API_URL, { headers: getAuthHeader() });
+    return response.data.find(item => item.product.id === parseInt(productId) && item.color.id === color_id) || null;
+  } catch (error) {
+    console.error('Error fetching cart item:', error.response?.data);
+    return null;
+  }
+};
 
 // Fetch all cart items
 export const fetchAllCartItems = async () => {
@@ -78,3 +92,6 @@ export const removeCartItem = async (cartItemId) => {
     throw new Error("Failed to remove item from cart");
   }
 };
+
+
+
