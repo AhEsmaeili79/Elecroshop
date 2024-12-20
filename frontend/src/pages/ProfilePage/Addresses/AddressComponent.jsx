@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { getAddress, addAddress, updateAddress, deleteAddress } from '../../api/addresses';
+import { useState, useEffect } from 'react';
+import { getAddress, addAddress, updateAddress, deleteAddress } from '../../../api/addresses';
 import './AddressComponent.css'; // Custom CSS for modal and form
 
 const AddressComponent = () => {

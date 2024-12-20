@@ -1,4 +1,4 @@
-import HeaderImg from '../../../../assets/images/page-header-bg.jpg';
+import HeaderImg from '../../../assets/images/page-header-bg.jpg';
 
 const UserDetailHeader = () => {
     return (
