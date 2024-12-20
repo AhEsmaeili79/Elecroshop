@@ -1,6 +1,5 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import "./css/Cart.css"; // Ensure the cart styles are properly included
+import "../css/Cart.css"; // Ensure the cart styles are properly included
 
 const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
   return (

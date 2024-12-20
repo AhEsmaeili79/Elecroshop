@@ -1,11 +1,11 @@
+import Pagination from "../../components/Pagination/Pagination";
+import BreadCrumb from "../../components/Breadcrumb/BreadCrumb";
+import AsideProduct from "../../components/Aside/Aside";
+import ProductListHeader from "../../components/Header/ProductListHeader/ProductListHeader";
+import ToolBox from "../../components/Toolbox/Toolbox";
+import ProductListCard from "../../components/ProductCard/ProductListCard";
+import { useProducts } from "../../hooks/useProducts";
 
-import Pagination from "./Components/Pagination";
-import BreadCrumb from "../Header/Breadcrumb/BreadCrumb";
-import AsideProduct from "./Components/Aside";
-import ProductListHeader from "./Components/ProductListHeader";
-import ToolBox from "./Components/Toolbox";
-import ProductCardList from './Components/ProductCardList';
-import useProducts from "./Components/hooks/useProducts";
 
 const Body = () => {
     const { 
@@ -54,7 +54,7 @@ const Body = () => {
                             />
                             {loading && <p>Loading...</p>}
                             {error && <p>{error}</p>}
-                            <ProductCardList products={currentProducts} reviewsData={reviewsData} />
+                            <ProductListCard products={currentProducts} reviewsData={reviewsData} />
                             <Pagination
                                 totalProducts={filteredProducts.length} // Use filteredProducts here
                                 productsPerPage={productsPerPage}

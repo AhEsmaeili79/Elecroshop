@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { fetchProductDetails } from '../../ProductDetail/api/productdetail'; // Update with actual path to fetchProductDetails
+import { fetchProductDetails } from '../../api/productdetail';
 
 const BreadCrumb = ({ categoryName }) => {
   const { productId } = useParams(); // Get the productId from URL

@@ -1,5 +1,4 @@
 import './css/coloroption.css';
-import { useState } from 'react';
 
 const ColorOptions = ({ colors, selectedColor, handleColorChange }) => {
   const toggleColorSelection = (colorId) => {

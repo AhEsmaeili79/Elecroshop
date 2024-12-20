@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import WishlistTable from "./WishlistTable.jsx";
-import WishlistHeader from "./WishlistHeader.jsx";
+import WishlistHeader from "../../components/Header/WishlistHeader/WishlistHeader.jsx";
 import WishlistFooter from "./WishlistFooter.jsx";
-import { fetchWishlist, removeFromWishlist } from "./api/wishlistApi";
-import { addProductToCart, fetchCartItemByProductId, removeCartItem, fetchAllCartItems } from "./api/cartApi";
-import BreadCrumb from '../Header/Breadcrumb/BreadCrumb.jsx';
-import { useCart } from '../../contexts/CartContext.jsx';  // Importing useCart hook
+import { fetchWishlist, removeFromWishlist } from "../../api/wishlistApi";
+import { addProductToCart, fetchCartItemByProductId, removeCartItem, fetchAllCartItems } from "../../api/cartApi";
+import BreadCrumb from "../../components/Breadcrumb/BreadCrumb.jsx";
+import { useCart } from "../../contexts/CartContext.jsx";
 
 const Body = () => {
     const { cartItems, setCartItems } = useCart();  // Get cartItems from CartContext

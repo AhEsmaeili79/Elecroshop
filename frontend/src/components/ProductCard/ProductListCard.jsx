@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { useCart } from '../../../contexts/CartContext';
-import { addProductToCart, updateCartItemQuantity, removeCartItem, fetchCartItem ,fetchAllCartItems } from './api/cartapi';
-import './css/ProductCard.css';
-import { useWishlist } from '../../../contexts/WishlistContext';  // Add this line
-import ColorOptions from '../../ProductDetail/ProductDetailTop/Components/ColorOptions';
-
+import { useCart } from '../../contexts/CartContext';
+import { addProductToCart, updateCartItemQuantity, removeCartItem, fetchCartItem ,fetchAllCartItems } from '../../api/cartApi';
+import './css/ProductListCard.css';
+import { useWishlist } from '../../contexts/WishlistContext';  // Add this line
+import ColorOptions from '../../utils/ColorOptions';
 
 const ProductListCard = ({ product, reviewsData }) => {
     const { cartItems, setCartItems } = useCart();

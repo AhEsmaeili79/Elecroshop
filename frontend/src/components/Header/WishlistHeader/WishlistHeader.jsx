@@ -1,4 +1,5 @@
-import wishlistHeader from '../../assets/images/page-header-bg.jpg'
+import wishlistHeader from '../../../assets/images/page-header-bg.jpg'
+
 const WishlistHeader = () => {
     return (
         <div className="page-header text-center" style={{ backgroundImage: `url(${wishlistHeader})` }}>

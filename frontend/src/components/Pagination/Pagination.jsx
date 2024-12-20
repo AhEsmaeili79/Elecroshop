@@ -1,4 +1,4 @@
-import './css/pagination.css';
+import './pagination.css';
 
 const Pagination = ({ totalProducts, productsPerPage, paginate, currentPage }) => {
     // Calculate total pages
