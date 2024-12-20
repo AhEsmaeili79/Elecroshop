@@ -7,11 +7,11 @@ import {
   fetchCartItem,
 } from '../../api/cartApi';
 import { fetchReviews } from '../../api/reviews';
-import './css/ProductListCard.css';
 import { useCart } from '../../contexts/CartContext'; // Import the useCart hook
 import { useWishlist } from '../../contexts/WishlistContext'; // Import the useWishlist hook
 import ColorOptions from '../../utils/ColorOptions';
 
+import './css/ProductCard.css';
 
 const ProductCard = ({ product, index }) => {
   const [cartItem, setCartItem] = useState(null);

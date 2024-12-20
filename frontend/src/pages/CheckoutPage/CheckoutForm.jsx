@@ -97,11 +97,13 @@ const CheckoutForm = () => {
     };
 
     try {
-      await createOrder(orderData);
+      const createdOrder  = await createOrder(orderData);
       refreshCart();
       localStorage.removeItem('selectedShipping');
       localStorage.removeItem('cartItems');
-      navigate('/orders');
+      // make navigate work 
+
+      // navigate(createdOrder.order_cod);
     } catch (error) {
       console.error("Error creating order:", error);
     }

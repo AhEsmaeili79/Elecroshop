@@ -21,7 +21,7 @@ export const fetchCartItems = async () => {
 
 export const fetchCartItem = async (productId, color_id) => {
   try {
-    const response = await axios.get(CART_API_URL, { headers: getAuthHeader() });
+    const response = await axios.get(CART_API_URL,getAuthHeaders());
     return response.data.find(item => item.product.id === parseInt(productId) && item.color.id === color_id) || null;
   } catch (error) {
     console.error('Error fetching cart item:', error.response?.data);
