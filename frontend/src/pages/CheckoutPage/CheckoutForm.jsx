@@ -10,6 +10,7 @@ const CheckoutForm = () => {
   const [userData, setUserData] = useState(null);
   const { cartItems, setCartItems } = useCart();
   const [addresses, setAddresses] = useState([]);
+  const [ordercode, setOrderCode] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [newAddress, setNewAddress] = useState({
@@ -30,9 +31,14 @@ const CheckoutForm = () => {
   const navigate = useNavigate();
   const { refreshCart } = useCart();
 
-  if (cartItems.length === 0) {
-    navigate('/'); // Navigate to the home page
-  }
+  useEffect(() => {
+    if (ordercode != '') {
+        navigate(`/orders/${ordercode}`);
+    }
+    else if (cartItems.length === 0) {
+      navigate('/'); // Navigate to the home page
+    }
+  }, [ordercode, cartItems,  navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -102,7 +108,7 @@ const CheckoutForm = () => {
       localStorage.removeItem('selectedShipping');
       localStorage.removeItem('cartItems');
       // make navigate work 
-
+      setOrderCode(createdOrder.order_code);
       // navigate(createdOrder.order_cod);
     } catch (error) {
       console.error("Error creating order:", error);
