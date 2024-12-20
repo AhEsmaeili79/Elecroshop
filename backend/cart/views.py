@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Cart, CartItem, get_or_create_cart
 from .serializers import CartSerializer, CartItemSerializer
 from product.models import Product, Color
+from django.db.models import Q
 
 class CartViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -17,7 +18,7 @@ class CartViewSet(viewsets.ViewSet):
 class CartItemViewSet(viewsets.ModelViewSet):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
-    permission_classes = [IsAuthenticated]  # Ensures only logged-in users can access
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return self.queryset.filter(cart__user=self.request.user)
@@ -25,59 +26,77 @@ class CartItemViewSet(viewsets.ModelViewSet):
     def create(self, request):
         cart = get_or_create_cart(request.user)
         product_id = request.data.get("product_id")
-        quantity = request.data.get(
-            "quantity", 1
-        )  # Default to 1 if quantity is not provided
+        quantity = request.data.get("quantity", 1)  # Default to 1 if not provided
         color_id = request.data.get("color_id")
 
-        # Check if the product and color combination is valid
+        # Check if product and color are valid
         product = Product.objects.filter(id=product_id).first()
         color = Color.objects.filter(id=color_id).first()
 
-        if not product or not color:
-            return Response({"detail": "Invalid product or color."}, status=status.HTTP_400_BAD_REQUEST)
+        if not product:
+            return Response({"detail": "Invalid product."}, status=status.HTTP_400_BAD_REQUEST)
+        if product.quantity == 0:
+            return Response({"detail": "Product is out of stock."}, status=status.HTTP_400_BAD_REQUEST)
+        if not color or color not in product.colors.all():
+            return Response({"detail": "Invalid color for this product."}, status=status.HTTP_400_BAD_REQUEST)
+        if quantity > product.quantity:
+            return Response(
+                {"detail": "Quantity exceeds available stock."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
-        if color not in product.colors.all():
-            return Response({"detail": "Selected color is not available for this product."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Check if the same product with the same color already exists in the cart
+        # Check if the product with the color already exists in the cart
         existing_item = CartItem.objects.filter(cart=cart, product=product, color=color).first()
 
         if existing_item:
-            # If the product is already in the cart, increase the quantity
-            existing_item.quantity = quantity
-            existing_item.color = color
+            # Update quantity if item already exists
+            total_quantity = existing_item.quantity + quantity
+            if total_quantity > product.quantity:
+                return Response(
+                    {"detail": "Total quantity exceeds available stock."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            existing_item.quantity = total_quantity
             existing_item.save()
             serializer = self.get_serializer(existing_item)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            # If the product is not in the cart, create a new item
-            serializer = self.get_serializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save(cart=cart)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # Create a new cart item
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(cart=cart)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None, partial=False):
         cart_item = self.get_object()
+        quantity = request.data.get("quantity")
 
-        if 'quantity' in request.data and 'color' not in request.data:
-            try:
-                quantity = int(request.data['quantity'])
-                if quantity > 0:
-                    cart_item.quantity = quantity
-                    cart_item.save()
-                    return Response(self.get_serializer(cart_item).data, status=status.HTTP_200_OK)
-                return Response({"detail": "Quantity must be greater than zero."}, status=status.HTTP_400_BAD_REQUEST)
-            except ValueError:
-                return Response({"detail": "Invalid quantity value."}, status=status.HTTP_400_BAD_REQUEST)
+        if not quantity:
+            return Response({"detail": "Quantity is required."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            quantity = int(quantity)
+        except ValueError:
+            return Response({"detail": "Invalid quantity value."}, status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = self.get_serializer(cart_item, data=request.data, partial=partial)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if quantity > cart_item.product.quantity:
+            return Response(
+                {"detail": "Quantity exceeds available stock."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
+        if quantity == 0:
+            # Remove this cart item
+            cart_item.delete()
+            return Response({"detail": "Item removed from cart."}, status=status.HTTP_204_NO_CONTENT)
+
+        cart_item.quantity = quantity
+        cart_item.save()
+
+        # If the product quantity is zero, remove it from all carts
+        if cart_item.product.quantity == 0:
+            CartItem.objects.filter(product=cart_item.product).delete()
+
+        serializer = self.get_serializer(cart_item)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def destroy(self, request, pk=None):
         cart_item = self.get_object()
