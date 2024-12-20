@@ -1,9 +1,8 @@
 import OwlCarousel from 'react-owl-carousel';
-import slide1 from '../../../assets/images/demos/demo-4/slider/slide-1.png';
-
+import slide1 from '../../assets/images/demos/demo-4/slider/slide-1.png';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-import "./css/slider.css"
+import "./slider.css"
 
 const Slider = () => {
   return (

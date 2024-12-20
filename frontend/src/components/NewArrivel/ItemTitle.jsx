@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchCategories } from './api/categoryapi'; 
-import TabItem from "../components/ItemTitle";
+import TabItem from './TabItem';
 import './css/Tabitem.css'
 
 const ItemTitle = ({ onCategoryChange, selectedCategory }) => {

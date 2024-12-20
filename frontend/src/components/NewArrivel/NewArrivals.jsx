@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ItemTitle from "./ItemTitle";
-import ProductCarousel from "./productsetcion"; // Make sure ProductCarousel is imported
+import ProductCarousel from '../../components/NewArrivel/productsetcion'  // Make sure ProductCarousel is imported
 
 const NewArrivals = () => {
   const [selectedCategory, setSelectedCategory] = useState(null); // Set to null to make "All" active initially

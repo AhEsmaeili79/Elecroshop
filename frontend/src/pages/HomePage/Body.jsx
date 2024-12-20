@@ -1,14 +1,14 @@
 // src/components/Main.js
-import Slider from "./Body/Slider";
-import Offer1 from "./offers/offer1";
-import Categories from "./Body/Categories";
-import NewArrivals from "./new-arrivals/NewArrivals";
-import Offer2 from "./offers/offer2";
-import DealsOutlet from "./offers/offer3";
-import BrandCarousel from "./Body/brands";
-import TrendingProducts from "./Body/Trending/Trending";
-import Recommendation from "./Body/Recommendation/Recommend";
-import IconBoxesContainer from "./Body/Terms/IconBoxesContainer";
+import Slider from "../../components/Slider/Slider";
+import Offer1 from "../../components/Offer/offer1";
+import Categories from "../../components/Categories/Categories";
+import NewArrivals from "../../components/NewArrivel/NewArrivals";
+import Offer2 from "../../components/Offer/offer2";
+import DealsOutlet from "../../components/Offer/offer3";
+import BrandCarousel from "../../components/Brand/brands";
+import TrendingProducts from "../../components/Trending/Trending";
+import Recommendation from "../../components/Recommendation/Recommend";
+import IconBoxesContainer from "../../components/Terms/IconBoxesContainer";
 import './css/body.css'
 
 const Main = () => {

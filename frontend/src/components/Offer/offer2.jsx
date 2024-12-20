@@ -1,5 +1,5 @@
-import banner1Image from "../../../assets/images/demos/demo-4/bg-1.jpg";
-import offer2Image from "../../../assets/images/demos/demo-4/camera.png";
+import banner1Image from "../../assets/images/demos/demo-4/bg-1.jpg";
+import offer2Image from "../../assets/images/demos/demo-4/camera.png";
 
 const Offer2 = () => {
     return (

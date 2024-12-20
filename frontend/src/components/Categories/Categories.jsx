@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { fetchCategories } from '../../Home/new-arrivals/api/categoryapi';  // Import fetchCategories from api.js
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
-import './css/category.css'
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { fetchCategories } from '../../api/Category';
+
+import './category.css'
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);

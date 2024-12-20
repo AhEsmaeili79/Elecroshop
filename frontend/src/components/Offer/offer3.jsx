@@ -1,7 +1,7 @@
-import CountdownTimer from "../components/countdown/Countdown"; // Import your CountdownTimer component
+import CountdownTimer from "../Countdown/Countdown"; // Import your CountdownTimer component
 
-import bg1 from "../../../assets/images/demos/demo-4/deal/bg-1.jpg";
-import bg2 from "../../../assets/images/demos/demo-4/deal/bg-2.jpg";
+import bg1 from "../../assets/images/demos/demo-4/deal/bg-1.jpg";
+import bg2 from "../../assets/images/demos/demo-4/deal/bg-2.jpg";
 
 const DealsOutlet = () => {
     return (

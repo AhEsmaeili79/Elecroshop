@@ -1,7 +1,7 @@
-import Header from '../Header/Header';
+import Header from '../../components/Header/Header';
 import Body from './Body';
 import { UserProvider } from '../../contexts/UserContext';
-import HomePageFooter from '../Footer/HomePageFooter';
+import HomePageFooter from '../../components/Footer/HomePageFooter';
 
 const HomePage = () => {
     return (

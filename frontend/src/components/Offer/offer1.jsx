@@ -1,7 +1,7 @@
 // src/components/Categories.js
-import banner1 from '../../../assets/images/demos/demo-4/banners/banner-1.png';
-import banner2 from '../../../assets/images/demos/demo-4/banners/banner-2.jpg';
-import banner3 from '../../../assets/images/demos/demo-4/banners/banner-3.png';
+import banner1 from '../../assets/images/demos/demo-4/banners/banner-1.png';
+import banner2 from '../../assets/images/demos/demo-4/banners/banner-2.jpg';
+import banner3 from '../../assets/images/demos/demo-4/banners/banner-3.png';
 
 const banners = [
   { img: banner1, subtitle: "Smart Offer", title: "Samsung Galaxy Note9", offer:"Save $150" },

@@ -1,14 +1,11 @@
-
-
-import ProductCard from '../../components/ProductCard';
+import ProductCard from "../ProductCard/ProductCard";
 
 // Product Images
-import product1 from "../../../../assets/images/demos/demo-4/products/product-6.jpg";
-import product2 from "../../../../assets/images/demos/demo-4/products/product-7.jpg";
-import product3 from "../../../../assets/images/demos/demo-4/products/product-8.jpg";
-import product4 from "../../../../assets/images/demos/demo-4/products/product-9.jpg";
-import product5 from "../../../../assets/images/demos/demo-4/products/product-5.jpg";
-
+import product1 from "../../assets/images/demos/demo-4/products/product-6.jpg";
+import product2 from "../../assets/images/demos/demo-4/products/product-7.jpg";
+import product3 from "../../assets/images/demos/demo-4/products/product-8.jpg";
+import product4 from "../../assets/images/demos/demo-4/products/product-9.jpg";
+import product5 from "../../assets/images/demos/demo-4/products/product-5.jpg";
 
 const RecommendProduct = () => {
 

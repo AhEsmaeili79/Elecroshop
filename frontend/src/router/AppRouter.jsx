@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { fetchUserData } from '../api/user.js'
-import HomePage from '../pages/HomePage/HomePage.jsx';
+import { fetchUserData } from '../api/user';
+import HomePage from '../pages/HomePage/HomePage'
 import CartPage from '../pages/CartPage/CartPage.jsx';
 import ProductDetail from '../pages/ProductDetailPage/ProductDetail.jsx';
 import WishlistPage from '../pages/WishlistPage/WishlistPage.jsx';

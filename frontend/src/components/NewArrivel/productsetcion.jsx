@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-import ProductCard from '../components/ProductCard';
-import { fetchProductList } from '../../ProductDetail/api/productdetail'; // Import the new API
+import ProductCard from '../ProductCard/ProductCard';
+import { fetchProductList } from '../../api/productdetail';
 import './css/productsection.css';
 
 const ProductCarousel = ({ categoryId, fadeKey }) => {
