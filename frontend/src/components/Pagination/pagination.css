@@ -1,0 +1,12 @@
+.pagination .page-item.disabled .page-link {
+    color: #ccc;
+    pointer-events: none;
+    cursor: not-allowed;
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+.pagination .page-item.disabled .page-link-prev i,
+.pagination .page-item.disabled .page-link-next i {
+    color: #ccc;
+}

@@ -1,0 +1,61 @@
+/* OrdersList.css */
+
+/* General Order Item Styles */
+.order-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    position: relative;
+  }
+  
+  .order-timestamp {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .order-items {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  
+  .order-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  .total-price {
+    font-weight: bold;
+  }
+  
+  /* Pagination Styles */
+  .pagination-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .pagination-button {
+    margin: 0 5px;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .pagination-button.disabled {
+    cursor: not-allowed;
+    background-color: #ccc;
+  }
+  
+  .pagination-button.active {
+    background-color: #007bff;
+    color: white;
+  }
+  

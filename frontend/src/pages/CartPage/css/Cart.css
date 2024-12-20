@@ -1,0 +1,370 @@
+/* Global Cart Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f8f8;
+}
+
+/* Cart Item Styles */
+.cart-item-image {
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+  width: auto; /* Prevent stretching */
+
+}
+
+.cart-item-image:hover {
+  transform: scale(1.05);
+}
+
+.product-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  text-decoration: none;
+  text-align: center; /* Center align the title */
+}
+
+.product-title:hover {
+  color: #007bff;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.quantity-btn {
+  width: 36px;
+  height: 36px;
+  font-size: 20px;
+  font-weight: 100;
+  color: #333;
+  background-color: #f0f0f0;
+  border: 2px solid #e7e7e7;
+  border-radius: 10px;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quantity-btn:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.quantity-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+}
+
+.price-col, .total-col, .remove-col {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-title,
+.product-color,
+.product-seller {
+  margin: 0; /* Optional: to reduce space between each line */
+  text-align: left;
+}
+
+
+.remove-col .btn-remove {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #ff3b30;
+  transition: color 0.3s;
+  padding-right: 30px;
+}
+
+.remove-col .btn-remove:hover {
+  color: #d32f2f;
+}
+
+/* Cart Table Styles */
+.table-cart {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.table-cart th,
+.table-cart td {
+  padding: 20px 15px;
+  font-size: 16px;
+  text-align: left;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.table-cart th {
+  background-color: #f8f8f8;
+  font-weight: 700;
+}
+
+.table-cart td {
+  border-bottom: 1px solid #ddd;
+}
+
+/* Cart Summary Styles */
+.summary-cart {
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.summary-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.summary-subtotal,
+.summary-total,
+.summary-shipping-row {
+  font-size: 16px;
+  padding: 12px 0;
+}
+
+.summary-subtotal td,
+.summary-total td {
+  font-weight: 700;
+}
+
+.summary-shipping td {
+  font-size: 14px;
+  color: #666;
+}
+
+.summary-shipping-row {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.summary-shipping-row td {
+  padding-left: 10px;
+}
+
+.summary-total td {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.summary-cart .btn-order {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  padding: 8px;
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.summary-cart .btn-order:hover {
+  background-color: #0056b3;
+}
+
+.summary-cart .btn-outline-dark-2 {
+  font-size: 16px;
+  padding: 12px;
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 4px;
+  border-color: #666;
+  background-color: #fff;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.summary-cart .btn-outline-dark-2:hover {
+  background-color: #f4f4f4;
+  color: #007bff;
+}
+
+/* Shipping Radio Button Styling */
+.custom-control {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.custom-control-input {
+  width: 18px;
+  height: 18px;
+  margin-right: 12px;
+  accent-color: #007bff;
+}
+
+.custom-control-label {
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.custom-control-label:hover {
+  color: #007bff;
+}
+
+/* Style for color and seller text */
+.product-color,
+.product-seller {
+  font-size: 14px; /* Default font size */
+  margin-top: 5px; /* Space between name and other info */
+  color: #555; /* Subtle color for these text elements */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .product-color,
+  .product-seller {
+    font-size: 12px; /* Smaller font size on small screens */
+    margin-top: 10px; /* Increase space between name and other info on smaller screens */
+  }
+
+  .product {
+    text-align: center; /* Center align product info on smaller screens */
+  }
+
+  /* Stack color and seller below each other */
+  .product-color,
+  .product-seller {
+    display: block; /* Ensure each item takes full width */
+    margin-top: 10px; /* Ensure space between elements */
+  }
+
+  /* Stack the cart columns for smaller screens */
+  .table-cart th, .table-cart td {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Adjust layout for cart item images */
+  .cart-item-image {
+    width: 70px;  /* Adjust image size for smaller screens */
+    height: 70px; /* Adjust height to maintain aspect ratio */
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .product-title {
+    font-size: 14px;
+    text-align: center; /* Reduce font size */
+  }
+
+  /* Center-align the quantity buttons */
+  .quantity-controls {
+    justify-content: center;
+    gap: 8px; /* Reduce gap for mobile */
+  }
+
+  .quantity-btn {
+    font-size: 18px; /* Smaller buttons */
+  }
+
+  /* Price and total columns */
+  .price-col, .total-col, .remove-col {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Specific for very small screens below 438px */
+@media (max-width: 600px) {
+
+  .table-mobile .product-col .product-title {
+    text-align: center;
+}
+  /* Reduce image size even further to ensure it fits */
+  .cart-item-image {
+    width: 100px; /* Smaller image */
+ /* Adjust height to maintain aspect ratio */
+    border-radius: 5px;
+  }
+
+  /* Allow the table to be scrollable if necessary */
+  .table-cart {
+    overflow-x: auto;
+    display: block; /* Enable horizontal scrolling */
+  }
+
+  /* Ensure text content fits within small screens */
+  .product-title {
+    font-size: 12px;
+    text-align: center; /* Reduce title size */
+  }
+
+  /* Make quantity controls smaller and more compact */
+  .quantity-controls {
+    gap: 5px; /* Reduce gap between buttons */
+  }
+
+  .quantity-btn {
+    width: 28px; /* Smaller buttons */
+    height: 28px; /* Smaller buttons */
+    font-size: 14px; /* Smaller font size */
+  }
+
+  /* Price and total columns */
+  .price-col, .total-col, .remove-col {
+    text-align: center;
+    font-size: 14px; /* Smaller font size */
+  }
+
+  /* Product info layout */
+  .product {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product-title,
+  .product-color,
+  .product-seller,
+  .quantity-controls,
+  .price-col {
+    width: 100%;
+    text-align: center;
+  }
+
+  .product-color,
+  .product-seller {
+    font-size: 12px;
+    margin-top: 8px;
+  }
+}
+
+/* For screens with min-width of 450px, ensure quantity controls are on one line and center the title */
+@media (min-width: 450px) {
+  .quantity-controls {
+    gap: 16px; /* Maintain space between the buttons */
+  }
+}
