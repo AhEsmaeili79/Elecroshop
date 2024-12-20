@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { addToWishlist, removeFromWishlist, fetchWishlist } from '../components/ProductList/Components/api/wishlist';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { addToWishlist, removeFromWishlist, fetchWishlist } from '../api/wishlistApi';
 
 const WishlistContext = createContext();
 

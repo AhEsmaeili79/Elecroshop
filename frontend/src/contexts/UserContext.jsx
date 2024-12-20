@@ -1,6 +1,6 @@
 // src/contexts/UserContext.js
-import React, { createContext, useState, useEffect } from 'react';
-import { fetchUserData } from '../components/api/user';
+import { createContext, useState, useEffect } from 'react';
+import { fetchUserData } from '../api/user';
 
 export const UserContext = createContext();
 

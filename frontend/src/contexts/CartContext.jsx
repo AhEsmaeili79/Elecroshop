@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { fetchAllCartItems } from '../components/Wishlist/api/cartApi'; // Adjust the path as needed
+import { fetchAllCartItems } from '../api/cartApi';
 
 // Create CartContext
 const CartContext = createContext();
