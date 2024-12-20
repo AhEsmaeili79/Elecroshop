@@ -1,6 +1,6 @@
 // src/auth/AuthForm.jsx
-import React, { useState } from 'react';
-import { loginUser, signupUser } from '../api/auth'; // Import the API functions
+import { useState } from 'react';
+import { loginUser, signupUser } from '../../api/auth'; // Import the API functions
 
 const AuthForm = ({ isSignUp }) => {
   const [username, setUsername] = useState('');  // State to store username input

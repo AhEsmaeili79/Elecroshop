@@ -1,13 +1,13 @@
 
-import CartMain from "./CartSection/CartMain";
-import Footer from "../Footer/Footer";
-import HeaderSection from "../Header/HeaderMiddle/HeaderSection";
+import CartBody from "./CartBody";
+import Footer from "../../components/Footer/Footer";
+import HeaderSection from "../../components/Header/HeaderMiddle/HeaderSection";
 
 const CartPage = () => {
   return (
     <>
         <HeaderSection/>
-        <CartMain/>
+        <CartBody/>
         <Footer/>
     </>
     );

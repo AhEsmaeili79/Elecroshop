@@ -1,9 +1,9 @@
-import React, { useEffect, useState }  from 'react';
-import Modal from '../../auth/Modal';
+import { useEffect, useState }  from 'react';
+import Modal from '../../../pages/AuthPage/Modal';
 import HeaderTop from '../HeaderTop';
 
-import { fetchUserData } from '../../api/user';
-import { logoutUser } from '../../api/auth';
+import { fetchUserData } from '../../../api/user';
+import { logoutUser } from '../../../api/auth';
 import HeaderMid from './HeaderMid';
 
 

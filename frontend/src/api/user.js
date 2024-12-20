@@ -1,5 +1,3 @@
-
-
 // src/components/api/user.js
 import axios from 'axios';
 

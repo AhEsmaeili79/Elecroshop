@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import CartHeader from "./Carts/CartHeader";
-import CartBottom from "./Carts/CartBottom";
-import CartSection from "./Carts/CartSection";
-import CartSummary from "./Carts/CartSummary";
-import { useCart } from '../../../contexts/CartContext'; // Importing useCart hook
+import CartHeader from '../../components/Header/CartHeader/CartHeader';
+import CartBottom from './Components/CartBottom';
+import CartSection from './Components/CartSection';
+import CartSummary from './Components/CartSummary';
+import { useCart } from '../../contexts/CartContext'; // Importing useCart hook
 import './css/cartmain.css'
 
-const CartMain = () => {
+const CartBody = () => {
   const { cartItems, setCartItems } = useCart();  // Get cartItems from CartContext
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -37,4 +37,4 @@ const CartMain = () => {
   );
 };
 
-export default CartMain;
+export default CartBody;

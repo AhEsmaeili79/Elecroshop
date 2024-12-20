@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { fetchCartItems, updateCartItemQuantity, removeCartItem } from '../../api/cartApi';
 import CartItem from './CartItem';
 
