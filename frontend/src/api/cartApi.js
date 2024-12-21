@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Base API URLs
-const CART_API_URL = 'http://127.0.0.1:8000/api/cart-items/';
+// Base API URL from environment variable
+const CART_API_URL = import.meta.env.VITE_API_URL + '/cart-items/';
 
 // Utility function to get the token from localStorage
 const getAuthToken = () => localStorage.getItem('token');
@@ -21,7 +21,7 @@ export const fetchCartItems = async () => {
 
 export const fetchCartItem = async (productId, color_id) => {
   try {
-    const response = await axios.get(CART_API_URL,getAuthHeaders());
+    const response = await axios.get(CART_API_URL, getAuthHeaders());
     return response.data.find(item => item.product.id === parseInt(productId) && item.color.id === color_id) || null;
   } catch (error) {
     console.error('Error fetching cart item:', error.response?.data);
@@ -92,6 +92,3 @@ export const removeCartItem = async (cartItemId) => {
     throw new Error("Failed to remove item from cart");
   }
 };
-
-
-

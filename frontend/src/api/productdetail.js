@@ -1,10 +1,10 @@
 // src/components/Product/api.js
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000/api/customer-products/';
-const CART_API_URL = 'http://127.0.0.1:8000/api/cart-items/';
-const WISHLIST_API_URL = 'http://127.0.0.1:8000/api/wishlist/';
-const USER_API_URL = 'http://127.0.0.1:8000/api/users';
+const API_URL = import.meta.env.VITE_API_URL + '/customer-products/';
+const CART_API_URL = import.meta.env.VITE_API_URL + '/cart-items/';
+const WISHLIST_API_URL = import.meta.env.VITE_API_URL + '/wishlist/';
+const USER_API_URL = import.meta.env.VITE_API_URL + '/users';
 
 const getAuthHeader = () => {
   const token = localStorage.getItem('token');

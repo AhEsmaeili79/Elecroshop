@@ -1,36 +1,36 @@
 import axios from 'axios';
 
-// Set up the base URL for the API
-const API_URL = "http://127.0.0.1:8000/api/users/addresses/";
+// Get the API URL from .env (note the 'VITE_' prefix)
+const API_URL = import.meta.env.VITE_API_URL;
 
 // Get the token from local storage
 const token = localStorage.getItem('token');
 
 // Axios configuration with headers
-const config = {
+const axiosInstance = axios.create({
+  baseURL: API_URL,
   headers: {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json',
   },
-};
+});
 
 // Fetch all addresses
 export const getAddress = () => {
-  return axios.get(API_URL, config);
+  return axiosInstance.get('/users/addresses/');
 };
 
 // Add a new address
 export const addAddress = (addressData) => {
-  return axios.post(API_URL, addressData, config);
+  return axiosInstance.post('/users/addresses/', addressData);
 };
 
 // Update an existing address
 export const updateAddress = (id, addressData) => {
-  return axios.put(`${API_URL}${id}/`, addressData, config);
+  return axiosInstance.put(`/users/addresses/${id}/`, addressData);
 };
 
 // Delete an address
 export const deleteAddress = (id) => {
-  return axios.delete(`${API_URL}${id}/`, config);
+  return axiosInstance.delete(`/users/addresses/${id}/`);
 };
-

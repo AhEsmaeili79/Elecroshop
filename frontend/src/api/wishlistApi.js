@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const WISHLIST_API_URL = 'http://127.0.0.1:8000/api/wishlist/';
+const WISHLIST_API_URL = import.meta.env.VITE_API_URL + '/wishlist/';
 
 const getAuthHeader = () => {
     const token = localStorage.getItem('token');

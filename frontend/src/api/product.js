@@ -1,8 +1,8 @@
 // src/Components/api/product.js
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000/api/products/';
-const API_URL_PRODUCT = 'http://127.0.0.1:8000/api/customer-products/';
+const API_URL = import.meta.env.VITE_API_URL + '/products/';
+const API_URL_PRODUCT = import.meta.env.VITE_API_URL + 'customer-products/';
 // Fetch token from localStorage
 const token = localStorage.getItem('token');
 

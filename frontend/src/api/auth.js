@@ -2,8 +2,8 @@
 
 import axios from 'axios';
 
-// Define your API base URL
-const API_URL = 'http://127.0.0.1:8000/api/users';
+// Get the API base URL from the environment variable
+const API_URL = import.meta.env.VITE_API_URL + '/users';
 
 // Function to log in a user
 export const loginUser = async (username, password) => {
@@ -16,7 +16,6 @@ export const loginUser = async (username, password) => {
   localStorage.setItem('refresh_token', response.data.refresh);
   return response.data;
 };
-
 
 // Function to sign up a user
 export const signupUser = async (username, email, password) => {
@@ -33,7 +32,6 @@ export const signupUser = async (username, email, password) => {
     throw error; // Rethrow the error after logging it
   }
 };
-
 
 // Function to log out a user
 export const logoutUser = async () => {
@@ -57,7 +55,6 @@ export const logoutUser = async () => {
   localStorage.removeItem('refresh_token');
   return response.data;
 };
-
 
 // Function to refresh the access token
 export const refreshToken = async () => {

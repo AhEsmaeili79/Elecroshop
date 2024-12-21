@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 // Define your API base URL
-const API_URL = 'http://127.0.0.1:8000/api/users';
+const API_URL = import.meta.env.VITE_API_URL + '/users';
 
 // Function to fetch user data
 export const fetchUserData = async () => {

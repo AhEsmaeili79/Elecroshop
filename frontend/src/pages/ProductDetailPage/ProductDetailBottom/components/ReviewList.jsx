@@ -75,7 +75,6 @@ const ReviewList = ({ reviews, onDelete, onEdit }) => {
                   <div className="review-content">
                     <p>{review.comment}</p>
                   </div>
-                  {console.log(review.user)}
                   <div className="review-action">
                     {currentUserId === review.user && (
                       <>
