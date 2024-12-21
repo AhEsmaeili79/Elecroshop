@@ -15,4 +15,8 @@
     margin: 0 auto; /* Center horizontally within parent */
     padding: 10px 0; /* Optional: Add some vertical padding */
   }
-  
+
+  .product.product-7{
+    border: 1px solid rgb(231, 231, 231);
+    border-radius: 5px;
+  }

@@ -7,8 +7,8 @@ import {
   fetchCartItem,
 } from '../../api/cartApi';
 import { fetchReviews } from '../../api/reviews';
-import { useCart } from '../../contexts/CartContext'; // Import the useCart hook
-import { useWishlist } from '../../contexts/WishlistContext'; // Import the useWishlist hook
+import { useCart } from '../../contexts/CartContext'; 
+import { useWishlist } from '../../contexts/WishlistContext'; 
 import ColorOptions from '../../utils/ColorOptions';
 
 import './css/ProductCard.css';
@@ -88,9 +88,9 @@ const ProductCard = ({ product, index }) => {
   const ratingPercentage = (averageRating / 5) * 100;
 
   const handleAddToCart = async () => {
-    if (!product || !product.id) return;
+    if (!product || !product.id || product.quantity === 0) return;
     try {
-      const addedItem = await addProductToCart(product.id, quantity , selectedColor);
+      const addedItem = await addProductToCart(product.id, quantity, selectedColor);
       setCartItem(addedItem);
       setCartItems((prevItems) => [...prevItems, addedItem]);
     } catch (error) {
@@ -100,7 +100,7 @@ const ProductCard = ({ product, index }) => {
   };
 
   const handleQuantityChange = async (newQuantity) => {
-    if (newQuantity < 1) return;
+    if (newQuantity < 1 || product.quantity === 0) return;
 
     try {
       const updatedItem = await updateCartItemQuantity(cartItem.id, newQuantity);
@@ -127,12 +127,12 @@ const ProductCard = ({ product, index }) => {
 
   const handleColorChange = async (color) => {
     setSelectedColor(color);
-  
+
     // Find the cart item for the selected color
     const existingCartItem = cartItems.find(
       (item) => item.product.id === product.id && item.color.id === color
     );
-  
+
     if (existingCartItem) {
       // If the cart item exists for the selected color, set it
       setCartItem(existingCartItem);
@@ -144,7 +144,7 @@ const ProductCard = ({ product, index }) => {
         if (fetchedCartItem) {
           setCartItem(fetchedCartItem);
           setQuantity(fetchedCartItem.quantity);
-  
+
           // Add fetched cart item to the cartItems context if not already present
           setCartItems((prevItems) => {
             if (!prevItems.some((item) => item.id === fetchedCartItem.id)) {
@@ -166,6 +166,8 @@ const ProductCard = ({ product, index }) => {
   if (!product || !product.id) {
     return <p>Loading...</p>;
   }
+
+  const isOutOfStock = product.quantity === 0;
 
   return (
     <div className="product product-2" key={index}>
@@ -199,8 +201,14 @@ const ProductCard = ({ product, index }) => {
           </a>
         </div>
         <div className="product-action">
-          {cartItem ? (
-            <div className="quantity-controls">
+          {isOutOfStock ? (
+            <a
+              className="btn-product btn-cart"
+              title="Out of Stock"
+              disabled
+            ></a>
+          ) : cartItem ? (
+            <div className="qty-control">
               <button
                 onClick={() => {
                   if (quantity === 1) {
@@ -225,7 +233,6 @@ const ProductCard = ({ product, index }) => {
             </div>
           ) : (
             <a
-              href="#"
               onClick={(e) => {
                 e.preventDefault();
                 handleAddToCart();
@@ -240,7 +247,7 @@ const ProductCard = ({ product, index }) => {
 
       <div className="product-body products-section">
         <div className="product-cat">
-          <a href="#">
+          <a>
             {typeof product.category === 'string' ? product.category : product.category?.name || 'Unknown Category'}
           </a>
         </div>

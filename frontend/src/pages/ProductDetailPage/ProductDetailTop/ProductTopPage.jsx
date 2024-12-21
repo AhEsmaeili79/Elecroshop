@@ -31,19 +31,35 @@ const ProductTopPage = ({ productId }) => {
   useEffect(() => {
     const loadProductDetails = async () => {
       try {
+        // Fetch product details
         const data = await fetchProductDetails(productId);
         setProduct(data);
         setActiveImage(data.main_photo);
+  
+        // Check product availability
+        if (data.quantity === 0) {
+          setButtonText("Out of Stock");
+          setbtnClass("outofstockbtn");
+          setIsInCart(false); // Disable cart actions if out of stock
+        } else {
+          setButtonText("Add to Cart");
+          setbtnClass("addcartbtn");
+          setIsInCart(false); // Enable cart actions if product is in stock
+        }
+  
         setLoading(false);
-
+  
+        // Fetch cart items and check if the product is already in the cart
         const cartData = await fetchAllCartItems();
         setCartItems(cartData);
-
+  
         const cartItem = cartData.find(
           (item) =>
             item.product.id === productId &&
             (!selectedColor || item.color.id === selectedColor)
         );
+        
+        // If product is found in the cart, update state for quantity and button
         if (cartItem) {
           setQuantity(cartItem.quantity);
           setButtonText("Remove Item");
@@ -56,9 +72,10 @@ const ProductTopPage = ({ productId }) => {
         setLoading(false);
       }
     };
-
+  
     loadProductDetails();
   }, [productId, selectedColor]);
+  
 
   useEffect(() => {
     const loadWishlist = async () => {
@@ -81,6 +98,15 @@ const ProductTopPage = ({ productId }) => {
       return;
     }
 
+    // Check product availability
+    if (product.quantity === 0) {
+      alert("Sorry, this product is out of stock.");
+      setButtonText("Out of Stock");
+      setbtnClass("outofstockbtn");
+      return; // Disable the button and do nothing
+    }
+
+    // If product is in stock, proceed with adding/updating the cart
     try {
       setButtonText("Processing...");
       const cartItem = cartItems.find(
@@ -90,8 +116,10 @@ const ProductTopPage = ({ productId }) => {
       );
 
       if (cartItem) {
-        await updateCartItemQuantity(cartItem.id, quantity,selectedColor);
+        // Update cart item quantity
+        await updateCartItemQuantity(cartItem.id, quantity, selectedColor);
       } else {
+        // Add new product to cart
         await addProductToCart(product.id, quantity, selectedColor);
       }
 
@@ -107,6 +135,7 @@ const ProductTopPage = ({ productId }) => {
       setbtnClass("addcartbtn");
     }
   };
+
 
   const handleRemoveFromCart = async () => {
     try {
@@ -188,27 +217,33 @@ const ProductTopPage = ({ productId }) => {
 
   useEffect(() => {
     const updateQuantity = async () => {
-      // Use newQuantity directly instead of state, since state isn't updated instantly
       if (quantity > 0 && selectedColor) {
+        // Check product availability before updating cart
+        if (product.quantity === 0) {
+          alert("Sorry, this product is out of stock.");
+          return; // Disable any cart update if out of stock
+        }
+  
         const cartItem = cartItems.find(
           (item) =>
             item.product.id === product.id &&
             item.color.id === selectedColor
         );
-    
+  
         if (cartItem) {
-          // Update the cart item quantity
+          // Update the cart item quantity based on selected quantity
           await updateCartItemQuantity(cartItem.id, quantity, selectedColor);
-        } 
+        }
       }
-    
+  
       // Fetch the updated cart items after updating the quantity
       const cartData = await fetchAllCartItems();
       setCartItems(cartData);
     };
     updateQuantity();
-
+  
   }, [quantity]);
+  
   
   
 
