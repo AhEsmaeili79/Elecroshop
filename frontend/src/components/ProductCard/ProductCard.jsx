@@ -65,7 +65,7 @@ const ProductCard = ({ product, index }) => {
   // Handle adding/removing product from wishlist
   const handleWishlistToggle = async () => {
     if (!localStorage.getItem("token")) {
-      alert("Please log in to add to wishlist.");
+      alert("لطفاً برای افزودن به لیست علاقه‌مندی‌ها وارد شوید.");
       return;
     }
 
@@ -78,8 +78,8 @@ const ProductCard = ({ product, index }) => {
         await handleAddToWishlist(product.id);
       }
     } catch (err) {
-      console.error("Error updating wishlist:", err);
-      alert("Failed to update wishlist. Please try again.");
+      console.error("خطا در به‌روزرسانی لیست علاقه‌مندی‌ها:", err);
+      alert("خطا در به‌روزرسانی لیست علاقه‌مندی‌ها. لطفاً دوباره تلاش کنید.");
     } finally {
       setIsWishlistLoading(false);
     }
@@ -94,7 +94,7 @@ const ProductCard = ({ product, index }) => {
       setCartItem(addedItem);
       setCartItems((prevItems) => [...prevItems, addedItem]);
     } catch (error) {
-      console.error('Error adding product to cart:', error);
+      console.error('خطا در افزودن محصول به سبد خرید:', error);
       alert(error.message);
     }
   };
@@ -110,7 +110,7 @@ const ProductCard = ({ product, index }) => {
         prevItems.map((item) => (item.id === cartItem.id ? updatedItem : item))
       );
     } catch (error) {
-      console.error('Error updating cart item quantity:', error);
+      console.error('خطا در به‌روزرسانی تعداد آیتم سبد خرید:', error);
     }
   };
 
@@ -121,7 +121,7 @@ const ProductCard = ({ product, index }) => {
       setQuantity(1);
       setCartItems((prevItems) => prevItems.filter((item) => item.id !== cartItem.id));
     } catch (error) {
-      console.error('Error removing item from cart:', error);
+      console.error('خطا در حذف آیتم از سبد خرید:', error);
     }
   };
 
@@ -158,13 +158,13 @@ const ProductCard = ({ product, index }) => {
           setQuantity(1);
         }
       } catch (error) {
-        console.error('Error fetching cart item:', error);
+        console.error('خطا در بارگذاری آیتم سبد خرید:', error);
       }
     }
   };
 
   if (!product || !product.id) {
-    return <p>Loading...</p>;
+    return <p>در حال بارگذاری...</p>;
   }
 
   const isOutOfStock = product.quantity === 0;
@@ -182,7 +182,7 @@ const ProductCard = ({ product, index }) => {
         <Link to={`/product/${product.id}`} key={product.id}>
           <img
             src={product.main_photo || '/default-image.jpg'}
-            alt={product.name || 'Product Image'}
+            alt={product.name || 'تصویر محصول'}
             className="product-image"
           />
         </Link>
@@ -190,13 +190,13 @@ const ProductCard = ({ product, index }) => {
           <a
             onClick={handleWishlistToggle}
             className={`btn-product-icon btn-wishlist btn-expandable ${isInWishlist ? 'active' : ''}`}
-            title="Add to wishlist"
+            title="افزودن به لیست علاقه‌مندی‌ها"
             disabled={isWishlistLoading}
           >
             {isWishlistLoading ? (
-              <span>Loading...</span>
+              <span>در حال بارگذاری...</span>
             ) : (
-              <span>{isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}</span>
+              <span>{isInWishlist ? 'حذف از لیست علاقه‌مندی‌ها' : 'افزودن به لیست علاقه‌مندی‌ها'}</span>
             )}
           </a>
         </div>
@@ -204,7 +204,7 @@ const ProductCard = ({ product, index }) => {
           {isOutOfStock ? (
             <a
               className="btn-product btn-cart"
-              title="Out of Stock"
+              title="تمام شده"
               disabled
             ></a>
           ) : cartItem ? (
@@ -218,7 +218,7 @@ const ProductCard = ({ product, index }) => {
                   }
                 }}
                 className="btn-product btn-quantity"
-                title="Decrease quantity"
+                title="کاهش تعداد"
               >
                 <span>-</span>
               </button>
@@ -226,7 +226,7 @@ const ProductCard = ({ product, index }) => {
               <button
                 onClick={() => handleQuantityChange(quantity + 1)}
                 className="btn-product btn-quantity"
-                title="Increase quantity"
+                title="افزایش تعداد"
               >
                 <span>+</span>
               </button>
@@ -238,32 +238,32 @@ const ProductCard = ({ product, index }) => {
                 handleAddToCart();
               }}
               className="btn-product btn-cart"
-              title="Add to cart"
+              title="افزودن به سبد خرید"
             ></a>
           )}
-          <a href="popup/quickView.html" className="btn-product btn-quickview" title="Quick view"></a>
+          <a href="popup/quickView.html" className="btn-product btn-quickview" title="مشاهده سریع"></a>
         </div>
       </figure>
 
       <div className="product-body products-section">
         <div className="product-cat">
           <a>
-            {typeof product.category === 'string' ? product.category : product.category?.name || 'Unknown Category'}
+            {typeof product.category === 'string' ? product.category : product.category?.name || 'دسته‌بندی ناشناخته'}
           </a>
         </div>
         <h3 className="product-title">
           <Link to={`/product/${product.id}`} key={product.id}>
-            {product.name || 'Unnamed Product'}
+            {product.name || 'محصول بی‌نام'}
           </Link>
         </h3>
         <div className="product-price">
           {product.oldPrice ? (
             <>
-              <span className="new-price">{product.price || 'N/A'}</span>
+              <span className="new-price">{product.price || 'نامشخص'}</span>
               <span className="old-price">{product.oldPrice}</span>
             </>
           ) : (
-            product.price || 'N/A'
+            product.price || 'نامشخص'
           )}
         </div>
         <div className="details-row-color">
@@ -277,7 +277,7 @@ const ProductCard = ({ product, index }) => {
           <div className="ratings">
             <div className="ratings-val" style={{ width: `${ratingPercentage}%` }}></div>
           </div>
-          <span className="ratings-text">({reviewsCount} Reviews)</span>
+          <span className="ratings-text">({reviewsCount} نقد و بررسی)</span>
         </div>
       </div>
     </div>

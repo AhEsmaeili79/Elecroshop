@@ -1,10 +1,9 @@
-
 import OwlCarousel from 'react-owl-carousel'; // Import the React Owl Carousel component
 import 'owl.carousel/dist/assets/owl.carousel.css'; // Import the styles
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import ProductCard from '../../components/ProductCard/ProductCard';
 
-// Product Images
+// تصاویر محصول
 import product1 from "../../assets/images/demos/demo-4/products/product-6.jpg";
 import product2 from "../../assets/images/demos/demo-4/products/product-7.jpg";
 import product3 from "../../assets/images/demos/demo-4/products/product-8.jpg";
@@ -12,12 +11,12 @@ import product4 from "../../assets/images/demos/demo-4/products/product-9.jpg";
 import product5 from "../../assets/images/demos/demo-4/products/product-5.jpg";
 import banner from "../../assets/images/demos/demo-4/banners/banner-4.jpg"
 
-// Utility function to shuffle the array
+// تابع کمکی برای مخلوط کردن آرایه
 const shuffleArray = (array) => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap elements
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // جابجایی عناصر
   }
   return shuffled;
 };
@@ -36,17 +35,17 @@ const ProductCarousel = () => {
     }
   };
 
-  // Category products
+  // محصولات دسته‌بندی
   const products = [
-    { img: product5, label: 'Top', category: 'TV & Home Theater', title: 'Samsung - 55" Class LED 2160p Smart', price: '$899.99', rating: 60, reviews: 5 },
-    { img: product1, label: 'Top', category: 'Laptops', title: 'MacBook Pro 13" Display, i5', price: '$1,199.99', rating: 100, reviews: 4 },
-    { img: product3, label: 'New', category: 'Tablets', title: 'Apple - 11 Inch iPad Pro 256GB', price: '$899.99', rating: 80, reviews: 4 },
-    { img: product2, label: '', category: 'Audio', title: 'Bose - SoundLink Bluetooth Speaker', price: '$79.99', rating: 60, reviews: 6 },
-    { img: product4, label: 'Top Sale', category: 'Cell Phone', title: 'Google - Pixel 3 XL 128GB', price: '$35.41', oldPrice: '$41.67', rating: 100, reviews: 10 },
-    { img: product5, label: 'Top', category: 'TV & Home Theater', title: 'Samsung - 55" Class LED 2160p Smart', price: '$899.99', rating: 60, reviews: 5 },
+    { img: product5, label: 'مهم', category: 'تلویزیون و سیستم سینمای خانگی', title: 'Samsung - تلویزیون 55 اینچ LED هوشمند 2160p', price: '۸۹۹.۹۹ دلار', rating: 60, reviews: 5 },
+    { img: product1, label: 'مهم', category: 'لپ‌تاپ‌ها', title: 'MacBook Pro نمایشگر 13 اینچ، i5', price: '۱۱۹۹.۹۹ دلار', rating: 100, reviews: 4 },
+    { img: product3, label: 'جدید', category: 'تبلت‌ها', title: 'Apple - iPad Pro 11 اینچ ۲۵۶ گیگابایت', price: '۸۹۹.۹۹ دلار', rating: 80, reviews: 4 },
+    { img: product2, label: '', category: 'صوتی', title: 'Bose - اسپیکر بلوتوث SoundLink', price: '۷۹.۹۹ دلار', rating: 60, reviews: 6 },
+    { img: product4, label: 'فروش ویژه', category: 'گوشی همراه', title: 'Google - Pixel 3 XL ۱۲۸ گیگابایت', price: '۳۵.۴۱ دلار', oldPrice: '۴۱.۶۷ دلار', rating: 100, reviews: 10 },
+    { img: product5, label: 'مهم', category: 'تلویزیون و سیستم سینمای خانگی', title: 'Samsung - تلویزیون 55 اینچ LED هوشمند 2160p', price: '۸۹۹.۹۹ دلار', rating: 60, reviews: 5 },
   ];
 
-  // Shuffle products within categories
+  // مخلوط کردن محصولات در دسته‌ها
   const shuffledProducts = shuffleArray(products);
 
   return (
@@ -55,7 +54,7 @@ const ProductCarousel = () => {
         <div className="col-xl-5col d-none d-xl-block">
             <div className="banner">
                 <a href="#">
-                    <img src={banner} alt="banner"/>
+                    <img src={banner} alt="بنر"/>
                 </a>
             </div>
         </div>

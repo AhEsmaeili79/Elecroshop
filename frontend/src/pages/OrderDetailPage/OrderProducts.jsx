@@ -35,18 +35,18 @@ const OrderProducts = ({order}) => {
 
                     <div className="col-6 col-lg-3 order-lg-last">
                       <div className="product-list-action">
-                        <div className="product-price">${item.product_price}</div>
+                        <div className="product-price">{item.product_price} تومان</div>
                         
                         <div className="product-action">
-                          <a href="popup/quickView.html" className="btn-product btn-quickview" title="Quick view">
-                            <span>quick view</span>
+                          <a href="popup/quickView.html" className="btn-product btn-quickview" title="مشاهده سریع">
+                            <span>مشاهده سریع</span>
                           </a>
-                          <a href="#" className="btn-product btn-compare" title="Compare">
-                            <span>compare</span>
+                          <a href="#" className="btn-product btn-compare" title="مقایسه">
+                            <span>مقایسه</span>
                           </a>
                         </div>
                         <a href="#" className="btn-product btn-cart">
-                          <span>add to cart</span>
+                          <span>افزودن به سبد خرید</span>
                         </a>
                       </div>
                     </div>
@@ -85,16 +85,16 @@ const OrderProducts = ({order}) => {
 
             <div className="order-summary">
               <div className="d-flex justify-content-between">
-                <strong>Order Code:</strong> <span>{order.order_code}</span>
+                <strong>کد سفارش:</strong> <span>{order.order_code}</span>
               </div>
               <div className="d-flex justify-content-between">
-                <strong>Payment Type:</strong> <span>{order.payment_type}</span>
+                <strong>نوع پرداخت:</strong> <span>{order.payment_type}</span>
               </div>
               <div className="d-flex justify-content-between">
-                <strong>Shipment Price:</strong> <span>${order.shipment_price_amount}</span>
+                <strong>هزینه ارسال:</strong> <span>{order.shipment_price_amount} تومان</span>
               </div>
               <div className="d-flex justify-content-between">
-                <strong>Total Price:</strong> <span>${calculateTotalPrice(order.items, order.shipment_price)}</span>
+                <strong>مجموع قیمت:</strong> <span>{calculateTotalPrice(order.items, order.shipment_price)} تومان</span>
               </div>
             </div>
             </div>

@@ -51,7 +51,7 @@ const Body = () => {
                                 sortBy={sortBy}
                                 onSortChange={setSortBy}
                             />
-                            {loading && <p>Loading...</p>}
+                            {loading && <p>صبر کنید...</p>}
                             {error && <p>{error}</p>}
                             <ProductCardList products={currentProducts} reviewsData={reviewsData} />
                             <Pagination

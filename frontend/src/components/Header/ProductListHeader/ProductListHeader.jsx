@@ -5,7 +5,7 @@ const ProductListHeader = ({ categoryName }) => {
         <div className="page-header text-center" style={{ backgroundImage: `url(${HeaderImg})` }}>
             <div className="container">
                 <h1 className="page-title">
-                {categoryName ? `${categoryName} Category` : 'Product '}<span>List</span>
+                {categoryName ? `${categoryName} دسته‌بندی` : 'محصولات '}<span>لیست</span>
                 </h1>
             </div>
         </div>

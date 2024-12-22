@@ -31,7 +31,7 @@ const ProductTabs = ({ productId }) => {
             onClick={() => setActiveTab("description")}
             role="tab"
           >
-            Description
+            توضیحات
           </a>
         </li>
         <li className="nav-item">
@@ -40,7 +40,7 @@ const ProductTabs = ({ productId }) => {
             onClick={() => setActiveTab("additionalInfo")}
             role="tab"
           >
-            Additional Information
+            اطلاعات اضافی
           </a>
         </li>
         <li className="nav-item">
@@ -49,7 +49,7 @@ const ProductTabs = ({ productId }) => {
             onClick={() => setActiveTab("shipping")}
             role="tab"
           >
-            Shipping & Returns
+            حمل و نقل و بازگشت کالا
           </a>
         </li>
         <li className="nav-item">
@@ -58,7 +58,7 @@ const ProductTabs = ({ productId }) => {
             onClick={() => setActiveTab("reviews")}
             role="tab"
           >
-            Reviews
+            نظرات
           </a>
         </li>
       </ul>

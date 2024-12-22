@@ -35,7 +35,7 @@ const AddressComponent = () => {
     if (isEditing) {
       updateAddress(selectedAddressId, formData)
         .then(() => {
-          alert('Address updated successfully');
+          alert('آدرس با موفقیت به روز شد');
           setIsEditing(false);
           fetchAddresses(); // Fetch updated list of addresses
         })
@@ -43,7 +43,7 @@ const AddressComponent = () => {
     } else {
       addAddress(formData)
         .then(() => {
-          alert('Address added successfully');
+          alert('آدرس با موفقیت اضافه شد');
           fetchAddresses(); // Fetch updated list of addresses
         })
         .catch((error) => console.error('Error adding address:', error));
@@ -57,7 +57,7 @@ const AddressComponent = () => {
   const handleDelete = (id) => {
     deleteAddress(id)
       .then(() => {
-        alert('Address deleted successfully');
+        alert('آدرس با موفقیت حذف شد');
         fetchAddresses(); // Fetch updated list of addresses
       })
       .catch((error) => console.error('Error deleting address:', error));
@@ -91,7 +91,7 @@ const AddressComponent = () => {
 
   return (
     <div className="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
-      <p>The following addresses will be used on the checkout page by default.</p>
+      <p>آدرس‌های زیر به طور پیش‌فرض در صفحه پرداخت استفاده خواهند شد.</p>
 
       <div className="row">
         {addressList.length > 0 ? (
@@ -106,20 +106,20 @@ const AddressComponent = () => {
                     {address.address}<br />
                     {address.city}, {address.street} {address.zip_code}<br />
                   </p>
-                  <a onClick={() => handleEdit(address)} className="text-primary address-edit-new">Edit <i className="icon-edit"></i></a>
-                  <a onClick={() => handleDelete(address.id)} className="text-danger address-edit-new">Delete<i className="fa fa-trash" aria-hidden="true"></i></a>
+                  <a onClick={() => handleEdit(address)} className="text-primary address-edit-new">ویرایش <i className="icon-edit"></i></a>
+                  <a onClick={() => handleDelete(address.id)} className="text-danger address-edit-new">حذف<i className="fa fa-trash" aria-hidden="true"></i></a>
                 </div>
               </div>
             </div>
           ))
         ) : (
-          <p>No addresses available.</p>
+          <p>آدرسی موجود نیست.</p>
         )}
       </div>
 
       {/* Add New Address Button */}
       <button className="btn btn-success" onClick={handleAddNew}>
-        Add New Address
+        افزودن آدرس جدید
       </button>
 
       {/* Custom Modal for Editing and Adding Address */}
@@ -128,105 +128,105 @@ const AddressComponent = () => {
           <div className="modal-overlay-new" onClick={() => setIsModalOpen(false)}></div>
           <div className="modal-content-new">
             <div className="modal-header-new">
-              <h5>{isEditing ? 'Edit Address' : 'Add Address'}</h5>
+              <h5>{isEditing ? 'ویرایش آدرس' : 'افزودن آدرس'}</h5>
               <button className="close-modal-new" onClick={() => setIsModalOpen(false)}>&times;</button>
             </div>
             <div className="modal-body">
               <form onSubmit={handleSubmit}>
                 <div className="form-group-new">
-                  <label htmlFor="titleAddress">Title Address</label>
+                  <label htmlFor="titleAddress">عنوان آدرس</label>
                   <input
                     type="text"
                     className="form-control"
                     id="titleAddress"
                     name="titleAddress"
-                    placeholder="Title Address"
+                    placeholder="عنوان آدرس"
                     value={formData.titleAddress}
                     onChange={(e) => setFormData({ ...formData, titleAddress: e.target.value })}
                     required
                   />
                 </div>
                 <div className="form-group-new">
-                  <label htmlFor="city">City</label>
+                  <label htmlFor="city">شهر</label>
                   <input
                     type="text"
                     className="form-control"
                     id="city"
                     name="city"
-                    placeholder="City"
+                    placeholder="شهر"
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                     required
                   />
                 </div>
                 <div className="form-group-new">
-                  <label htmlFor="street">Street</label>
+                  <label htmlFor="street">خیابان</label>
                   <input
                     type="text"
                     className="form-control"
                     id="street"
                     name="street"
-                    placeholder="Street"
+                    placeholder="خیابان"
                     value={formData.street}
                     onChange={(e) => setFormData({ ...formData, street: e.target.value })}
                     required
                   />
                 </div>
                 <div className="form-group-new">
-                  <label htmlFor="floor">Floor</label>
+                  <label htmlFor="floor">طبقه</label>
                   <input
                     type="number"
                     className="form-control"
                     id="floor"
                     name="floor"
-                    placeholder="Floor"
+                    placeholder="طبقه"
                     value={formData.floor}
                     onChange={(e) => setFormData({ ...formData, floor: e.target.value })}
                     required
                   />
                 </div>
                 <div className="form-group-new">
-                  <label htmlFor="apartment">Apartment</label>
+                  <label htmlFor="apartment">آپارتمان</label>
                   <input
                     type="number"
                     className="form-control"
                     id="apartment"
                     name="apartment"
-                    placeholder="Apartment"
+                    placeholder="آپارتمان"
                     value={formData.apartment}
                     onChange={(e) => setFormData({ ...formData, apartment: e.target.value })}
                     required
                   />
                 </div>
                 <div className="form-group-new">
-                  <label htmlFor="zip_code">Zip Code</label>
+                  <label htmlFor="zip_code">کد پستی</label>
                   <input
                     type="text"
                     className="form-control"
                     id="zip_code"
                     name="zip_code"
-                    placeholder="Zip Code"
+                    placeholder="کد پستی"
                     value={formData.zip_code}
                     onChange={(e) => setFormData({ ...formData, zip_code: e.target.value })}
                     required
                   />
                 </div>
                 <div className="form-group-new">
-                  <label htmlFor="address">Address</label>
+                  <label htmlFor="address">آدرس</label>
                   <textarea
                     type="text"
                     className="form-control"
                     id="address"
                     name="address"
-                    placeholder="Address"
+                    placeholder="آدرس"
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     required
                   />
                 </div>
                 <div className="modal-footer-new">
-                  <button type="button" className="btn btn-secondary" onClick={() => setIsModalOpen(false)}>Close</button>
-                  <button type="submit" className="btn btn-primary">{isEditing ? 'Update Address' : 'Add Address'}</button>
+                  <button type="button" className="btn btn-secondary" onClick={() => setIsModalOpen(false)}>بستن</button>
+                  <button type="submit" className="btn btn-primary">{isEditing ? 'به روز رسانی آدرس' : 'افزودن آدرس'}</button>
                 </div>
               </form>
             </div>

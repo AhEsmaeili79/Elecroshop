@@ -3,15 +3,15 @@ import TabItem from "../NewArrivel/TabItem";
 
 const ItemTitle = () => {
     const tabs = [
-      { id: 'trending-top', label: 'Top Rated', isActive: true },
-      { id: 'trending-best', label: 'Best Selling' },
-      { id: 'trending-sale', label: 'On Sale' },
+      { id: 'trending-top', label: 'برترین امتیازها', isActive: true },
+      { id: 'trending-best', label: 'پرفروش ترین' },
+      { id: 'trending-sale', label: 'تخفیف ها' },
     ];
   
     return (
       <div className="heading heading-flex mb-3">
         <div className="heading-left">
-          <h2 className="title">Trending Products</h2>
+          <h2 className="title"> محبوب ترین ها</h2>
         </div>
         <div className="heading-right">
           <ul className="nav nav-pills nav-border-anim justify-content-center" role="tablist">
@@ -22,7 +22,6 @@ const ItemTitle = () => {
         </div>
       </div>
     );
-  };
-  
-  export default ItemTitle;
-  
+};
+
+export default ItemTitle;

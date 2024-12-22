@@ -8,7 +8,7 @@ import BreadCrumb from "../../components/Breadcrumb/BreadCrumb.jsx";
 import { useCart } from "../../contexts/CartContext.jsx";
 
 const Body = () => {
-    const { cartItems, setCartItems } = useCart();  // Get cartItems from CartContext
+    const { cartItems, setCartItems } = useCart();  
     const [wishlist, setWishlist] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -25,15 +25,14 @@ const Body = () => {
                 setCartItems(cartData);
                 setLoading(false);
             } catch (err) {
-                setError("Failed to load data.");
+                setError("بارگذاری داده‌ها با خطا مواجه شد.");
                 setLoading(false);
             }
         };
 
         loadData();
-    }, [setCartItems]); // Removed `wishlist` as dependency
+    }, [setCartItems]);
 
-    // Add product to the cart with delay
     const handleAddToCart = async (productId) => {
         setLoadingProductId(productId);
         try {
@@ -44,19 +43,18 @@ const Body = () => {
                     await addProductToCart(productId, 1);
                     const updatedCartItems = await fetchAllCartItems();
 
-                    setCartItems(updatedCartItems);  // Update cart items in the context
-                    setLoading(false); // End loading
+                    setCartItems(updatedCartItems);  
+                    setLoading(false); 
                     setLoadingProductId(null);
-                }, 500);  // 500ms delay
+                }, 500);  
             }
         } catch (err) {
-            setError("Failed to add product to cart.");
+            setError("خطا در افزودن محصول به سبد خرید.");
             setLoading(false);
             setLoadingProductId(null);
         }
     };
 
-    // Remove product from cart with delay
     const handleRemoveFromCart = async (productId) => {
         setLoadingProductId(productId);
         try {
@@ -67,24 +65,23 @@ const Body = () => {
                     await removeCartItem(cartItem.id);
                     const updatedCartItems = await fetchAllCartItems();
 
-                    setCartItems(updatedCartItems);  // Update cart items in the context
+                    setCartItems(updatedCartItems);  
                     setLoadingProductId(null);
-                }, 500);  // 500ms delay
+                }, 500);  
             }
         } catch (err) {
-            setError("Failed to remove product from cart.");
+            setError("خطا در حذف محصول از سبد خرید.");
             setLoading(false);
             setLoadingProductId(null);
         }
     };
 
-    // Remove from wishlist function
     const handleRemoveFromWishlist = async (productId) => {
         try {
             await removeFromWishlist(productId);
             setWishlist((prev) => prev.filter((item) => item.product.id !== productId));
         } catch (err) {
-            setError("Failed to remove item from wishlist.");
+            setError("خطا در حذف آیتم از لیست علاقه‌مندی.");
         }
     };
 
@@ -100,7 +97,7 @@ const Body = () => {
                     onRemove={handleRemoveFromWishlist}
                     onAddToCart={handleAddToCart}
                     onRemoveFromCart={handleRemoveFromCart}
-                    cartItems={cartItems}  // Pass cartItems from context to WishlistTable
+                    cartItems={cartItems}  
                     loadingProductId={loadingProductId}
                 />
                 <WishlistFooter />

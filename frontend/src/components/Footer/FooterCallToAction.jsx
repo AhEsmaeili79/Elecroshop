@@ -4,9 +4,9 @@ const FooterCallToAction = ({ bgImage }) => (
       <div className="row justify-content-center">
         <div className="col-sm-10 col-md-8 col-lg-6">
           <div className="cta-heading text-center">
-            <h3 className="cta-title text-white">Get The Latest Deals</h3>
+            <h3 className="cta-title text-white">جدیدترین تخفیف‌ها را دریافت کنید</h3>
             <p className="cta-desc text-white">
-              and receive <span className="font-weight-normal">$20 coupon</span> for first shopping
+              و <span className="font-weight-normal">۲۰ دلار کوپن</span> برای خرید اول دریافت کنید
             </p>
           </div>
           <form action="#">
@@ -14,13 +14,13 @@ const FooterCallToAction = ({ bgImage }) => (
               <input
                 type="email"
                 className="form-control form-control-white"
-                placeholder="Enter your Email Address"
-                aria-label="Email Address"
+                placeholder="آدرس ایمیل خود را وارد کنید"
+                aria-label="آدرس ایمیل"
                 required
               />
               <div className="input-group-append">
                 <button className="btn btn-primary" type="submit">
-                  <span>Subscribe</span>
+                  <span>اشتراک‌گذاری</span>
                   <i className="icon-long-arrow-right"></i>
                 </button>
               </div>

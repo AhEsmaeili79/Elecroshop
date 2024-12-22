@@ -11,8 +11,8 @@ const WishlistTable = ({
     cartItems,
     loadingProductId,
 }) => {
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (loading) return <div>در حال بارگذاری...</div>;
+    if (error) return <div>خطا: {error}</div>;
 
     // Check if product is already in the cart
     const isProductInCart = (productId) => {
@@ -23,11 +23,11 @@ const WishlistTable = ({
         <table className="table table-wishlist table-mobile">
             <thead>
                 <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Stock Status</th>
-                    <th>Action</th>
-                    <th>Remove</th>
+                    <th>محصول</th>
+                    <th>قیمت</th>
+                    <th>وضعیت موجودی</th>
+                    <th>عملیات</th>
+                    <th>حذف</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,10 +49,10 @@ const WishlistTable = ({
                                 </h3>
                             </div>
                         </td>
-                        <td className="price-col">${item.product.price}</td>
+                        <td className="price-col">{item.product.price} تومان</td>
                         <td className="stock-col">
                             <span className={item.product.quantity > 0 ? "in-stock" : "out-of-stock"}>
-                                {item.product.quantity > 0 ? "In stock" : "Out of stock"}
+                                {item.product.quantity > 0 ? "موجود در انبار" : "تمام شده"}
                             </span>
                         </td>
                         <td className="action-col">
@@ -67,13 +67,13 @@ const WishlistTable = ({
                                     disabled={loadingProductId === item.product.id}
                                 >
                                     {loadingProductId === item.product.id
-                                        ? "Processing..."
+                                        ? "در حال پردازش..."
                                         : isProductInCart(item.product.id)
-                                        ? "Remove from Cart"
-                                        : "Add to Cart"}
+                                        ? "حذف از سبد خرید"
+                                        : "افزودن به سبد خرید"}
                                 </button>
                             ) : (
-                                <button className="btn btn-block btn-outline-primary-2 disabled">Out of Stock</button>
+                                <button className="btn btn-block btn-outline-primary-2 disabled">تمام شده</button>
                             )}
                         </td>
                         <td className="remove-col">

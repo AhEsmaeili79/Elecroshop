@@ -4,91 +4,91 @@ import Logo from '../../../assets/images/logo.png';
 
 const navItems = [
   {
-    label: 'Home',
+    label: 'خانه',
     link: '/',
     subMenu: [
       {
-        title: 'Choose your demo',
+        title: 'دمو خود را انتخاب کنید',
         actionLink: '#',
-        actionLabel: 'View All Demos',
+        actionLabel: 'مشاهده همه دموها',
         imageUrl: null,
       },
     ],
   },
   {
-    label: 'Shop',
+    label: 'فروشگاه',
     link: 'category.html',
     subMenu: [
       {
-        title: 'Product Category',
+        title: 'دسته‌بندی محصولات',
         links: [
-          { label: 'Product Category Boxed', url: 'product-category-boxed.html' },
-          { label: 'Product Category Fullwidth', url: 'product-category-fullwidth.html', isNew: true },
+          { label: 'دسته‌بندی محصول باکس شده', url: 'product-category-boxed.html' },
+          { label: 'دسته‌بندی محصول تمام عرض', url: 'product-category-fullwidth.html', isNew: true },
         ],
       },
       {
-        title: 'Shop Pages',
+        title: 'صفحات فروشگاه',
         links: [
-          { label: 'Cart', url: 'cart.html' },
-          { label: 'Checkout', url: 'checkout.html' },
-          { label: 'Wishlist', url: 'wishlist.html' },
-          { label: 'My Account', url: 'dashboard.html' },
-          { label: 'Lookbook', url: '#' },
+          { label: 'سبد خرید', url: 'cart.html' },
+          { label: 'پرداخت', url: 'checkout.html' },
+          { label: 'لیست علاقه‌مندی‌ها', url: 'wishlist.html' },
+          { label: 'حساب کاربری من', url: 'dashboard.html' },
+          { label: 'کتابچه طراحی', url: '#' },
         ],
       },
       {
         imageUrl: 'assets/images/menu/banner-1.jpg',
-        bannerText: 'Last Chance Sale',
+        bannerText: 'فروش ویژه آخرین فرصت',
       },
     ],
   },
   {
-    label: 'Product',
+    label: 'محصولات',
     link: 'product.html',
     subMenu: [
       {
-        title: 'Product Details',
+        title: 'جزئیات محصول',
         imageUrl: 'assets/images/menu/banner-2.jpg',
-        bannerText: 'New Trends Spring 2019',
+        bannerText: 'مدهای جدید بهار ۲۰۱۹',
       },
     ],
   },
   {
-    label: 'Pages',
+    label: 'صفحات',
     subMenu: [
       {
-        title: 'About',
+        title: 'درباره ما',
         links: [
-          { label: 'About 01', url: 'about.html' },
-          { label: 'About 02', url: 'about-2.html' },
+          { label: 'درباره ما ۰۱', url: 'about.html' },
+          { label: 'درباره ما ۰۲', url: 'about-2.html' },
         ],
       },
       {
-        title: 'Contact',
+        title: 'تماس با ما',
         links: [
-          { label: 'Contact 01', url: 'contact.html' },
-          { label: 'Contact 02', url: 'contact-2.html' },
+          { label: 'تماس ۰۱', url: 'contact.html' },
+          { label: 'تماس ۰۲', url: 'contact-2.html' },
         ],
       },
-      { label: 'Login', url: 'login.html' },
-      { label: 'FAQs', url: 'faq.html' },
-      { label: 'Error 404', url: '404.html' },
-      { label: 'Coming Soon', url: 'coming-soon.html' },
+      { label: 'ورود', url: 'login.html' },
+      { label: 'سوالات متداول', url: 'faq.html' },
+      { label: 'خطای ۴۰۴', url: '404.html' },
+      { label: 'به زودی', url: 'coming-soon.html' },
     ],
   },
   {
-    label: 'Blog',
+    label: 'بلاگ',
     subMenu: [
-      { label: 'Classic', url: 'blog.html' },
-      { label: 'Listing', url: 'blog-listing.html' },
-      { label: 'Grid', url: '#' },
-      { label: 'Masonry', url: '#' },
-      { label: 'Mask', url: '#' },
-      { label: 'Single Post', url: '#' },
+      { label: 'کلاسیک', url: 'blog.html' },
+      { label: 'لیستینگ', url: 'blog-listing.html' },
+      { label: 'شبکه', url: '#' },
+      { label: 'موزائیک', url: '#' },
+      { label: 'ماسک', url: '#' },
+      { label: 'پست تکی', url: '#' },
     ],
   },
   {
-    label: 'Elements',
+    label: 'المان‌ها',
     link: 'elements-list.html',
   },
 ];
@@ -96,11 +96,11 @@ const navItems = [
 const LeftSide = () => (
   <div className="header-left">
     <button className="mobile-menu-toggler">
-      <span className="sr-only">Toggle mobile menu</span>
+      <span className="sr-only">تغییر منوی موبایل</span>
       <i className="icon-bars"></i>
     </button>
     <Link to='/' className="logo" >
-      <img src={Logo} alt="Molla Logo" width="105" height="25" />
+      <img src={Logo} alt="لوگوی مولا" width="105" height="25" />
     </Link>
     <nav className="main-nav">
       <ul className="menu sf-arrows">
@@ -138,7 +138,7 @@ const MenuSection = ({ menu }) => (
           <li key={i}>
             <a href={link.url}>
               {link.label}
-              {link.isNew && <span className="tip tip-new">New</span>}
+              {link.isNew && <span className="tip tip-new">جدید</span>}
             </a>
           </li>
         ))}
@@ -155,7 +155,7 @@ const MenuSection = ({ menu }) => (
     {menu.imageUrl && (
       <div className="banner banner-overlay">
         <a href="category.html" className="banner banner-menu">
-          <img src={menu.imageUrl} alt="Banner" />
+          <img src={menu.imageUrl} alt="بنر" />
           <div className={`banner-content ${menu.bannerText ? 'banner-content-top' : 'banner-content-bottom'}`}>
             <div className="banner-title text-white">{menu.bannerText}</div>
           </div>

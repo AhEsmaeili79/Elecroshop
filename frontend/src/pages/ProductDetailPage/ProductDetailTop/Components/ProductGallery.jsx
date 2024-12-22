@@ -4,7 +4,7 @@ const ProductGallery = ({ activeImage, images, handleImageSwitch }) => (
   <div className="product-gallery product-gallery-vertical">
     <div className="row">
       <figure className="product-main-image">
-        <img id="product-zoom" src={activeImage} alt="Product" />
+        <img id="product-zoom" src={activeImage} alt="محصول" />
       </figure>
       <div id="product-zoom-gallery" className="product-image-gallery">
         {images
@@ -19,7 +19,7 @@ const ProductGallery = ({ activeImage, images, handleImageSwitch }) => (
                 handleImageSwitch(photo);
               }}
             >
-              <img src={photo} alt={`Product thumbnail ${index + 1}`} />
+              <img src={photo} alt={`تصویر کوچک محصول ${index + 1}`} />
             </a>
           ))}
       </div>

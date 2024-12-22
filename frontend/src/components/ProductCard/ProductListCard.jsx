@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../../contexts/CartContext';
 import { addProductToCart, updateCartItemQuantity, removeCartItem, fetchCartItem ,fetchAllCartItems } from '../../api/cartApi';
 import './css/ProductListCard.css';
-import { useWishlist } from '../../contexts/WishlistContext';  // Add this line
+import { useWishlist } from '../../contexts/WishlistContext'; 
 import ColorOptions from '../../utils/ColorOptions';
 
 const ProductListCard = ({ product, reviewsData }) => {
@@ -13,15 +13,14 @@ const ProductListCard = ({ product, reviewsData }) => {
     const [productLabel, setProductLabel] = useState('');
     const [cartItem, setCartItem] = useState(null);
     const [quantity, setQuantity] = useState(1);
-    const [isInWishlist, setIsInWishlist] = useState(false); // State to track if the product is in the wishlist
-    const { wishlistItems, handleAddToWishlist, handleRemoveFromWishlist } = useWishlist(); // Replace the previous useState logic
+    const [isInWishlist, setIsInWishlist] = useState(false); 
+    const { wishlistItems, handleAddToWishlist, handleRemoveFromWishlist } = useWishlist(); 
     const [selectedColor, setSelectedColor] = useState(null);
     
     useEffect(() => {
-        // Check if the product is in the wishlist
         const isProductInWishlist = wishlistItems.some(item => item.product.id === product.id);
         setIsInWishlist(isProductInWishlist);
-    }, [wishlistItems, product.id]); // Reload wishlist when the product changes
+    }, [wishlistItems, product.id]);
 
     useEffect(() => {
         const currentDate = new Date();
@@ -72,7 +71,7 @@ const ProductListCard = ({ product, reviewsData }) => {
 
     const handleAddToCart = async () => {
         if (!product || !product.id || !selectedColor) {
-            alert("Please select a color before adding to the cart.");
+            alert("لطفاً رنگی را قبل از افزودن به سبد خرید انتخاب کنید.");
             return;
         }
         try {
@@ -87,7 +86,7 @@ const ProductListCard = ({ product, reviewsData }) => {
                 setCartItems(cartData);
             }
         } catch (error) {
-            console.error('Error adding product to cart:', error);
+            console.error('خطا در افزودن محصول به سبد خرید:', error);
             alert(error.message);
         }
     };
@@ -100,7 +99,7 @@ const ProductListCard = ({ product, reviewsData }) => {
             setCartItems(prevItems => prevItems.filter(item => item.id !== cartItem.id 
             ));
         } catch (error) {
-            console.error('Error updating cart item quantity:', error);
+            console.error('خطا در به‌روزرسانی تعداد کالای سبد خرید:', error);
         }
     };
     
@@ -112,45 +111,41 @@ const ProductListCard = ({ product, reviewsData }) => {
             setCartItem(null);
             setQuantity(1);
         } catch (error) {
-            console.error('Error removing item from cart:', error);
+            console.error('خطا در حذف کالا از سبد خرید:', error);
         }
     };
 
-    // Function to toggle the wishlist status
     const handleWishlistToggle = async () => {
         if (!localStorage.getItem("token")) {
-            alert("Please log in to add to wishlist.");
+            alert("لطفاً برای افزودن به لیست علاقه‌مندی‌ها وارد شوید.");
             return;
         }
     
         try {
             if (isInWishlist) {
-                await handleRemoveFromWishlist(product.id); // Use context's function
+                await handleRemoveFromWishlist(product.id);
             } else {
-                await handleAddToWishlist(product.id); // Use context's function
+                await handleAddToWishlist(product.id);
             }
         } catch (err) {
-            console.error("Error updating wishlist:", err);
-            alert("Failed to update wishlist. Please try again.");
+            console.error("خطا در به‌روزرسانی لیست علاقه‌مندی‌ها:", err);
+            alert("افزودن به لیست علاقه‌مندی‌ها با خطا مواجه شد. لطفاً دوباره تلاش کنید.");
         }
     };
 
     const handleColorChange = (color) => {
         setSelectedColor(color);
     
-        // Find the cart item for the newly selected color
         const existingCartItem = cartItems.find(
             (item) =>
                 item.product.id === product.id &&
-                item.color.id === color // Use the passed color, not selectedColor
+                item.color.id === color
         );
     
         if (existingCartItem) {
-            // If the cart item exists for the selected color, set it
             setCartItem(existingCartItem);
             setQuantity(existingCartItem.quantity);
         } else {
-            // If not, reset the cart item and quantity
             setCartItem(null);
             setQuantity(1);
         }
@@ -168,10 +163,10 @@ const ProductListCard = ({ product, reviewsData }) => {
                     {productLabel && (
                         <span className={`product-label ${productLabel}`}>
                             {productLabel === 'label-new'
-                                ? 'New'
+                                ? 'جدید'
                                 : productLabel === 'label-low'
-                                ? 'Low Stock'
-                                : 'Out of Stock'}
+                                ? 'موجودی کم'
+                                : 'تمام شده'}
                         </span>
                     )}
                     <Link to={`/product/${product.id}`}>
@@ -184,14 +179,14 @@ const ProductListCard = ({ product, reviewsData }) => {
                             className={`btn-product-icon btn-wishlist btn-expandable ${isInWishlist ? 'active' : ''}`}
                         >
                             <span>
-                                {isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+                                {isInWishlist ? 'حذف از لیست علاقه‌مندی‌ها' : 'افزودن به لیست علاقه‌مندی‌ها'}
                             </span>
                         </a>
-                        <a href="popup/quickView.html" className="btn-product-icon btn-quickview" title="Quick view">
-                            <span>Quick view</span>
+                        <a href="popup/quickView.html" className="btn-product-icon btn-quickview" title="مشاهده سریع">
+                            <span>مشاهده سریع</span>
                         </a>
-                        <a href="#" className="btn-product-icon btn-compare" title="Compare">
-                            <span>Compare</span>
+                        <a href="#" className="btn-product-icon btn-compare" title="مقایسه">
+                            <span>مقایسه</span>
                         </a>
                     </div>
                     <div className="product-action">
@@ -206,7 +201,7 @@ const ProductListCard = ({ product, reviewsData }) => {
                                         }
                                     }}
                                     className="btn-product btn-quantity"
-                                    title="Decrease quantity"
+                                    title="کاهش تعداد"
                                 >
                                     <span>-</span>
                                 </button>
@@ -214,14 +209,14 @@ const ProductListCard = ({ product, reviewsData }) => {
                                 <button
                                     onClick={() => handleQuantityChange(quantity + 1)}
                                     className="btn-product btn-quantity"
-                                    title="Increase quantity"
+                                    title="افزایش تعداد"
                                 >
                                     <span>+</span>
                                 </button>
                             </div>
                         ) : (
-                            <a href="#" onClick={(e) => { e.preventDefault(); handleAddToCart(); }} className="btn-product btn-cart" title="Add to cart">
-                                <span>Add to Cart</span>
+                            <a href="#" onClick={(e) => { e.preventDefault(); handleAddToCart(); }} className="btn-product btn-cart" title="افزودن به سبد خرید">
+                                <span>افزودن به سبد خرید</span>
                             </a>
                         )}
                     </div>
@@ -229,17 +224,17 @@ const ProductListCard = ({ product, reviewsData }) => {
 
                 <div className="product-body">
                     <div className="product-cat">
-                        <a href="#">{product.category?.name || 'Uncategorized'}</a>
+                        <a href="#">{product.category?.name || 'بدون دسته‌بندی'}</a>
                     </div>
                     <h3 className="product-title">
                         <Link to={`/product/${product.id}`}>{product.name}</Link>
                     </h3>
-                    <div className="product-price">${product.price}</div>
+                    <div className="product-price">{product.price} تومان</div>
                     <div className="ratings-container">
                         <div className="ratings">
                             <div className="ratings-val" style={{ width: `${(averageRating / 5) * 100}%` }}></div>
                         </div>
-                        <span className="ratings-text">({reviewsCount} Reviews)</span>
+                        <span className="ratings-text">({reviewsCount} نظرات)</span>
                     </div>
                     <div className="details-row-color">
                     <ColorOptions

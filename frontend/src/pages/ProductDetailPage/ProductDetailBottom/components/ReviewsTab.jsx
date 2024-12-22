@@ -8,8 +8,8 @@ const ReviewsTab = ({ productId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [reviewToEdit, setReviewToEdit] = useState(null);
-  const [isFormVisible, setIsFormVisible] = useState(false); // Track whether the form is visible
-  const [userHasReviewed, setUserHasReviewed] = useState(false); // Track if the user already has a review for this product
+  const [isFormVisible, setIsFormVisible] = useState(false); // وضعیت نمایش فرم را ردیابی می‌کند
+  const [userHasReviewed, setUserHasReviewed] = useState(false); // بررسی می‌کند که آیا کاربر قبلاً نظری برای این محصول نوشته است یا نه
 
   const loadReviews = async () => {
     setLoading(true);
@@ -18,15 +18,15 @@ const ReviewsTab = ({ productId }) => {
       setReviews(data);
       setLoading(false);
 
-      // Check if the user has already reviewed the product
-      const userReview = data.find((review) => review.user_id === localStorage.getItem('user_id')); // Assuming `user_id` is stored in localStorage
+      // بررسی می‌کند که آیا کاربر قبلاً نظری برای محصول نوشته است
+      const userReview = data.find((review) => review.user_id === localStorage.getItem('user_id')); // فرض بر این است که `user_id` در localStorage ذخیره شده است
       if (userReview) {
-        setReviewToEdit(userReview); // Set review to edit if user has reviewed
-        setUserHasReviewed(true); // User has reviewed, so we hide the form by default
+        setReviewToEdit(userReview); // اگر کاربر نظری نوشته باشد، نظر را برای ویرایش تنظیم می‌کند
+        setUserHasReviewed(true); // کاربر نظری نوشته است، بنابراین فرم به طور پیش‌فرض مخفی می‌شود
       }
     } catch (err) {
-      console.error('Error fetching reviews:', err);
-      setError('Failed to load reviews.');
+      console.error('خطا در بارگذاری نظرها:', err);
+      setError('بارگذاری نظرها با شکست مواجه شد.');
       setLoading(false);
     }
   };
@@ -40,29 +40,29 @@ const ReviewsTab = ({ productId }) => {
       await deleteReview(reviewId);
       loadReviews();
     } catch (err) {
-      console.error('Failed to delete review:', err);
+      console.error('حذف نظر با شکست مواجه شد:', err);
     }
   };
 
   const handleEdit = (review) => {
     setReviewToEdit(review);
-    setIsFormVisible(true); // Show form when editing
+    setIsFormVisible(true); // فرم را هنگام ویرایش نمایش می‌دهد
   };
 
   const handleCancel = () => {
-    setIsFormVisible(false); // Hide form on cancel
-    setReviewToEdit(null); // Clear review to edit if cancel is clicked
+    setIsFormVisible(false); // فرم را در صورت لغو مخفی می‌کند
+    setReviewToEdit(null); // اگر لغو زده شود، نظری که برای ویرایش انتخاب شده بود، پاک می‌شود
   };
 
   const handleReviewSubmit = async () => {
-    setIsFormVisible(false); // Hide form after submitting or updating review
-    setReviewToEdit(null); // Clear review to edit
-    await loadReviews(); // Reload reviews after submitting or updating
+    setIsFormVisible(false); // فرم را پس از ارسال یا به‌روزرسانی نظر مخفی می‌کند
+    setReviewToEdit(null); // نظری که برای ویرایش انتخاب شده بود را پاک می‌کند
+    await loadReviews(); // پس از ارسال یا به‌روزرسانی نظر، نظرها را دوباره بارگذاری می‌کند
   };
 
   return (
     <div className="reviews-tab">
-      {loading && <div>Loading reviews...</div>}
+      {loading && <div>در حال بارگذاری نظرها...</div>}
       {error && <div>{error}</div>}
       {!loading && !error && (
         <>
@@ -72,7 +72,7 @@ const ReviewsTab = ({ productId }) => {
               className="btn btn-primary"
               onClick={() => setIsFormVisible(true)}
             >
-              Write a Review
+              نوشتن نظر
             </button>
           )}
           {(userHasReviewed || isFormVisible) && (
@@ -80,7 +80,7 @@ const ReviewsTab = ({ productId }) => {
               productId={productId}
               onSubmit={handleReviewSubmit}
               reviewToEdit={reviewToEdit}
-              clearEdit={handleCancel} // Pass cancel function to reset edit state
+              clearEdit={handleCancel} // تابع لغو را برای بازنشانی وضعیت ویرایش ارسال می‌کند
             />
           )}
         </>

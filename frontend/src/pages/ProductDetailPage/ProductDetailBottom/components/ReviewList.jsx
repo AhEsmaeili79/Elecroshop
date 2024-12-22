@@ -4,14 +4,13 @@ import { fetchUserData } from '../../../../api/user';
 const ReviewList = ({ reviews, onDelete, onEdit }) => {
   const [currentUserId, setCurrentUserId] = useState(null);
 
-  // Fetch the current user's data when the component mounts
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const userData = await fetchUserData(); // Fetch user data using the API
-        setCurrentUserId(userData.id); // Assuming 'id' is the field representing the user's ID
+        const userData = await fetchUserData(); 
+        setCurrentUserId(userData.id); 
       } catch (error) {
-        console.error('Failed to fetch user data:', error);
+        console.error('خطا در بارگیری داده‌های کاربر:', error);
       }
     };
     
@@ -30,26 +29,26 @@ const ReviewList = ({ reviews, onDelete, onEdit }) => {
     const diffInYears = Math.floor(diffInDays / 365);
 
     if (diffInYears > 0) {
-      return `${diffInYears} year${diffInYears > 1 ? 's' : ''} ago`;
+      return `${diffInYears} سال پیش`;
     } else if (diffInMonths > 0) {
-      return `${diffInMonths} month${diffInMonths > 1 ? 's' : ''} ago`;
+      return `${diffInMonths} ماه پیش`;
     } else if (diffInDays > 0) {
-      return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+      return `${diffInDays} روز پیش`;
     } else if (diffInHours > 0) {
-      return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
+      return `${diffInHours} ساعت پیش`;
     } else if (diffInMinutes > 0) {
-      return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ago`;
+      return `${diffInMinutes} دقیقه پیش`;
     } else {
-      return 'Just now';
+      return 'همین الان';
     }
   };
 
   return (
     <div className="tab-pane fade show active" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
       <div className="reviews">
-        <h3>Reviews ({reviews.length})</h3>
+        <h3>نظرها ({reviews.length})</h3>
         {reviews.length === 0 ? (
-          <p>No reviews yet. Be the first to review!</p>
+          <p>هنوز نظری وجود ندارد. اولین نفری باشید که نظر می‌نویسید!</p>
         ) : (
           reviews.map((review, index) => (
             <div key={index} className="review">
@@ -70,7 +69,7 @@ const ReviewList = ({ reviews, onDelete, onEdit }) => {
                 </div>
 
                 <div className="col">
-                  <h4>{review.title || 'No Title'}</h4>
+                  <h4>{review.title || 'بدون عنوان'}</h4>
 
                   <div className="review-content">
                     <p>{review.comment}</p>
@@ -78,8 +77,8 @@ const ReviewList = ({ reviews, onDelete, onEdit }) => {
                   <div className="review-action">
                     {currentUserId === review.user && (
                       <>
-                        <button className="btn btn-outline-primary btn-sm" onClick={() => onEdit(review)}>Edit</button>
-                        <button className="btn btn-outline-danger btn-sm" onClick={() => onDelete(review.id)}>Delete</button>
+                        <button className="btn btn-outline-primary btn-sm" onClick={() => onEdit(review)}>ویرایش</button>
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => onDelete(review.id)}>حذف</button>
                       </>
                     )}
                   </div>

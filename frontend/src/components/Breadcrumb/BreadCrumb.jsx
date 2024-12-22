@@ -19,6 +19,18 @@ const BreadCrumb = ({ categoryName }) => {
   // Split the pathname into segments
   const pathSegments = location.pathname.split('/').filter(segment => segment !== "");
 
+  // Translate paths and breadcrumb names to Persian
+  const persianPaths = {
+    '/cart/': 'سبد خرید',
+    '/': 'خانه',
+    '/product': 'محصولات',
+    '/wishlist': 'علاقه‌مندی‌ها',
+    '/dashboard/myaccount': 'حساب من',
+    '/checkout': 'پرداخت',
+    '/orders': 'سفارشات',
+    '/orders/:orderCode': 'جزئیات سفارش',
+  };
+
   // Generate breadcrumb links dynamically
   const breadcrumbs = pathSegments.map((segment, index) => {
     const url = `/${pathSegments.slice(0, index + 1).join('/')}`; // Create the URL path for each segment
@@ -33,18 +45,18 @@ const BreadCrumb = ({ categoryName }) => {
       <div className="container">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <Link to="/">Home</Link>
+            <Link to="/">{persianPaths['/'] || 'Home'}</Link>
           </li>
 
           {/* Conditionally render product name or category name */}
           {breadcrumbs.map((breadcrumb, index) => (
             <li key={index} className="breadcrumb-item">
               {index < breadcrumbs.length - 1 ? (
-                <Link to={breadcrumb.url}>{breadcrumb.name}</Link>
+                <Link to={breadcrumb.url}>{persianPaths[breadcrumb.url] || breadcrumb.name}</Link>
               ) : (
                 // If it's the last breadcrumb, use categoryName if available
                 <span>
-                  {categoryName  || (productName ? productName : breadcrumb.name)}
+                  {categoryName || (productName ? productName : breadcrumb.name)}
                 </span>
               )}
             </li>

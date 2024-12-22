@@ -18,7 +18,7 @@ const SearchComponent = () => {
             <div className="header-search header-search-extended header-search-visible d-none d-lg-block">
                 <form onSubmit={handleSearch}>
                     <div className="header-search-wrapper search-wrapper-wide">
-                        <label htmlFor="q" className="sr-only">Search</label>
+                        <label htmlFor="q" className="sr-only">جستجو</label> {/* 'Search' in Persian */}
                         <button className="btn btn-primary" type="submit">
                             <i className="icon-search"></i>
                         </button>
@@ -27,7 +27,7 @@ const SearchComponent = () => {
                             className="form-control"
                             name="q"
                             id="q"
-                            placeholder="Search product ..."
+                            placeholder="جستجوی محصول ..."
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             required

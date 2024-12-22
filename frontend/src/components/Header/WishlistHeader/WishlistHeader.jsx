@@ -4,7 +4,7 @@ const WishlistHeader = () => {
     return (
         <div className="page-header text-center" style={{ backgroundImage: `url(${wishlistHeader})` }}>
             <div className="container">
-                <h1 className="page-title">Wishlist<span>Shop</span></h1>
+                <h1 className="page-title">علاقه مندی ها<span>فروشگاه</span></h1>
             </div>
         </div>
     );

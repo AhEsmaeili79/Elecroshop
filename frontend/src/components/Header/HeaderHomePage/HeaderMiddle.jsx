@@ -12,14 +12,14 @@ const HeaderMiddle = () => {
             <div className="container">
                 <div className="header-left">
                     <button className="mobile-menu-toggler">
-                        <span className="sr-only">Toggle mobile menu</span>
+                        <span className="sr-only">تنظیم منوی موبایل</span>
                         <i className="icon-bars"></i>
                     </button>
                     <a href="index.html" className="logo">
-                        <img src={Logo} alt="Molla Logo" width="105" height="25" />
+                        <img src={Logo} alt="لوگوی مولا" width="105" height="25" />
                     </a>
                 </div>
-                <SearchComponent/>
+                <SearchComponent />
                 <div className="header-right">
                     {/* Wishlist, Favorites, and Cart sections */}
                     <Wishlist />

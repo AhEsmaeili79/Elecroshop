@@ -6,7 +6,7 @@ const CartHeader = () => {
       <>
         <div className="page-header text-center" style={{ backgroundImage: `url(${bgImage})` }}>
             <div className="container">
-                <h1 className="page-title">Shopping Cart<span>Shop</span></h1>
+                <h1 className="page-title">سبد خرید<span>فروشگاه</span></h1>
             </div>
         </div>
         <BreadCrumb/>
@@ -15,4 +15,3 @@ const CartHeader = () => {
 };
 
 export default CartHeader;
-

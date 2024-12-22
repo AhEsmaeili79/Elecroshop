@@ -4,7 +4,6 @@ import { fetchUserOrders } from '../../api/orderApi';
 import { fetchShippingOptions } from '../../api/shipment';
 import './css/OrdersList.css'; // Import the CSS file
 
-
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
   const [shippingOptions, setShippingOptions] = useState([]);
@@ -23,7 +22,7 @@ const OrdersList = () => {
         setOrders(ordersData);
         setShippingOptions(shippingData);
       } catch (err) {
-        setError('Failed to fetch data. Please try again later.');
+        setError('عدم توانایی در دریافت داده‌ها. لطفا دوباره تلاش کنید.');
       } finally {
         setLoading(false);
       }
@@ -60,12 +59,12 @@ const OrdersList = () => {
 
   const totalPages = Math.ceil(orders.length / ordersPerPage);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>در حال بارگذاری...</div>;
   if (error) return <div>{error}</div>;
 
   return (
     <div>
-      <h2>Orders Summary</h2>
+      <h2>خلاصه سفارشات</h2>
       <div>
         {currentOrders.length > 0 ? (
           currentOrders.map((order) => {
@@ -81,7 +80,7 @@ const OrdersList = () => {
                   {order.created_at_date} {formatTime(order.created_at_time)} {/* Show only hour and minute */}
                 </span>
 
-                <h4>Order Code: 
+                <h4>کد سفارش: 
                   <Link to={`/orders/${order.order_code}`}>{order.order_code}</Link>
                 </h4>
                 <div className="order-items">
@@ -101,13 +100,13 @@ const OrdersList = () => {
                   ))}
                 </div>
                 <p className="total-price">
-                  <strong>Total Price:</strong> ${totalPrice.toFixed(2)}
+                  <strong>قیمت نهایی:</strong> ${totalPrice.toFixed(2)}
                 </p>
               </div>
             );
           })
         ) : (
-          <div>No orders found.</div>
+          <div>هیچ سفارشی یافت نشد.</div>
         )}
       </div>
 
@@ -118,7 +117,7 @@ const OrdersList = () => {
           disabled={currentPage === 1}
           className={`pagination-button ${currentPage === 1 ? 'disabled' : ''}`}
         >
-          Previous
+          قبلی
         </button>
 
         {Array.from({ length: totalPages }, (_, index) => (
@@ -136,7 +135,7 @@ const OrdersList = () => {
           disabled={currentPage === totalPages}
           className={`pagination-button ${currentPage === totalPages ? 'disabled' : ''}`}
         >
-          Next
+          بعدی
         </button>
       </div>
     </div>

@@ -57,18 +57,18 @@ const CartSection = ({ cartItems, setCartItems, setTotalPrice }) => {
       <table className="table table-cart table-mobile">
         <thead>
           <tr>
-            <th>Product</th>
-            <th>Color</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
+            <th>محصول</th>
+            <th>رنگ</th>
+            <th>قیمت</th>
+            <th>تعداد</th>
+            <th>مجموع</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           {cartItems.length === 0 ? (
             <tr>
-              <td colSpan="5">Your cart is empty.</td>
+              <td colSpan="5">سبد خرید شما خالی است.</td>
             </tr>
           ) : (
             cartItems.map((item) => (

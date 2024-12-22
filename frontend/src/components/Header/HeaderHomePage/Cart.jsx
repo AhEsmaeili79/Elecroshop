@@ -8,7 +8,6 @@ const Cart = () => {
     const [totalPrice, setTotalPrice] = React.useState(0);
 
     React.useEffect(() => {
-        // Recalculate total whenever cart items change
         const calculateTotalPrice = () => {
             const total = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
             setTotalPrice(total);
@@ -24,7 +23,7 @@ const Cart = () => {
                 return updatedItems;
             });
         } catch (error) {
-            console.error('Error removing cart item:', error);
+            console.error('خطا در حذف کالا از سبد خرید:', error);
         }
     };
 
@@ -35,12 +34,12 @@ const Cart = () => {
                     <i className="icon-shopping-cart"></i>
                     <span className="cart-count">{cartItems.length}</span>
                 </div>
-                <p>Cart</p>
+                <p>سبد خرید</p>
             </Link>
             <div className="dropdown-menu dropdown-menu-right">
                 <div className="dropdown-cart-products">
                     {cartItems.length === 0 ? (
-                        <p>No items in the cart</p>
+                        <p>سبد خرید خالی است</p>
                     ) : (
                         cartItems.map((item, index) => (
                             <div className="product" key={`${item.id}-${index}`}>
@@ -74,7 +73,7 @@ const Cart = () => {
                                 <a 
                                     href="#" 
                                     className="btn-remove" 
-                                    title="Remove Product" 
+                                    title="حذف محصول" 
                                     onClick={() => handleRemoveItem(item.id)}
                                 >
                                     <i className="icon-close"></i>
@@ -84,13 +83,13 @@ const Cart = () => {
                     )}
                 </div>
                 <div className="dropdown-cart-total">
-                    <span>Total</span>
+                    <span>جمع کل</span>
                     <span className="cart-total-price">${totalPrice}</span>
                 </div>
                 <div className="dropdown-cart-action">
-                    <Link to="/cart" className="btn btn-primary">View Cart</Link>
+                    <Link to="/cart" className="btn btn-primary">سبد خرید</Link>
                     <Link to="/Cart" className="btn btn-outline-primary-2">
-                        <span>Checkout</span><i className="icon-long-arrow-right"></i>
+                        <span>تسویه </span><i className="icon-long-arrow-right"></i>
                     </Link>
                 </div>
             </div>

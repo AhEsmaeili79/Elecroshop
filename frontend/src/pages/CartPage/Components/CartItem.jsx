@@ -21,7 +21,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
               <Link to={`/product/${item.product.id}`}>{item.product.name}</Link>
             </h3>
             
-            <p className="product-seller">{item.product.seller || 'Unknown Seller'}</p>
+            <p className="product-seller">{item.product.seller || 'فروشنده ناشناخته'}</p>
           </div>
         </div>
       </td>
@@ -40,7 +40,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
           }}>
         </a>
       </td>
-      <td className="price-col">${item.product.price}</td>
+      <td className="price-col">{`${item.product.price} تومان`}</td>
       <td className="quantity-col">
         <div className="quantity-controls">
           <button 
@@ -59,7 +59,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
         </div>
       </td>
 
-      <td className="total-col">${(item.product.price * item.quantity)}</td>
+      <td className="total-col">{`${item.product.price * item.quantity} تومان`}</td>
 
       <td className="remove-col">
         <button className="btn-remove" onClick={() => onRemove(item.id)}>

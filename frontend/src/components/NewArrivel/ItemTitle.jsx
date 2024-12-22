@@ -26,20 +26,20 @@ const ItemTitle = ({ onCategoryChange, selectedCategory }) => {
   };
 
   if (loading) {
-    return <div>Loading categories...</div>; 
+    return <div>در حال بارگذاری دسته‌ها...</div>; 
   }
 
   return (
     <div className="heading heading-flex mb-3">
       <div className="heading-left">
-        <h2 className="title">New Arrivals</h2>
+        <h2 className="title"> جدیدترین ها</h2>
       </div>
       <div className="heading-right">
         <ul className="nav nav-pills nav-border-anim justify-content-center" role="tablist">
           <TabItem
             key="all"
             id="all"
-            label="All"
+            label="همه"
             isActive={selectedCategory === null}
             onClick={() => handleCategoryChange(null)}
           />

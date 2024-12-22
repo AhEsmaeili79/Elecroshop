@@ -29,17 +29,17 @@ const ProductCarousel = ({ categoryId, fadeKey }) => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const response = await fetchProductList(); // Use the imported fetchProductList function
+      const response = await fetchProductList(); 
       let filteredProducts = response;
 
       if (categoryId) {
         filteredProducts = filteredProducts.filter(product => product.category.id === categoryId);
       }
 
-      filteredProducts = filteredProducts.slice(0, 10); // Limit to 10 products
-      setProducts(filteredProducts); // No shuffle applied
+      filteredProducts = filteredProducts.slice(0, 10); 
+      setProducts(filteredProducts); 
     } catch (err) {
-      setError('Failed to load products. Please try again later.');
+      setError('بارگذاری محصولات با مشکل مواجه شد. لطفا بعدا تلاش کنید.');
     } finally {
       setLoading(false);
       setShowProducts(true);
@@ -47,16 +47,15 @@ const ProductCarousel = ({ categoryId, fadeKey }) => {
   };
 
   useEffect(() => {
-    setShowProducts(false); // Hide products before new category loads
+    setShowProducts(false); 
     fetchProducts();
   }, [categoryId]);
 
-  // Reset the fade-out effect by updating the key
   useEffect(() => {
-    setShowProducts(false); // Reset the fade effect on category change
+    setShowProducts(false); 
   }, [fadeKey]);
 
-  if (loading) return <p>Loading products...</p>;
+  if (loading) return <p>در حال بارگذاری محصولات...</p>;
   if (error) return <p className="error-message">{error}</p>;
 
   return (

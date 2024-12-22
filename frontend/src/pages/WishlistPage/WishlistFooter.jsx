@@ -1,9 +1,8 @@
-
 const WishlistFooter = () => {
     return (
         <div className="wishlist-share">
             <div className="social-icons social-icons-sm mb-2">
-                <label className="social-label">Share on:</label>
+                <label className="social-label">اشتراک گذاری در:</label>
                 <a href="#" className="social-icon" title="Facebook" target="_blank">
                     <i className="icon-facebook-f"></i>
                 </a>

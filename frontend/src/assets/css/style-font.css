@@ -1,0 +1,20 @@
+/* Define the local font using @font-face */
+@font-face {
+    font-family: 'Qs_Iranyekan';
+    src: url('../fonts-Per/Qs_Iranyekan.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Apply the local font to the entire document, but exclude Font Awesome icons */
+* {
+    font-family: 'Qs_Iranyekan', sans-serif !important;
+}
+
+/* Exclude Font Awesome icons from the global font-family rule */
+i.fa, i.fas, i.fa-heart {
+    font-family: 'Font Awesome 5 Free', sans-serif !important;
+}
+.ratings, .ratings-val{
+    font-family: "molla" !important;
+}

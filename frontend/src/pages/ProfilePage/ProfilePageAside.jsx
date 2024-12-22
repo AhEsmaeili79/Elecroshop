@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom';
 
 const DashboardAside = ({ handleLogout, setActiveTab }) => {
     const navItems = [
-        { id: "dashboard", label: "Dashboard", href: "#tab-dashboard" },
-        { id: "orders", label: "Orders", href: "#tab-orders" },
-        { id: "address", label: "Addresses", href: "#tab-address" }, // Updated label to "Addresses"
-        { id: "account", label: "Account Details", href: "#tab-account" },
+        { id: "dashboard", label: "داشبورد", href: "#tab-dashboard" },
+        { id: "orders", label: "سفارشات", href: "#tab-orders" },
+        { id: "address", label: "آدرس‌ها", href: "#tab-address" }, 
+        { id: "account", label: "جزئیات حساب", href: "#tab-account" },
     ];
 
     const handleTabClick = (id) => {
@@ -31,7 +31,7 @@ const DashboardAside = ({ handleLogout, setActiveTab }) => {
                     </li>
                 ))}
                 <li className="nav-item">
-                    <Link to='/' className='nav-link' onClick={handleLogout}>Sign Out</Link>
+                    <Link to='/' className='nav-link' onClick={handleLogout}>خروج</Link>
                 </li>  
             </ul>
         </aside>

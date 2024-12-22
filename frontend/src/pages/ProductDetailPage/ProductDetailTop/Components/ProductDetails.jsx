@@ -64,18 +64,18 @@ const ProductDetails = ({
         </div>
         {/* Display the average rating and number of reviews */}
         <a className="ratings-text" href="#product-review-link">
-          {averageRating > 0 ? `${averageRating.toFixed(1)} / 5` : "No Ratings Yet"} ({reviewsCount} Review{reviewsCount !== 1 ? "s" : ""})
+          {averageRating > 0 ? `${averageRating.toFixed(1)} / 5` : "هیچ امتیازی هنوز ثبت نشده است"} ({reviewsCount} نظر{reviewsCount !== 1 ? "ها" : ""})
         </a>
       </div>
 
-      <div className="product-price">${product.price}</div>
+      <div className="product-price">{product.price} تومان</div>
 
       <div className="product-content">
         
       </div>
 
       <div className="details-filter-row details-row-color">
-        <label>Color:</label>
+        <label>رنگ:</label>
         <ColorOptions
           colors={product.colors}
           selectedColor={selectedColor}
@@ -84,7 +84,7 @@ const ProductDetails = ({
       </div>
 
       <div className="details-filter-row details-row-size">
-        <label htmlFor="size">Desc:</label>
+        <label htmlFor="size">توضیحات:</label>
         
         <div >
           <p>{product.desc}</p>
@@ -93,7 +93,7 @@ const ProductDetails = ({
 
 
       <div className="details-filter-row details-row-size">
-        <label htmlFor="qty">Qty:</label>
+        <label htmlFor="qty">تعداد:</label>
         <QuantityInput quantity={quantity} setQuantity={setQuantity} />
       </div>
 
@@ -106,15 +106,15 @@ const ProductDetails = ({
             isFavorited={isFavorited}
             handleAddToWishlist={handleAddToWishlist}
           />
-          <a href="#" className="btn-product btn-compare" title="Compare">
-            <span>Add to Compare</span>
+          <a href="#" className="btn-product btn-compare" title="مقایسه">
+            <span>افزودن به مقایسه</span>
           </a>
         </div>
       </div>
 
       <div className="product-details-footer">
         <div className="product-cat">
-          <span>Category:</span>
+          <span>دسته‌بندی:</span>
           {/* Mapping over the category array to display the name */}
           {categories.map((category, index) => (
             <a key={index} href="#">
@@ -123,17 +123,17 @@ const ProductDetails = ({
           ))}
         </div>
         <div className="social-icons social-icons-sm">
-          <span className="social-label">Share:</span>
-          <a href="#" className="social-icon" title="Facebook" target="_blank">
+          <span className="social-label">اشتراک‌گذاری:</span>
+          <a href="#" className="social-icon" title="فیس‌بوک" target="_blank">
             <i className="icon-facebook-f"></i>
           </a>
-          <a href="#" className="social-icon" title="Twitter" target="_blank">
+          <a href="#" className="social-icon" title="توییتر" target="_blank">
             <i className="icon-twitter"></i>
           </a>
-          <a href="#" className="social-icon" title="Instagram" target="_blank">
+          <a href="#" className="social-icon" title="اینستاگرام" target="_blank">
             <i className="icon-instagram"></i>
           </a>
-          <a href="#" className="social-icon" title="Pinterest" target="_blank">
+          <a href="#" className="social-icon" title="پینترست" target="_blank">
             <i className="icon-pinterest"></i>
           </a>
         </div>

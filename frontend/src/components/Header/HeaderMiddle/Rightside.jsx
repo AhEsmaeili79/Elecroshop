@@ -1,5 +1,6 @@
 import React from 'react';
 import Cart from '../HeaderHomePage/Cart';
+import SearchToggle from '../HeaderHomePage/SearchToggle';
 
 const compareProducts = [
   { name: 'Blue Night Dress', link: 'product.html' },
@@ -25,25 +26,12 @@ const cartItems = [
 
 const RightSide = () => (
   <div className="header-right">
-    <Search />
+    <SearchToggle />
     <CompareDropdown products={compareProducts} />
     <Cart/>
   </div>
 );
 
-const Search = () => (
-  <div className="header-search">
-    <a href="#" className="search-toggle" role="button" title="Search">
-      <i className="icon-search"></i>
-    </a>
-    <form action="#" method="get">
-      <div className="header-search-wrapper">
-        <label htmlFor="q" className="sr-only">Search</label>
-        <input type="search" className="form-control" name="q" id="q" placeholder="Search in..." required />
-      </div>
-    </form>
-  </div>
-);
 
 const CompareDropdown = ({ products }) => (
   <div className="dropdown compare-dropdown">

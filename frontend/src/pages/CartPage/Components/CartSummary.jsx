@@ -46,15 +46,15 @@ const CartSummary = ({ cartItems, totalPrice }) => {
   return (
     <aside className="col-lg-3">
       <div className="summary summary-cart">
-        <h3 className="summary-title">Cart Total</h3>
+        <h3 className="summary-title">جمع سبد خرید</h3>
         <table className="table table-summary">
           <tbody>
             <tr className="summary-subtotal">
-              <td>Subtotal:</td>
+              <td>مجموع موقت:</td>
               <td>${totalPrice}</td>
             </tr>
             <tr className="summary-shipping">
-              <td>Shipping:</td>
+              <td>هزینه حمل و نقل:</td>
               <td>&nbsp;</td>
             </tr>
 
@@ -79,7 +79,7 @@ const CartSummary = ({ cartItems, totalPrice }) => {
             ))}
 
             <tr className="summary-total">
-              <td>Total:</td>
+              <td>مجموع نهایی:</td>
               <td>${finalTotal}</td>
             </tr>
           </tbody>
@@ -90,12 +90,12 @@ const CartSummary = ({ cartItems, totalPrice }) => {
           onClick={handleCheckoutClick} // Trigger the function to save and navigate
           disabled={isCheckoutDisabled} // Disable button conditionally
         >
-          PROCEED TO CHECKOUT
+          ادامه به صفحه پرداخت
         </button>
       </div>
 
       <Link to="/" className="btn btn-outline-dark-2 btn-block mb-3">
-        <span>CONTINUE SHOPPING</span>
+        <span>ادامه خرید</span>
         <i className="icon-refresh"></i>
       </Link>
     </aside>

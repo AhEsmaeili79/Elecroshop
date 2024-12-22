@@ -23,7 +23,7 @@ const ProductTopPage = ({ productId }) => {
   const [isFavorited, setIsFavorited] = useState(false);
   const [selectedColor, setSelectedColor] = useState(null);
   const [wishlist, setWishlist] = useState([]);
-  const [buttonText, setButtonText] = useState("Add to Cart"); // Manage button text state
+  const [buttonText, setButtonText] = useState("اضافه به سبد خرید"); // Manage button text state
   const [btnClass, setbtnClass] = useState("addcartbtn");
   const [isInCart, setIsInCart] = useState(false); // Track if the product is in the cart
   const { cartItems, setCartItems } = useCart();
@@ -38,11 +38,11 @@ const ProductTopPage = ({ productId }) => {
   
         // Check product availability
         if (data.quantity === 0) {
-          setButtonText("Out of Stock");
+          setButtonText("ناموجود");
           setbtnClass("outofstockbtn");
-          setIsInCart(false); // Disable cart actions if out of stock
+          setIsInCart(false); // Disable cart actions if ناموجود
         } else {
-          setButtonText("Add to Cart");
+          setButtonText("اضافه به سبد خرید");
           setbtnClass("addcartbtn");
           setIsInCart(false); // Enable cart actions if product is in stock
         }
@@ -62,7 +62,7 @@ const ProductTopPage = ({ productId }) => {
         // If product is found in the cart, update state for quantity and button
         if (cartItem) {
           setQuantity(cartItem.quantity);
-          setButtonText("Remove Item");
+          setButtonText("حذف از سبد خرید");
           setbtnClass("removecartbtn");
           setIsInCart(true);
         }
@@ -100,8 +100,8 @@ const ProductTopPage = ({ productId }) => {
 
     // Check product availability
     if (product.quantity === 0) {
-      alert("Sorry, this product is out of stock.");
-      setButtonText("Out of Stock");
+      alert("Sorry, this product is ناموجود.");
+      setButtonText("ناموجود");
       setbtnClass("outofstockbtn");
       return; // Disable the button and do nothing
     }
@@ -127,11 +127,11 @@ const ProductTopPage = ({ productId }) => {
       setCartItems(cartData);
 
       setIsInCart(true);
-      setButtonText("Remove Item");
+      setButtonText("حذف از سبد خرید");
       setbtnClass("removecartbtn");
     } catch (err) {
       console.error(err);
-      setButtonText("Add to Cart");
+      setButtonText("اضافه به سبد خرید");
       setbtnClass("addcartbtn");
     }
   };
@@ -152,7 +152,7 @@ const ProductTopPage = ({ productId }) => {
 
         setIsInCart(false);
         setQuantity(1);
-        setButtonText("Add to Cart");
+        setButtonText("اضافه به سبد خرید");
         setbtnClass("addcartbtn");
       }
     } catch (err) {
@@ -197,12 +197,12 @@ const ProductTopPage = ({ productId }) => {
     if (cartItem) {
       setQuantity(cartItem.quantity);
       setIsInCart(true);
-      setButtonText("Remove Item");
+      setButtonText("حذف از سبد خرید");
       setbtnClass("removecartbtn");
     } else {
       setQuantity(1);
       setIsInCart(false);
-      setButtonText("Add to Cart");
+      setButtonText("اضافه به سبد خرید");
       setbtnClass("addcartbtn");
     }
   };
@@ -220,8 +220,8 @@ const ProductTopPage = ({ productId }) => {
       if (quantity > 0 && selectedColor) {
         // Check product availability before updating cart
         if (product.quantity === 0) {
-          alert("Sorry, this product is out of stock.");
-          return; // Disable any cart update if out of stock
+          alert("Sorry, this product is ناموجود.");
+          return; // Disable any cart update if ناموجود
         }
   
         const cartItem = cartItems.find(
@@ -270,7 +270,7 @@ const ProductTopPage = ({ productId }) => {
             handleAddToWishlist={handleAddToWishlist}
             isFavorited={isFavorited}
             handleColorChange={handleColorChange}
-            buttonText={selectedColor ? buttonText : "Select a Color"}
+            buttonText={selectedColor ? buttonText : "ابتدا رنگ انتخاب کنید"}
             btnClass={selectedColor ? btnClass : "disabledbtn"}
           />
         </div>

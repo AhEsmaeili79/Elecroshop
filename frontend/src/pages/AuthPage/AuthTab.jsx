@@ -9,7 +9,7 @@ const AuthTab = ({ isSignUp, onTabChange }) => {
           onClick={() => onTabChange(false)}  // Switch to sign-in when clicked
           role="tab"
         >
-          Login 
+          ورود
         </a>
       </li>
 
@@ -20,7 +20,7 @@ const AuthTab = ({ isSignUp, onTabChange }) => {
           onClick={() => onTabChange(true)}  // Switch to sign-up when clicked
           role="tab"
         >
-          Register
+          ثبت نام
         </a>
       </li>
     </ul>

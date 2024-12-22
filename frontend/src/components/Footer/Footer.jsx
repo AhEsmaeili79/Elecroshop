@@ -8,34 +8,34 @@ import bgImage from '../../assets/images/demos/demo-4/bg-5.jpg';
 
 const footerLinksData = [
   {
-    title: "Useful Links",
+    title: "لینک های مفید",
     links: [
-      { label: 'About Molla', href: 'about.html' },
-      { label: 'Our Services', href: '#' },
-      { label: 'How to shop on Molla', href: '#' },
-      { label: 'FAQ', href: 'faq.html' },
-      { label: 'Contact us', href: 'contact.html' },
+      { label: 'درباره مولا', href: 'about.html' },
+      { label: 'خدمات ما', href: '#' },
+      { label: 'چگونه در مولا خرید کنیم', href: '#' },
+      { label: 'پرسش‌های متداول', href: 'faq.html' },
+      { label: 'تماس با ما', href: 'contact.html' },
     ]
   },
   {
-    title: "Customer Service",
+    title: "خدمات مشتریان",
     links: [
-      { label: 'Payment Methods', href: '#' },
-      { label: 'Money-back guarantee!', href: '#' },
-      { label: 'Returns', href: '#' },
-      { label: 'Shipping', href: '#' },
-      { label: 'Terms and conditions', href: '#' },
-      { label: 'Privacy Policy', href: '#' },
+      { label: 'روش‌های پرداخت', href: '#' },
+      { label: 'ضمانت بازگشت پول!', href: '#' },
+      { label: 'بازگشت کالا', href: '#' },
+      { label: 'ارسال', href: '#' },
+      { label: 'شرایط و قوانین', href: '#' },
+      { label: 'سیاست حریم خصوصی', href: '#' },
     ]
   },
   {
-    title: "My Account",
+    title: "حساب کاربری من",
     links: [
-      { label: 'Sign In', href: '#' },
-      { label: 'View Cart', href: 'cart.html' },
-      { label: 'My Wishlist', href: '#' },
-      { label: 'Track My Order', href: '#' },
-      { label: 'Help', href: '#' },
+      { label: 'ورود', href: '#' },
+      { label: 'مشاهده سبد خرید', href: 'cart.html' },
+      { label: 'لیست علاقه‌مندی‌های من', href: '#' },
+      { label: 'پیگیری سفارش من', href: '#' },
+      { label: 'راهنما', href: '#' },
     ]
   }
 ];
@@ -47,14 +47,14 @@ const Footer = () => {
         <div className="container">
           <div className="row">
             <FooterWidget 
-              title="About" 
-              content={<img src={footerLogo} className="footer-logo" alt="Footer Logo" width="105" height="25" />}
+              title="درباره" 
+              content={<img src={footerLogo} className="footer-logo" alt="لوگوی فوتر" width="105" height="25" />}
               extraContent={
                 <div>
-                  <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.</p>
+                  <p>این متن به عنوان نمونه برای فوتر قرار داده شده است. اطلاعات بیشتر را در سایت ما پیدا کنید.</p>
                   <div className="widget-call">
                     <i className="icon-phone"></i>
-                    Got Question? Call us 24/7 <a href="tel:#">+0123 456 789</a>
+                    سوالی دارید؟ با ما تماس بگیرید 24/7 <a href="tel:#">+0123 456 789</a>
                   </div>
                 </div>
               }
@@ -69,9 +69,9 @@ const Footer = () => {
 
       <div className="footer-bottom">
         <div className="container">
-          <p className="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
+          <p className="footer-copyright">حق کپی رایت © ۲۰۱۹ فروشگاه مولا. تمامی حقوق محفوظ است.</p>
           <figure className="footer-payments">
-            <img src={paymentMethods} alt="Payment methods" width="272" height="20" />
+            <img src={paymentMethods} alt="روش‌های پرداخت" width="272" height="20" />
           </figure>
         </div>
       </div>

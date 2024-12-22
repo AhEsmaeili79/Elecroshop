@@ -43,12 +43,12 @@ const Toolbox = ({ totalProducts, currentPage, productsPerPage, sortBy, onSortCh
             <div className="toolbox-left">
                 <div className="toolbox-info">
                     {/* Displaying the range of products shown */}
-                    Showing <span>{rangeStart} - {rangeEnd}</span> of <span>{totalProducts}</span> Products
+                    نمایش <span>{rangeStart} - {rangeEnd}</span> از <span>{totalProducts}</span> محصول
                 </div>
             </div>
             <div className="toolbox-right">
                 <div className="toolbox-sort">
-                    <label htmlFor="sortby">Sort by:</label>
+                    <label htmlFor="sortby">مرتب‌سازی بر اساس:</label>
                     <div className="select-custom">
                         <select
                             name="sortby"
@@ -57,9 +57,9 @@ const Toolbox = ({ totalProducts, currentPage, productsPerPage, sortBy, onSortCh
                             value={sortBy}
                             onChange={(e) => onSortChange(e.target.value)}
                         >
-                            <option value="popularity">Most Popular</option>
-                            <option value="rating">Most Rated</option>
-                            <option value="date">Date</option>
+                            <option value="popularity">محبوب‌ترین</option>
+                            <option value="rating">بیشترین امتیاز</option>
+                            <option value="date">تاریخ</option>
                         </select>
                     </div>
                 </div>

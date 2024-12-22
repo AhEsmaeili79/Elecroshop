@@ -16,11 +16,11 @@ const AuthForm = ({ isSignUp }) => {
         try {
           await signupUser(username, email, password);
           window.location.href = '/';
-          alert('Signup successful!');
+          alert('ثبت نام با موفقیت انجام شد!');
           isSignUp = false;
         }
         catch (error) {
-          setError('Signup failed. Please try again.');
+          setError('ثبت نام ناموفق بود. لطفاً دوباره تلاش کنید.');
           console.error('Signup failed:', error);
         }
       } 
@@ -30,7 +30,7 @@ const AuthForm = ({ isSignUp }) => {
           window.location.href = '/';
         }
         catch (error) {
-          setError('Login failed. Please check your credentials.');
+          setError('ورود ناموفق بود. لطفاً اطلاعات خود را بررسی کنید.');
           console.error('Login failed:', error);
         } 
       }
@@ -40,7 +40,7 @@ const AuthForm = ({ isSignUp }) => {
     <form onSubmit={handleSubmit}>
       {/* Username input field (for both sign-in and sign-up) */}
       <div className="form-group">
-        <label htmlFor="username">{isSignUp ? 'Username *' : 'Username (or Email) *'}</label>
+        <label htmlFor="username">{isSignUp ? 'نام کاربری *' : 'نام کاربری (یا ایمیل) *'}</label>
         <input
           type="text"
           className="form-control"
@@ -55,7 +55,7 @@ const AuthForm = ({ isSignUp }) => {
       {/* Email input field (only for sign-up) */}
       {isSignUp && (
         <div className="form-group">
-          <label htmlFor="email">Your email address *</label>
+          <label htmlFor="email">آدرس ایمیل شما *</label>
           <input
             type="email"
             className="form-control"
@@ -70,7 +70,7 @@ const AuthForm = ({ isSignUp }) => {
 
       {/* Password input field */}
       <div className="form-group">
-        <label htmlFor="password">Password *</label>
+        <label htmlFor="password">کلمه عبور *</label>
         <input
           type="password"
           className="form-control"
@@ -85,7 +85,7 @@ const AuthForm = ({ isSignUp }) => {
       {/* Confirm Password (only for sign-up) */}
       {isSignUp && (
         <div className="form-group">
-          <label htmlFor="confirm-password">Confirm Password *</label>
+          <label htmlFor="confirm-password">تأیید کلمه عبور *</label>
           <input
             type="password"
             className="form-control"
@@ -101,7 +101,7 @@ const AuthForm = ({ isSignUp }) => {
 
       <div className="form-footer">
         <button type="submit" className="btn btn-outline-primary-2">
-          <span>{isSignUp ? 'SIGN UP' : 'LOG IN'}</span>
+          <span>{isSignUp ? 'ثبت نام' : 'ورود'}</span>
           <i className="icon-long-arrow-right"></i>
         </button>
 
@@ -115,7 +115,7 @@ const AuthForm = ({ isSignUp }) => {
               required
             />
             <label className="custom-control-label" htmlFor="register-policy">
-              I agree to the <a href="#">privacy policy</a> *
+              من با <a href="#">سیاست حفظ حریم خصوصی</a> موافقم *
             </label>
           </div>
         )}

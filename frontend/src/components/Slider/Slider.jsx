@@ -20,7 +20,7 @@ const Slider = () => {
           <div className="container intro-content">
             <div className="row justify-content-end">
               <div className="col-auto col-sm-7 col-md-6 col-lg-5">
-                <h3 className="intro-subtitle text-third">Deals and Promotions</h3>
+                <h3 className="intro-subtitle text-third">تخفیف‌ها و پیشنهادات</h3>
                 <h1 className="intro-title">Beats by</h1>
                 <h1 className="intro-title">Dre Studio 3</h1>
                 <div className="intro-price">
@@ -28,7 +28,7 @@ const Slider = () => {
                   <span className="text-third">$279<sup>.99</sup></span>
                 </div>
                 <a href="category.html" className="btn btn-primary btn-round">
-                  <span>Shop More</span>
+                  <span>خرید بیشتر</span>
                   <i className="icon-long-arrow-right"></i>
                 </a>
               </div>
@@ -39,7 +39,7 @@ const Slider = () => {
           <div className="container intro-content">
             <div className="row justify-content-end">
               <div className="col-auto col-sm-7 col-md-6 col-lg-5">
-                <h3 className="intro-subtitle text-third">Deals and Promotions</h3>
+                <h3 className="intro-subtitle text-third">تخفیف‌ها و پیشنهادات</h3>
                 <h1 className="intro-title">Beats by</h1>
                 <h1 className="intro-title">Dre Studio 3</h1>
                 <div className="intro-price">
@@ -47,7 +47,7 @@ const Slider = () => {
                   <span className="text-third">$279<sup>.99</sup></span>
                 </div>
                 <a href="category.html" className="btn btn-primary btn-round">
-                  <span>Shop More</span>
+                  <span>خرید بیشتر</span>
                   <i className="icon-long-arrow-right"></i>
                 </a>
               </div>

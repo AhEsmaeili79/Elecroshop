@@ -18,10 +18,10 @@ const OrderDetailPage = () => {
         if (data.length > 0) {
           setOrder(data[0]);
         } else {
-          setError('Order not found');
+          setError('سفارش یافت نشد');
         }
       } catch (err) {
-        setError('Error fetching order details');
+        setError('خطا در دریافت جزئیات سفارش');
       } finally {
         setLoading(false);
       }
@@ -34,7 +34,7 @@ const OrderDetailPage = () => {
     return (
       <div className="order-detail-loading d-flex justify-content-center align-items-center vh-100">
         <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
+          <span className="visually-hidden">در حال بارگذاری...</span>
         </div>
       </div>
     );
@@ -49,7 +49,7 @@ const OrderDetailPage = () => {
   if (!order)
     return (
       <div className="order-detail-not-found alert alert-warning text-center mt-5" role="alert">
-        No order found with the given order code.
+        هیچ سفارشی با کد سفارش وارد شده پیدا نشد.
       </div>
     );
 

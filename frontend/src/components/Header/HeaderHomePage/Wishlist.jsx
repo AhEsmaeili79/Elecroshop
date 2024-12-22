@@ -10,12 +10,12 @@ const Wishlist = () => {
 
   return (
     <div className="wishlist">
-      <a href='/wishlist' title="Wishlist">
+      <a href='/wishlist' title=" علاقه‌مندی‌ها">
         <div className="icon">
           <i className="icon-heart-o"></i>
           <span className="wishlist-count badge">{isWishlistLoading ? '...' : wishlistItems.length}</span>  {/* Dynamically rendered wishlist count */}
         </div>
-        <p>Wishlist</p>
+        <p> علاقه‌مندی‌ها</p>
       </a>
     </div>
   );

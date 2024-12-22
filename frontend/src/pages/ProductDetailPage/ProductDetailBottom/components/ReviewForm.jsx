@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { submitReview, updateReview } from '../../../../api/reviews';
 import './css/review.css';
 
@@ -40,15 +40,15 @@ const ReviewForm = ({ productId, onSubmit, reviewToEdit, clearEdit }) => {
     try {
       setLoading(true);
       if (reviewToEdit) {
-        await updateReview(reviewToEdit.id, reviewData); // Update existing review
+        await updateReview(reviewToEdit.id, reviewData); // بروزرسانی نظر موجود
       } else {
-        await submitReview(reviewData); // Create new review
+        await submitReview(reviewData); // ایجاد نظر جدید
       }
       resetForm();
-      if (clearEdit) clearEdit(); // Trigger callback to cancel or reset form visibility
-      if (onSubmit) onSubmit(); // Refresh reviews
+      if (clearEdit) clearEdit(); // فراخوانی کال بک برای لغو یا بازنشانی نمایش فرم
+      if (onSubmit) onSubmit(); // به روزرسانی نظرها
     } catch (error) {
-      console.error('Failed to submit review:', error);
+      console.error('ارسال نظر با مشکل مواجه شد:', error);
     } finally {
       setLoading(false);
     }
@@ -73,11 +73,11 @@ const ReviewForm = ({ productId, onSubmit, reviewToEdit, clearEdit }) => {
   return (
     <form onSubmit={handleSubmit} className="review-form">
       <div className="form-group">
-        <label htmlFor="review-title">Review Title</label>
+        <label htmlFor="review-title">عنوان نظر</label>
         <input
           type="text"
           id="review-title"
-          placeholder="Enter review title"
+          placeholder="عنوان نظر خود را وارد کنید"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
@@ -85,17 +85,17 @@ const ReviewForm = ({ productId, onSubmit, reviewToEdit, clearEdit }) => {
       </div>
 
       <div className="form-group">
-        <label htmlFor="review-rating">Rating</label>
+        <label htmlFor="review-rating">امتیاز</label>
         <div id="review-rating" className="stars">
           {renderStars()}
         </div>
       </div>
 
       <div className="form-group">
-        <label htmlFor="review-comment">Your Review</label>
+        <label htmlFor="review-comment">نظر شما</label>
         <textarea
           id="review-comment"
-          placeholder="Write your review"
+          placeholder="نظر خود را بنویسید"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           required
@@ -103,11 +103,11 @@ const ReviewForm = ({ productId, onSubmit, reviewToEdit, clearEdit }) => {
       </div>
 
       <button type="submit" className="submit-btn mb-2" disabled={loading}>
-        {loading ? 'Submitting...' : reviewToEdit ? 'Update Review' : 'Submit Review'}
+        {loading ? 'در حال ارسال...' : reviewToEdit ? 'بروزرسانی نظر' : 'ارسال نظر'}
       </button>
       {reviewToEdit && (
         <button type="button" className="btn btn-info w-100" onClick={clearEdit}>
-          Cancel
+          لغو
         </button>
       )}
     </form>

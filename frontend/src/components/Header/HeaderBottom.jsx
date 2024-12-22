@@ -10,45 +10,45 @@ const HeaderBottom = () => {
           <nav className="main-nav">
             <ul className="menu sf-arrows">
               <li className="megamenu-container active">
-                <a href="index.html" className="sf-with-ul">Home</a>
+                <a href="index.html" className="sf-with-ul">خانه</a>
               </li>
               <li>
-                <a href="category.html" className="sf-with-ul">Shop</a>
+                <a href="category.html" className="sf-with-ul">فروشگاه</a>
                 <div className="megamenu megamenu-md">
                     <div className="row no-gutters">
                         <div className="col-md-8">
                             <div className="menu-col">
                                 <div className="row">
                                     <div className="col-md-6">
-                                        <div className="menu-title">Shop with sidebar</div>
+                                        <div className="menu-title">فروشگاه با نوار کناری</div>
                                         <ul>
-                                            <li><a href="category-list.html">Shop List</a></li>
-                                            <li><a href="category-2cols.html">Shop Grid 2 Columns</a></li>
-                                            <li><a href="category.html">Shop Grid 3 Columns</a></li>
-                                            <li><a href="category-4cols.html">Shop Grid 4 Columns</a></li>
-                                            <li><a href="category-market.html"><span>Shop Market<span className="tip tip-new">New</span></span></a></li>
+                                            <li><a href="category-list.html">فروشگاه لیست</a></li>
+                                            <li><a href="category-2cols.html">فروشگاه گرید ۲ ستون</a></li>
+                                            <li><a href="category.html">فروشگاه گرید ۳ ستون</a></li>
+                                            <li><a href="category-4cols.html">فروشگاه گرید ۴ ستون</a></li>
+                                            <li><a href="category-market.html"><span>بازار فروشگاه<span className="tip tip-new">جدید</span></span></a></li>
                                         </ul>
 
-                                        <div className="menu-title">Shop no sidebar</div>
+                                        <div className="menu-title">فروشگاه بدون نوار کناری</div>
                                         <ul>
-                                            <li><a href="category-boxed.html"><span>Shop Boxed No Sidebar<span className="tip tip-hot">Hot</span></span></a></li>
-                                            <li><a href="category-fullwidth.html">Shop Fullwidth No Sidebar</a></li>
+                                            <li><a href="category-boxed.html"><span>فروشگاه جعبه‌ای بدون نوار کناری<span className="tip tip-hot">داغ</span></span></a></li>
+                                            <li><a href="category-fullwidth.html">فروشگاه تمام عرض بدون نوار کناری</a></li>
                                         </ul>
                                     </div>
 
                                     <div className="col-md-6">
-                                        <div className="menu-title">Product Category</div>
+                                        <div className="menu-title">دسته‌بندی محصولات</div>
                                         <ul>
-                                            <li><a href="product-category-boxed.html">Product Category Boxed</a></li>
-                                            <li><a href="product-category-fullwidth.html"><span>Product Category Fullwidth<span className="tip tip-new">New</span></span></a></li>
+                                            <li><a href="product-category-boxed.html">دسته‌بندی محصولات جعبه‌ای</a></li>
+                                            <li><a href="product-category-fullwidth.html"><span>دسته‌بندی محصولات تمام عرض<span className="tip tip-new">جدید</span></span></a></li>
                                         </ul>
-                                        <div className="menu-title">Shop Pages</div>
+                                        <div className="menu-title">صفحات فروشگاه</div>
                                         <ul>
-                                            <li><a href="cart.html">Cart</a></li>
-                                            <li><a href="checkout.html">Checkout</a></li>
-                                            <li><a href="wishlist.html">Wishlist</a></li>
-                                            <li><a href="dashboard.html">My Account</a></li>
-                                            <li><a href="#">Lookbook</a></li>
+                                            <li><a href="cart.html">سبد خرید</a></li>
+                                            <li><a href="checkout.html">پرداخت</a></li>
+                                            <li><a href="wishlist.html">لیست خواسته‌ها</a></li>
+                                            <li><a href="dashboard.html">حساب کاربری من</a></li>
+                                            <li><a href="#">کتاب نگاه</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -58,10 +58,10 @@ const HeaderBottom = () => {
                         <div className="col-md-4">
                             <div className="banner banner-overlay">
                                 <a href="category.html" className="banner banner-menu">
-                                    <img src={image} alt="Banner"/>
+                                    <img src={image} alt="بنر"/>
 
                                     <div className="banner-content banner-content-top">
-                                        <div className="banner-title text-white">Last <br/>Chance<br/><span><strong>Sale</strong></span></div>
+                                        <div className="banner-title text-white">آخرین <br/>فرصت<br/><span><strong>فروش</strong></span></div>
                                     </div>
                                 </a>
                             </div>
@@ -70,18 +70,18 @@ const HeaderBottom = () => {
                 </div>
               </li>
               <li>
-                <a href="product.html" className="sf-with-ul">Product</a>
+                <a href="product.html" className="sf-with-ul">محصولات</a>
                 {/* Product submenu */}
               </li>
               <li>
-                <a href="#" className="sf-with-ul">Pages</a>
+                <a href="#" className="sf-with-ul">صفحات</a>
                 {/* Pages submenu */}
               </li>
               <li>
-                <a href="blog.html" className="sf-with-ul">Blog</a>
+                <a href="blog.html" className="sf-with-ul">وبلاگ</a>
               </li>
               <li>
-                <a href="elements-list.html" className="sf-with-ul">Elements</a>
+                <a href="elements-list.html" className="sf-with-ul">المنت‌ها</a>
               </li>
             </ul>
           </nav>

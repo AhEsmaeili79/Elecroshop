@@ -34,7 +34,7 @@ const BrandCarousel = () => {
           <OwlCarousel className="owl-theme mt-5 mb-5" {...options}>
                   {brandImages.map((image, index) => (
                       <a href="#" className="brand" key={index}>
-                      <img src={image} alt={`Brand ${index}`} />
+                      <img src={image} alt={`برند ${index}`} />
                   </a>
               ))}
           </OwlCarousel>

@@ -4,14 +4,14 @@ const AuthChoice = ({ isSignUp }) => {
   return (
     <div className="form-choice">
       <p className="text-center">
-        or {isSignUp ? 'sign up' : 'sign in'} with
+        یا با {isSignUp ? 'ثبت نام' : 'ورود'} کنید
       </p>
       <div className="row">
         {/* Google Login */}
         <div className="col-sm-6">
           <a href="#" className="btn btn-login btn-g">
             <i className="icon-google"></i>
-            {isSignUp ? 'Sign Up With Google' : 'Sign In With Google'}
+            {isSignUp ? 'ثبت نام با گوگل' : 'ورود با گوگل'}
           </a>
         </div>
 
@@ -19,7 +19,7 @@ const AuthChoice = ({ isSignUp }) => {
         <div className="col-sm-6">
           <a href="#" className="btn btn-login btn-f">
             <i className="icon-facebook-f"></i>
-            {isSignUp ? 'Sign Up With Facebook' : 'Sign In With Facebook'}
+            {isSignUp ? 'ثبت نام با فیس‌بوک' : 'ورود با فیس‌بوک'}
           </a>
         </div>
       </div>

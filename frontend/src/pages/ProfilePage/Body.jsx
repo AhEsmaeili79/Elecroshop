@@ -32,7 +32,7 @@ const Body = () => {
             case "orders":  // Add this case to render the AddressComponent
                 return <OrdersList />;
             default:
-                return <div>Welcome to the Dashboard</div>;
+                return <div>خوش آمدید به داشبورد</div>;
         }
     };
 
