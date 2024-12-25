@@ -9,7 +9,7 @@ import AddressSection from './checkoutComponent/AddressSection';
 import Summary from './checkoutComponent/Summary';
 import CheckoutButtons from './checkoutComponent/CheckoutButtons';
 import ErrorMessages from './checkoutComponent/ErrorMessages';
-import './css/CheckoutForm.css';
+import './css/CheckoutForm.rtl.css';
 
 const CheckoutForm = () => {
   const [userData, setUserData] = useState(null);

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import "./css/Wishlist.css";
+import "./css/Wishlist.rtl.css";
 
 const WishlistTable = ({
     wishlist,

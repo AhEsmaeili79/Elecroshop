@@ -1,0 +1,40 @@
+table.table-summary tbody td.checkout-product {
+    text-align: right !important;
+}
+
+/* Ensure the error message is clear and spaced properly */
+.error-message {
+    margin-top: 15px;  /* Add margin at the top */
+    margin-bottom: 15px; /* Add margin at the bottom */
+    padding: 10px;  /* Add padding for better readability */
+    font-size: 14px; /* Ensure the font size is consistent */
+    border-radius: 4px; /* Optional: rounding of the corners */
+  }
+  
+  /* Optional: Customize the background color and text color of the error messages */
+  .error-message {
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24;  /* Dark red text */
+    border: 1px solid #f5c6cb; /* Red border */
+  }
+  .checkout-item-image{
+    width: 100px;
+    height: 100px;
+  }
+
+/* CheckoutForm.css */
+.checkout-discount label {
+  cursor: pointer; /* Changes the cursor to a pointer when hovering over the label */
+  transition: opacity 0.3s ease; /* Smooth transition for fading the text */
+}
+
+.checkout-discount input:focus + label,
+.checkout-discount input:not(:placeholder-shown) + label {
+  opacity: 0; /* Fade the label when the input is focused or contains text */
+}
+
+/* Optional: Style for the input field */
+.checkout-discount input {
+  padding-right: 10px; /* Adding some padding for better alignment */
+}
+

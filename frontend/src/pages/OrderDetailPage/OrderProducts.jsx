@@ -88,7 +88,7 @@ const OrderProducts = ({order}) => {
                 <strong>کد سفارش:</strong> <span>{order.order_code}</span>
               </div>
               <div className="d-flex justify-content-between">
-                <strong>نوع پرداخت:</strong> <span>{order.payment_type}</span>
+                <strong>نوع پرداخت:</strong> <span>{order.payment_type === 'cash' ? 'نقد' : 'خرید اعتباری'}</span>
               </div>
               <div className="d-flex justify-content-between">
                 <strong>هزینه ارسال:</strong> <span>{order.shipment_price_amount} تومان</span>

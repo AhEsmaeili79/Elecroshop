@@ -24,11 +24,11 @@ const BreadCrumb = ({ categoryName }) => {
     '/cart/': 'سبد خرید',
     '/': 'خانه',
     '/product': 'محصولات',
-    '/wishlist': 'علاقه‌مندی‌ها',
-    '/dashboard/myaccount': 'حساب من',
-    '/checkout': 'پرداخت',
+    '/wishlist/': 'علاقه‌مندی‌ها',
+    '/dashboard/': 'حساب من',
+    '/checkout/': 'پرداخت',
     '/orders': 'سفارشات',
-    '/orders/:orderCode': 'جزئیات سفارش',
+    '/orders/': 'سفارشات',
   };
 
   // Generate breadcrumb links dynamically
@@ -40,12 +40,16 @@ const BreadCrumb = ({ categoryName }) => {
     };
   });
 
+  // Check if last segment is cart, wishlist, or dashboard and set the Persian name
+  const lastSegment = pathSegments[pathSegments.length - 1];
+  let lastBreadcrumb = persianPaths[`/${lastSegment}/`] || persianPaths[lastSegment] || categoryName || (productName ? productName : lastSegment);
+
   return (
     <nav aria-label="breadcrumb" className="breadcrumb-nav">
       <div className="container">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <Link to="/">{persianPaths['/'] || 'Home'}</Link>
+            <Link to="/">{persianPaths['/'] || 'خانه'}</Link>
           </li>
 
           {/* Conditionally render product name or category name */}
@@ -54,9 +58,9 @@ const BreadCrumb = ({ categoryName }) => {
               {index < breadcrumbs.length - 1 ? (
                 <Link to={breadcrumb.url}>{persianPaths[breadcrumb.url] || breadcrumb.name}</Link>
               ) : (
-                // If it's the last breadcrumb, use categoryName if available
+                // Last breadcrumb: show Persian name if available
                 <span>
-                  {categoryName || (productName ? productName : breadcrumb.name)}
+                  {lastBreadcrumb}
                 </span>
               )}
             </li>

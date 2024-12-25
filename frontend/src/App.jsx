@@ -8,7 +8,7 @@ function App() {
     <Router>  {/* Wrap everything inside Router */}
       <CartProvider>
         <WishlistProvider>
-          <AppRouter />
+            <AppRouter />
         </WishlistProvider>
       </CartProvider>
     </Router>

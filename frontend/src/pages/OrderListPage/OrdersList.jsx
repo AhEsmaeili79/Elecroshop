@@ -1,8 +1,8 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchUserOrders } from '../../api/orderApi';
 import { fetchShippingOptions } from '../../api/shipment';
-import './css/OrdersList.css'; // Import the CSS file
+import './css/OrdersList.rtl.css'; // Import the CSS file
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
@@ -19,7 +19,15 @@ const OrdersList = () => {
           fetchUserOrders(),
           fetchShippingOptions(),
         ]);
-        setOrders(ordersData);
+        
+        // Sort the orders by date and time in descending order
+        const sortedOrders = ordersData.sort((a, b) => {
+          const dateA = new Date(`${a.created_at_date} ${a.created_at_time}`);
+          const dateB = new Date(`${b.created_at_date} ${b.created_at_time}`);
+          return dateB - dateA; // Sort in descending order (latest first)
+        });
+
+        setOrders(sortedOrders);
         setShippingOptions(shippingData);
       } catch (err) {
         setError('عدم توانایی در دریافت داده‌ها. لطفا دوباره تلاش کنید.');
@@ -77,7 +85,7 @@ const OrdersList = () => {
               >
                 {/* Created At Timestamp */}
                 <span className="order-timestamp">
-                  {order.created_at_date} {formatTime(order.created_at_time)} {/* Show only hour and minute */}
+                  {formatTime(order.created_at_time)} {order.created_at_date} 
                 </span>
 
                 <h4>کد سفارش: 
@@ -100,7 +108,7 @@ const OrdersList = () => {
                   ))}
                 </div>
                 <p className="total-price">
-                  <strong>قیمت نهایی:</strong> ${totalPrice.toFixed(2)}
+                  <strong>قیمت نهایی:</strong> {totalPrice} تومان
                 </p>
               </div>
             );

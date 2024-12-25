@@ -62,9 +62,11 @@ const AppRouter = () => {
       <Route path="/product/:productId" element={<ProductDetail />} />
       <Route path="/product" element={<ProductList />} />
       <Route path="/wishlist" element={<WishlistPage />} />
-      <Route path="/dashboard/myaccount" element={<ProfilePage/>} />
+      <Route path="/dashboard/" element={<ProfilePage/>} />
+      <Route path="/address" element={<ProfilePage/>}/>
+      <Route path="/account" element={<ProfilePage/>}/>
       <Route path="/checkout" element={<Checkout/>} />
-      <Route path="/orders" element={<OrdersList/>} />
+      <Route path="/orders" element={<ProfilePage/>} />
       <Route path="/orders/:orderCode" element={<OrderDetail/>} />
       <Route path="*" element={<NotFound />} />
       {/* Add more routes for different roles */}

@@ -24,15 +24,15 @@ class ShipmentPrice(models.Model):
 
 class Order(models.Model):
     ORDER_STATUS_CHOICES = [
-        ("canceled", "Canceled"),
-        ("successful", "Successful"),
-        ("pending", "Pending to Pay"),
-        ("delivered", "Delivered"),
-        ("returned", "Returned"),
+        ("canceled", "کنسل"),
+        ("successful", "موفق"),
+        ("pending", "در انتظار پرداخت"),
+        ("delivered", "تحویل شده"),
+        ("returned", "مرجوع"),
     ]
     payment_type = [
-        ("cash", "Cash"),
-        ("credit_card", "Credit card"),
+        ("cash", "نقد"),
+        ("credit_card", "درگاه پرداخت"),
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_code = models.CharField(

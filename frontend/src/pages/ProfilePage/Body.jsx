@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BreadCrumb from '../../components/Breadcrumb/BreadCrumb';
 import DashboardAside from './ProfilePageAside';
 import UserDetailHeader from '../../components/Header/UserDetailHeader/UserDetailHeader';
@@ -17,19 +17,25 @@ const handleLogout = async () => {
       localStorage.removeItem('refresh_token');
       window.location.href = '/'; 
     }
-  };
+};
 
 const Body = () => {
     const [activeTab, setActiveTab] = useState("dashboard");
+
+    useEffect(() => {
+        if (window.location.pathname === '/orders' || window.location.pathname === '/orders/') {
+            setActiveTab("orders");
+        }
+    }, []);
+    
 
     const renderTabContent = () => {
         switch (activeTab) {
             case "account":
                 return <AccountForm />;
-            case "address":  // Add this case to render the AddressComponent
+            case "address":
                 return <AddressComponent />;
-            // Add other cases for different tabs as needed
-            case "orders":  // Add this case to render the AddressComponent
+            case "orders":
                 return <OrdersList />;
             default:
                 return <div>خوش آمدید به داشبورد</div>;

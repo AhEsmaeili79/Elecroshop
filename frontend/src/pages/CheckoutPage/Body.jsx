@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import BreadCrumb from "../../components/Breadcrumb/BreadCrumb";
 import CheckoutForm from "./CheckoutForm";
 import ChekcoutHeader from "../../components/Header/CheckoutHeader/checkoutheader";
-import './css/CheckoutForm.css';
+import './css/CheckoutForm.rtl.css';
 
 const Body = () => {
     const [discountCode, setDiscountCode] = useState(""); // State to handle input

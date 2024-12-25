@@ -59,7 +59,7 @@ const ProductCarousel = ({ categoryId, fadeKey }) => {
   if (error) return <p className="error-message">{error}</p>;
 
   return (
-    <div className={`category-content ${showProducts ? 'visible' : ''} fade-transition`}>
+    <div className={`category-content ${showProducts ? 'visible' : ''} fade-transition`} dir='ltr'>
       <OwlCarousel
         className="owl-carousel owl-full carousel-equal-height carousel-with-shadow"
         {...options}

@@ -16,4 +16,25 @@
     border: 2px solid #3399ff;
     background-color: #3399ff;
   }
+  .intro-slider-container {
+  position: relative;
+  width: 100%;
+}
+
+.intro-slide {
+  background-position: center;
+  display: flex;
+  align-items: center;
+}
+
+/* Ensure consistent height under 480px */
+@media (max-width: 480px) {
+  .intro-slide {
+    height: 320px !important;  /* Force the height to stay 390px */
+  }
   
+  /* Adjust the height of the OwlCarousel stage if needed */
+  .owl-stage-outer {
+    height: 320px !important;  /* Force the height to stay 390px */
+  }
+}

@@ -19,13 +19,13 @@ const SearchToggle = () => {
             </a>
             <form onSubmit={handleSearch}>
                 <div className="header-search-wrapper">
-                    <label htmlFor="q" className="sr-only">Search</label>
+                    <label htmlFor="q" className="sr-only">جستجو</label>
                     <input
                         type="search"
                         className="form-control"
                         name="q"
                         id="q"
-                        placeholder="Search in..."
+                        placeholder="جستجو..."
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         required
