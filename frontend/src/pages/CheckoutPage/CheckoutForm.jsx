@@ -45,6 +45,10 @@ const CheckoutForm = () => {
     }
   }, [ordercode, cartItems, navigate]);
 
+  const getTotalPrice = () => {
+    return cartItems.reduce((sum, item) => sum + item.total_price, 0);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -82,16 +86,26 @@ const CheckoutForm = () => {
   const handleOrderSubmit = async (e) => {
     e.preventDefault();
     if (!selectedShipping) return;
-
+  
     const orderData = {
       address: selectedAddressId,
       shipment_price: selectedShipping.id,
       payment_type: paymentType,
       items: [],
+      total_amount: (getTotalPrice() + (selectedShipping ? selectedShipping.price : 0)),
     };
-
+  
     try {
-      const createdOrder  = await createOrder(orderData);
+      const createdOrder = await createOrder(orderData);
+      console.log(createdOrder.payment_url)
+      // Assuming `createdOrder` has the payment URL
+      if (createdOrder.payment_url) {
+        // Redirect the user to ZarinPal payment page
+        window.location.href = createdOrder.payment_url;
+      } else {
+        console.error("No payment URL found in the response.");
+      }
+  
       refreshCart();
       localStorage.removeItem('selectedShipping');
       localStorage.removeItem('cartItems');
@@ -100,7 +114,7 @@ const CheckoutForm = () => {
       console.error("Error creating order:", error);
     }
   };
-
+  
   return (
     <form onSubmit={handleOrderSubmit}>
       <ErrorMessages errorMessages={errorMessages} />

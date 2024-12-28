@@ -1,11 +1,23 @@
+import requests
+import logging
+from django.conf import settings
+from django.shortcuts import redirect
 from django.utils.crypto import get_random_string
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly, IsAdminUser
-from .models import Order,OrderItem, ShipmentPrice
-from .serializers import OrderSerializer,ShipmentPriceSerializer
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.response import Response
+from .models import Order, OrderItem, ShipmentPrice
+from .serializers import OrderSerializer, ShipmentPriceSerializer
 from cart.models import get_or_create_cart
 from .permissions import IsCustomerOrSeller
 from rest_framework.viewsets import ModelViewSet
+
+# ZarinPal API URLs
+ZARINPAL_REQUEST_URL = 'https://api.zarinpal.com/pg/v4/payment/request.json'
+ZARINPAL_VERIFY_URL = 'https://api.zarinpal.com/pg/v4/payment/verify.json'
+ZARINPAL_STARTPAY_URL = 'https://www.zarinpal.com/pg/StartPay/'
+
+logger = logging.getLogger(__name__)
 
 class OrderViewSet(viewsets.ModelViewSet):
     """

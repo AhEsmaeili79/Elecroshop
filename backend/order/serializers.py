@@ -53,6 +53,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "items",
             'created_at_date',
             'created_at_time',
+            'total_amount',
         ]
         read_only_fields = [
             "user",

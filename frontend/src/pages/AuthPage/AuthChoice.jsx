@@ -4,7 +4,7 @@ const AuthChoice = ({ isSignUp }) => {
   return (
     <div className="form-choice">
       <p className="text-center">
-        یا با {isSignUp ? 'ثبت نام' : 'ورود'} کنید
+        {isSignUp ? 'ثبت نام' : 'ورود'} با 
       </p>
       <div className="row">
         {/* Google Login */}

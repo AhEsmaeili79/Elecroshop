@@ -1,3 +1,6 @@
 .category-containter{
     background-color: #fff;
 }
+.cat-block:hover{
+    cursor: pointer;
+}

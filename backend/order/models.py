@@ -46,6 +46,7 @@ class Order(models.Model):
     status = models.CharField(
         max_length=20, choices=ORDER_STATUS_CHOICES, default="pending"
     )
+    total_amount = models.PositiveIntegerField()
     created_at_date = models.DateField(default=persian_date)
     created_at_time = models.TimeField(auto_now=True)
 
@@ -61,3 +62,6 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product.name} (x{self.quantity}) in Order {self.order.order_code}"
+
+
+
