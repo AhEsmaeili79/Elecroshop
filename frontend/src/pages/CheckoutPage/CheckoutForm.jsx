@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { createOrder, fetchCartItems } from "../../api/orderApi";
+import { createOrder, fetchCartItems ,fetchOrderByCode } from "../../api/orderApi";
 import { getAddress, addAddress } from "../../api/addresses";
 import { fetchUserData } from "../../api/user";
 import { useCart } from "../../contexts/CartContext";
@@ -33,17 +33,23 @@ const CheckoutForm = () => {
     cartEmpty: false,
     shippingEmpty: false,
   });
+  const [orderSubmitted, setOrderSubmitted] = useState(false); 
+  const [paymentReady, setPaymentReady] = useState(false);
   const navigate = useNavigate();
   const { refreshCart } = useCart();
 
   useEffect(() => {
-    if (ordercode != '') {
+    if (orderSubmitted) {
+      if (ordercode !== '' && paymentType === 'cash') {
+        refreshCart();
+        localStorage.removeItem('selectedShipping');
+        localStorage.removeItem('cartItems');
         navigate(`/orders/${ordercode}`);
+      } else if (cartItems.length === 0) {
+        navigate('/');
+      }
     }
-    else if (cartItems.length === 0) {
-      navigate('/'); // Navigate to the home page
-    }
-  }, [ordercode, cartItems, navigate]);
+  }, [orderSubmitted, ordercode, paymentType, cartItems, navigate]);
 
   const getTotalPrice = () => {
     return cartItems.reduce((sum, item) => sum + item.total_price, 0);
@@ -76,7 +82,6 @@ const CheckoutForm = () => {
   }, []);
 
   useEffect(() => {
-    // Check if cartItems or selectedShipping is empty and update errorMessages accordingly
     setErrorMessages({
       cartEmpty: cartItems.length === 0,
       shippingEmpty: !selectedShipping,
@@ -92,29 +97,45 @@ const CheckoutForm = () => {
       shipment_price: selectedShipping.id,
       payment_type: paymentType,
       items: [],
-      total_amount: (getTotalPrice() + (selectedShipping ? selectedShipping.price : 0)),
+      total_amount: getTotalPrice() + (selectedShipping ? selectedShipping.price : 0),
     };
   
     try {
       const createdOrder = await createOrder(orderData);
-      console.log(createdOrder.payment_url)
-      // Assuming `createdOrder` has the payment URL
-      if (createdOrder.payment_url) {
-        // Redirect the user to ZarinPal payment page
-        window.location.href = createdOrder.payment_url;
-      } else {
-        console.error("No payment URL found in the response.");
-      }
-  
-      refreshCart();
-      localStorage.removeItem('selectedShipping');
-      localStorage.removeItem('cartItems');
       setOrderCode(createdOrder.order_code);
+      if (paymentType === 'credit_card') {
+        setPaymentReady(true); // Trigger the payment redirect function
+      } else {
+        setOrderSubmitted(true); // Complete the process for cash payments
+      }
     } catch (error) {
       console.error("Error creating order:", error);
     }
   };
+
+  const handlePaymentRedirect = async () => { // Ensure ordercode is being logged correctly
+    if (paymentType === 'credit_card' && paymentReady && ordercode) {
+      try {
+        const orderDetails = await fetchOrderByCode(ordercode);
+        console.log('orderDetails:', orderDetails); // Log the entire orderDetails object for debugging
+        if (orderDetails[0] && orderDetails[0].payment) {
+          const authority = orderDetails[0].payment.authority;
+          refreshCart();
+          localStorage.removeItem('selectedShipping');
+          localStorage.removeItem('cartItems');
+          window.location.href = `https://www.zarinpal.com/pg/StartPay/${authority}`;
+        }
+      } catch (error) {
+        console.error("Error fetching order details:", error);
+      }
+    }
+  };
   
+
+  useEffect(() => {
+    handlePaymentRedirect();
+  }, [paymentReady, paymentType, ordercode]);
+
   return (
     <form onSubmit={handleOrderSubmit}>
       <ErrorMessages errorMessages={errorMessages} />
@@ -139,10 +160,11 @@ const CheckoutForm = () => {
             cartItems={cartItems}
             selectedShipping={selectedShipping}
           />
-          <CheckoutButtons 
+          <CheckoutButtons
             paymentType={paymentType}
             setPaymentType={setPaymentType}
             errorMessages={errorMessages}
+            paymentReady={paymentReady}
           />
         </aside>
       </div>

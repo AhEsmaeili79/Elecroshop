@@ -11,6 +11,16 @@ const getAuthHeaders = () => ({
   });
 
 
+  export  const fetchOrderByCode = async (orderCode) => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/api/order/orders/?order_code=${orderCode}`, getAuthHeaders());
+      return response.data;  // Returns the order details
+    } catch (error) {
+      console.error("Error fetching order:", error);
+      throw error;
+    }
+  };
+
 // Create an order using the updated endpoint
 export const createOrder = async (orderData) => {
     try {

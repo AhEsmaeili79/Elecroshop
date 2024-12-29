@@ -1,7 +1,7 @@
 # order/admin.py
 
 from django.contrib import admin
-from .models import Order, OrderItem,ShipmentPrice
+from .models import Order, OrderItem, ShipmentPrice, Payment
 
 
 class OrderItemInline(admin.TabularInline):
@@ -28,17 +28,34 @@ class OrderAdmin(admin.ModelAdmin):
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = (
         "id",
-        "order__id",
+        "order",
         "order__order_code",
         "order__user",
+        "product",
         "product__name",
-        "product__seller",
-        # "color",
         "quantity",
+        "color",
     )
+    search_fields = ("order__order_code", "product__name")
+    list_filter = ("order__status",)
+
+
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "order",
+        "amount",
+        "payment_method",
+        "status",
+        "transaction_ref_id",
+        "created_at",
+    )
+    search_fields = ("order__order_code", "transaction_ref_id")
+    list_filter = ("status", "payment_method")
 
 
 # Register your models
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
-admin.site.register(ShipmentPrice,admin.ModelAdmin)
+admin.site.register(ShipmentPrice, admin.ModelAdmin)
+admin.site.register(Payment, PaymentAdmin)

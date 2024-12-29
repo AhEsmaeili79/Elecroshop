@@ -38,3 +38,6 @@ table.table-summary tbody td.checkout-product {
   padding-right: 10px; /* Adding some padding for better alignment */
 }
 
+.btn-checkout{
+  margin-left: 0 !important;
+}

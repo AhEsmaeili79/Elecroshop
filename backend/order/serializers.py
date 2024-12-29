@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import Order, OrderItem, ShipmentPrice
+from .models import Order, OrderItem, ShipmentPrice, Payment
 from product.serializers import ColorSerializer
+
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source="product.name", read_only=True)
@@ -23,8 +24,8 @@ class OrderItemSerializer(serializers.ModelSerializer):
         ]
 
     def to_representation(self, instance):
-        user = self.context.get('request').user
-        if user.role == 'seller' and instance.product.seller != user:
+        user = self.context.get("request").user
+        if user.role == "seller" and instance.product.seller != user:
             return {}  # Return empty data for items not belonging to the seller
         return super().to_representation(instance)
 
@@ -32,15 +33,39 @@ class OrderItemSerializer(serializers.ModelSerializer):
 class ShipmentPriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShipmentPrice
-        fields = ['id','title','price']
-        
+        fields = ["id", "title", "price"]
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = [
+            "id",
+            "order",
+            "amount",
+            "payment_method",
+            "status",
+            "transaction_ref_id",
+            "authority",
+            "created_at",
+        ]
+        read_only_fields = [
+            "id",
+            "order",
+            "status",
+            "transaction_ref_id",
+            "authority",
+            "created_at",
+        ]
+
+
 class OrderSerializer(serializers.ModelSerializer):
-    items = OrderItemSerializer(many=True)
+    items = OrderItemSerializer(many=True, read_only=True)
     shipment_price_amount = serializers.IntegerField(
-        source='shipment_price.price',  # Accessing the price of the associated ShipmentPrice
-        read_only=True,
+        source="shipment_price.price", read_only=True
     )
-    
+    payment = PaymentSerializer(read_only=True)
+
     class Meta:
         model = Order
         fields = [
@@ -50,25 +75,56 @@ class OrderSerializer(serializers.ModelSerializer):
             "shipment_price_amount",
             "address",
             "payment_type",
+            "status",
             "items",
-            'created_at_date',
-            'created_at_time',
-            'total_amount',
+            "payment",
+            "created_at_date",
+            "created_at_time",
+            "total_amount",
         ]
         read_only_fields = [
-            "user",
+            "id",
             "order_code",
             "status",
             "created_at_date",
             "created_at_time",
+            "payment",
         ]
 
     def create(self, validated_data):
-        items_data = validated_data.pop("items")  # Extract items data
-        order = Order.objects.create(**validated_data)  # Create the order instance
+        items_data = self.context["items_data"]
+        shipment_price = validated_data.get("shipment_price")
+
+        # Calculate total amount based on items_data
+        total_amount = sum(
+            item["product"].price * item["quantity"] for item in items_data
+        ) + shipment_price.price
+
+        # Remove `total_amount` from `validated_data` to avoid conflicts
+        if "total_amount" in validated_data:
+            del validated_data["total_amount"]
+
+        # Create the order
+        order = Order.objects.create(
+            **validated_data,
+            total_amount=total_amount,
+        )
 
         # Create OrderItem instances for each item
-        for item_data in items_data:
-            OrderItem.objects.create(order=order, **item_data)  # Link each item to the order
-        return order
+        for item in items_data:
+            OrderItem.objects.create(
+                order=order,
+                product=item["product"],
+                quantity=item["quantity"],
+                color=item.get("color"),  # Handle cases where color might be None
+            )
 
+        # Create an initial Payment instance for the order
+        Payment.objects.create(
+            order=order,
+            amount=total_amount,
+            payment_method=validated_data.get("payment_type"),
+            status="pending",
+        )
+
+        return order
