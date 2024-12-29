@@ -7,12 +7,12 @@ from .serializers import UserSignupSerializer, UserSerializer,AddressSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate
 from .permissions import IsOwner
 from .models import Address
 from rest_framework.exceptions import PermissionDenied
 
 User = get_user_model()
-
 
 # View for user signup
 class SignupView(generics.CreateAPIView):
@@ -105,3 +105,40 @@ class AddressViewSet(viewsets.ModelViewSet):
         if instance.username != self.request.user:
             raise PermissionDenied("You do not have permission to delete this address.")
         instance.delete()
+        
+        
+class LoginView(APIView):
+    """
+    View to login user as either Admin or Seller.
+    Only Admin and Seller can log in.
+    """
+
+    def post(self, request):
+        # If the request is form-encoded, you can access the data like this:
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        # Authenticate user using Django's authenticate function
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            # Check if the user has the right role (Admin or Seller)
+            if user.role in [User.ADMIN, User.SELLER]:
+                # Create and return JWT tokens
+                refresh = RefreshToken.for_user(user)
+                access_token = str(refresh.access_token)
+
+                return Response({
+                    'access': access_token,
+                    'refresh': str(refresh),
+                }, status=status.HTTP_200_OK)
+
+            else:
+                return Response({
+                    'detail': 'You do not have permission to access this resource.'
+                }, status=status.HTTP_403_FORBIDDEN)
+        
+        # If authentication fails, return unauthorized
+        return Response({
+            'detail': 'Invalid credentials.'
+        }, status=status.HTTP_401_UNAUTHORIZED)

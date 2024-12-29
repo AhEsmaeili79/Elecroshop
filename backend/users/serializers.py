@@ -82,3 +82,8 @@ class AddressSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['username'] = self.context['request'].user
         return super().create(validated_data)
+    
+    
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
