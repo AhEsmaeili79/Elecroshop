@@ -8,8 +8,8 @@ import WishlistPage from '../pages/WishlistPage/WishlistPage.jsx';
 import ProductList from '../pages/ProductListPage/Productlist.jsx';
 import ProfilePage from '../pages/ProfilePage/ProfilePage.jsx';
 import Checkout from '../pages/CheckoutPage/Checkout.jsx';
-import OrdersList from '../pages/OrderListPage/OrdersList.jsx';
 import OrderDetail from '../pages/OrderDetailPage/OrderDetail.jsx';
+import PaymentStatus from '../pages/Payment/paymentStatus.jsx';
 import NotFound from '../pages/NotFound/NotFound';
 
 const AppRouter = () => {
@@ -68,6 +68,7 @@ const AppRouter = () => {
       <Route path="/checkout" element={<Checkout/>} />
       <Route path="/orders" element={<ProfilePage/>} />
       <Route path="/orders/:orderCode" element={<OrderDetail/>} />
+      <Route path="/payment/callback" element={<PaymentStatus/>} />
       <Route path="*" element={<NotFound />} />
       {/* Add more routes for different roles */}
       {renderRoleSpecificRoutes()}

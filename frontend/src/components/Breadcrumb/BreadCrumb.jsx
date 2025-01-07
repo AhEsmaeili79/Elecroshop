@@ -29,6 +29,8 @@ const BreadCrumb = ({ categoryName }) => {
     '/checkout/': 'پرداخت',
     '/orders': 'سفارشات',
     '/orders/': 'سفارشات',
+    '/payment': 'پرداخت',
+    '/callback/': 'وضعیت',
   };
 
   // Generate breadcrumb links dynamically

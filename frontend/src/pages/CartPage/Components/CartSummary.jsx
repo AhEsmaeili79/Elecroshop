@@ -51,7 +51,7 @@ const CartSummary = ({ cartItems, totalPrice }) => {
           <tbody>
             <tr className="summary-subtotal">
               <td>مجموع موقت:</td>
-              <td>${totalPrice}</td>
+              <td>{totalPrice} تومان</td>
             </tr>
             <tr className="summary-shipping">
               <td>هزینه حمل و نقل:</td>
@@ -74,13 +74,13 @@ const CartSummary = ({ cartItems, totalPrice }) => {
                     </label>
                   </div>
                 </td>
-                <td>${option.price}</td>
+                <td>{option.price} تومان</td>
               </tr>
             ))}
 
             <tr className="summary-total">
               <td>مجموع نهایی:</td>
-              <td>${finalTotal}</td>
+              <td>{finalTotal} تومان</td>
             </tr>
           </tbody>
         </table>

@@ -1,17 +1,18 @@
 import requests
 import logging
 from django.conf import settings
-from django.shortcuts import redirect
-from django.utils.crypto import get_random_string
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.response import Response
-from .models import Order, OrderItem, ShipmentPrice, Payment
+from .models import Order, ShipmentPrice, Payment
 from .serializers import OrderSerializer, ShipmentPriceSerializer
 from cart.models import get_or_create_cart
 from .permissions import IsCustomerOrSeller
 from rest_framework.viewsets import ModelViewSet
 from django.http import JsonResponse
+
+from utils.utils import get_persian_datetime
+persian_date, persian_time = get_persian_datetime()
 
 # ZarinPal API URLs
 ZARINPAL_REQUEST_URL = 'https://api.zarinpal.com/pg/v4/payment/request.json'
@@ -80,7 +81,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         """
         merchant_id = settings.ZARINPAL_MERCHANT_ID
         amount = order.total_amount * 10  # Convert to Rials
-        callback_url = f'{settings.BASE_URL}/api/order/payment/callback/'  # Ensure this is correct
+        callback_url = 'http://localhost:5173/payment/callback/'  # Ensure this is correct
         metadata = {'mobile': order.user.phonenumber, 'email': order.user.email}
 
         try:
@@ -128,25 +129,13 @@ class OrderViewSet(viewsets.ModelViewSet):
         
         return Response(order_data)
         
-        
-import requests
-import logging
-from django.conf import settings
-from django.http import JsonResponse
-from .models import Order, Payment
-
-# ZarinPal API URLs
-ZARINPAL_VERIFY_URL = 'https://api.zarinpal.com/pg/v4/payment/verify.json'
-
-# Logger setup
-logger = logging.getLogger(__name__)
-
 def payment_callback(request):
     authority = request.GET.get('Authority')
     status = request.GET.get('Status')
-
+    logger.info("Callback view reached")
     logger.info(f"Payment callback received with Authority: {authority}, Status: {status}")
-
+    
+    # Check if the status is 'OK' (payment was successful)
     if status == 'OK':
         # Find the payment record based on the authority returned by ZarinPal
         payment = Payment.objects.filter(authority=authority).first()
@@ -161,37 +150,68 @@ def payment_callback(request):
                 'amount': order.total_amount * 10,  # Convert to Rials
                 'authority': authority
             })
-
+            
             response_data = response.json()
 
             logger.info(f"ZarinPal verification response: {response_data}")
 
             # Check if the response code from ZarinPal is successful
-            if response_data.get('data', {}).get('code') == 100:
+            payment_code = response_data.get('data', {}).get('code')
+            if payment_code == 100 or (payment_code == 101 and payment.status != 'paid'):
+                print("100",payment_code)
                 ref_id = response_data['data']['ref_id']
-
+                
                 # Update payment status and save transaction reference ID
                 payment.status = 'paid'
                 payment.transaction_ref_id = ref_id
                 payment.save()
-
+                
                 # Update order status to successful
                 order.payment_status = 'paid'
-                order.status = 'successful'  # Assuming this is the field for order success
+                order.status = 'successful'
                 order.save()
 
                 logger.info(f"Payment for Order #{order.id} confirmed, Ref ID: {ref_id}")
-                return JsonResponse({'message': 'Payment successful', 'ref_id': ref_id})
+                return JsonResponse({'message': 'Payment successful', 'ref_id': ref_id, 'payment_status': payment.status, 'order_code': order.order_code})
+            
+            elif payment_code == 101:
+                print("101",payment_code)
+                logger.info(f"Payment already verified for Order #{order.id}.")
+                return JsonResponse({'message': 'Payment already verified', 'ref_id': payment.transaction_ref_id, 'payment_status': payment.status, 'order_code': order.order_code})
             else:
-                logger.error(f"Payment verification failed for Order #{order.id}. ZarinPal code: {response_data.get('data', {}).get('code')}")
-                return JsonResponse({'message': 'Payment verification failed'}, status=400)
+                logger.error(f"Payment verification failed for Order #{order.id}. ZarinPal code: {payment_code}")
+                return JsonResponse({'message': 'Payment verification failed', 'payment_status': payment.status, 'order_code': order.order_code})
         else:
             logger.error(f"Payment record not found for Authority: {authority}")
             return JsonResponse({'message': 'Payment record not found'}, status=404)
-    else:
-        logger.error(f"Payment was not successful or was canceled. Status: {status}")
-        return JsonResponse({'message': 'Payment was not successful or was canceled.'}, status=400)
 
+    # If the status is 'NOK' (payment failed or canceled)
+    elif status == 'NOK':
+        # Find the payment record based on the authority
+        payment = Payment.objects.filter(authority=authority).first()
+
+        if payment:
+            order = payment.order
+            logger.info(f"Payment failed for Order #{order.id} with Authority: {authority}")
+
+            # Update payment status to 'failed'
+            payment.status = 'failed'
+            payment.save()
+
+            # Update order status to 'canceled'
+            order.status = 'canceled'
+            order.payment_status = 'failed'
+            order.save()
+
+            logger.info(f"Payment for Order #{order.id} failed, order canceled.")
+            return JsonResponse({'message': 'Payment failed and order canceled', 'payment_status': payment.status, 'order_code': order.order_code, 'payment_date': payment.created_at})
+        else:
+            logger.error(f"Payment record not found for Authority: {authority}")
+            return JsonResponse({'message': 'Payment record not found'}, status=404)
+
+    else:
+        logger.error(f"Invalid payment status received. Status: {status}")
+        return JsonResponse({'message': 'Invalid payment status received'}, status=400)
 
 
 class ShipmentPriceViewSet(ModelViewSet):

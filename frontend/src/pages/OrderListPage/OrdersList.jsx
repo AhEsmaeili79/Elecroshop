@@ -58,6 +58,18 @@ const OrdersList = () => {
     return shippingOption ? shippingOption.price : 0;
   };
 
+  // Function to map status to Persian
+  const getStatusInPersian = (status) => {
+    const statusMapping = {
+      canceled: 'کنسل',
+      successful: 'موفق',
+      pending: 'در انتظار پرداخت',
+      delivered: 'تحویل شده',
+      returned: 'مرجوع',
+    };
+    return statusMapping[status] || status; // Default to status if not found
+  };
+
   // Get current orders for the current page
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -66,7 +78,7 @@ const OrdersList = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const totalPages = Math.ceil(orders.length / ordersPerPage);
-
+  
   if (loading) return <div>در حال بارگذاری...</div>;
   if (error) return <div>{error}</div>;
 
@@ -85,7 +97,7 @@ const OrdersList = () => {
               >
                 {/* Created At Timestamp */}
                 <span className="order-timestamp">
-                  {formatTime(order.created_at_time)} {order.created_at_date} 
+                  {formatTime(order.created_at_time)} {order.created_at_date} {getStatusInPersian(order.status)}
                 </span>
 
                 <h4>کد سفارش: 
