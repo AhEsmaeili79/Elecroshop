@@ -1,5 +1,3 @@
-import React from "react";
-
 const AdditionalInfoTab = () => (
   <div className="tab-pane">
     <div className="product-desc-content">

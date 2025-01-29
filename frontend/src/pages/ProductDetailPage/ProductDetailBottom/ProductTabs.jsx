@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DescriptionTab from "./components/DescriptionTab";
-import AdditionalInfoTab from "./Components/AdditionalInfoTab";
+import AdditionalInfoTab from "./components/AdditionalInfoTab";
 import ShippingTab from "./components/ShippingTab";
 import ReviewsTab from "./components/ReviewsTab";
 
