@@ -1,128 +1,105 @@
-import { Link } from 'react-router-dom';
-import Logo from '../../../assets/images/logo.png';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { fetchFiltersData } from '../../../api/FilterAsideApi';
 
-const navItems = [
-  {
-    label: 'خانه',
-    link: '/',
-  },
-  {
-    label: 'فروشگاه',
-    link: 'category.html',
-    subMenu: [
-      {
-        title: 'دسته‌بندی محصولات',
-        links: [
-          { label: 'دسته‌بندی محصول باکس شده', url: 'product-category-boxed.html' },
-          { label: 'دسته‌بندی محصول تمام عرض', url: 'product-category-fullwidth.html', isNew: true },
-        ],
-      },
-      {
-        title: 'صفحات فروشگاه',
-        links: [
-          { label: 'سبد خرید', url: 'cart.html' },
-          { label: 'پرداخت', url: 'checkout.html' },
-          { label: 'لیست علاقه‌مندی‌ها', url: 'wishlist.html' },
-          { label: 'حساب کاربری من', url: 'dashboard.html' },
-          { label: 'کتابچه طراحی', url: '#' },
-        ],
-      },
-      {
-        imageUrl: 'assets/images/menu/banner-1.jpg',
-        bannerText: 'فروش ویژه آخرین فرصت',
-      },
-    ],
-  },
-  {
-    label: 'محصولات ',
-    link: 'product.html',
-    subMenu: [
-      {
-        title: 'جزئیات محصول',
-        imageUrl: 'assets/images/menu/banner-2.jpg',
-        bannerText: 'مدهای جدید بهار ۲۰۱۹',
-      },
-    ],
-  },
-  {
-    label: 'برند ',
-    link: 'product.html',
-    subMenu: [
-      {
-        title: 'جزئیات محصول',
-        imageUrl: 'assets/images/menu/banner-2.jpg',
-        bannerText: 'مدهای جدید بهار ۲۰۱۹',
-      },
-    ],
-  }
-];
+import Logo from "../../../assets/images/logo.png";
+import image from "../../../assets/images/menu/banner-1.jpg";
 
-const LeftSide = () => (
-  <div className="header-left">
-    <Link to='/' className="logo" >
-      <img src={Logo} alt="لوگوی اکتروشاپ" width="105" height="25" />
-    </Link>
-    <nav className="main-nav">
-      <ul className="menu sf-arrows">
-        {navItems.map((item, index) => (
-          <NavItem key={index} item={item} />
-        ))}
-      </ul>
-    </nav>
-  </div>
-);
+const HeaderBottom = () => {
+  const [filters, setFilters] = useState({ categories: [], brands: [] });
 
-const NavItem = ({ item }) => (
-  <li className={item.subMenu ? 'sf-with-ul' : ''}>
-    <a href={item.link || '#'}>{item.label}</a>
-    {item.subMenu && (
-      <div className={`megamenu ${item.subMenu.length > 1 ? 'megamenu-md' : 'megamenu-sm'}`}>
-        <div className="row no-gutters">
-          {item.subMenu.map((menu, idx) => (
-            <div key={idx} className={`col-md-${menu.imageUrl ? '4' : '6'}`}>
-              <MenuSection menu={menu} />
-            </div>
-          ))}
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const filtersData = await fetchFiltersData();
+        setFilters(filtersData); // Set the fetched data
+      } catch (error) {
+        console.log('Error fetching filters data', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div className="header-bottom sticky-header">
+      <div className="container">
+        <div className="header-left">
+        <Link to="/" className="logo">
+            <img src={Logo} alt="لوگوی اکتروشاپ" width="105" height="25" />
+          </Link>
+        </div>
+        <div className="header-center">
+          <nav className="main-nav">
+            <ul className="menu sf-arrows">
+              <li className="megamenu-container active">
+                <Link to="/" className="">خانه</Link>
+              </li>
+              <li>
+                <Link to="/product" className="sf-with-ul">فروشگاه</Link>
+                <div className="megamenu megamenu-md">
+                  <div className="row no-gutters">
+                    <div className="col-md-8">
+                      <div className="menu-col">
+                        <div className="row">
+                          <div className="col-md-6">
+                          <div className="menu-title">صفحات فروشگاه</div>
+                            <ul>
+                              <li><Link to="/cart">سبد خرید</Link></li>
+                              <li><Link to="/dashboard">سفارشات</Link></li>
+                              <li><Link to="/wishlist">لیست علاقمندی ها</Link></li>
+                              <li><Link to="/dashboard">حساب کاربری من</Link></li>
+                            </ul>
+                          </div>
+
+                          <div className="col-md-6">
+                            <div className="menu-title">دسته‌بندی محصولات</div>
+                            <ul>
+                              {filters.categories.map(category => (
+                                <li key={category.id}>
+                                  <Link to={`/category/${category.id}`}>
+                                    {category.name}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="banner banner-overlay">
+                        <Link to="/category" className="banner banner-menu">
+                          <img src={image} alt="بنر"/>
+                          <div className="banner-content banner-content-top">
+                            <div className="banner-title text-white">
+                              آخرین <br/>فرصت<br/><span><strong>فروش</strong></span>
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <Link to="/brands" className="sf-with-ul">برند ها</Link>
+                <ul>
+                  {filters.brands.map(brand => (
+                    <li key={brand.id}><Link to={`/brand/${brand.id}`}>{brand.name}</Link></li>
+                  ))}
+                </ul>
+              </li>
+              <li>
+                <Link to="/product" className="">محصولات</Link>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
-    )}
-  </li>
-);
+    </div>
+  );
+};
 
-const MenuSection = ({ menu }) => (
-  <>
-    {menu.title && <div className="menu-title">{menu.title}</div>}
-    {menu.links && (
-      <ul>
-        {menu.links.map((link, i) => (
-          <li key={i}>
-            <a href={link.url}>
-              {link.label}
-              {link.isNew && <span className="tip tip-new">جدید</span>}
-            </a>
-          </li>
-        ))}
-      </ul>
-    )}
-    {menu.actionLink && (
-      <div className="megamenu-action text-center">
-        <a href={menu.actionLink} className="btn btn-outline-primary-2 view-all-demos">
-          <span>{menu.actionLabel}</span>
-          <i className="icon-long-arrow-right"></i>
-        </a>
-      </div>
-    )}
-    {menu.imageUrl && (
-      <div className="banner banner-overlay">
-        <a href="category.html" className="banner banner-menu">
-          <img src={menu.imageUrl} alt="بنر" />
-          <div className={`banner-content ${menu.bannerText ? 'banner-content-top' : 'banner-content-bottom'}`}>
-            <div className="banner-title text-white">{menu.bannerText}</div>
-          </div>
-        </a>
-      </div>
-    )}
-  </>
-);
-
-export default LeftSide;
+export default HeaderBottom;

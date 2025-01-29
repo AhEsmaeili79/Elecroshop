@@ -33,23 +33,9 @@ const CheckoutForm = () => {
     cartEmpty: false,
     shippingEmpty: false,
   });
-  const [orderSubmitted, setOrderSubmitted] = useState(false); 
   const [paymentReady, setPaymentReady] = useState(false);
   const navigate = useNavigate();
   const { refreshCart } = useCart();
-
-  useEffect(() => {
-    if (orderSubmitted) {
-      if (ordercode !== '' && paymentType === 'cash') {
-        refreshCart();
-        localStorage.removeItem('selectedShipping');
-        localStorage.removeItem('cartItems');
-        navigate(`/orders/${ordercode}`);
-      } else if (cartItems.length === 0) {
-        navigate('/');
-      }
-    }
-  }, [orderSubmitted, ordercode, paymentType, cartItems, navigate]);
 
   const getTotalPrice = () => {
     return cartItems.reduce((sum, item) => sum + item.total_price, 0);
@@ -91,7 +77,7 @@ const CheckoutForm = () => {
   const handleOrderSubmit = async (e) => {
     e.preventDefault();
     if (!selectedShipping) return;
-  
+
     const orderData = {
       address: selectedAddressId,
       shipment_price: selectedShipping.id,
@@ -99,25 +85,28 @@ const CheckoutForm = () => {
       items: [],
       total_amount: getTotalPrice() + (selectedShipping ? selectedShipping.price : 0),
     };
-  
+
     try {
       const createdOrder = await createOrder(orderData);
-      setOrderCode(createdOrder.order_code);
+      setOrderCode(createdOrder.order_code); 
+
       if (paymentType === 'credit_card') {
-        setPaymentReady(true); // Trigger the payment redirect function
+        setPaymentReady(true);
       } else {
-        setOrderSubmitted(true); // Complete the process for cash payments
+        refreshCart();
+        localStorage.removeItem('selectedShipping');
+        localStorage.removeItem('cartItems');
+        navigate(`/orders/${createdOrder.order_code}`);
       }
     } catch (error) {
       console.error("Error creating order:", error);
     }
   };
 
-  const handlePaymentRedirect = async () => { // Ensure ordercode is being logged correctly
+  const handlePaymentRedirect = async () => {
     if (paymentType === 'credit_card' && paymentReady && ordercode) {
       try {
         const orderDetails = await fetchOrderByCode(ordercode);
-        console.log('orderDetails:', orderDetails); // Log the entire orderDetails object for debugging
         if (orderDetails[0] && orderDetails[0].payment) {
           const authority = orderDetails[0].payment.authority;
           refreshCart();
