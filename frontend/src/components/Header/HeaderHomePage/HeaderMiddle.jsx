@@ -11,17 +11,12 @@ const HeaderMiddle = () => {
         <div className="header-middle">
             <div className="container">
                 <div className="header-left">
-                    <button className="mobile-menu-toggler">
-                        <span className="sr-only">تنظیم منوی موبایل</span>
-                        <i className="icon-bars"></i>
-                    </button>
                     <Link to='/' className="logo" >
                         <img src={Logo} alt="لوگوی اکتروشاپ" width="105" height="25" />
                     </Link>
                 </div>
                 <SearchComponent />
                 <div className="header-right">
-                    {/* Wishlist, Favorites, and Cart sections */}
                     <Wishlist />
                     <Favorites />
                     <Cart />

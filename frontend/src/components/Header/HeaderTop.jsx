@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
+import Sidebar from '../MobileMenu/Sidebar';
 
 const HeaderTop = ({ toggleModal, isLoggedIn, handleLogout ,username }) => {
   return (
+    <>
     <div className="header-top">
       <div className="container">
         <div className="header-left">
@@ -39,6 +41,8 @@ const HeaderTop = ({ toggleModal, isLoggedIn, handleLogout ,username }) => {
         </div>
       </div>
     </div>
+    <Sidebar username={username} isLoggedIn={isLoggedIn} handleLogout={handleLogout} toggleModal={toggleModal}/>
+    </>
   );
 };
 

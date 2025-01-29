@@ -1,4 +1,3 @@
-import React from 'react';
 import image from "../../assets/images/menu/banner-1.jpg";
 
 const HeaderBottom = () => {
@@ -10,7 +9,7 @@ const HeaderBottom = () => {
           <nav className="main-nav">
             <ul className="menu sf-arrows">
               <li className="megamenu-container active">
-                <a href="index.html" className="sf-with-ul">خانه</a>
+                <a href="/" className="">خانه</a>
               </li>
               <li>
                 <a href="category.html" className="sf-with-ul">فروشگاه</a>
@@ -71,17 +70,9 @@ const HeaderBottom = () => {
               </li>
               <li>
                 <a href="product.html" className="sf-with-ul">محصولات</a>
-                {/* Product submenu */}
               </li>
               <li>
-                <a href="#" className="sf-with-ul">صفحات</a>
-                {/* Pages submenu */}
-              </li>
-              <li>
-                <a href="blog.html" className="sf-with-ul">وبلاگ</a>
-              </li>
-              <li>
-                <a href="elements-list.html" className="sf-with-ul">المنت‌ها</a>
+                <a href="#" className="sf-with-ul">برند ها</a>
               </li>
             </ul>
           </nav>

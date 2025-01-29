@@ -50,8 +50,9 @@ const Header = () => {
     <>
       <header className="header header-intro-clearance header-4">
         <HeaderTop toggleModal={toggleModal} handleLogout={handleLogout} isLoggedIn={isLoggedIn} username={user} />
-        <HeaderMiddle />
+        <HeaderMiddle/>
         <HeaderBottom />
+
       </header>
       <Modal showModal={showModal} closeModal={toggleModal} />
     </>

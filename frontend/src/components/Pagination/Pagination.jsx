@@ -1,26 +1,24 @@
 import './pagination.css';
 
 const Pagination = ({ totalProducts, productsPerPage, paginate, currentPage }) => {
-    // محاسبه تعداد کل صفحات
+
     const totalPages = Math.ceil(totalProducts / productsPerPage);
 
-    // تولید آرایه‌ای از شماره صفحات
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
         pageNumbers.push(i);
     }
 
-    // مدیریت کلیک بر روی صفحه
     const handlePageClick = (pageNumber) => {
         if (pageNumber >= 1 && pageNumber <= totalPages) {
-            paginate(pageNumber); // بروزرسانی صفحه فعلی در کامپوننت والد
+            paginate(pageNumber);
         }
     };
 
     return (
         <nav aria-label="ناوبری صفحه">
             <ul className="pagination justify-content-center">
-                {/* دکمه قبلی */}
+
                 <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
                     <button
                         className="page-link page-link-prev"
@@ -35,7 +33,6 @@ const Pagination = ({ totalProducts, productsPerPage, paginate, currentPage }) =
                     </button>
                 </li>
 
-                {/* شماره صفحات */}
                 {pageNumbers.map((page) => (
                     <li
                         key={page}
@@ -51,7 +48,6 @@ const Pagination = ({ totalProducts, productsPerPage, paginate, currentPage }) =
                     </li>
                 ))}
 
-                {/* دکمه بعدی */}
                 <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
                     <button
                         className="page-link page-link-next"

@@ -5,14 +5,6 @@ const navItems = [
   {
     label: 'خانه',
     link: '/',
-    subMenu: [
-      {
-        title: 'دمو خود را انتخاب کنید',
-        actionLink: '#',
-        actionLabel: 'مشاهده همه دموها',
-        imageUrl: null,
-      },
-    ],
   },
   {
     label: 'فروشگاه',
@@ -42,7 +34,7 @@ const navItems = [
     ],
   },
   {
-    label: 'محصولات',
+    label: 'محصولات ',
     link: 'product.html',
     subMenu: [
       {
@@ -53,51 +45,20 @@ const navItems = [
     ],
   },
   {
-    label: 'صفحات',
+    label: 'برند ',
+    link: 'product.html',
     subMenu: [
       {
-        title: 'درباره ما',
-        links: [
-          { label: 'درباره ما ۰۱', url: 'about.html' },
-          { label: 'درباره ما ۰۲', url: 'about-2.html' },
-        ],
+        title: 'جزئیات محصول',
+        imageUrl: 'assets/images/menu/banner-2.jpg',
+        bannerText: 'مدهای جدید بهار ۲۰۱۹',
       },
-      {
-        title: 'تماس با ما',
-        links: [
-          { label: 'تماس ۰۱', url: 'contact.html' },
-          { label: 'تماس ۰۲', url: 'contact-2.html' },
-        ],
-      },
-      { label: 'ورود', url: 'login.html' },
-      { label: 'سوالات متداول', url: 'faq.html' },
-      { label: 'خطای ۴۰۴', url: '404.html' },
-      { label: 'به زودی', url: 'coming-soon.html' },
     ],
-  },
-  {
-    label: 'بلاگ',
-    subMenu: [
-      { label: 'کلاسیک', url: 'blog.html' },
-      { label: 'لیستینگ', url: 'blog-listing.html' },
-      { label: 'شبکه', url: '#' },
-      { label: 'موزائیک', url: '#' },
-      { label: 'ماسک', url: '#' },
-      { label: 'پست تکی', url: '#' },
-    ],
-  },
-  {
-    label: 'المان‌ها',
-    link: 'elements-list.html',
-  },
+  }
 ];
 
 const LeftSide = () => (
   <div className="header-left">
-    <button className="mobile-menu-toggler">
-      <span className="sr-only">تغییر منوی موبایل</span>
-      <i className="icon-bars"></i>
-    </button>
     <Link to='/' className="logo" >
       <img src={Logo} alt="لوگوی اکتروشاپ" width="105" height="25" />
     </Link>
