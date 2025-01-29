@@ -8,6 +8,7 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [token, setToken] = useState(null); // Assuming you manage token state
 
     const refreshCart = () => {
         setCartItems([]); // Clear the cart
@@ -15,8 +16,14 @@ export const CartProvider = ({ children }) => {
     
     useEffect(() => {
         const loadCartItems = async () => {
+            if (!token) {
+                // If token is not available, do not fetch cart items
+                setLoading(false);
+                return;
+            }
+
             try {
-                const items = await fetchAllCartItems();
+                const items = await fetchAllCartItems(token); // Pass token to API
                 setCartItems(items);
             } catch (error) {
                 console.error("Error fetching cart items:", error);
@@ -26,7 +33,7 @@ export const CartProvider = ({ children }) => {
         };
 
         loadCartItems();
-    }, []);
+    }, [token]); // Dependency on token
 
     return (
         <CartContext.Provider value={{ cartItems, setCartItems, refreshCart, loading }}>

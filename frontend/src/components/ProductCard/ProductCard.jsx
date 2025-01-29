@@ -231,7 +231,7 @@ const ProductCard = ({ product, index }) => {
                 <span>+</span>
               </button>
             </div>
-          ) : (
+          ) : selectedColor ? (  // Check if a color is selected
             <a
               onClick={(e) => {
                 e.preventDefault();
@@ -240,6 +240,8 @@ const ProductCard = ({ product, index }) => {
               className="btn-product btn-cart"
               title="افزودن به سبد خرید"
             ></a>
+          ) : (
+            <span className="btn-product btn-cart" title="لطفا رنگ را انتخاب کنید" disabled></span> // Optionally show a disabled state
           )}
           <a href="popup/quickView.html" className="btn-product btn-quickview" title="مشاهده سریع"></a>
         </div>

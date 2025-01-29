@@ -1,59 +1,72 @@
 import axios from 'axios';
 
-// Base API URL from environment variable
 const CART_API_URL = import.meta.env.VITE_API_URL + '/cart-items/';
 
-// Utility function to get the token from localStorage
-const getAuthToken = () => localStorage.getItem('token');
+const token =  localStorage.getItem('token');
 
-// Utility function to get Authorization headers
-const getAuthHeaders = () => ({
-  headers: {
-    Authorization: `Bearer ${getAuthToken()}`,
-  },
-});
+const getAuthHeaders = () => {
+  return token
+    ? { headers: { Authorization: `Bearer ${token}` } }
+    : {}; 
+};
 
-// Fetch cart items from the server
 export const fetchCartItems = async () => {
-  const response = await axios.get(CART_API_URL, getAuthHeaders());
-  return response.data;
+  if (!token) {
+    return [];
+  }
+  try {
+    const response = await axios.get(CART_API_URL, getAuthHeaders());
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching cart items:', error.response?.data || error.message);
+    return []; 
+  }
 };
 
 export const fetchCartItem = async (productId, color_id) => {
+  if (!token) {
+    return null;
+  }
+
   try {
     const response = await axios.get(CART_API_URL, getAuthHeaders());
     return response.data.find(item => item.product.id === parseInt(productId) && item.color.id === color_id) || null;
   } catch (error) {
-    console.error('Error fetching cart item:', error.response?.data);
-    return null;
+    return null; 
   }
 };
 
-// Fetch all cart items
 export const fetchAllCartItems = async () => {
+  if (!token) {
+    return [];
+  }
   try {
     const response = await axios.get(CART_API_URL, getAuthHeaders());
-    return response.data; // Return the cart items data
+    return response.data; 
   } catch (error) {
-    console.error('Error fetching all cart items:', error.response?.data);
-    throw new Error("Failed to fetch cart items");
+    console.error('Error fetching all cart items:', error.response?.data || error.message);
+    return [];
   }
 };
 
-// Fetch a specific cart item by productId
 export const fetchCartItemByProductId = async (productId) => {
+  if (!token) {
+    return null; 
+  }
   try {
     const response = await axios.get(CART_API_URL, getAuthHeaders());
     const cartItem = response.data.find(item => item.product.id === productId);
-    return cartItem || null; // Return the cart item if found, otherwise null
+    return cartItem || null; 
   } catch (error) {
-    console.error('Error fetching cart item by productId:', error.response?.data);
-    throw new Error("Failed to fetch cart item");
+    console.error('Error fetching cart item by productId:', error.response?.data || error.message);
+    return null; 
   }
 };
 
-// Add a product to the cart
 export const addProductToCart = async (productId, quantity, color_id) => {
+  if (!token) {
+    return [];
+  }
   try {
     const response = await axios.post(
       CART_API_URL,
@@ -62,12 +75,11 @@ export const addProductToCart = async (productId, quantity, color_id) => {
     );
     return response.data;
   } catch (error) {
-    console.error('Error adding product to cart:', error.response?.data);
-    throw new Error(error.response?.data?.detail || "Failed to add product to cart");
+    console.error('Error adding product to cart:', error.response?.data || error.message);
+    return null; 
   }
 };
 
-// Update the quantity of an item in the cart
 export const updateCartItemQuantity = async (cartItemId, quantity, color_id) => {
   try {
     const response = await axios.patch(
@@ -77,18 +89,16 @@ export const updateCartItemQuantity = async (cartItemId, quantity, color_id) => 
     );
     return response.data;
   } catch (error) {
-    console.error('Error updating cart item quantity:', error.response?.data);
-    throw new Error("Failed to update cart item quantity");
+    console.error('Error updating cart item quantity:', error.response?.data || error.message);
+    return null; 
   }
 };
 
-// Remove a cart item from the cart
 export const removeCartItem = async (cartItemId) => {
   try {
     await axios.delete(`${CART_API_URL}${cartItemId}/`, getAuthHeaders());
     console.log(`Item with ID ${cartItemId} removed from cart`);
   } catch (error) {
-    console.error('Error removing cart item:', error.response?.data);
-    throw new Error("Failed to remove item from cart");
+    console.error('Error removing cart item:', error.response?.data || error.message);
   }
 };

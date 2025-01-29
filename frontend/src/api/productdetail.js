@@ -1,4 +1,3 @@
-// src/components/Product/api.js
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL + '/customer-products/';
@@ -23,17 +22,12 @@ export const fetchProductDetails = async (productId) => {
 };
 
 export const fetchUserData = async () => {
-  const token = localStorage.getItem('token'); // Get the token from local storage
   try {
-      const response = await axios.get(`${USER_API_URL}/user/`, {
-          headers: {
-              Authorization: `Bearer ${token}`, // Include the token in the request headers
-          },
-      });
+      const response = await axios.get(`${USER_API_URL}/user/`, { headers: getAuthHeader() });
       return response.data;
   } catch (error) {
-      console.error('Failed to fetch user data:', error);
-      throw error;
+    console.error();
+    throw error;
   }
 };
 
@@ -46,8 +40,8 @@ export const addProductToCart = async (productId, quantity, color_id) => {
     );
     return response.data;
   } catch (error) {
-    console.error('Error adding product to cart:', error.response?.data);
-    throw new Error(error.response?.data?.detail || "Failed to add product to cart");
+    console.error();
+    throw error;
   }
 };
 
@@ -56,8 +50,8 @@ export const fetchCartItem = async (productId) => {
     const response = await axios.get(CART_API_URL, { headers: getAuthHeader() });
     return response.data.find(item => item.product.id === parseInt(productId)) || null;
   } catch (error) {
-    console.error('Error fetching cart item:', error.response?.data);
-    return null;
+    console.error();
+    throw error;
   }
 };
 
@@ -70,8 +64,8 @@ export const updateCartItemQuantity = async (cartItemId, quantity,color_id) => {
     );
     return response.data;
   } catch (error) {
-    console.error('Error updating cart item quantity:', error.response?.data);
-    throw new Error("Failed to update cart item quantity");
+    console.error();
+    throw error;
   }
 };
 
@@ -80,8 +74,8 @@ export const removeCartItem = async (cartItemId) => {
   try {
     await axios.delete(`${CART_API_URL}${cartItemId}/`, { headers: getAuthHeader() });
   } catch (error) {
-    console.error('Error removing cart item:', error.response?.data);
-    throw new Error("Failed to remove item from cart");
+    console.error();
+    throw error;
   }
 };
 
@@ -95,8 +89,8 @@ export const addToWishlist = async (productId) => {
     );
     return response.data;
   } catch (error) {
-    console.error('Error adding product to wishlist:', error.response?.data);
-    throw new Error(error.response?.data?.detail || "Failed to add product to wishlist");
+    console.error();
+    throw error;
   }
 };
 
@@ -109,8 +103,8 @@ export const removeFromWishlist = async (productId) => {
     );
     return response.data;
   } catch (error) {
-    console.error('Error removing product from wishlist:', error.response?.data);
-    throw new Error(error.response?.data?.detail || "Failed to remove product from wishlist");
+    console.error();
+    throw error;
   }
 };
 
@@ -122,8 +116,8 @@ export const fetchWishlist = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching wishlist:', error.response?.data);
-    throw new Error("Failed to fetch wishlist");
+    console.error();
+    throw error;
   }
 };
 

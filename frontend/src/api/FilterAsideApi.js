@@ -21,7 +21,7 @@ export const fetchFiltersData = async () => {
       colors: colorsData
     };
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.log();
     throw error;
   }
 };

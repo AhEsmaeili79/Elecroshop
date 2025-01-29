@@ -5,7 +5,7 @@ import { WishlistProvider } from './contexts/WishlistContext';
 
 function App() {
   return (
-    <Router>  {/* Wrap everything inside Router */}
+    <Router> 
       <CartProvider>
         <WishlistProvider>
             <AppRouter />
