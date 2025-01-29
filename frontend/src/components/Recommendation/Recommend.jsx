@@ -1,5 +1,5 @@
 import RecommendProduct from "./RecommendProduct";
-
+import { Link } from 'react-router-dom';
 const Recommendation = () => {
     return (
       <>
@@ -9,10 +9,14 @@ const Recommendation = () => {
                 <div className="heading-left">
                     <h2 className="title">پیشنهادات برای شما</h2>
                 </div>
-
+                
+                
                 <div className="heading-right">
-                    <a href="#" className="title-link">مشاهده تمامی پیشنهادات <i className="icon-long-arrow-right"></i></a>
+                    <Link to='product'>
+                        <a className="title-link">مشاهده تمامی پیشنهادات <i className="icon-long-arrow-right"></i></a>
+                    </Link>
                 </div>
+                
             </div>
             <RecommendProduct/>
         </div> 

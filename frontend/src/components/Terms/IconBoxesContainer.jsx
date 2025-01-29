@@ -3,10 +3,10 @@ import IconBox from './IconBox';
 
 const IconBoxesContainer = () => {
   const iconBoxesData = [
-    { icon: 'rocket', title: 'حمل و نقل رایگان', description: 'سفارشات بالای ۵۰ دلار' },
+    { icon: 'rocket', title: 'حمل و نقل رایگان', description: 'سفارشات بالای ۵۰۰ هزار تومان' },
     { icon: 'rotate-left', title: 'بازگشت رایگان', description: 'تا ۳۰ روز' },
     { icon: 'info-circle', title: '۲۰٪ تخفیف برای یک کالا', description: 'زمانی که ثبت نام کنید' },
-    { icon: 'life-ring', title: 'ما پشتیبانی می‌کنیم', description: 'خدمات عالی ۲۴/۷' },
+    { icon: 'life-ring', title: 'ما پشتیبانی می‌کنیم', description: 'خدمات عالی ۲۴ ساعته ' },
   ];
 
   return (

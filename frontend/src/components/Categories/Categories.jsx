@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchCategories } from '../../api/Category';
 
-import './category.css'
+import './category.css';
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -30,14 +30,16 @@ const Categories = () => {
     navigate(`/product/?category=${categoryId}`);
   };
 
+  const categoriesToDisplay = categories.slice(0, 6);
+
   return (
     <div className="container category-containter">
-      <h2 className="title text-center mb-4">محبوب  ترین دسته بندی ها</h2>
+      <h2 className="title text-center mb-4">محبوب ترین دسته بندی ها</h2>
       {loading && <p>در حال بارگذاری دسته‌ها...</p>}
       {error && <p className="error">{error}</p>}
       <div className="cat-blocks-container">
         <div className="row">
-          {categories.map((category) => (
+          {categoriesToDisplay.map((category) => (
             <div key={category.id} className="col-6 col-sm-4 col-lg-2">
               <a
                 onClick={() => handleCategoryClick(category.id)}

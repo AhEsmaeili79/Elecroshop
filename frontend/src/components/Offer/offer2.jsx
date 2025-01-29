@@ -13,7 +13,7 @@ const Offer2 = () => {
                                 <div className="cta-text text-right text-white">
                                     <p>خرید پیشنهادات امروز <br/><strong>آسان و شگفت‌انگیز. HERO7 Black</strong></p>
                                 </div>
-                                <a href="#" className="btn btn-primary btn-round"><span>همین حالا خرید کنید - ۴۲۹.۹۹ دلار</span><i className="icon-long-arrow-right"></i></a>
+                                <a href="/product" className="btn btn-primary btn-round"><span>همین حالا خرید کنید - ۴۲۹۰۰۰ تومان</span><i className="icon-long-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>

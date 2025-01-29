@@ -18,10 +18,10 @@ const useProducts = () => {
     const [categoryName, setCategoryName] = useState('');
     const [priceRange, setPriceRange] = useState([0, 100000]); // Add price range state
 
+    const API_URL = import.meta.env.VITE_API_URL + '/customer-products/';
     const [searchParams] = useSearchParams();
     const query = searchParams.get("q");
     const categoryId = searchParams.get("category");
-
     useEffect(() => {
         const fetchProducts = async () => {
             setLoading(true);
@@ -35,7 +35,7 @@ const useProducts = () => {
                 if (selectedColor.length > 0) params.color = selectedColor.join(',');
                 if (query) params.q = query;
 
-                const response = await axios.get('http://127.0.0.1:8000/api/customer-products/', { params });
+                const response = await axios.get(API_URL, { params });
                 let filteredProducts = response.data;
 
                 if (categoryId) {

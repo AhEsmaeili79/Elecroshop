@@ -11,20 +11,20 @@ const slides = [
     subtitle: 'تخفیف‌ها و پیشنهادات',
     title1: 'Beats by',
     title2: 'Dre Studio 3',
-    oldPrice: '$349.95',
-    newPrice: '$279.99',
-    linkText: 'خرید بیشتر',
-    linkHref: 'category.html',
+    oldPrice: '۵۵۰۰۰۰',
+    newPrice: '۴۲۹۰۰۰ ',
+    linkText: 'خرید ',
+    linkHref: 'product',
   },
   {
     image: slide2,
     subtitle: 'تخفیف‌ها و پیشنهادات',
     title1: 'Beats by',
     title2: 'Dre Studio 3',
-    oldPrice: '$349.95',
-    newPrice: '$279.99',
-    linkText: 'خرید بیشتر',
-    linkHref: 'category.html',
+    oldPrice: '۷۵۹۰۰۰',
+    newPrice: '۳۹۰۰۰۰',
+    linkText: 'خرید ',
+    linkHref: 'product',
   }
 ];
 
@@ -49,9 +49,9 @@ const Slider = () => {
                   <h3 className="intro-subtitle text-third">{slide.subtitle}</h3>
                   <h1 className="intro-title">{slide.title1}</h1>
                   <h1 className="intro-title">{slide.title2}</h1>
-                  <div className="intro-price">
-                    <sup className="intro-old-price">{slide.oldPrice}</sup>
-                    <span className="text-third">{slide.newPrice}</span>
+                  <div className="intro-price" dir='rtl'>
+                    <sup className="intro-old-price">{slide.oldPrice} تومان </sup>
+                    <span className="text-third"> {slide.newPrice}تومان </span>
                   </div>
                   <a href={slide.linkHref} className="btn btn-primary btn-round">
                     <span>{slide.linkText}</span>

@@ -23,8 +23,8 @@ const DealsOutlet = () => {
                             <h3 className="product-title"><a href="product.html">اسپیکر هوشمند خانگی با دستیار گوگل</a></h3>
 
                             <div className="product-price">
-                                <span className="new-price">$129.00</span>
-                                <span className="old-price">قبلاً $150.99</span>
+                                <span className="new-price">۴۲۹۰۰۰ تومان</span>
+                                <span className="old-price">قبلاً ۵۲۹۰۰۰ </span>
                             </div>
 
                             <a href="product.html" className="btn btn-link">
@@ -51,7 +51,7 @@ const DealsOutlet = () => {
                             <h3 className="product-title"><a href="product.html">پد شارژ وایرلس تایید شده برای آیفون / اندروید</a></h3>
 
                             <div className="product-price">
-                                <span className="new-price">$29.99</span>
+                            <span className="new-price">۷۳۴۰۰۰ تومان</span>
                             </div>
 
                             <a href="login.html" className="btn btn-link">
@@ -69,7 +69,7 @@ const DealsOutlet = () => {
             </div>
 
             <div className="more-container text-center mt-1 mb-5">
-                <a href="#" className="btn btn-outline-dark-2 btn-round btn-more">
+                <a href="/product" className="btn btn-outline-dark-2 btn-round btn-more">
                     <span>خرید بیشتر از تخفیف‌های فروشگاه</span><i className="icon-long-arrow-right"></i>
                 </a>
             </div>
