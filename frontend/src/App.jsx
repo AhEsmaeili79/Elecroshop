@@ -1,16 +1,19 @@
 import AppRouter from './router/AppRouter';
-import { BrowserRouter as Router } from 'react-router-dom';  // Import Router
+import { BrowserRouter as Router } from 'react-router-dom';
 import { CartProvider } from './contexts/CartContext';
 import { WishlistProvider } from './contexts/WishlistContext';
+import { UserProvider } from './contexts/UserContext';
 
 function App() {
   return (
-    <Router> 
-      <CartProvider>
-        <WishlistProvider>
+    <Router>
+      <UserProvider>
+        <CartProvider>
+          <WishlistProvider>
             <AppRouter />
-        </WishlistProvider>
-      </CartProvider>
+          </WishlistProvider>
+        </CartProvider>
+      </UserProvider>
     </Router>
   );
 }

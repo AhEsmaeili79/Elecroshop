@@ -48,7 +48,7 @@ const PaymentStatus = () => {
   };
 
   return (
-    <UserProvider>
+  <>
       <HeaderSection />
       <div className="page-content">
         <div className="page-header text-center" style={{ backgroundImage: `url(${PaymentHeader})` }}>
@@ -82,7 +82,7 @@ const PaymentStatus = () => {
         </div>
       </div>
       <Footer />
-    </UserProvider>
+    </>
   );
 };
 
