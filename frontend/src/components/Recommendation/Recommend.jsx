@@ -12,8 +12,8 @@ const Recommendation = () => {
                 
                 
                 <div className="heading-right">
-                    <Link to='product'>
-                        <a className="title-link">مشاهده تمامی پیشنهادات <i className="icon-long-arrow-right"></i></a>
+                    <Link to='product' className="title-link">
+                      مشاهده تمامی پیشنهادات <i className="icon-long-arrow-right"></i>
                     </Link>
                 </div>
                 

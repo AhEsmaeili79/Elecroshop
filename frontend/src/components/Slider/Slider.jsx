@@ -34,11 +34,11 @@ const Slider = () => {
       <OwlCarousel
         className="intro-slider owl-carousel owl-theme"
         dots
-        nav={false}  // Ensure nav is false
+        nav={false}  
         responsive={{
           0: { items: 1 },
           480: { items: 1 },
-          1200: { items: 1, nav: false, dots: true } // Make sure nav is false here as well
+          1200: { items: 1, nav: false, dots: true } 
         }}
       >
         {slides.map((slide, index) => (
