@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../../assets/images/logo.png';
 
@@ -100,7 +99,7 @@ const LeftSide = () => (
       <i className="icon-bars"></i>
     </button>
     <Link to='/' className="logo" >
-      <img src={Logo} alt="لوگوی مولا" width="105" height="25" />
+      <img src={Logo} alt="لوگوی اکتروشاپ" width="105" height="25" />
     </Link>
     <nav className="main-nav">
       <ul className="menu sf-arrows">

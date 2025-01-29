@@ -1,10 +1,8 @@
 import FooterWidget from './FooterWidget';
 import FooterLinks from './FooterLinks';
-import FooterCallToAction from './FooterCallToAction';
 
-import footerLogo from '../../assets/images/demos/demo-4/logo-footer.png';
+import footerLogo from '../../assets/images/logo-footer.png';
 import paymentMethods from '../../assets/images/payments.png';
-import bgImage from '../../assets/images/demos/demo-4/bg-5.jpg';
 
 const footerLinksData = [
   {

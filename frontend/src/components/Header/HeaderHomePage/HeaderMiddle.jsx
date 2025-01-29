@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import Wishlist from './Wishlist';
 import Favorites from './Favorites';
 import Cart from './Cart';
@@ -15,9 +15,9 @@ const HeaderMiddle = () => {
                         <span className="sr-only">تنظیم منوی موبایل</span>
                         <i className="icon-bars"></i>
                     </button>
-                    <a href="index.html" className="logo">
-                        <img src={Logo} alt="لوگوی مولا" width="105" height="25" />
-                    </a>
+                    <Link to='/' className="logo" >
+                        <img src={Logo} alt="لوگوی اکتروشاپ" width="105" height="25" />
+                    </Link>
                 </div>
                 <SearchComponent />
                 <div className="header-right">
