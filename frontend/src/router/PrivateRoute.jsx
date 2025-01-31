@@ -9,7 +9,6 @@ const PrivateRoute = ({ element, roles }) => {
   useEffect(() => {
     const checkUserRole = async () => {
       const user = await fetchUserData();
-      console.log(user);
     if (user && roles.includes(user.role)) {
         setUserRole(user.role);
       } else {

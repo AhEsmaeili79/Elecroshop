@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';  // Import useNavigate for v6+
+import { useNavigate } from 'react-router-dom';
 import styles from '../css/AdminLogin.module.css';
 import { login, fetchUserData } from '../../../api/adminDashboard.js'; 
 
@@ -10,15 +10,14 @@ const AdminLoginPage = () => {
   const [isLoading, setIsLoading] = useState(false); 
   const [errorMessage, setErrorMessage] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false); 
-  const navigate = useNavigate();  // Use navigate instead of useHistory
+  const navigate = useNavigate();  
 
   useEffect(() => {
     const checkUserRole = async () => {
       const userData = await fetchUserData();
       if (userData) {
-        // If user is already logged in and has a role of admin or seller, redirect them
         if (userData.role === 'admin' || userData.role === 'seller') {
-          navigate('/admin'); // Redirect to admin page
+          navigate('/admin');
         }
       }
     };
@@ -28,18 +27,16 @@ const AdminLoginPage = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
     setIsLoading(true); 
-    setErrorMessage(''); // Reset error message before API call
+    setErrorMessage(''); 
 
     try {
       const data = await login(username, password);
-      console.log('Login Successful', data);
-      // You can now store the tokens in localStorage or context, depending on your app's needs.
+      console.log('ورود موفقیت‌آمیز', data);
       localStorage.setItem('access_token', data.access);
       localStorage.setItem('refresh_token', data.refresh);
-      // After successful login, redirect to the admin page
       navigate('/admin');
     } catch (error) {
-      setErrorMessage(error.message); // Display the error message from the API
+      setErrorMessage(error.message);
     }
 
     setIsLoading(false); 
