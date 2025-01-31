@@ -11,6 +11,8 @@ import PaymentStatus from '../pages/Payment/paymentStatus.jsx';
 import NotFound from '../pages/NotFound/NotFound';
 import AboutUs from '../pages/AboutUsPage/AboutUs.jsx';
 import ContactUs from '../pages/ContactUsPage/ContactUs.jsx';
+import DashboardPage from '../pages/AdminPanelPage/DashboardPage.jsx';
+import AdminLoginPage from '../pages/AdminPanelPage/login/adminLoginPage.jsx';
 
 const AppRouter = () => {
   return (
@@ -30,6 +32,8 @@ const AppRouter = () => {
       <Route path="/orders/:orderCode" element={<OrderDetail/>} />
       <Route path="/payment/callback" element={<PaymentStatus/>} />
       <Route path="*" element={<NotFound />} />
+      <Route path="/admin" element={<DashboardPage />} />
+      <Route path="/admin/login" element={<AdminLoginPage />} />
     </Routes>
   );
 }
