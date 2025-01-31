@@ -7,7 +7,7 @@ import Logo from "../../../assets/images/logo.png";
 // Placeholder image for the banner
 import BannerImage from "../../../assets/images/menu/banner-1.jpg";
 
-const LeftSide = () => {
+const LeftSide = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
   const [filters, setFilters] = useState({ categories: [], brands: [] });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -118,7 +118,7 @@ const LeftSide = () => {
           </ul>
         </nav>
       </div>
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar username={username} isLoggedIn={isLoggedIn} handleLogout={handleLogout} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} toggleModal={toggleModal}/>
     </>
   );
 };

@@ -5,7 +5,7 @@ import HeaderMiddle from './HeaderHomePage/HeaderMiddle';
 import HeaderBottom from './HeaderBottom';
 import { fetchUserData } from '../../api/user';
 import { logoutUser } from '../../api/auth';
-
+import Sidebar from '../MobileMenu/Sidebar';
 
 const Header = () => {
   const [showModal, setShowModal] = useState(false);
@@ -49,8 +49,8 @@ const Header = () => {
   return (
     <>
       <header className="header header-intro-clearance header-4">
-        <HeaderTop toggleModal={toggleModal} handleLogout={handleLogout} isLoggedIn={isLoggedIn} username={user} />
-        <HeaderMiddle/>
+        <HeaderTop toggleModal={toggleModal} handleLogout={handleLogout} isLoggedIn={isLoggedIn} username={user}/>
+        <HeaderMiddle username={user} isLoggedIn={isLoggedIn} handleLogout={handleLogout} toggleModal={toggleModal}/>
         <HeaderBottom />
 
       </header>

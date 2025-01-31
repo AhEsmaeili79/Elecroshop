@@ -1,8 +1,9 @@
+import map from "../../assets/images/about/map.png";
 import BreadCrumb from "../../components/Breadcrumb/BreadCrumb";
 import storeImage1 from "../../assets/images/stores/img-1.jpg";
 import storeImage2 from "../../assets/images/stores/img-2.jpg";
 import contactHeaderBg from "../../assets/images/contact-header-bg.jpg";
-import map from "../../assets/images/about/map.png";
+
 
 const stores = [
   {

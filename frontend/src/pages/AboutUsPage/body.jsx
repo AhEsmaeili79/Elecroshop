@@ -1,3 +1,4 @@
+import BreadCrumb from "../../components/Breadcrumb/BreadCrumb";
 import aboutHeaderBg from "../../assets/images/about-header-bg.jpg";
 import aboutImg1 from "../../assets/images/about/img-1.jpg";
 import aboutImg2 from "../../assets/images/about/img-2.jpg";
@@ -15,7 +16,6 @@ import brand6 from "../../assets/images/brands/6.png";
 import brand7 from "../../assets/images/brands/7.png";
 import brand8 from "../../assets/images/brands/8.png";
 import brand9 from "../../assets/images/brands/9.png";
-import BreadCrumb from "../../components/Breadcrumb/BreadCrumb";
 
 const teamMembers = [
   {

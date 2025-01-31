@@ -8,33 +8,33 @@ import bgImage from '../../assets/images/demos/demo-4/bg-5.jpg';
 
 const footerLinksData = [
   {
-    title: "لینک‌های مفید",
+    title: "لینک های مفید",
     links: [
-      { label: 'درباره موللا', href: 'about.html' },
+      { label: 'درباره الکتروشاپ', href: '/about-us' },
       { label: 'خدمات ما', href: '#' },
-      { label: 'چگونه در موللا خرید کنیم', href: '#' },
-      { label: 'سوالات متداول', href: 'faq.html' },
-      { label: 'تماس با ما', href: 'contact.html' },
+      { label: 'چگونه در الکتروشاپ خرید کنیم', href: '#' },
+      { label: 'پرسش‌های متداول', href: '/faq' },
+      { label: 'تماس با ما', href: '/contact-us' },
     ]
   },
   {
     title: "خدمات مشتریان",
     links: [
       { label: 'روش‌های پرداخت', href: '#' },
-      { label: 'ضمانت بازگشت وجه!', href: '#' },
+      { label: 'ضمانت بازگشت پول!', href: '#' },
       { label: 'بازگشت کالا', href: '#' },
-      { label: 'حمل و نقل', href: '#' },
-      { label: 'شرایط و ضوابط', href: '#' },
-      { label: 'سیاست حفظ حریم خصوصی', href: '#' },
+      { label: 'ارسال', href: '#' },
+      { label: 'شرایط و قوانین', href: '#' },
+      { label: 'سیاست حریم خصوصی', href: '#' },
     ]
   },
   {
     title: "حساب کاربری من",
     links: [
-      { label: 'ورود', href: '#' },
-      { label: 'مشاهده سبد خرید', href: 'cart.html' },
-      { label: 'لیست علاقه‌مندی‌ها', href: '#' },
-      { label: 'پیگیری سفارش من', href: '#' },
+      { label: 'ورود', href: '/' },
+      { label: 'مشاهده سبد خرید', href: '/cart' },
+      { label: 'لیست علاقه‌مندی‌های من', href: '/wishlist' },
+      { label: 'پیگیری سفارش من', href: '/orders' },
       { label: 'راهنما', href: '#' },
     ]
   }

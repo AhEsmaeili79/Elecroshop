@@ -41,7 +41,6 @@ const HeaderTop = ({ toggleModal, isLoggedIn, handleLogout ,username }) => {
         </div>
       </div>
     </div>
-    <Sidebar username={username} isLoggedIn={isLoggedIn} handleLogout={handleLogout} toggleModal={toggleModal}/>
     </>
   );
 };

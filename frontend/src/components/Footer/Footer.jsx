@@ -8,11 +8,11 @@ const footerLinksData = [
   {
     title: "لینک های مفید",
     links: [
-      { label: 'درباره مولا', href: 'about.html' },
+      { label: 'درباره الکتروشاپ', href: '/about-us' },
       { label: 'خدمات ما', href: '#' },
-      { label: 'چگونه در مولا خرید کنیم', href: '#' },
-      { label: 'پرسش‌های متداول', href: 'faq.html' },
-      { label: 'تماس با ما', href: 'contact.html' },
+      { label: 'چگونه در الکتروشاپ خرید کنیم', href: '#' },
+      { label: 'پرسش‌های متداول', href: '/faq' },
+      { label: 'تماس با ما', href: '/contact-us' },
     ]
   },
   {
@@ -29,10 +29,10 @@ const footerLinksData = [
   {
     title: "حساب کاربری من",
     links: [
-      { label: 'ورود', href: '#' },
-      { label: 'مشاهده سبد خرید', href: 'cart.html' },
-      { label: 'لیست علاقه‌مندی‌های من', href: '#' },
-      { label: 'پیگیری سفارش من', href: '#' },
+      { label: 'ورود', href: '/' },
+      { label: 'مشاهده سبد خرید', href: '/cart' },
+      { label: 'لیست علاقه‌مندی‌های من', href: '/wishlist' },
+      { label: 'پیگیری سفارش من', href: '/orders' },
       { label: 'راهنما', href: '#' },
     ]
   }
@@ -49,7 +49,7 @@ const Footer = () => {
               content={<img src={footerLogo} className="footer-logo" alt="لوگوی فوتر" width="105" height="25" />}
               extraContent={
                 <div>
-                  <p>این متن به عنوان نمونه برای فوتر قرار داده شده است. اطلاعات بیشتر را در سایت ما پیدا کنید.</p>
+                  <p>الکتروشاپ، فروشگاهی برای بهترین تجربه خرید آنلاین شما. اطلاعات بیشتر را در سایت ما پیدا کنید.</p>
                   <div className="widget-call">
                     <i className="icon-phone"></i>
                     سوالی دارید؟ با ما تماس بگیرید 24/7 <a href="tel:#">+0123 456 789</a>
@@ -59,7 +59,12 @@ const Footer = () => {
             />
             
             {footerLinksData.map((section, index) => (
-              <FooterLinks key={index} title={section.title} links={section.links} />
+              <FooterLinks key={index} title={section.title} links={
+                section.links.map(link => ({ 
+                  ...link, 
+                  href: link.href.startsWith('/') ? link.href : '#' // Ensure valid links
+                }))
+              } />
             ))}
           </div>
         </div>
@@ -67,7 +72,7 @@ const Footer = () => {
 
       <div className="footer-bottom">
         <div className="container">
-          <p className="footer-copyright">حق کپی رایت © ۲۰۱۹ فروشگاه مولا. تمامی حقوق محفوظ است.</p>
+          <p className="footer-copyright">حق کپی رایت © {new Date().getFullYear()} الکتروشاپ. تمامی حقوق محفوظ است.</p>
           <figure className="footer-payments">
             <img src={paymentMethods} alt="روش‌های پرداخت" width="272" height="20" />
           </figure>

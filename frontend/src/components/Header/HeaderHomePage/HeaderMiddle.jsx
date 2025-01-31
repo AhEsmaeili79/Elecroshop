@@ -7,7 +7,7 @@ import Logo from '../../../assets/images/logo.png';
 import SearchComponent from './Search';
 import Sidebar from '../../MobileMenu/Sidebar';
 
-const HeaderMiddle = () => {
+const HeaderMiddle = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const toggleSidebar = () => {
@@ -36,7 +36,7 @@ const HeaderMiddle = () => {
                 </div>
             </div>
             {/* Sidebar Component */}
-            <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+            <Sidebar username={username} isLoggedIn={isLoggedIn} handleLogout={handleLogout} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} toggleModal={toggleModal}/>
         </>
     );
 };

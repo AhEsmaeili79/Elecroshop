@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import BreadCrumb from '../../components/Breadcrumb/BreadCrumb';
 import DashboardAside from './ProfilePageAside';
 import UserDetailHeader from '../../components/Header/UserDetailHeader/UserDetailHeader';
@@ -9,25 +10,27 @@ import { logoutUser } from '../../api/auth';
 
 const handleLogout = async () => {
     try {
-      await logoutUser(localStorage.getItem('refresh_token'), localStorage.getItem('token'));
+        await logoutUser(localStorage.getItem('refresh_token'), localStorage.getItem('token'));
     } catch (error) {
-      console.error('Logout failed:', error);
+        console.error('Logout failed:', error);
     } finally {
-      localStorage.removeItem('token');
-      localStorage.removeItem('refresh_token');
-      window.location.href = '/'; 
+        localStorage.removeItem('token');
+        localStorage.removeItem('refresh_token');
+        window.location.href = '/';
     }
 };
 
 const Body = () => {
+    const location = useLocation(); // Get the current URL
     const [activeTab, setActiveTab] = useState("dashboard");
 
     useEffect(() => {
-        if (window.location.pathname === '/orders' || window.location.pathname === '/orders/') {
-            setActiveTab("orders");
-        }
-    }, []);
-    
+        const path = location.pathname;
+        if (path === '/orders') setActiveTab("orders");
+        else if (path === '/address') setActiveTab("address");
+        else if (path === '/account') setActiveTab("account");
+        else setActiveTab("dashboard"); // Default to dashboard
+    }, [location.pathname]); // Run effect when pathname changes
 
     const renderTabContent = () => {
         switch (activeTab) {

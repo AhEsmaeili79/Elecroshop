@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchUserOrders } from '../../api/orderApi';
 import { fetchShippingOptions } from '../../api/shipment';
-import './css/OrdersList.rtl.css'; // Import the CSS file
+import './css/OrdersList.rtl.css'; 
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
@@ -20,11 +20,10 @@ const OrdersList = () => {
           fetchShippingOptions(),
         ]);
         
-        // Sort the orders by date and time in descending order
         const sortedOrders = ordersData.sort((a, b) => {
           const dateA = new Date(`${a.created_at_date} ${a.created_at_time}`);
           const dateB = new Date(`${b.created_at_date} ${b.created_at_time}`);
-          return dateB - dateA; // Sort in descending order (latest first)
+          return dateB - dateA; 
         });
 
         setOrders(sortedOrders);
@@ -58,7 +57,6 @@ const OrdersList = () => {
     return shippingOption ? shippingOption.price : 0;
   };
 
-  // Function to map status to Persian
   const getStatusInPersian = (status) => {
     const statusMapping = {
       canceled: 'کنسل',
@@ -67,10 +65,9 @@ const OrdersList = () => {
       delivered: 'تحویل شده',
       returned: 'مرجوع',
     };
-    return statusMapping[status] || status; // Default to status if not found
+    return statusMapping[status] || status; 
   };
 
-  // Get current orders for the current page
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
