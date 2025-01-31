@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchRoleRequests, updateRoleRequest } from '../../../api/Admin/RoleRequest';
+import { fetchRoleRequests, updateRoleRequest } from '../../../api/admin/RoleRequest';
 import styles from '../css/RoleRequest.module.css'; 
 import AdminLayout from '../dashboard/AdminLayout';
 import moment from 'moment-jalaali';
