@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
-import { GoogleMap, LoadScript, MarkerF } from "@react-google-maps/api"; // Import MarkerF as the new Marker
 import BreadCrumb from "../../components/Breadcrumb/BreadCrumb";
 import storeImage1 from "../../assets/images/stores/img-1.jpg";
 import storeImage2 from "../../assets/images/stores/img-2.jpg";
 import contactHeaderBg from "../../assets/images/contact-header-bg.jpg";
+import map from "../../assets/images/about/map.png";
 
-// Store data
 const stores = [
   {
     image: storeImage1,
@@ -15,8 +13,7 @@ const stores = [
     hours: [
       "دوشنبه - شنبه ۱۱:۰۰ تا ۱۹:۰۰",
       "یکشنبه ۱۱:۰۰ تا ۱۸:۰۰"
-    ],
-    location: { lat: 35.6895, lng: 51.3890 },
+    ]
   },
   {
     image: storeImage2,
@@ -27,8 +24,7 @@ const stores = [
       "دوشنبه - جمعه ۰۹:۰۰ تا ۲۰:۰۰",
       "شنبه ۰۹:۰۰ تا ۱۴:۰۰",
       "یکشنبه تعطیل"
-    ],
-    location: { lat: 35.7800, lng: 51.3920 },
+    ]
   }
 ];
 
@@ -51,16 +47,10 @@ const contactInfo = [
 ];
 
 const Body = () => {
-  const [mapLoaded, setMapLoaded] = useState(false);
-
-  useEffect(() => {
-    setMapLoaded(true);
-  }, []);
-
   return (
     <main className="main">
       <BreadCrumb />
-
+      
       <div className="container">
         <div className="page-header page-header-big text-center" style={{ backgroundImage: `url(${contactHeaderBg})` }}>
           <h1 className="page-title text-white">تماس با ما<span className="text-white">با ما در ارتباط باشید</span></h1>
@@ -157,28 +147,9 @@ const Body = () => {
             </div>
           </div>
         </div>
-
-        {/* Load Google Map */}
-        {mapLoaded && (
-          <div id="map" style={{ height: '400px', width: '100%' }}>
-            <LoadScript googleMapsApiKey="AIzaSyD5J0tLz2mY1F1QbKbZ7-12345XYZ">
-              <GoogleMap
-                mapContainerStyle={{ width: "100%", height: "100%" }}
-                center={{ lat: 35.6895, lng: 51.3890 }} // Default center location (Tehran)
-                zoom={10}
-              >
-                {/* Add markers for each store */}
-                {stores.map((store, index) => (
-                  <MarkerF
-                    key={index}
-                    position={store.location}
-                    title={store.title}
-                  />
-                ))}
-              </GoogleMap>
-            </LoadScript>
-          </div>
-        )}
+        <div className="map">
+          <img src={map} alt="map"/>
+        </div>
       </div>
     </main>
   );
