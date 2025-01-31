@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { fetchUserData } from '../api/adminDashboard';
+import { fetchUserData } from '../api/admin/adminDashboard';
 
 const PrivateRoute = ({ element, roles }) => {
   const [userRole, setUserRole] = useState(null);

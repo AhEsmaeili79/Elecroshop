@@ -14,6 +14,7 @@ import AboutUs from '../pages/AboutUsPage/AboutUs.jsx';
 import ContactUs from '../pages/ContactUsPage/ContactUs.jsx';
 import DashboardPage from '../pages/AdminPanelPage/DashboardPage.jsx';
 import AdminLoginPage from '../pages/AdminPanelPage/login/adminLoginPage.jsx';
+import AdminRoleRequests from '../pages/AdminPanelPage/RoleRequestPage/AdminRoleRequests.jsx';
 
 const AppRouter = () => {
   return (
@@ -34,6 +35,7 @@ const AppRouter = () => {
       <Route path="/payment/callback" element={<PaymentStatus/>} />
       <Route path="/admin" element={<PrivateRoute element={<DashboardPage />} roles={['admin', 'seller']} />} />
       <Route path="/admin/*" element={<PrivateRoute element={<DashboardPage />} roles={['admin', 'seller']} />} />
+      <Route path="/admin/RoleRequest" element={<PrivateRoute element={<AdminRoleRequests />} roles={['admin']} />} />
       <Route path="/admin/login" element={<AdminLoginPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

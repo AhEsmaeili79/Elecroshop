@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styles from '../css/AdminLogin.module.css';
-import { login, fetchUserData } from '../../../api/adminDashboard.js'; 
+import { login } from '../../../api/Admin/auth';
+import { fetchUserData } from '../../../api/admin/adminDashboard.js'; 
+
+
 
 const AdminLoginPage = () => {
   const [username, setUsername] = useState('');

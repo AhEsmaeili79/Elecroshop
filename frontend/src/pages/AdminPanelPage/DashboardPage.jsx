@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "./dashboard/AdminLayout";
 import styles from "./css/AdminDashboard.module.css";
-import { fetchUserData } from "../../api/adminDashboard";
+import { fetchUserData } from "../../api/admin/adminDashboard";
 
 const DashboardPage = () => {
   const [user, setUser] = useState(null);
