@@ -104,10 +104,10 @@ class LoginView(APIView):
 
             else:
                 return Response({
-                    'detail': 'You do not have permission to access this resource.'
+                    'detail': 'شما دسترسی لازم را ندارید'
                 }, status=status.HTTP_403_FORBIDDEN)
         
         # If authentication fails, return unauthorized
         return Response({
-            'detail': 'Invalid credentials.'
+            'detail': 'نام کاربری یا رمز عبور اشتباه است'
         }, status=status.HTTP_401_UNAUTHORIZED)

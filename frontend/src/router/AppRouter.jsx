@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute.jsx';  
 import HomePage from '../pages/HomePage/HomePage'
 import CartPage from '../pages/CartPage/CartPage.jsx';
 import ProductDetail from '../pages/ProductDetailPage/ProductDetail.jsx';
@@ -17,10 +18,10 @@ import AdminLoginPage from '../pages/AdminPanelPage/login/adminLoginPage.jsx';
 const AppRouter = () => {
   return (
     <Routes>
+      <Route path="/" element={<HomePage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/about-us" element={<AboutUs />} />
       <Route path="/contact-us" element={<ContactUs />} />
-      <Route path="/" element={<HomePage />} />
       <Route path="/product/:productId" element={<ProductDetail />} />
       <Route path="/product" element={<ProductList />} />
       <Route path="/wishlist" element={<WishlistPage />} />
@@ -31,9 +32,10 @@ const AppRouter = () => {
       <Route path="/orders" element={<ProfilePage/>} />
       <Route path="/orders/:orderCode" element={<OrderDetail/>} />
       <Route path="/payment/callback" element={<PaymentStatus/>} />
-      <Route path="*" element={<NotFound />} />
-      <Route path="/admin" element={<DashboardPage />} />
+      <Route path="/admin" element={<PrivateRoute element={<DashboardPage />} roles={['admin', 'seller']} />} />
+      <Route path="/admin/*" element={<PrivateRoute element={<DashboardPage />} roles={['admin', 'seller']} />} />
       <Route path="/admin/login" element={<AdminLoginPage />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

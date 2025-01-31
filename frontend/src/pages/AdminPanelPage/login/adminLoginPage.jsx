@@ -1,15 +1,29 @@
-// src/components/AdminLoginPage.js
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';  // Import useNavigate for v6+
 import styles from '../css/AdminLogin.module.css';
-import { login } from '../../../api/adminDashboard.js'; 
+import { login, fetchUserData } from '../../../api/adminDashboard.js'; 
 
 const AdminLoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false); 
-  const [errorMessage, setErrorMessage] = useState(''); 
+  const [errorMessage, setErrorMessage] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false); 
+  const navigate = useNavigate();  // Use navigate instead of useHistory
+
+  useEffect(() => {
+    const checkUserRole = async () => {
+      const userData = await fetchUserData();
+      if (userData) {
+        // If user is already logged in and has a role of admin or seller, redirect them
+        if (userData.role === 'admin' || userData.role === 'seller') {
+          navigate('/admin'); // Redirect to admin page
+        }
+      }
+    };
+    checkUserRole();
+  }, [navigate]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -22,8 +36,8 @@ const AdminLoginPage = () => {
       // You can now store the tokens in localStorage or context, depending on your app's needs.
       localStorage.setItem('access_token', data.access);
       localStorage.setItem('refresh_token', data.refresh);
-      // Redirect or update state to show that the user is logged in
-      window.location.href = '/admin/dashboard'; // Example: Redirect to admin dashboard
+      // After successful login, redirect to the admin page
+      navigate('/admin');
     } catch (error) {
       setErrorMessage(error.message); // Display the error message from the API
     }
