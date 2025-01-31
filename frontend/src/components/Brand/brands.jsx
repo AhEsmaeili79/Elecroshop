@@ -29,7 +29,7 @@ const BrandCarousel = () => {
 
   return (
     <>
-        <div className="container">
+        <div className="container" dir='ltr'>
           <hr className="mb-0" />
           <OwlCarousel className="owl-theme mt-5 mb-5" {...options}>
                   {brandImages.map((image, index) => (

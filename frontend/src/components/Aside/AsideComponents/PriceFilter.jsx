@@ -1,5 +1,3 @@
-import React from 'react';
-
 const PriceFilter = ({ priceRange, handlePriceChange }) => {
   return (
     <div className="widget widget-collapsible">
@@ -18,7 +16,7 @@ const PriceFilter = ({ priceRange, handlePriceChange }) => {
         <div className="widget-body">
           <div className="filter-price">
             <div className="filter-price-text">
-              محدوده قیمت: <span id="filter-price-range">${priceRange[0]} - ${priceRange[1]}</span>
+              محدوده قیمت: <span id="filter-price-range">تومان{priceRange[0]} - تومان{priceRange[1]}</span>
             </div>
             <input
               type="range"

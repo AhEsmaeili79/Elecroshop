@@ -82,7 +82,7 @@
       font-size: 18px;
     }
   
-    .owl-item.active{
+    .category-content.owl-item.active{
       margin-right: 40px !important;
     }
 
@@ -96,13 +96,12 @@
   
     .qty-control {
       gap: 6px;
-      padding: 0 4px; /* Further decrease padding */
+      padding: 0 4px; 
     }
   }
   
   
-  /* Optional: Style for the active wishlist button */
-  .btn-product-icon.btn-wishlist { /* default background */
+  .btn-product-icon.btn-wishlist { 
     cursor: pointer;
   }
   
@@ -126,5 +125,11 @@
   @media (max-width: 420px) {
     .owl-item.active{
       margin-right: 50px !important;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .owl-item.active{
+      margin-right: 80px !important;
     }
   }
