@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchCategories } from '../../api/Category'; 
 import TabItem from './TabItem';
 import './css/Tabitem.css'
@@ -11,7 +11,7 @@ const ItemTitle = ({ onCategoryChange, selectedCategory }) => {
     const loadCategories = async () => {
       try {
         const categoryData = await fetchCategories();
-        setCategories(categoryData);
+        setCategories(categoryData.slice(0, 4));
       } catch (error) {
         console.error("Error fetching categories:", error);
       } finally {
