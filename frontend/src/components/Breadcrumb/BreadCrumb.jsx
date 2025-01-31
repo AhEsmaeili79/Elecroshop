@@ -1,25 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { fetchProductDetails } from '../../api/productdetail';
 
 const BreadCrumb = ({ categoryName }) => {
-  const { productId } = useParams(); // Get the productId from URL
-  const location = useLocation(); // Get current location (URL)
+  const { productId } = useParams(); 
+  const location = useLocation(); 
   const [productName, setProductName] = useState(null);
 
-  // Fetch product details to get the product name
   useEffect(() => {
     if (productId) {
       fetchProductDetails(productId)
-        .then(product => setProductName(product.name)) // Assuming the product has a 'name' field
+        .then(product => setProductName(product.name)) 
         .catch(error => console.error('Error fetching product details:', error));
     }
   }, [productId]);
 
-  // Split the pathname into segments
   const pathSegments = location.pathname.split('/').filter(segment => segment !== "");
 
-  // Translate paths and breadcrumb names to Persian
   const persianPaths = {
     '/cart/': 'سبد خرید',
     '/': 'خانه',
@@ -32,18 +29,18 @@ const BreadCrumb = ({ categoryName }) => {
     '/payment': 'پرداخت',
     '/callback/': 'وضعیت',
     '/product/': 'محصولات',
+    '/about-us/': 'درباره ما',
+    '/contact-us/': 'تماس با ما',
   };
 
-  // Generate breadcrumb links dynamically
   const breadcrumbs = pathSegments.map((segment, index) => {
-    const url = `/${pathSegments.slice(0, index + 1).join('/')}`; // Create the URL path for each segment
+    const url = `/${pathSegments.slice(0, index + 1).join('/')}`; 
     return {
-      name: segment.replace(/-/g, ' '), // Format the segment (replace hyphens with spaces)
+      name: segment.replace(/-/g, ' '), 
       url
     };
   });
 
-  // Check if last segment is cart, wishlist, or dashboard and set the Persian name
   const lastSegment = pathSegments[pathSegments.length - 1];
   let lastBreadcrumb = persianPaths[`/${lastSegment}/`] || persianPaths[lastSegment] || categoryName || (productName ? productName : lastSegment);
 
@@ -55,13 +52,11 @@ const BreadCrumb = ({ categoryName }) => {
             <Link to="/">{persianPaths['/'] || 'خانه'}</Link>
           </li>
 
-          {/* Conditionally render product name or category name */}
           {breadcrumbs.map((breadcrumb, index) => (
             <li key={index} className="breadcrumb-item">
               {index < breadcrumbs.length - 1 ? (
                 <Link to={breadcrumb.url}>{persianPaths[breadcrumb.url] || breadcrumb.name}</Link>
               ) : (
-                // Last breadcrumb: show Persian name if available
                 <span>
                   {lastBreadcrumb}
                 </span>

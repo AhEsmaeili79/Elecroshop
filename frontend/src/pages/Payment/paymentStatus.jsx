@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { verifyPayment } from '../../api/paymentcallback';
 import HeaderSection from '../../components/Header/HeaderMiddle/HeaderSection';
 import Footer from '../../components/Footer/Footer';
-import { UserProvider } from '../../contexts/UserContext';
 import BreadCrumb from '../../components/Breadcrumb/BreadCrumb';
 import PaymentHeader from '../../assets/images/page-header-bg.jpg';
 import moment from 'moment-jalaali';

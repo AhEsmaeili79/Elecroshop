@@ -1,4 +1,3 @@
-import React from "react";
 import errorBg from "../../assets/images/error-bg.jpg"; 
 
 const Body = () => {
