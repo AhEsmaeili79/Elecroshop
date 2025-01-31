@@ -1,0 +1,25 @@
+.dashboard-container-xyz {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .dashboard-title-xyz {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .dashboard-text-xyz {
+    font-size: 1.2rem;
+  }
+  
+  .dashboard-card-xyz {
+    background: white;
+    border-radius: 10px;
+    max-width: 600px;
+    text-align: center;
+  }
+  

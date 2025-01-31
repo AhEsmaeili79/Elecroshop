@@ -11,7 +11,7 @@ export const login = async (username, password) => {
     if (error.response) {
       throw new Error(error.response.data.detail || 'An error occurred');
     } else if (error.request) {
-      throw new Error('No response from server');
+      throw new Error('پاسخی از سرور دریافت نشد');
     } else {
       throw new Error(error.message);
     }
