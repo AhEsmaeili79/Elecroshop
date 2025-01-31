@@ -36,10 +36,10 @@ const AdminLayout = ({ children }) => {
           <hr />
           <ul className="list-group list-group-flush">
 
-            <MenuItem to="admin/dashboard" icon={<FaTachometerAlt className="me-2" />} label="داشبورد" isSidebarOpen={isSidebarOpen} />
-            <MenuItem to="admin/orders" icon={<FaBox className="me-2" />} label="سفارشات" isSidebarOpen={isSidebarOpen} />
-            <MenuItem to="admin/products" icon={<FaBox className="me-2" />} label="محصولات" isSidebarOpen={isSidebarOpen} />
-            <MenuItem to="admin/profiles" icon={<FaUserAlt className="me-2" />} label="پروفایل" isSidebarOpen={isSidebarOpen} />
+            <MenuItem to="/admin/dashboard" icon={<FaTachometerAlt className="me-2" />} label="داشبورد" isSidebarOpen={isSidebarOpen} />
+            <MenuItem to="/admin/orders" icon={<FaBox className="me-2" />} label="سفارشات" isSidebarOpen={isSidebarOpen} />
+            <MenuItem to="/admin/products" icon={<FaBox className="me-2" />} label="محصولات" isSidebarOpen={isSidebarOpen} />
+            <MenuItem to="/admin/profiles" icon={<FaUserAlt className="me-2" />} label="پروفایل" isSidebarOpen={isSidebarOpen} />
           </ul>
         </div>
 
