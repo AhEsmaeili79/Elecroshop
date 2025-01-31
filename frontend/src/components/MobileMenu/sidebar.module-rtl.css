@@ -1,9 +1,9 @@
-@media screen and (min-width: 600px) {
-    .sidebarr-containerr {
-        display: none;
-    }
+@media screen and (min-width: 992px) {
     .main-nav{
         display: block !important;
+    }
+    .sidebarr-containerr{
+        display: none;
     }
 }
 .sidebarr-containerr {
@@ -18,15 +18,17 @@
     right: 0;
     top: 0;
     height: 100%;
-    width: 78px;
+    width: 0;
     background: #d6d6d6;
     padding: 6px 14px;
-    z-index: 222;
+    z-index: -10;
     transition: all 0.5s ease;
 }
 
 .sidebarr.open {
     width: 250px;
+    z-index: 200;
+    transition: all 0.5s ease;
 }
 
 .sidebarr .logo-details {
@@ -273,9 +275,4 @@
     width: calc(100%-250px);
 }
 
-@media (max-width: 600px) {
-    #root {
-      margin-right: 78px;
-    } 
-}
 

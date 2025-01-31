@@ -35,6 +35,9 @@ const RightSide = () => (
 
 const CompareDropdown = ({ products }) => (
   <div className="dropdown compare-dropdown">
+    <a href="#" className="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Compare Products">
+      <i className="icon-random"></i>
+    </a>
     <div className="dropdown-menu dropdown-menu-right">
       <ul className="compare-products">
         {products.map((product, index) => (
