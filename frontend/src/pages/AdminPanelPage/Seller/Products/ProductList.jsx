@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchSellerProducts } from '../../../../api/seller/products';
+import { fetchSellerProducts} from '../../../../api/seller/Products';
 import ProductCard from './ProductCard';
 import Spinner from 'react-bootstrap/Spinner';
 import style from './css/SellerProductList.module.css';  
