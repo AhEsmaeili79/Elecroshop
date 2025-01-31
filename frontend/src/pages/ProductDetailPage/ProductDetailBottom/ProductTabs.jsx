@@ -10,11 +10,11 @@ const ProductTabs = ({ productId }) => {
   const renderTabContent = () => {
     switch (activeTab) {
       case "description":
-        return <DescriptionTab />;
+        return <DescriptionTab activeTab={activeTab} />;
       case "additionalInfo":
-        return <AdditionalInfoTab />;
+        return <AdditionalInfoTab activeTab={activeTab} />;
       case "shipping":
-        return <ShippingTab />;
+        return <ShippingTab activeTab={activeTab} />;
       case "reviews":
         return <ReviewsTab productId={productId} />;
       default:

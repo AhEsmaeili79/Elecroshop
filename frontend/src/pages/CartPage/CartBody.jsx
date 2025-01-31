@@ -3,11 +3,11 @@ import CartHeader from '../../components/Header/CartHeader/CartHeader';
 import CartBottom from './Components/CartBottom';
 import CartSection from './Components/CartSection';
 import CartSummary from './Components/CartSummary';
-import { useCart } from '../../contexts/CartContext'; // Importing useCart hook
+import { useCart } from '../../contexts/CartContext'; 
 import './css/cartmain.rtl.css'
 
 const CartBody = () => {
-  const { cartItems, setCartItems } = useCart();  // Get cartItems from CartContext
+  const { cartItems, setCartItems } = useCart();  
   const [totalPrice, setTotalPrice] = useState(0);
 
   return (

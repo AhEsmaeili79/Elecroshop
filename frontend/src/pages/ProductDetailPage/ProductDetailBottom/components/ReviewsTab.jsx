@@ -8,8 +8,8 @@ const ReviewsTab = ({ productId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [reviewToEdit, setReviewToEdit] = useState(null);
-  const [isFormVisible, setIsFormVisible] = useState(false); // وضعیت نمایش فرم را ردیابی می‌کند
-  const [userHasReviewed, setUserHasReviewed] = useState(false); // بررسی می‌کند که آیا کاربر قبلاً نظری برای این محصول نوشته است یا نه
+  const [isFormVisible, setIsFormVisible] = useState(false); 
+  const [userHasReviewed, setUserHasReviewed] = useState(false); 
 
   const loadReviews = async () => {
     setLoading(true);
@@ -18,11 +18,11 @@ const ReviewsTab = ({ productId }) => {
       setReviews(data);
       setLoading(false);
 
-      // بررسی می‌کند که آیا کاربر قبلاً نظری برای محصول نوشته است
-      const userReview = data.find((review) => review.user_id === localStorage.getItem('user_id')); // فرض بر این است که `user_id` در localStorage ذخیره شده است
+
+      const userReview = data.find((review) => review.user_id === localStorage.getItem('user_id')); 
       if (userReview) {
-        setReviewToEdit(userReview); // اگر کاربر نظری نوشته باشد، نظر را برای ویرایش تنظیم می‌کند
-        setUserHasReviewed(true); // کاربر نظری نوشته است، بنابراین فرم به طور پیش‌فرض مخفی می‌شود
+        setReviewToEdit(userReview);
+        setUserHasReviewed(true);
       }
     } catch (err) {
       console.error('خطا در بارگذاری نظرها:', err);
@@ -46,18 +46,18 @@ const ReviewsTab = ({ productId }) => {
 
   const handleEdit = (review) => {
     setReviewToEdit(review);
-    setIsFormVisible(true); // فرم را هنگام ویرایش نمایش می‌دهد
+    setIsFormVisible(true);
   };
 
   const handleCancel = () => {
-    setIsFormVisible(false); // فرم را در صورت لغو مخفی می‌کند
-    setReviewToEdit(null); // اگر لغو زده شود، نظری که برای ویرایش انتخاب شده بود، پاک می‌شود
+    setIsFormVisible(false); 
+    setReviewToEdit(null); 
   };
 
   const handleReviewSubmit = async () => {
-    setIsFormVisible(false); // فرم را پس از ارسال یا به‌روزرسانی نظر مخفی می‌کند
-    setReviewToEdit(null); // نظری که برای ویرایش انتخاب شده بود را پاک می‌کند
-    await loadReviews(); // پس از ارسال یا به‌روزرسانی نظر، نظرها را دوباره بارگذاری می‌کند
+    setIsFormVisible(false); 
+    setReviewToEdit(null); 
+    await loadReviews(); 
   };
 
   return (
@@ -80,7 +80,7 @@ const ReviewsTab = ({ productId }) => {
               productId={productId}
               onSubmit={handleReviewSubmit}
               reviewToEdit={reviewToEdit}
-              clearEdit={handleCancel} // تابع لغو را برای بازنشانی وضعیت ویرایش ارسال می‌کند
+              clearEdit={handleCancel} 
             />
           )}
         </>

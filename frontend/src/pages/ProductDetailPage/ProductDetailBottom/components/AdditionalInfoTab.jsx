@@ -1,15 +1,15 @@
-const AdditionalInfoTab = () => (
-  <div className="tab-pane">
+const AdditionalInfoTab = ({ activeTab }) => (
+  <div className={`tab-pane ${activeTab === "additionalInfo" ? "active" : ""}`}>
     <div className="product-desc-content">
-      <h3>Information</h3>
-      <p>Lorem ipsum dolor sit amet...</p>
-      <h3>Fabric & Care</h3>
+      <h3>اطلاعات اضافی</h3>
+      <p>این محصول دارای ویژگی‌های اضافی است که شامل موارد زیر می‌شود:</p>
+      <h3>با دوام در نگهداری</h3>
       <ul>
-        <li>Faux suede fabric</li>
-        <li>Gold tone metal hoop handles...</li>
+        <li>جنس صفحه با کیفیت</li>
+        <li>دوربین خوب</li>
       </ul>
-      <h3>Size</h3>
-      <p>One size</p>
+      <h3>سایز</h3>
+      <p>در ابعاد 23 سانت </p>
     </div>
   </div>
 );

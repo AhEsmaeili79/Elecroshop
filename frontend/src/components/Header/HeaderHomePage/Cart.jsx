@@ -49,7 +49,7 @@ const Cart = () => {
                                     </h4>
                                     <span className="cart-product-info">
                                         <span className="cart-product-qty">{item.quantity}</span>
-                                        x ${item.product.price.toFixed(2)} 
+                                        x {item.product.price} تومان
                                     </span>
                                 </div>
                                 <div className="cart-color-info">
@@ -84,7 +84,7 @@ const Cart = () => {
                 </div>
                 <div className="dropdown-cart-total">
                     <span>جمع کل</span>
-                    <span className="cart-total-price">${totalPrice}</span>
+                    <span className="cart-total-price">{totalPrice} تومان </span>
                 </div>
                 <div className="dropdown-cart-action">
                     <Link to="/cart" className="btn btn-primary">سبد خرید</Link>

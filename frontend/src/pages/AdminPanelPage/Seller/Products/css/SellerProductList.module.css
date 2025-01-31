@@ -1,0 +1,116 @@
+.sellerProductList__container {
+  margin-top: 50px;
+}
+
+.sellerProductList__pageTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.sellerProductList__loadingContainer {
+  padding: 60px;
+}
+
+.sellerProductList__productCard {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 20px;
+}
+
+.sellerProductList__productCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.sellerProductList__productImage {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+}
+
+.sellerProductList__productName {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin: 15px 0;
+}
+
+.sellerProductList__productPrice {
+  font-size: 2.25rem;
+  color: #28a745;
+}
+
+.sellerProductList__productDesc {
+  font-size: 1.5rem;
+  color: #666;
+  margin: 10px 0;
+}
+
+.sellerProductList__productModel,
+.sellerProductList__productBrand {
+  font-size: 1.75rem;
+  color: #444;
+}
+
+.sellerProductList__productCount {
+  font-size: 1.75rem;
+  color: #333;
+}
+
+.sellerProductList__productColors {
+  margin-top: 15px;
+}
+
+.sellerProductList__productLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.sellerProductList__productLink:hover .sellerProductList__productCard {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.sellerProductList__badge.bg-success {
+  background-color: #28a745 !important;
+}
+
+.sellerProductList__spinner-border {
+  width: 4rem;
+  height: 4rem;
+}
+
+.sellerProductList__text-center {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .sellerProductList__productCard {
+    margin-bottom: 25px;
+  }
+
+  .sellerProductList__productName {
+    font-size: 1.4rem;
+  }
+
+  .sellerProductList__productPrice,
+  .sellerProductList__productDesc,
+  .sellerProductList__productModel,
+  .sellerProductList__productBrand {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    margin-top: 40px;
+  }
+
+  .sellerProductList__productName {
+    font-size: 1.5rem;
+  }
+}

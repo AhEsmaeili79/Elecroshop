@@ -88,7 +88,11 @@ const ProductCard = ({ product, index }) => {
   const ratingPercentage = (averageRating / 5) * 100;
 
   const handleAddToCart = async () => {
-    if (!product || !product.id || product.quantity === 0) return;
+    if (!localStorage.getItem("token")) {
+      alert("لطفاً برای افزودن به سبد خرید، وارد شوید.");
+      return;
+    }
+    else if (!product || !product.id || product.quantity === 0) return;
     try {
       const addedItem = await addProductToCart(product.id, quantity, selectedColor);
       setCartItem(addedItem);

@@ -74,6 +74,10 @@ const ProductListCard = ({ product, reviewsData }) => {
             alert("لطفاً رنگی را قبل از افزودن به سبد خرید انتخاب کنید.");
             return;
         }
+        if (!localStorage.getItem("token")) {
+            alert("لطفاً برای افزودن به سبد خرید، وارد شوید.");
+            return;
+        }
         try {
             const existingCartItem = cartItems.find(item => item.product.id === product.id &&
                 item.color.id === selectedColor

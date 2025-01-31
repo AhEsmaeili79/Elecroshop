@@ -23,33 +23,30 @@ const ProductTopPage = ({ productId }) => {
   const [isFavorited, setIsFavorited] = useState(false);
   const [selectedColor, setSelectedColor] = useState(null);
   const [wishlist, setWishlist] = useState([]);
-  const [buttonText, setButtonText] = useState("اضافه به سبد خرید"); // Manage button text state
+  const [buttonText, setButtonText] = useState("اضافه به سبد خرید");
   const [btnClass, setbtnClass] = useState("addcartbtn");
-  const [isInCart, setIsInCart] = useState(false); // Track if the product is in the cart
+  const [isInCart, setIsInCart] = useState(false);
   const { cartItems, setCartItems } = useCart();
 
   useEffect(() => {
     const loadProductDetails = async () => {
       try {
-        // Fetch product details
         const data = await fetchProductDetails(productId);
         setProduct(data);
         setActiveImage(data.main_photo);
   
-        // Check product availability
         if (data.quantity === 0) {
           setButtonText("ناموجود");
           setbtnClass("outofstockbtn");
-          setIsInCart(false); // Disable cart actions if ناموجود
+          setIsInCart(false);
         } else {
           setButtonText("اضافه به سبد خرید");
           setbtnClass("addcartbtn");
-          setIsInCart(false); // Enable cart actions if product is in stock
+          setIsInCart(false);
         }
   
         setLoading(false);
   
-        // Fetch cart items and check if the product is already in the cart
         const cartData = await fetchAllCartItems();
         setCartItems(cartData);
   
@@ -59,7 +56,6 @@ const ProductTopPage = ({ productId }) => {
             (!selectedColor || item.color.id === selectedColor)
         );
         
-        // If product is found in the cart, update state for quantity and button
         if (cartItem) {
           setQuantity(cartItem.quantity);
           setButtonText("حذف از سبد خرید");
@@ -67,15 +63,14 @@ const ProductTopPage = ({ productId }) => {
           setIsInCart(true);
         }
       } catch (err) {
-        console.error("Error fetching product details:", err);
-        setError("Failed to load product details. Please try again later.");
+        console.error("خطا در بارگذاری جزئیات محصول:", err);
+        setError("خطا در بارگذاری جزئیات محصول. لطفا دوباره تلاش کنید.");
         setLoading(false);
       }
     };
   
     loadProductDetails();
   }, [productId, selectedColor]);
-  
 
   useEffect(() => {
     const loadWishlist = async () => {
@@ -84,7 +79,7 @@ const ProductTopPage = ({ productId }) => {
         setWishlist(data);
         setIsFavorited(data.some((item) => item.product_id === productId));
       } catch (err) {
-        console.error("Error fetching wishlist:", err);
+        console.error("خطا در بارگذاری لیست علاقه مندی‌ها:", err);
       }
     };
 
@@ -94,21 +89,23 @@ const ProductTopPage = ({ productId }) => {
 
   const handleAddToCart = async () => {
     if (!selectedColor) {
-      alert("Please select a color before adding to cart.");
+      alert("لطفا رنگی را برای افزودن به سبد انتخاب کنید.");
+      return;
+    }
+    if (!localStorage.getItem("token")) {
+      alert("لطفاً برای افزودن به سبد وارد شوید.");
       return;
     }
 
-    // Check product availability
     if (product.quantity === 0) {
-      alert("Sorry, this product is ناموجود.");
+      alert("ببخشید، این محصول ناموجود است.");
       setButtonText("ناموجود");
       setbtnClass("outofstockbtn");
-      return; // Disable the button and do nothing
+      return; 
     }
 
-    // If product is in stock, proceed with adding/updating the cart
     try {
-      setButtonText("Processing...");
+      setButtonText("در حال پردازش...");
       const cartItem = cartItems.find(
         (item) =>
           item.product.id === product.id &&
@@ -116,10 +113,8 @@ const ProductTopPage = ({ productId }) => {
       );
 
       if (cartItem) {
-        // Update cart item quantity
         await updateCartItemQuantity(cartItem.id, quantity, selectedColor);
       } else {
-        // Add new product to cart
         await addProductToCart(product.id, quantity, selectedColor);
       }
 
@@ -156,7 +151,7 @@ const ProductTopPage = ({ productId }) => {
         setbtnClass("addcartbtn");
       }
     } catch (err) {
-      console.error("Error removing item from cart:", err);
+      console.error("خطا در حذف محصول از سبد خرید:", err);
     }
   };
 
@@ -165,7 +160,7 @@ const ProductTopPage = ({ productId }) => {
   const handleAddToWishlist = async () => {
     try {
       if (!localStorage.getItem("token")) {
-        alert("Please log in to add to wishlist.");
+        alert("لطفا وارد شوید تا به لیست علاقه مندی‌ها اضافه کنید.");
         return;
       }
 
@@ -179,8 +174,8 @@ const ProductTopPage = ({ productId }) => {
       setWishlist(updatedWishlist);
       setIsFavorited(updatedWishlist.some((item) => item.product_id === productId));
     } catch (err) {
-      console.error("Error updating wishlist:", err);
-      alert("Failed to update wishlist. Please try again.");
+      console.error("خطا در بروزرسانی لیست علاقه مندی‌ها:", err);
+      alert("خطا در بروزرسانی لیست علاقه مندی‌ها. لطفا دوباره تلاش کنید.");
     }
   };
 
@@ -207,9 +202,7 @@ const ProductTopPage = ({ productId }) => {
     }
   };
 
-  // New function to handle quantity updates
   const handleQuantityChange = async (newQuantity) => {
-    // First, update the local state with the new quantity
     setQuantity(newQuantity);
   };
 
@@ -218,10 +211,9 @@ const ProductTopPage = ({ productId }) => {
   useEffect(() => {
     const updateQuantity = async () => {
       if (quantity > 0 && selectedColor) {
-        // Check product availability before updating cart
         if (product.quantity === 0) {
-          alert("Sorry, this product is ناموجود.");
-          return; // Disable any cart update if ناموجود
+          alert("ببخشید، این محصول ناموجود است.");
+          return; 
         }
   
         const cartItem = cartItems.find(
@@ -231,12 +223,10 @@ const ProductTopPage = ({ productId }) => {
         );
   
         if (cartItem) {
-          // Update the cart item quantity based on selected quantity
           await updateCartItemQuantity(cartItem.id, quantity, selectedColor);
         }
       }
   
-      // Fetch the updated cart items after updating the quantity
       const cartData = await fetchAllCartItems();
       setCartItems(cartData);
     };
@@ -244,10 +234,8 @@ const ProductTopPage = ({ productId }) => {
   
   }, [quantity]);
   
-  
-  
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>در حال بارگذاری...</div>;
   if (error) return <div>{error}</div>;
 
   return (
@@ -265,7 +253,7 @@ const ProductTopPage = ({ productId }) => {
             product={product}
             selectedColor={selectedColor}
             quantity={quantity}
-            setQuantity={handleQuantityChange}  // Updated quantity handler
+            setQuantity={handleQuantityChange}  
             handleAddToCart={selectedColor ? (isInCart ? handleRemoveFromCart : handleAddToCart) : null}
             handleAddToWishlist={handleAddToWishlist}
             isFavorited={isFavorited}
@@ -278,6 +266,5 @@ const ProductTopPage = ({ productId }) => {
     </div>
   );
 };
-
 
 export default ProductTopPage;

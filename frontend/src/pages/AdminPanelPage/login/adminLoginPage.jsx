@@ -34,7 +34,6 @@ const AdminLoginPage = () => {
 
     try {
       const data = await login(username, password);
-      console.log('ورود موفقیت‌آمیز', data);
       localStorage.setItem('access_token', data.access);
       localStorage.setItem('refresh_token', data.refresh);
       navigate('/admin');
