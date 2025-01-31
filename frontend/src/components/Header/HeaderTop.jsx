@@ -30,8 +30,8 @@ const HeaderTop = ({ toggleModal, isLoggedIn, handleLogout ,username }) => {
                       
                     </>
                   ) : null }
-                <li><a href="about.html">درباره ما</a></li>
-                <li><a href="contact.html">تماس با ما</a></li>
+                <li><Link to="/about-us">درباره ما</Link></li>
+                <li><Link to="/contact-us">تماس با ما</Link></li>
                 {isLoggedIn ? (
                   <li><Link onClick={handleLogout}><i className='fa fa-sign-out'></i> خروج</Link></li>
                 ) : <li><a  onClick={toggleModal}><i className="fa fa-user"></i>ورود</a> </li>}

@@ -9,11 +9,15 @@ import Checkout from '../pages/CheckoutPage/Checkout.jsx';
 import OrderDetail from '../pages/OrderDetailPage/OrderDetail.jsx';
 import PaymentStatus from '../pages/Payment/paymentStatus.jsx';
 import NotFound from '../pages/NotFound/NotFound';
+import AboutUs from '../pages/AboutUsPage/aboutus.jsx';
+import ContactUs from '../pages/ContactUsPage/ContactUs.jsx';
 
 const AppRouter = () => {
   return (
     <Routes>
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/about-us" element={<AboutUs />} />
+      <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/" element={<HomePage />} />
       <Route path="/product/:productId" element={<ProductDetail />} />
       <Route path="/product" element={<ProductList />} />

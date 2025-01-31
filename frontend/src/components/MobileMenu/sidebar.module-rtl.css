@@ -6,6 +6,11 @@
         display: none;
     }
 }
+@media screen and (min-width: 400px) {
+    .sidebarr{
+        z-index: -200;
+    }
+}
 .sidebarr-containerr {
     margin: 0;
     padding: 0;
