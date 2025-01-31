@@ -9,7 +9,7 @@ import Checkout from '../pages/CheckoutPage/Checkout.jsx';
 import OrderDetail from '../pages/OrderDetailPage/OrderDetail.jsx';
 import PaymentStatus from '../pages/Payment/paymentStatus.jsx';
 import NotFound from '../pages/NotFound/NotFound';
-import AboutUs from '../pages/AboutUsPage/aboutus.jsx';
+import AboutUs from '../pages/AboutUsPage/AboutUs.jsx';
 import ContactUs from '../pages/ContactUsPage/ContactUs.jsx';
 
 const AppRouter = () => {
