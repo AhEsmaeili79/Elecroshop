@@ -32,9 +32,9 @@ const teamMembers = [
   },
   {
     img: member3,
-    name: "زهرا اصغری",
+    name: "اکبر اصغری",
     title: "مدیر محصولات",
-    description: "زهرا اصغری مسئول مدیریت و نظارت بر محصولات الکترونیکی در Electroshop است. او به انتخاب و معرفی بهترین محصولات به مشتریان توجه ویژه‌ای دارد.",
+    description: "اکبر اصغری مسئول مدیریت و نظارت بر محصولات الکترونیکی در Electroshop است. او به انتخاب و معرفی بهترین محصولات به مشتریان توجه ویژه‌ای دارد.",
   },
 ];
 
@@ -44,13 +44,13 @@ const testimonials = [
   {
     img: testimonial1,
     text: "خرید از Electroshop تجربه‌ای بی‌نظیر بود. لوازم با کیفیت و ارسال سریع باعث شد که من همیشه از این سایت خرید کنم.",
-    name: "جیسون گریکوری",
+    name: "رضا نیازی",
     role: "مشتری",
   },
   {
     img: testimonial2,
     text: "همیشه محصولات مورد نظر را در Electroshop پیدا می‌کنم و قیمت‌ها هم خیلی مناسب است. توصیه می‌کنم خرید از این فروشگاه را امتحان کنید.",
-    name: "زهرا اصغری",
+    name: "اکبر رضایی",
     role: "مشتری",
   },
 ];
@@ -62,7 +62,7 @@ const Body = () => {
 
       <div className="container">
         <div className="page-header page-header-big text-center" style={{ backgroundImage: `url('${aboutHeaderBg}')` }}>
-          <h1 className="page-title text-white">درباره ما<span className="text-white">ما که هستیم</span></h1>
+          <h1 className="page-title text-white">درباره ما<span className="text-white">ما کی هستیم</span></h1>
         </div>
       </div>
 
