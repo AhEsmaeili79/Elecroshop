@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import PrivateRoute from './PrivateRoute.jsx';  
+import PrivateRoute from './PrivateRoute';
 import HomePage from '../pages/HomePage/HomePage'
 import CartPage from '../pages/CartPage/CartPage.jsx';
 import ProductDetail from '../pages/ProductDetailPage/ProductDetail.jsx';
