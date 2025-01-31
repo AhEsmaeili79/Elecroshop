@@ -1,8 +1,10 @@
+import os
 from datetime import timedelta
 from pathlib import Path
-import os
 
-ZARINPAL_MERCHANT_ID = '1aaccd0b-9c1b-405c-8952-f21f8bd277bc'
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -119,10 +121,7 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = "users.CustomUser"
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173", 
-    "https://moboshop.liara.run",
-]
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
 
 CORS_ALLOW_HEADERS = [
     "Authorization",
