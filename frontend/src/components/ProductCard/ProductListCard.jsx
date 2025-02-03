@@ -6,6 +6,9 @@ import { addProductToCart, updateCartItemQuantity, removeCartItem, fetchCartItem
 import './css/ProductListCard.css';
 import { useWishlist } from '../../contexts/WishlistContext'; 
 import ColorOptions from '../../utils/ColorOptions';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const ProductListCard = ({ product, reviewsData }) => {
     const { cartItems, setCartItems } = useCart();
@@ -40,7 +43,10 @@ const ProductListCard = ({ product, reviewsData }) => {
         }
     }, [product.created_at, product.quantity]);
 
-
+    const toPersianNumerals = (number) => {
+        const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
+      };
     useEffect(() => {
         const checkCartItem = async () => {
             if (product && product.id) {
@@ -71,11 +77,11 @@ const ProductListCard = ({ product, reviewsData }) => {
 
     const handleAddToCart = async () => {
         if (!product || !product.id || !selectedColor) {
-            alert("لطفاً رنگی را قبل از افزودن به سبد خرید انتخاب کنید.");
+            toast.error("لطفاً رنگی را قبل از افزودن به سبد خرید انتخاب کنید.");
             return;
         }
         if (!localStorage.getItem("token")) {
-            alert("لطفاً برای افزودن به سبد خرید، وارد شوید.");
+            toast.error("لطفاً برای افزودن به سبد خرید، وارد شوید.");
             return;
         }
         try {
@@ -88,54 +94,59 @@ const ProductListCard = ({ product, reviewsData }) => {
                 await addProductToCart(product.id, quantity, selectedColor);
                 const cartData = await fetchAllCartItems();
                 setCartItems(cartData);
+                toast.success("محصول به سبد خرید اضافه شد.");
             }
         } catch (error) {
             console.error('خطا در افزودن محصول به سبد خرید:', error);
-            alert(error.message);
+            toast.error("خطا در افزودن محصول به سبد خرید.");
         }
     };
-
+    
     const handleQuantityChange = async (newQuantity) => {
         if (newQuantity < 1) return;
         try {
             const updatedItem = await updateCartItemQuantity(cartItem.id, newQuantity, selectedColor);
             setQuantity(updatedItem.quantity);
-            setCartItems(prevItems => prevItems.filter(item => item.id !== cartItem.id 
-            ));
+            setCartItems(prevItems => prevItems.filter(item => item.id !== cartItem.id));
         } catch (error) {
             console.error('خطا در به‌روزرسانی تعداد کالای سبد خرید:', error);
+            toast.error("خطا در به‌روزرسانی تعداد کالای سبد خرید.");
         }
     };
     
-
     const handleRemoveFromCart = async () => {
         try {
             await removeCartItem(cartItem.id);
-            setCartItems(prevItems => prevItems.filter(item => item.id !== cartItem.id ));
+            setCartItems(prevItems => prevItems.filter(item => item.id !== cartItem.id));
             setCartItem(null);
             setQuantity(1);
+            toast.success("کالا از سبد خرید حذف شد.");
         } catch (error) {
             console.error('خطا در حذف کالا از سبد خرید:', error);
+            toast.error("خطا در حذف کالا از سبد خرید.");
         }
     };
-
+    
     const handleWishlistToggle = async () => {
         if (!localStorage.getItem("token")) {
-            alert("لطفاً برای افزودن به لیست علاقه‌مندی‌ها وارد شوید.");
+            toast.error("لطفاً برای افزودن به لیست علاقه‌مندی‌ها وارد شوید.");
             return;
         }
     
         try {
             if (isInWishlist) {
                 await handleRemoveFromWishlist(product.id);
+                toast.success("کالا از لیست علاقه‌مندی‌ها حذف شد.");
             } else {
                 await handleAddToWishlist(product.id);
+                toast.success("کالا به لیست علاقه‌مندی‌ها اضافه شد.");
             }
         } catch (err) {
             console.error("خطا در به‌روزرسانی لیست علاقه‌مندی‌ها:", err);
-            alert("افزودن به لیست علاقه‌مندی‌ها با خطا مواجه شد. لطفاً دوباره تلاش کنید.");
+            toast.error("افزودن به لیست علاقه‌مندی‌ها با خطا مواجه شد. لطفاً دوباره تلاش کنید.");
         }
     };
+    
 
     const handleColorChange = (color) => {
         setSelectedColor(color);
@@ -233,7 +244,7 @@ const ProductListCard = ({ product, reviewsData }) => {
                     <h3 className="product-title">
                         <Link to={`/product/${product.id}`}>{product.name}</Link>
                     </h3>
-                    <div className="product-price">{product.price} تومان</div>
+                    <div className="product-price">{toPersianNumerals(product.price)} تومان</div>
                     <div className="ratings-container">
                         <div className="ratings">
                             <div className="ratings-val" style={{ width: `${(averageRating / 5) * 100}%` }}></div>

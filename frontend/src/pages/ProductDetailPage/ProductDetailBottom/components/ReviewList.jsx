@@ -29,24 +29,28 @@ const ReviewList = ({ reviews, onDelete, onEdit }) => {
     const diffInYears = Math.floor(diffInDays / 365);
 
     if (diffInYears > 0) {
-      return `${diffInYears} سال پیش`;
+      return `${toPersianNumerals(diffInYears)} سال پیش`;
     } else if (diffInMonths > 0) {
-      return `${diffInMonths} ماه پیش`;
+      return `${toPersianNumerals(diffInMonths)} ماه پیش`;
     } else if (diffInDays > 0) {
-      return `${diffInDays} روز پیش`;
+      return `${toPersianNumerals(diffInDays)} روز پیش`;
     } else if (diffInHours > 0) {
-      return `${diffInHours} ساعت پیش`;
+      return `${toPersianNumerals(diffInHours)} ساعت پیش`;
     } else if (diffInMinutes > 0) {
-      return `${diffInMinutes} دقیقه پیش`;
+      return `${toPersianNumerals(diffInMinutes)} دقیقه پیش`;
     } else {
       return 'همین الان';
     }
+  };
+  const toPersianNumerals = (number) => {
+    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
   };
 
   return (
     <div className="tab-pane fade show active" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
       <div className="reviews">
-        <h3>نظرها ({reviews.length})</h3>
+        <h3>نظرها ({toPersianNumerals(reviews.length)})</h3>
         {reviews.length === 0 ? (
           <p>هنوز نظری وجود ندارد. اولین نفری باشید که نظر می‌نویسید!</p>
         ) : (

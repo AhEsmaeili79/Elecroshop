@@ -33,7 +33,7 @@ const CountdownTimer = () => {
           {timeLeft.days > 0 && renderTimeUnit(timeLeft.days, 'روز', true)}
           {(timeLeft.days > 0 || timeLeft.hours > 0) && renderTimeUnit(timeLeft.hours, 'ساعت', true)}
           {(timeLeft.days > 0 || timeLeft.hours > 0 || timeLeft.minutes > 0) && renderTimeUnit(timeLeft.minutes, 'دقیقه', true)}
-          {renderTimeUnit(timeLeft.seconds, 'ثانیه', false)} {/* بدون دو نقطه برای ثانیه */}
+          {renderTimeUnit(timeLeft.seconds, 'ثانیه', false)} 
         </div>
       </div>
     </div>

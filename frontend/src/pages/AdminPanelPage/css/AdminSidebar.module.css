@@ -95,7 +95,10 @@
 .adminPanel_sidebar.closed ~ .adminPanel_content {
   margin-right: 60px; /* Sidebar width when collapsed */
 }
-
+.noHover:hover {
+  text-decoration: none; /* Remove underline or text decoration on hover */
+  background-color: transparent; /* Ensure the background color doesn't change on hover */
+}
 /* Responsive Styles for Mobile */
 @media (max-width: 767px) {
   .adminPanel_sidebar {

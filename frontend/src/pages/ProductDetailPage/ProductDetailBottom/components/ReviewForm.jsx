@@ -40,13 +40,13 @@ const ReviewForm = ({ productId, onSubmit, reviewToEdit, clearEdit }) => {
     try {
       setLoading(true);
       if (reviewToEdit) {
-        await updateReview(reviewToEdit.id, reviewData); // بروزرسانی نظر موجود
+        await updateReview(reviewToEdit.id, reviewData); 
       } else {
-        await submitReview(reviewData); // ایجاد نظر جدید
+        await submitReview(reviewData);
       }
       resetForm();
-      if (clearEdit) clearEdit(); // فراخوانی کال بک برای لغو یا بازنشانی نمایش فرم
-      if (onSubmit) onSubmit(); // به روزرسانی نظرها
+      if (clearEdit) clearEdit(); 
+      if (onSubmit) onSubmit(); 
     } catch (error) {
       console.error('ارسال نظر با مشکل مواجه شد:', error);
     } finally {

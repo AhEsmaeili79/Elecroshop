@@ -35,8 +35,12 @@ class OrderViewSet(viewsets.ModelViewSet):
         if order_code:
             return Order.objects.filter(order_code=order_code)
         
+        if user.role == 'admin':
+            return Order.objects.all()
+        
         if user.role == 'seller':
             return Order.objects.filter(items__product__seller=user).distinct()
+        
         else:
             return Order.objects.filter(user=user)
 

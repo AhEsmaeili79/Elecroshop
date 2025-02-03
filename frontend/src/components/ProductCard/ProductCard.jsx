@@ -25,7 +25,6 @@ const ProductCard = ({ product, index }) => {
   const { cartItems, setCartItems } = useCart();
   const { wishlistItems, handleAddToWishlist, handleRemoveFromWishlist } = useWishlist();
 
-  // Fetch cart item only when the product changes
   useEffect(() => {
     const loadCartItem = async () => {
       if (product?.id) {
@@ -40,7 +39,6 @@ const ProductCard = ({ product, index }) => {
     loadCartItem();
   }, [product?.id]);
 
-  // Fetch reviews only when the product changes
   useEffect(() => {
     const loadReviews = async () => {
       if (product?.id) {
@@ -56,13 +54,11 @@ const ProductCard = ({ product, index }) => {
     loadReviews();
   }, [product?.id]);
 
-  // Update wishlist status based on the context
   useEffect(() => {
     const isProductInWishlist = wishlistItems.some(item => item.product.id === product.id);
     setIsInWishlist(isProductInWishlist);
   }, [wishlistItems, product?.id]);
 
-  // Handle adding/removing product from wishlist
   const handleWishlistToggle = async () => {
     if (!localStorage.getItem("token")) {
       alert("لطفاً برای افزودن به لیست علاقه‌مندی‌ها وارد شوید.");
@@ -132,24 +128,20 @@ const ProductCard = ({ product, index }) => {
   const handleColorChange = async (color) => {
     setSelectedColor(color);
 
-    // Find the cart item for the selected color
     const existingCartItem = cartItems.find(
       (item) => item.product.id === product.id && item.color.id === color
     );
 
     if (existingCartItem) {
-      // If the cart item exists for the selected color, set it
       setCartItem(existingCartItem);
       setQuantity(existingCartItem.quantity);
     } else {
-      // If not, try fetching from the API
       try {
         const fetchedCartItem = await fetchCartItem(product.id, color);
         if (fetchedCartItem) {
           setCartItem(fetchedCartItem);
           setQuantity(fetchedCartItem.quantity);
 
-          // Add fetched cart item to the cartItems context if not already present
           setCartItems((prevItems) => {
             if (!prevItems.some((item) => item.id === fetchedCartItem.id)) {
               return [...prevItems, fetchedCartItem];
@@ -157,7 +149,6 @@ const ProductCard = ({ product, index }) => {
             return prevItems;
           });
         } else {
-          // If no cart item exists for the selected color, reset state
           setCartItem(null);
           setQuantity(1);
         }
@@ -173,6 +164,11 @@ const ProductCard = ({ product, index }) => {
 
   const isOutOfStock = product.quantity === 0;
 
+  const toPersianNumerals = (number) => {
+    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
+  };
+  
   return (
     <div className="product product-2" key={index}>
       <figure className="product-media">
@@ -235,7 +231,7 @@ const ProductCard = ({ product, index }) => {
                 <span>+</span>
               </button>
             </div>
-          ) : selectedColor ? (  // Check if a color is selected
+          ) : selectedColor ? (  
             <a
               onClick={(e) => {
                 e.preventDefault();
@@ -245,7 +241,7 @@ const ProductCard = ({ product, index }) => {
               title="افزودن به سبد خرید"
             ></a>
           ) : (
-            <span className="btn-product btn-cart" title="لطفا رنگ را انتخاب کنید" disabled></span> // Optionally show a disabled state
+            <span className="btn-product btn-cart" title="لطفا رنگ را انتخاب کنید" disabled></span> 
           )}
           <a href="popup/quickView.html" className="btn-product btn-quickview" title="مشاهده سریع"></a>
         </div>
@@ -262,16 +258,22 @@ const ProductCard = ({ product, index }) => {
             {product.name || 'محصول بی‌نام'}
           </Link>
         </h3>
-        <div className="product-price">
+        <div className="product-price text-muted" dir='rtl'>
           {product.oldPrice ? (
             <>
-              <span className="new-price">{product.price || 'نامشخص'}</span>
-              <span className="old-price">{product.oldPrice}</span>
+              <span className="new-price">
+                {toPersianNumerals(product.price) || 'نامشخص'}
+              </span>
+              <span className="old-price">
+                {toPersianNumerals(product.oldPrice)}
+              </span>
             </>
           ) : (
-            product.price || 'نامشخص'
+            toPersianNumerals(product.price) || 'نامشخص'
           )}
+          تومان
         </div>
+
         <div className="details-row-color">
           <ColorOptions
             colors={product.colors}

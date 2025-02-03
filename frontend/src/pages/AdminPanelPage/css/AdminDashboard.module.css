@@ -1,25 +1,195 @@
-.dashboard-container-xyz {
-    background-color: #f8f9fa;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+/* Global Styles */
+.dashboardContainer {
+  padding: 20px;
+  background-color: #f7f7f7; /* Light neutral background */
+}
+
+.dashboardTitle {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2c3e50; /* Darker gray for the main heading */
+}
+
+.dashboardSubheading {
+  text-align: center;
+  color: #7f8c8d; /* Lighter gray for subheadings */
+}
+
+.errorMessage {
+  color: #e74c3c; /* Vibrant red for error messages */
+  text-align: center;
+}
+
+.dashboardCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 30px;
+}
+
+@media (max-width: 1024px) {
+  .dashboardCards {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .dashboard-title-xyz {
-    font-size: 2rem;
-    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .dashboardCards {
+    grid-template-columns: 1fr;
   }
-  
-  .dashboard-text-xyz {
-    font-size: 1.2rem;
+}
+
+.userCard {
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px; /* More rounded edges */
+  margin-bottom: 30px;
+}
+
+.userCardTitle {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #34495e; /* Darker color for the user card title */
+}
+
+.dashboardCard {
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s ease, background-color 0.2s;
+}
+
+.dashboardCard:hover {
+  transform: scale(1.05);
+  background-color: #f0f0f0; /* Slightly darker shade for hover */
+}
+
+.dashboardCardTitle {
+  font-size: 1.25rem;
+  color: #2980b9; /* Soft blue for the card title */
+}
+
+.dashboardCardCount {
+  font-size: 2rem;
+  color: #34495e; /* Darker gray for better contrast */
+}
+
+.dashboardCardLink {
+  margin-top: 15px;
+  color: #1abc9c; /* Fresh green for the links */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.dashboardCardLink:hover {
+  text-decoration: underline;
+}
+
+.chartSection {
+  margin-top: 50px;
+}
+
+.chartTitle {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #34495e; /* Darker color for the chart title */
+}
+
+.ordersSection {
+  margin-top: 50px;
+}
+
+.ordersTitle {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #34495e; /* Darker color for the orders title */
+}
+
+.ordersList {
+  list-style-type: disc;
+  margin-left: 20px;
+  color: #34495e; /* Dark gray for list items */
+}
+
+.ordersListItem {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #7f8c8d; /* Lighter gray for the order details */
+}
+
+
+/* Orders Section */
+.ordersSection {
+  margin-top: 40px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ordersTitle {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.ordersList {
+  list-style: none;
+  padding: 0;
+}
+
+.ordersListItem {
+  background-color: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.ordersListItem:hover {
+  transform: translateY(-5px);
+  background-color: #e9f7ef;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.orderDetails {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: #555;
+}
+
+.orderDate,
+.orderAmount {
+  font-weight: bold;
+  color: #4CAF50; /* Green color for date/amount */
+}
+
+.orderDate {
+  color: #FF5722; /* Orange for the date */
+}
+
+.orderAmount {
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .ordersTitle {
+    font-size: 1.5rem;
   }
-  
-  .dashboard-card-xyz {
-    background: white;
-    border-radius: 10px;
-    max-width: 600px;
-    text-align: center;
+
+  .ordersListItem {
+    padding: 12px;
   }
-  
+
+  .orderDetails {
+    font-size: 0.9rem;
+  }
+}

@@ -1,19 +1,22 @@
 import { useEffect } from 'react';
-import { useWishlist } from '../../../contexts/WishlistContext'; // Adjust the import to your context location
+import { useWishlist } from '../../../contexts/WishlistContext'; 
 
 const Wishlist = () => {
-  const { wishlistItems, isWishlistLoading } = useWishlist(); // Destructure wishlist data and loading state
+  const { wishlistItems, isWishlistLoading } = useWishlist(); 
 
   useEffect(() => {
-    // You can add any side effects or handle other logic when wishlistItems change
-  }, [wishlistItems]); // Whenever the wishlistItems changes, this effect will run
+  }, [wishlistItems]); 
 
+  const toPersianNumerals = (number) => {
+    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
+  };
   return (
     <div className="wishlist">
       <a href='/wishlist' title=" علاقه‌مندی‌ها">
         <div className="icon">
           <i className="icon-heart-o"></i>
-          <span className="wishlist-count badge">{isWishlistLoading ? '...' : wishlistItems.length}</span>  {/* Dynamically rendered wishlist count */}
+          <span className="wishlist-count badge">{isWishlistLoading ? '...' : toPersianNumerals(wishlistItems.length)}</span>  
         </div>
         <p> علاقه‌مندی‌ها</p>
       </a>

@@ -51,6 +51,7 @@ const CartSection = ({ cartItems, setCartItems, setTotalPrice }) => {
       console.error("Error removing cart item:", error);
     }
   };
+  
 
   return (
     <div className="col-lg-9">

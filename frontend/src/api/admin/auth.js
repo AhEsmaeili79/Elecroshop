@@ -17,3 +17,25 @@ export const login = async (username, password) => {
     }
   }
 };
+
+
+export const logoutUser = async () => {
+  const refreshToken = localStorage.getItem('refresh_token');
+  const accessToken = localStorage.getItem('access_token');
+
+  if (!refreshToken) {
+    throw new Error('No refresh token found');
+  }
+
+  const response = await axios.post(
+    `${API_URL}/logout/`,
+    { refresh: refreshToken },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` }, 
+    }
+  );
+
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  return response.data;
+};

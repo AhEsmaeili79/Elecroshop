@@ -1,4 +1,5 @@
 import AppRouter from './router/AppRouter';
+import { ToastContainer } from 'react-toastify';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { CartProvider } from './contexts/CartContext';
 import { WishlistProvider } from './contexts/WishlistContext';
@@ -10,6 +11,7 @@ function App() {
       <UserProvider>
         <CartProvider>
           <WishlistProvider>
+          <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} newestOnTop />
             <AppRouter />
           </WishlistProvider>
         </CartProvider>

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Favorites = () => {
     return (
         <div className="dropdown compare-dropdown">

@@ -1,48 +1,171 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "./dashboard/AdminLayout";
-import styles from "./css/AdminDashboard.module.css";
-import { fetchUserData } from "../../api/admin/adminDashboard";
+import { fetchUserData } from "../../api/user";
+import { fetchCategories, fetchBrands, fetchModels } from "../../api/Category";
+import { fetchUserOrders } from "../../api/orderApi";
+import { fetchProductList } from "../../api/productdetail";
+import { fetchWishlist } from "../../api/wishlistApi";
+import moment from "moment-jalaali";
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+
+// Register chart components
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+
+// Import CSS module
+import styles from './css/AdminDashboard.module.css';
+
+// Helper functions
+const convertToPersianDate = (date) => moment(date).format("jYYYY/jMM/jDD HH:mm:ss");
+const getPersianMonth = (date) => moment(date).locale('fa').format("jMM");
 
 const DashboardPage = () => {
   const [user, setUser] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [models, setModels] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
+  const [chartData, setChartData] = useState({
+    labels: ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"],
+    datasets: [
+      { label: "تعداد سفارشات موفق", data: Array(12).fill(0), borderColor: "#4CAF50", backgroundColor: "rgba(76, 175, 80, 0.2)", fill: true },
+      { label: "تعداد سفارشات در حال انجام", data: Array(12).fill(0), borderColor: "#FF5722", backgroundColor: "rgba(255, 87, 34, 0.2)", fill: true },
+    ]
+  });
 
+  // Fetch user data on mount
   useEffect(() => {
     const getUserData = async () => {
       const data = await fetchUserData();
-      if (data) {
-        setUser(data);
-      }
+      setUser(data);
     };
     getUserData();
   }, []);
 
-  // Function to translate roles to Persian
+  // Fetch all required data in parallel and update chart
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [categoriesData, brandsData, modelsData, ordersData, productsData, wishlistData] = await Promise.all([
+          fetchCategories(),
+          fetchBrands(),
+          fetchModels(),
+          fetchUserOrders(),
+          fetchProductList(),
+          fetchWishlist(),
+        ]);
+
+        setCategories(categoriesData);
+        setBrands(brandsData);
+        setModels(modelsData);
+        setOrders(ordersData);
+        setProducts(productsData);
+        setWishlist(wishlistData);
+
+        const orderStats = { successful: Array(12).fill(0), pending: Array(12).fill(0) };
+        ordersData.forEach(order => {
+          const monthIndex = parseInt(getPersianMonth(order.payment.created_at), 10) - 1;
+          if (order.status === "successful") orderStats.successful[monthIndex]++;
+          if (order.status === "pending") orderStats.pending[monthIndex]++;
+        });
+
+        setChartData(prevData => ({
+          ...prevData,
+          datasets: [
+            { ...prevData.datasets[0], data: orderStats.successful },
+            { ...prevData.datasets[1], data: orderStats.pending }
+          ]
+        }));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Utility function for displaying role in Persian
   const getRoleInPersian = (role) => {
-    if (role === "admin") return "مدیر";
-    if (role === "seller") return "فروشنده";
-    return "نامشخص"; // Default for unexpected roles
+    const roles = { admin: "مدیر", seller: "فروشنده" };
+    return roles[role] || "نامشخص";
   };
+
+  const isAdmin = user?.role === "admin";
+  const isSeller = user?.role === "seller";
 
   return (
     <AdminLayout>
-      <div className={`${styles.dashboardContainer} p-4`}>
-        <h1 className={`${styles.dashboardTitle} text-center`}>داشبورد مدیریت</h1>
-        <p className={`${styles.dashboardText} text-muted text-center`}>
-          به پنل ادمین خوش آمدید
-        </p>
+      <div className={styles.dashboardContainer}>
+        <h1 className={styles.dashboardTitle}>داشبورد مدیریت</h1>
+        <p className={styles.dashboardSubheading}>به پنل ادمین خوش آمدید</p>
 
         {user ? (
-          <div className={`${styles.dashboardCard} card shadow-lg p-4`}>
-            <h2 className="text-primary">اطلاعات کاربر</h2>
+          <div className={styles.userCard}>
+            <h2 className={styles.userCardTitle}>اطلاعات کاربر</h2>
             <p><strong>نام:</strong> {user.first_name} {user.last_name}</p>
             <p><strong>نقش:</strong> {getRoleInPersian(user.role)}</p>
           </div>
         ) : (
-          <p className="text-danger text-center">اطلاعات کاربر یافت نشد</p>
+          <p className={styles.errorMessage}>اطلاعات کاربر یافت نشد</p>
         )}
+
+        {/* Cards Section */}
+        <div className={styles.dashboardCards}>
+          {isAdmin || isSeller ? (
+            <>
+              <DashboardCard title="دسته‌بندی‌ها" count={categories.length} link="/admin/categories" />
+              <DashboardCard title="محصولات" count={products.length} link="/admin/products" />
+            </>
+          ) : null}
+          
+          {isAdmin && (
+            <>
+              <DashboardCard title="برندها" count={brands.length} link="/admin/brands" />
+              <DashboardCard title="مدل‌ها" count={models.length} link="/admin/models" />
+              <DashboardCard title="سفارش‌ها" count={orders.length} link="/admin/orders" />
+              <DashboardCard title="لیست علاقه‌مندی‌ها" count={wishlist.length} link="/admin/wishlist" />
+            </>
+          )}
+        </div>
+
+        {/* Chart Section */}
+        <div className={styles.chartSection}>
+          <h2 className={styles.chartTitle}>گراف تعداد سفارشات</h2>
+          <Line data={chartData} />
+        </div>
+
+        {/* Orders Section */}
+        {isAdmin && orders.length > 0 && (
+          <div className={styles.ordersSection} dir="rtl">
+            <h2 className={styles.ordersTitle}>سفارش‌های تکمیل شده</h2>
+            <ul className={styles.ordersList}>
+              {orders.filter(order => order.status === "successful").map((order) => (
+                <li key={order.id} className={styles.ordersListItem}>
+                  <div className={styles.orderDetails}>
+                    <strong>شماره سفارش:</strong> {order.order_code} 
+                    <span className={styles.orderDate}><strong>تاریخ:</strong> {convertToPersianDate(order.payment.created_at)}</span>
+                    <span className={styles.orderAmount}><strong>مبلغ:</strong> {order.total_amount} تومان</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
       </div>
     </AdminLayout>
   );
 };
+
+// DashboardCard Component
+const DashboardCard = ({ title, count, link }) => (
+  <div className={styles.dashboardCard}>
+    <h3 className={styles.dashboardCardTitle}>{title}</h3>
+    <p className={styles.dashboardCardCount}>{count}</p>
+    <a href={link} className={styles.dashboardCardLink}>مشاهده جزئیات</a>
+  </div>
+);
 
 export default DashboardPage;

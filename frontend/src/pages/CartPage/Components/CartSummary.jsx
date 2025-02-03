@@ -1,31 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
-import { fetchShippingOptions } from '../../../api/shipment'; // Import the API call function
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom'; 
+import { fetchShippingOptions } from '../../../api/shipment'; 
 
 const CartSummary = ({ cartItems, totalPrice }) => {
   const [shippingOptions, setShippingOptions] = useState([]);
   const [shippingPrice, setShippingPrice] = useState(0.0);
-  const [selectedShipping, setSelectedShipping] = useState(null); // Track the selected shipping option
+  const [selectedShipping, setSelectedShipping] = useState(null); 
   const [finalTotal, setFinalTotal] = useState(totalPrice);
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const getShippingOptions = async () => {
       const options = await fetchShippingOptions();
-      setShippingOptions(options); // Set the fetched shipping options to state
+      setShippingOptions(options);
     };
 
     getShippingOptions();
   }, []);
 
+  const toPersianNumerals = (number) => {
+    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
+  };
+
   useEffect(() => {
-    // Recalculate final total when cartItems or shipping price change
     setFinalTotal(totalPrice + shippingPrice);
   }, [totalPrice, shippingPrice]);
 
   const handleShippingChange = (event) => {
     const selected = shippingOptions.find(
-      (option) => option.id === parseInt(event.target.id) // Convert to number if necessary
+      (option) => option.id === parseInt(event.target.id) 
     );
     if (selected) {
       setSelectedShipping(selected);
@@ -34,11 +38,10 @@ const CartSummary = ({ cartItems, totalPrice }) => {
   };
 
   const handleCheckoutClick = () => {
-    // Save the selected shipping option in localStorage
     if (selectedShipping) {
       localStorage.setItem('selectedShipping', JSON.stringify(selectedShipping));
     }
-    navigate('/checkout'); // Use navigate instead of history.push
+    navigate('/checkout'); 
   };
 
   const isCheckoutDisabled = cartItems.length === 0 || !selectedShipping;
@@ -51,7 +54,7 @@ const CartSummary = ({ cartItems, totalPrice }) => {
           <tbody>
             <tr className="summary-subtotal">
               <td>مجموع موقت:</td>
-              <td>{totalPrice} تومان</td>
+              <td>{toPersianNumerals(totalPrice)} تومان</td>
             </tr>
             <tr className="summary-shipping">
               <td>هزینه حمل و نقل:</td>
@@ -74,21 +77,21 @@ const CartSummary = ({ cartItems, totalPrice }) => {
                     </label>
                   </div>
                 </td>
-                <td>{option.price} تومان</td>
+                <td>{toPersianNumerals(option.price)} تومان</td>
               </tr>
             ))}
 
             <tr className="summary-total">
               <td>مجموع نهایی:</td>
-              <td>{finalTotal} تومان</td>
+              <td>{toPersianNumerals(finalTotal)} تومان</td>
             </tr>
           </tbody>
         </table>
 
         <button
           className="btn btn-outline-primary-2 btn-order btn-block"
-          onClick={handleCheckoutClick} // Trigger the function to save and navigate
-          disabled={isCheckoutDisabled} // Disable button conditionally
+          onClick={handleCheckoutClick} 
+          disabled={isCheckoutDisabled} 
         >
           ادامه به صفحه پرداخت
         </button>

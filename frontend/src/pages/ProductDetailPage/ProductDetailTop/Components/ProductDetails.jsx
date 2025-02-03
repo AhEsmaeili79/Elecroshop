@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import WishlistButton from "./WishlistButton";
 import QuantityInput from "./QuantityInput";
 import ColorOptions from "../../../../utils/ColorOptions.jsx";
 import { fetchReviews } from "../../../../api/reviews.js";
-// import { useCart } from '../../../../contexts/CartContext.jsx';  // Importing useCart hook
 
 const ProductDetails = ({
   product,
@@ -15,22 +14,19 @@ const ProductDetails = ({
   isFavorited,
   handleColorChange,
   buttonText,
-  btnClass, // Button text passed as prop
+  btnClass,
 }) => {
-  // State to store reviews, their count, and the average rating
   const [reviews, setReviews] = useState([]);
   const [reviewsCount, setReviewsCount] = useState(0);
-  const [averageRating, setAverageRating] = useState(0); // State for average rating
+  const [averageRating, setAverageRating] = useState(0);
 
-  // Fetch reviews when the productId changes
   useEffect(() => {
     const loadReviews = async () => {
       try {
-        const fetchedReviews = await fetchReviews(product.id); // Pass product.id to fetch reviews for this product
+        const fetchedReviews = await fetchReviews(product.id); 
         setReviews(fetchedReviews);
-        setReviewsCount(fetchedReviews.length); // Update the review count
+        setReviewsCount(fetchedReviews.length);
 
-        // Calculate average rating
         if (fetchedReviews.length > 0) {
           const totalRating = fetchedReviews.reduce((acc, review) => acc + review.rating, 0);
           const avgRating = totalRating / fetchedReviews.length;
@@ -46,13 +42,16 @@ const ProductDetails = ({
     if (product.id) {
       loadReviews();
     }
-  }, [product.id]); // Re-run whenever the product.id changes
+  }, [product.id]); 
 
-  // Calculate the percentage of the average rating (out of 5)
   const ratingPercentage = (averageRating / 5) * 100;
 
-  // If you wanted to map through an array of categories in the future, here's how you would do it:
-  const categories = [product.category]; // Example of wrapping the single category in an array
+  const categories = [product.category]; 
+
+  const toPersianNumerals = (number) => {
+    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
+  };
 
   return (
     <div className="product-details">
@@ -62,13 +61,13 @@ const ProductDetails = ({
         <div className="ratings">
           <div className="ratings-val" style={{ width: `${ratingPercentage}%` }}></div>
         </div>
-        {/* Display the average rating and number of reviews */}
+
         <a className="ratings-text" href="#product-review-link">
-          {averageRating > 0 ? `${averageRating.toFixed(1)} / 5` : "هیچ امتیازی هنوز ثبت نشده است"} ({reviewsCount} نظر{reviewsCount !== 1 ? "ها" : ""})
+          {averageRating > 0 ? `${toPersianNumerals(averageRating.toFixed(1))} / ۵` : "هیچ امتیازی هنوز ثبت نشده است"} ({toPersianNumerals(reviewsCount)} نظر{toPersianNumerals(reviewsCount) !== 1 ? "ها" : ""})
         </a>
       </div>
 
-      <div className="product-price">{product.price} تومان</div>
+      <div className="product-price">{toPersianNumerals(product.price)} تومان</div>
 
       <div className="product-content">
         
@@ -115,7 +114,7 @@ const ProductDetails = ({
       <div className="product-details-footer">
         <div className="product-cat">
           <span>دسته‌بندی:</span>
-          {/* Mapping over the category array to display the name */}
+
           {categories.map((category, index) => (
             <a key={index} href="#">
               {category.name}
