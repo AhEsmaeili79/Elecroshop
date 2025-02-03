@@ -107,7 +107,7 @@ class LoginView(APIView):
                     'detail': 'شما دسترسی لازم را ندارید'
                 }, status=status.HTTP_403_FORBIDDEN)
         
-        # If authentication fails, return unauthorized
         return Response({
             'detail': 'نام کاربری یا رمز عبور اشتباه است'
         }, status=status.HTTP_401_UNAUTHORIZED)
+        

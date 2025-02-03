@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import Sidebar from '../MobileMenu/Sidebar';
 
 const HeaderTop = ({ toggleModal, isLoggedIn, handleLogout ,username }) => {
   return (

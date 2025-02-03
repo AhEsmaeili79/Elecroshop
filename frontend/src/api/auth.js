@@ -47,10 +47,11 @@ export const logoutUser = async () => {
   return response.data;
 };
 
+
 export const refreshToken = async () => {
   const refreshToken = localStorage.getItem('refresh_token');
   if (!refreshToken) {
-    console.log();
+    console.log("No refresh token found");
     return;
   }
   try {
@@ -58,8 +59,9 @@ export const refreshToken = async () => {
       refresh: refreshToken,
     });
     localStorage.setItem('token', response.data.access); 
+    return response.data.access; 
   } catch (error) {
-    console.log();
-    throw error;
+    console.error("Error refreshing token:", error);
+    return null;
   }
 };
