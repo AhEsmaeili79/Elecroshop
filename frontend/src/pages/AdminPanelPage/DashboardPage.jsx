@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "./dashboard/AdminLayout";
-import { fetchUserData } from "../../api/user";
-import { fetchCategories, fetchBrands, fetchModels } from "../../api/Category";
-import { fetchUserOrders } from "../../api/orderApi";
-import { fetchProductList } from "../../api/productdetail";
-import { fetchWishlist } from "../../api/wishlistApi";
+import { fetchUserData } from "../../api/admin/adminDashboard";
+import { fetchCategories, fetchBrands, fetchModels } from "../../api/admin/adminDashboard";
+import { fetchUserOrders } from "../../api/admin/adminDashboard";
+import { fetchProductList } from "../../api/admin/adminDashboard";
+import { fetchWishlist } from "../../api/admin/adminDashboard";
 import moment from "moment-jalaali";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
@@ -20,7 +20,7 @@ const convertToPersianDate = (date) => moment(date).format("jYYYY/jMM/jDD HH:mm:
 const getPersianMonth = (date) => moment(date).locale('fa').format("jMM");
 
 const DashboardPage = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(1);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [models, setModels] = useState([]);
@@ -41,6 +41,7 @@ const DashboardPage = () => {
       const data = await fetchUserData();
       setUser(data);
     };
+    
     getUserData();
   }, []);
 

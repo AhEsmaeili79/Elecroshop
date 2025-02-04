@@ -76,8 +76,12 @@ class WishlistViewSet(viewsets.ViewSet):
         """
         Get all products in the user's wishlist
         """
-        wishlist = Wishlist.objects.filter(user=request.user)
-        serializer = WishlistSerializer(wishlist, many=True, context={'request': request})  # Pass the request context
+        if request.user.is_staff or request.user.is_superuser:  # Check if the user is an admin
+            wishlist = Wishlist.objects.all()
+        else:
+            wishlist = Wishlist.objects.filter(user=request.user)
+        
+        serializer = WishlistSerializer(wishlist, many=True, context={'request': request})
         return Response(serializer.data)
 
     @action(detail=True, methods=['post'])

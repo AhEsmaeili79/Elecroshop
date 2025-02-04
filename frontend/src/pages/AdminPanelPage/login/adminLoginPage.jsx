@@ -5,8 +5,6 @@ import styles from '../css/AdminLogin.module.css';
 import { login } from '../../../api/admin/auth';
 import { fetchUserData } from '../../../api/admin/adminDashboard';
 
-
-
 const AdminLoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

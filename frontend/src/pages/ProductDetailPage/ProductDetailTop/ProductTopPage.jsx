@@ -212,38 +212,32 @@ const [warned, setWarned] = useState(false);
 
 useEffect(() => {
   const updateQuantity = async () => {
-    if (!product) {
-      return; 
-    }
+    if (!product || !selectedColor) return;
 
     if (quantity > product.quantity && !warned) {
       toast.warning(`فقط ${product.quantity} عدد از این محصول باقی مانده`);
       setQuantity(product.quantity);
-      setWarned(true); 
-      return; 
+      setWarned(true);
+      return;
     }
 
-    if (quantity > 0 && selectedColor) {
-      const cartItem = cartItems.find(
-        (item) => item.product.id === product.id && item.color.id === selectedColor
-      );
+    const cartItem = cartItems.find(
+      (item) => item.product.id === product.id && item.color.id === selectedColor
+    );
 
-      if (cartItem) {
-        await updateCartItemQuantity(cartItem.id, quantity, selectedColor);
-      }
+    if (cartItem && cartItem.quantity !== quantity) {
+      await updateCartItemQuantity(cartItem.id, quantity, selectedColor);
+      const cartData = await fetchAllCartItems();
+      setCartItems(cartData);
     }
 
-    const cartData = await fetchAllCartItems();
-    setCartItems(cartData);
+    if (product && quantity <= product.quantity && warned) {
+      setWarned(false);
+    }
   };
 
-  updateQuantity(); 
-
-  if (product && quantity <= product.quantity && warned) {
-    setWarned(false);
-  }
-
-}, [quantity, selectedColor, cartItems, product, warned]); 
+  updateQuantity();
+}, [quantity, selectedColor, product, warned]); 
 
 
   if (loading) return <div>در حال بارگذاری...</div>;
