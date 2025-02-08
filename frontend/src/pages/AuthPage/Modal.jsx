@@ -1,23 +1,27 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AuthForm from './AuthForm';
-import AuthTab from './AuthTab';    
-import AuthChoice from './AuthChoice'; 
+import AuthTab from './AuthTab';
+import AuthChoice from './AuthChoice';
 
 const Modal = ({ showModal, closeModal }) => {
-  const [isSignUp, setIsSignUp] = useState(false); 
+  const [isSignUp, setIsSignUp] = useState(false);
 
   const handleTabChange = (isSignUp) => {
-    setIsSignUp(isSignUp);  
+    setIsSignUp(isSignUp);
+  };
+
+  const handleSuccessfulSignup = () => {
+    setIsSignUp(false);
   };
 
   return (
     <div
-      className={`modal fade ${showModal ? 'show' : ''}`}  
+      className={`modal fade ${showModal ? 'show' : ''}`}
       id="signin-modal"
       tabIndex="-1"
       role="dialog"
       aria-hidden="true"
-      style={{ display: showModal ? 'block' : 'none' }}  
+      style={{ display: showModal ? 'block' : 'none' }}
     >
       <div className="modal-dialog modal-dialog-centered" role="document">
         <div className="modal-content">
@@ -25,18 +29,16 @@ const Modal = ({ showModal, closeModal }) => {
             <button
               type="button"
               className="close"
-              onClick={closeModal}  
+              onClick={closeModal}
               aria-label="Close"
             >
               <span aria-hidden="true">&times;</span>
             </button>
 
-            <div className="form-box">
-              <div className="form-tab">
+            <div className="form-box rounded-lg ">
+              <div className="form-tab rounded-lg">
                 <AuthTab isSignUp={isSignUp} onTabChange={handleTabChange} />
-                
-                <AuthForm isSignUp={isSignUp} />
-                
+                <AuthForm isSignUp={isSignUp} onSuccessfulSignup={handleSuccessfulSignup} />
                 <AuthChoice isSignUp={isSignUp} />
               </div>
             </div>
