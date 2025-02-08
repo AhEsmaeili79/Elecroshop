@@ -18,25 +18,70 @@ class SignupView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            return Response({"username": user.username}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            if serializer.is_valid():
+                user = serializer.save()
+                return Response({"username": user.username}, status=status.HTTP_201_CREATED)
+            else:
+                error_messages = {
+                    "username": "نام کاربری قبلا استفاده صحیح نیست. لطفا مجددا تلاش کنید.",
+                    "password": "رمز عبور باید حداقل ۸ کاراکتر داشته باشد.",
+                    "email": "لطفا یک ایمیل معتبر وارد کنید.",
+                }
 
+                translated_errors = {
+                    field: error_messages.get(field, "خطا در وارد کردن اطلاعات.")
+                    for field, error in serializer.errors.items()
+                }
+                return Response(translated_errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except IntegrityError as e:
+            if 'username' in str(e):
+                return Response({"username": "این نام کاربری قبلاً ثبت شده است. لطفاً نام کاربری دیگری انتخاب کنید."},
+                                status=status.HTTP_401_UNAUTHORIZED)
+            elif 'email' in str(e):
+                return Response({"email": "این ایمیل قبلاً ثبت شده است. لطفاً ایمیل دیگری وارد کنید."},
+                                status=status.HTTP_401_UNAUTHORIZED)
+            else:
+                return Response({"error": "خطای پایگاه داده! لطفاً دوباره تلاش کنید."},
+                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        except Exception as e:
+            return Response({"error": "خطای غیرمنتظره ای رخ داده است. لطفاً دوباره تلاش کنید."},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+        
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]  
 
     def post(self, request):
         try:
-            refresh_token = request.data["refresh"]
-            token = RefreshToken(refresh_token)  
-            token.blacklist()  
-            return Response(status=status.HTTP_205_RESET_CONTENT)
+            refresh_token = request.data.get("refresh")
+            if not refresh_token:
+                return Response(
+                    {"detail": "توکن refresh را وارد کنید."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            token = RefreshToken(refresh_token)
+
+            token.blacklist()
+            return Response(
+                {"detail": "با موفقیت از سیستم خارج شدید."},
+                status=status.HTTP_205_RESET_CONTENT
+            )
+        
+        except KeyError:
+            return Response(
+                {"detail": "توکن refresh در داده‌ها یافت نشد."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         except Exception as e:
             return Response(
+                {"detail": "مشکلی در خروج از سیستم به وجود آمده است. لطفا دوباره تلاش کنید."},
                 status=status.HTTP_400_BAD_REQUEST
-            ) 
+            )
 
 class UserDetailView(generics.RetrieveAPIView):
     serializer_class = UserSerializer

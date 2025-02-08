@@ -27,7 +27,6 @@ class CustomUser(AbstractUser):
         return f"{self.username}"
 
     def save(self, *args, **kwargs):
-        # Check if the user is a superuser and set their role to 'admin'
         if self.is_superuser:
             self.role = self.ADMIN
         super().save(*args, **kwargs)

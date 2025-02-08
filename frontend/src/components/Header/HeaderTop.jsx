@@ -23,7 +23,7 @@ const HeaderTop = ({ toggleModal, isLoggedIn, handleLogout ,username }) => {
                   <Link to="/dashboard">خوش آمدید {username.username}</Link>
                 </>
               ) : (
-                <a onClick={toggleModal}>ورود</a>
+                <a onClick={toggleModal} style={{cursor:'pointer'}}>ورود</a>
               )}
               <ul>
               {isLoggedIn ? (
@@ -37,7 +37,7 @@ const HeaderTop = ({ toggleModal, isLoggedIn, handleLogout ,username }) => {
                 <li><Link to="/contact-us">تماس با ما</Link></li>
                 {isLoggedIn ? (
                   <li><Link onClick={handleLogout}><i className='fa fa-sign-out'></i> خروج</Link></li>
-                ) : <li><a  onClick={toggleModal}><i className="fa fa-user"></i>ورود</a> </li>}
+                ) : <li><a  onClick={toggleModal} style={{cursor:'pointer'}}><i className="fa fa-user"></i>ورود</a> </li>}
               </ul>
             </li>
           </ul>
