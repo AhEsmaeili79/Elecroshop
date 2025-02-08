@@ -61,7 +61,7 @@ const AuthForm = ({ isSignUp }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
-        <label htmlFor="username">{isSignUp ? 'نام کاربری *' : 'نام کاربری (یا ایمیل) *'}</label>
+        <label htmlFor="username">{isSignUp ? 'نام کاربری *' : 'نام کاربری *'}</label>
         <input
           type="text"
           className="form-control"
