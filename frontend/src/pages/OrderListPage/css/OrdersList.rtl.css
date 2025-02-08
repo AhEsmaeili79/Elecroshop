@@ -59,3 +59,27 @@
     color: white;
   }
   
+
+  .status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10px;
+    color: white;
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 10px;
+    color: white;
+  }
+  
+  .order_code{
+    font-size: 1.5rem;
+  }

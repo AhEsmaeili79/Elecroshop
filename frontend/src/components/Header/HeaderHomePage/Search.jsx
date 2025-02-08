@@ -14,11 +14,10 @@ const SearchComponent = () => {
 
     return (
         <div className="header-center">
-            {/* Search component */}
             <div className="header-search header-search-extended header-search-visible d-none d-lg-block">
                 <form onSubmit={handleSearch}>
                     <div className="header-search-wrapper search-wrapper-wide">
-                        <label htmlFor="q" className="sr-only">جستجو</label> {/* 'Search' in Persian */}
+                        <label htmlFor="q" className="sr-only">جستجو</label> 
                         <button className="btn btn-primary" type="submit">
                             <i className="icon-search"></i>
                         </button>

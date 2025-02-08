@@ -243,7 +243,7 @@ const ProductCard = ({ product, index }) => {
           ) : (
             <span className="btn-product btn-cart" title="لطفا رنگ را انتخاب کنید" disabled></span> 
           )}
-          <a href="popup/quickView.html" className="btn-product btn-quickview" title="مشاهده سریع"></a>
+          <a className="btn-product btn-quickview" title="مشاهده سریع"></a>
         </div>
       </figure>
 

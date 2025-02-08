@@ -42,6 +42,9 @@ const OrdersList = () => {
     const [hours, minutes] = timeString.split(':');
     return `${hours}:${minutes}`;
   };
+  const toPersianNumbers = (num) => {
+    return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  };
 
   const calculateTotalPrice = (items, shipmentPrice) => {
     const itemsTotal = items.reduce((total, item) => {
@@ -59,18 +62,19 @@ const OrdersList = () => {
 
   const getStatusInPersian = (status) => {
     const statusMapping = {
-      canceled: 'کنسل',
-      successful: 'موفق',
-      pending: 'در انتظار پرداخت',
-      delivered: 'تحویل شده',
-      returned: 'مرجوع',
+      canceled: { label: 'کنسل', className: 'text-danger' },
+      successful: { label: 'موفق', className: 'text-success' },
+      pending: { label: 'در انتظار پرداخت', className: 'text-warning' },
+      delivered: { label: 'تحویل شده', className: 'text-info' },
+      returned: { label: 'مرجوع', className: 'text-secondary' },
     };
-    return statusMapping[status] || status; 
+    return statusMapping[status] || { label: status, className: 'text-dark' }; 
   };
 
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+  
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -87,18 +91,18 @@ const OrdersList = () => {
           currentOrders.map((order) => {
             const shipmentPrice = getShipmentPrice(order.shipment_price);
             const totalPrice = calculateTotalPrice(order.items, shipmentPrice);
+            const { label, className } = getStatusInPersian(order.status);
             return (
               <div
                 key={order.id}
                 className="order-item"
               >
-                {/* Created At Timestamp */}
                 <span className="order-timestamp">
-                  {formatTime(order.created_at_time)} {order.created_at_date} {getStatusInPersian(order.status)}
+                  {toPersianNumbers(formatTime(order.created_at_time))} {toPersianNumbers(order.created_at_date)} 
+                  <span className={`status-badge ${className}`}>{label}</span>
                 </span>
-
-                <h4>کد سفارش: 
-                  <Link to={`/orders/${order.order_code}`}>{order.order_code}</Link>
+                <h4 className='order_code'>کد سفارش: 
+                  <Link to={`/orders/${order.order_code}`}>{toPersianNumbers(order.order_code)}</Link>
                 </h4>
                 <div className="order-items">
                   {order.items.map((item) => (
@@ -117,7 +121,7 @@ const OrdersList = () => {
                   ))}
                 </div>
                 <p className="total-price">
-                  <strong>قیمت نهایی:</strong> {totalPrice} تومان
+                  <strong>قیمت نهایی:</strong> {toPersianNumbers(totalPrice)} تومان
                 </p>
               </div>
             );
@@ -143,7 +147,7 @@ const OrdersList = () => {
             onClick={() => paginate(index + 1)}
             className={`pagination-button ${currentPage === index + 1 ? 'active' : ''}`}
           >
-            {index + 1}
+            {toPersianNumbers(index + 1)}
           </button>
         ))}
 

@@ -1,6 +1,9 @@
-import React from 'react';
+const CategoryFilter = ({ categories, selectedCategories, handleCheckboxChange, setSelectedCategories }) => {
 
-const CategoryFilter = ({ categories, selectedCategories, handleCheckboxChange, setSelectedCategories, setSelectedCategory }) => {
+  const toPersianNumbers = (num) => {
+    return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  };
+  
   return (
     <div className="widget widget-collapsible">
       <h3 className="widget-title">
@@ -33,7 +36,7 @@ const CategoryFilter = ({ categories, selectedCategories, handleCheckboxChange, 
                       {category.name}
                     </label>
                   </div>
-                  <span className="item-count">{category.productCount || 0}</span>
+                  <span className="item-count">{toPersianNumbers(category.productCount) || toPersianNumbers('0')}</span>
                 </div>
               ))}
           </div>

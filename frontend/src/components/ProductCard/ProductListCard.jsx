@@ -47,6 +47,8 @@ const ProductListCard = ({ product, reviewsData }) => {
         const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
         return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
       };
+
+      
     useEffect(() => {
         const checkCartItem = async () => {
             if (product && product.id) {
@@ -189,7 +191,6 @@ const ProductListCard = ({ product, reviewsData }) => {
                     </Link>
                     <div className="product-action-vertical">
                         <a
-                            href="#"
                             onClick={handleWishlistToggle}
                             className={`btn-product-icon btn-wishlist btn-expandable ${isInWishlist ? 'active' : ''}`}
                         >
@@ -197,10 +198,10 @@ const ProductListCard = ({ product, reviewsData }) => {
                                 {isInWishlist ? 'حذف از لیست علاقه‌مندی‌ها' : 'افزودن به لیست علاقه‌مندی‌ها'}
                             </span>
                         </a>
-                        <a href="popup/quickView.html" className="btn-product-icon btn-quickview" title="مشاهده سریع">
+                        <a className="btn-product-icon btn-quickview" title="مشاهده سریع">
                             <span>مشاهده سریع</span>
                         </a>
-                        <a href="#" className="btn-product-icon btn-compare" title="مقایسه">
+                        <a className="btn-product-icon btn-compare" title="مقایسه">
                             <span>مقایسه</span>
                         </a>
                     </div>
@@ -230,7 +231,7 @@ const ProductListCard = ({ product, reviewsData }) => {
                                 </button>
                             </div>
                         ) : (
-                            <a href="#" onClick={(e) => { e.preventDefault(); handleAddToCart(); }} className="btn-product btn-cart" title="افزودن به سبد خرید">
+                            <a onClick={(e) => { e.preventDefault(); handleAddToCart(); }} className="btn-product btn-cart" title="افزودن به سبد خرید">
                                 <span>افزودن به سبد خرید</span>
                             </a>
                         )}

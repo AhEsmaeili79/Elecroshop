@@ -31,19 +31,22 @@ const Toolbox = ({ totalProducts, currentPage, productsPerPage, sortBy, onSortCh
             { x: 18, y: 6, width: 4, height: 4 }
         ]}
     ];
-
+    
     // Calculate the range of products being displayed
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const rangeStart = indexOfFirstProduct + 1;  // Starting index of the current page (1-based)
-    const rangeEnd = Math.min(indexOfLastProduct, totalProducts);  // Ending index of the current page (1-based)
+    const rangeStart = indexOfFirstProduct + 1;  
+    const rangeEnd = Math.min(indexOfLastProduct, totalProducts);  
+    
+    const toPersianNumbers = (num) => {
+        return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+    };
 
     return (
         <div className="toolbox">
             <div className="toolbox-left">
                 <div className="toolbox-info">
-                    {/* Displaying the range of products shown */}
-                    نمایش <span>{rangeStart} - {rangeEnd}</span> از <span>{totalProducts}</span> محصول
+                    نمایش <span>{toPersianNumbers(rangeStart)} - {toPersianNumbers(rangeEnd)}</span> از <span>{toPersianNumbers(totalProducts)}</span> محصول
                 </div>
             </div>
             <div className="toolbox-right">

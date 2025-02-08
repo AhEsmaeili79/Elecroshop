@@ -1,8 +1,7 @@
-import { useUserData } from '../../../hooks/useUserData'; // Import the custom hook
-import ProfileImageUpload from './ProfileImageUpload'; // Import the image upload component
-import InputField from './InputField'; // Import the input field component
-import SubmitButton from './SubmitButton'; // Import the submit button component
-
+import { useUserData } from '../../../hooks/useUserData'; 
+import ProfileImageUpload from './ProfileImageUpload'; 
+import InputField from './InputField'; 
+import SubmitButton from './SubmitButton'; 
 import './css/accountform.css';
 
 const AccountForm = () => {
@@ -14,8 +13,10 @@ const AccountForm = () => {
         handleChange,
         handleImageChange,
         handleSubmit
-    } = useUserData(); // Use the custom hook
-
+    } = useUserData(); 
+    const toPersianNumbers = (num) => {
+        return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+      };
     return (
         <div className="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
             {loading && <p>در حال بارگذاری...</p>}
@@ -42,8 +43,8 @@ const AccountForm = () => {
                 </div>
                 <small className="form-text">این نامی است که در بخش حساب کاربری و در بررسی‌ها نمایش داده خواهد شد</small>
 
-                <InputField label="آدرس ایمیل *" type="email" name="email" value={formData.email} required readOnly autoComplete="email" />
-                <InputField label="شماره تلفن" type="text" name="phonenumber" value={formData.phonenumber} onChange={handleChange} autoComplete="tel" />
+                <InputField label="آدرس ایمیل *" type="email" name="email" value={toPersianNumbers(formData.email)} required readOnly autoComplete="email" />
+                <InputField label="شماره تلفن" type="text" name="phonenumber" value={toPersianNumbers(formData.phonenumber)} onChange={handleChange} autoComplete="tel" />
                 <InputField label="تاریخ تولد" type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} autoComplete="bday" />
 
                 <label>اطلاعات اضافی</label>

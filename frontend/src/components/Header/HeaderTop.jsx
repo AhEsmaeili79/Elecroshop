@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom';
 
+const toPersianNumbers = (num) => {
+  return num.replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+};
+
 const HeaderTop = ({ toggleModal, isLoggedIn, handleLogout ,username }) => {
   return (
     <>
@@ -7,7 +11,7 @@ const HeaderTop = ({ toggleModal, isLoggedIn, handleLogout ,username }) => {
       <div className="container">
         <div className="header-left">
           <a href="tel:#">
-            <i className="icon-phone"></i>تماس : 0919123456
+            <i className="icon-phone"></i>تماس : {toPersianNumbers('0919123456')}
           </a>
         </div>
         <div className="header-right">

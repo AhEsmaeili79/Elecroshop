@@ -52,7 +52,7 @@ const HeaderBottom = () => {
                             <ul>
                               {filters.categories.map(category => (
                                 <li key={category.id}>
-                                  <Link to={`/category/${category.id}`}>
+                                  <Link to={`/product/?category=${category.id}`}>
                                     {category.name}
                                   </Link>
                                 </li>

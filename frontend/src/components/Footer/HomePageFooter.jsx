@@ -40,6 +40,7 @@ const footerLinksData = [
   }
 ];
 
+
 const HomePageFooter = () => {
   return (
     <footer className="footer">
@@ -50,13 +51,14 @@ const HomePageFooter = () => {
           <div className="row">
             <FooterWidget 
               title="درباره" 
+              href='/about-us'
               content={<img src={footerLogo} className="footer-logo" alt="لوگوی فوتر" width="105" height="25" />}
               extraContent={
                 <div>
                   <p>این یک متن نمونه است. پرسنت دایبوس، دوره‌ای از دوره‌های آموزشی، اینجا و در آینده بیشتر خواهد شد.</p>
                   <div className="widget-call">
                     <i className="icon-phone"></i>
-                    سوالی دارید؟ 24/7 تماس بگیرید <a href="tel:#">٠٩١٢١٢٣٤٥٦٧</a>
+                    سوالی دارید؟ ۲۴/۷ تماس بگیرید <a href="tel:#">۰۹۱۹۱۲۳۴۵۶</a>
                   </div>
                 </div>
               }
@@ -71,7 +73,7 @@ const HomePageFooter = () => {
 
       <div className="footer-bottom">
         <div className="container">
-          <p className="footer-copyright">حق نشر © 2019 فروشگاه موللا. کلیه حقوق محفوظ است.</p>
+        <p className="footer-copyright">حق کپی رایت © {new Date().getFullYear()} الکتروشاپ. تمامی حقوق محفوظ است.</p>
           <figure className="footer-payments">
             <img src={paymentMethods} alt="روش‌های پرداخت" width="272" height="20" />
           </figure>

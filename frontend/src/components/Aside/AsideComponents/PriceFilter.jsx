@@ -1,4 +1,8 @@
 const PriceFilter = ({ priceRange, handlePriceChange }) => {
+  const toPersianNumbers = (num) => {
+    return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+};
+
   return (
     <div className="widget widget-collapsible">
       <h3 className="widget-title">
@@ -16,7 +20,7 @@ const PriceFilter = ({ priceRange, handlePriceChange }) => {
         <div className="widget-body">
           <div className="filter-price">
             <div className="filter-price-text">
-              محدوده قیمت: <span id="filter-price-range">تومان{priceRange[0]} - تومان{priceRange[1]}</span>
+              محدوده قیمت: <span id="filter-price-range">{ toPersianNumbers(priceRange[0])} تومان - {toPersianNumbers(priceRange[1])}تومان</span>
             </div>
             <input
               type="range"

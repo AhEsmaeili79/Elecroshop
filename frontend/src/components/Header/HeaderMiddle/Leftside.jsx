@@ -67,7 +67,7 @@ const LeftSide = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
                             {filters.categories.length > 0 ? (
                               filters.categories.map(category => (
                                 <li key={category.id}>
-                                  <Link to={`/category/${category.id}`}>
+                                  <Link to={`/product/?category=${category.id}`}>
                                     {category.name}
                                   </Link>
                                 </li>

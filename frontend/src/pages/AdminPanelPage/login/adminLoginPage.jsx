@@ -31,7 +31,7 @@ const AdminLoginPage = () => {
     setErrorMessage(''); 
 
     try {
-      const data = await login(username, password);
+      const data = await login(username,  toLatinNumbers(password));
       localStorage.setItem('access_token', data.access);
       localStorage.setItem('refresh_token', data.refresh);
       navigate('/admin');
@@ -44,6 +44,14 @@ const AdminLoginPage = () => {
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
+  };
+
+  const toPersianNumbers = (num) => {
+    return num.replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  };
+  
+  const toLatinNumbers = (num) => {
+    return num.replace(/[۰-۹]/g, (d) => '0123456789'['۰۱۲۳۴۵۶۷۸۹'.indexOf(d)]);
   };
 
   return (
@@ -80,7 +88,7 @@ const AdminLoginPage = () => {
                 type={passwordVisible ? 'text' : 'password'}
                 className={`form-control ${styles.inputField}`}
                 id="password"
-                value={password}
+                value={password ? toPersianNumbers(password) : '•'.repeat(password.length)}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="رمز عبور خود را وارد کنید"

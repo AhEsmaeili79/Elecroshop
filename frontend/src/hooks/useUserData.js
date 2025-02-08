@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { fetchUserData, updateUser } from '../api/user';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const useUserData = () => {
     const [formData, setFormData] = useState({
@@ -35,7 +38,7 @@ export const useUserData = () => {
                     dateOfBirth: data.date_birth || '',
                     additionalInformation: data.additional_information || ''
                 });
-                setProfileImage(data.profile_image || null); // Assuming this is a URL (string)
+                setProfileImage(data.profile_image || null); 
             } catch (err) {
                 setError('Failed to load user data.');
             } finally {
@@ -82,9 +85,10 @@ export const useUserData = () => {
 
         try {
             await updateUser(updatedData); // Send the update request
-            alert('Profile updated successfully.');
+            toast.success('پروفایل با موفقیت بروزرسانی شد.');
         } catch (err) {
             setError('Failed to update profile.');
+            toast.error('خطا در بروزرسانی پروفایل.');
         } finally {
             setLoading(false);
         }
