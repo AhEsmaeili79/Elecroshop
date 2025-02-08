@@ -5,7 +5,7 @@ const toPersianNumerals = (number) => {
 
 const QuantityInput = ({ quantity, setQuantity }) => {
   const handleChange = (e) => {
-    const numericValue = e.target.value.replace(/[^\d]/g, ''); // Remove any non-numeric input
+    const numericValue = e.target.value.replace(/[^\d]/g, ''); 
     setQuantity(Math.max(1, Math.min(10, Number(numericValue))));
   };
 

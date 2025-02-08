@@ -19,8 +19,8 @@ const ItemTitle = ({ activeTab, onTabChange }) => {
               key={tab.id}
               id={tab.id}
               label={tab.label}
-              isActive={tab.id === activeTab} // Check if the tab is active
-              onClick={() => onTabChange(tab.id)} // Update active tab on click
+              isActive={tab.id === activeTab}
+              onClick={() => onTabChange(tab.id)} 
             />
           ))}
         </ul>

@@ -2,7 +2,6 @@ import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 
-// Import images at the top of the file
 import brand1 from '../../assets/images/brands/1.png';
 import brand2 from '../../assets/images/brands/2.png';
 import brand3 from '../../assets/images/brands/3.png';

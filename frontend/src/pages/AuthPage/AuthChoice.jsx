@@ -1,5 +1,3 @@
-// src/auth/AuthChoice.jsx
-
 const AuthChoice = ({ isSignUp }) => {
   return (
     <div className="form-choice">
@@ -7,7 +5,6 @@ const AuthChoice = ({ isSignUp }) => {
         {isSignUp ? 'ثبت نام' : 'ورود'} با 
       </p>
       <div className="row">
-        {/* Google Login */}
         <div className="col-sm-6">
           <a href="#" className="btn btn-login btn-g">
             <i className="icon-google"></i>
@@ -15,7 +12,6 @@ const AuthChoice = ({ isSignUp }) => {
           </a>
         </div>
 
-        {/* Facebook Login */}
         <div className="col-sm-6">
           <a href="#" className="btn btn-login btn-f">
             <i className="icon-facebook-f"></i>

@@ -21,7 +21,7 @@ const handleLogout = async () => {
 };
 
 const Body = () => {
-    const location = useLocation(); // Get the current URL
+    const location = useLocation(); 
     const [activeTab, setActiveTab] = useState("dashboard");
 
     useEffect(() => {
@@ -29,8 +29,8 @@ const Body = () => {
         if (path === '/orders') setActiveTab("orders");
         else if (path === '/address') setActiveTab("address");
         else if (path === '/account') setActiveTab("account");
-        else setActiveTab("dashboard"); // Default to dashboard
-    }, [location.pathname]); // Run effect when pathname changes
+        else setActiveTab("dashboard");
+    }, [location.pathname]); 
 
     const renderTabContent = () => {
         switch (activeTab) {

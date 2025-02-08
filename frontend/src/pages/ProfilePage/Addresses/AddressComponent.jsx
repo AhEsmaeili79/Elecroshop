@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getAddress, addAddress, updateAddress, deleteAddress } from '../../../api/addresses';
-import './AddressComponent.css'; // Custom CSS for modal and form
+import './AddressComponent.css';
 
 const AddressComponent = () => {
-  const [addressList, setAddressList] = useState([]); // For storing all addresses
+  const [addressList, setAddressList] = useState([]); 
   const [formData, setFormData] = useState({
     id: '',
     titleAddress: '',
@@ -19,7 +19,6 @@ const AddressComponent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    // Fetch all user addresses when the component loads
     fetchAddresses();
   }, []);
 
@@ -37,19 +36,18 @@ const AddressComponent = () => {
         .then(() => {
           alert('آدرس با موفقیت به روز شد');
           setIsEditing(false);
-          fetchAddresses(); // Fetch updated list of addresses
+          fetchAddresses(); 
         })
         .catch((error) => console.error('Error updating address:', error));
     } else {
       addAddress(formData)
         .then(() => {
           alert('آدرس با موفقیت اضافه شد');
-          fetchAddresses(); // Fetch updated list of addresses
+          fetchAddresses();
         })
         .catch((error) => console.error('Error adding address:', error));
     }
 
-    // Close modal and reset the form
     setIsModalOpen(false);
     resetForm();
   };
@@ -58,7 +56,7 @@ const AddressComponent = () => {
     deleteAddress(id)
       .then(() => {
         alert('آدرس با موفقیت حذف شد');
-        fetchAddresses(); // Fetch updated list of addresses
+        fetchAddresses(); 
       })
       .catch((error) => console.error('Error deleting address:', error));
   };
@@ -67,13 +65,13 @@ const AddressComponent = () => {
     setFormData(address);
     setIsEditing(true);
     setSelectedAddressId(address.id);
-    setIsModalOpen(true); // Open the modal to edit the address
+    setIsModalOpen(true);
   };
 
   const handleAddNew = () => {
-    setIsEditing(false); // Ensure we're not in edit mode when adding
-    resetForm(); // Reset the form data
-    setIsModalOpen(true); // Open the modal for adding a new address
+    setIsEditing(false);
+    resetForm();
+    setIsModalOpen(true); 
   };
 
   const resetForm = () => {
@@ -117,12 +115,10 @@ const AddressComponent = () => {
         )}
       </div>
 
-      {/* Add New Address Button */}
       <button className="btn btn-success" onClick={handleAddNew}>
         افزودن آدرس جدید
       </button>
 
-      {/* Custom Modal for Editing and Adding Address */}
       {isModalOpen && (
         <div className="custom-modal-new">
           <div className="modal-overlay-new" onClick={() => setIsModalOpen(false)}></div>

@@ -32,7 +32,6 @@ const Toolbox = ({ totalProducts, currentPage, productsPerPage, sortBy, onSortCh
         ]}
     ];
     
-    // Calculate the range of products being displayed
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     const rangeStart = indexOfFirstProduct + 1;  

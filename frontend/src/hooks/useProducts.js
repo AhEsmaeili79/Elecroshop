@@ -16,7 +16,7 @@ const useProducts = () => {
     const [sortBy, setSortBy] = useState('popularity');
     const [reviewsData, setReviewsData] = useState({});
     const [categoryName, setCategoryName] = useState('');
-    const [priceRange, setPriceRange] = useState([0, 100000]); // Add price range state
+    const [priceRange, setPriceRange] = useState([0, 100000]);  
 
     const API_URL = import.meta.env.VITE_API_URL + '/customer-products/';
     const [searchParams] = useSearchParams();
@@ -60,7 +60,6 @@ const useProducts = () => {
                     );
                 }
 
-                // Deduplicate products by ID
                 const uniqueProductsMap = new Map();
                 filteredProducts.forEach(product => {
                     uniqueProductsMap.set(product.id, product);
@@ -93,7 +92,7 @@ const useProducts = () => {
         };
 
         fetchProducts();
-    }, [query, selectedCategory, selectedBrand, selectedColor, categoryId, priceRange]); // Add priceRange as a dependency
+    }, [query, selectedCategory, selectedBrand, selectedColor, categoryId, priceRange]); 
 
     useEffect(() => {
         if (sortBy === 'rating') {
@@ -130,7 +129,7 @@ const useProducts = () => {
         categoryName,
         setCategoryName,
         priceRange,
-        setPriceRange // Return setPriceRange for the parent component to use
+        setPriceRange 
     };
 };
 

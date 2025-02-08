@@ -60,7 +60,7 @@ export const useUserData = () => {
     const handleImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            setProfileImage(file); // Store the file for upload
+            setProfileImage(file); 
         }
         setImageUpdated(true);
     };
@@ -70,7 +70,6 @@ export const useUserData = () => {
         setLoading(true);
         setError(null);
 
-        // Create a FormData object for sending the data
         const updatedData = new FormData();
         updatedData.append('first_name', formData.firstName);
         updatedData.append('last_name', formData.lastName);
@@ -78,13 +77,12 @@ export const useUserData = () => {
         updatedData.append('date_birth', formData.dateOfBirth);
         updatedData.append('additional_information', formData.additionalInformation);
 
-        // Only append the profile_image if it's not null (i.e., user uploaded a new one)
         if (imageUpdated) {
             updatedData.append('profile_image', profileImage);
         }
 
         try {
-            await updateUser(updatedData); // Send the update request
+            await updateUser(updatedData); 
             toast.success('پروفایل با موفقیت بروزرسانی شد.');
         } catch (err) {
             setError('Failed to update profile.');

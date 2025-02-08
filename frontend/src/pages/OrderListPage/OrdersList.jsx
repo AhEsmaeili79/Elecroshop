@@ -131,7 +131,6 @@ const OrdersList = () => {
         )}
       </div>
 
-      {/* Pagination Controls */}
       <div className="pagination-container">
         <button
           onClick={() => paginate(currentPage - 1)}

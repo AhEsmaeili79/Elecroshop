@@ -11,7 +11,7 @@ const HeaderBottom = () => {
     const fetchData = async () => {
       try {
         const filtersData = await fetchFiltersData();
-        setFilters(filtersData); // Set the fetched data
+        setFilters(filtersData); 
       } catch (error) {
         console.log('Error fetching filters data', error);
       }

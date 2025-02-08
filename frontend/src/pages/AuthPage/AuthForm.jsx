@@ -13,7 +13,7 @@ const AuthForm = ({ isSignUp }) => {
     e.preventDefault();
     try {
       if (isSignUp) {
-        await signupUser(username, email,  toLatinNumbers(password));
+        await signupUser(username, email, toLatinNumbers(password));
         window.location.href = '/';
         alert('ثبت نام با موفقیت انجام شد!');
       } else {
@@ -29,7 +29,6 @@ const AuthForm = ({ isSignUp }) => {
       console.error(isSignUp ? 'Signup failed:' : 'Login failed:', error);
     }
   };
-
   const toPersianNumbers = (num) => {
     return num.replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
   };
@@ -41,7 +40,7 @@ const AuthForm = ({ isSignUp }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
-        <label htmlFor="username">{isSignUp ? 'نام کاربری *' : 'نام کاربری *'}</label>
+        <label htmlFor="username">{isSignUp ? 'نام کاربری *' : 'نام کاربری (یا ایمیل) *'}</label>
         <input
           type="text"
           className="form-control"
@@ -73,21 +72,21 @@ const AuthForm = ({ isSignUp }) => {
         <div className="position-relative">
           <span
             className="position-absolute left-0 pl-2 cursor-pointer"
-            style={{ top: '50%', transform: 'translateY(-50%)', zIndex: 10, marginLeft: '10px', left: '0', cursor: 'pointer' }}
+            style={{ top: '50%', transform: 'translateY(-50%)', zIndex: 10,marginLeft: '10px', left: '0' , cursor:'pointer' }}
             onClick={() => setShowPassword((prev) => !prev)}
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </span>
           <input
-            type="text"
+            type={showPassword ? 'text' : 'password'}
             className="form-control pl-4"
             id="password"
             name="password"
-            value={showPassword ? toPersianNumbers(password) : '•'.repeat(password.length)}
+            value={password ? toPersianNumbers(password) : '•'.repeat(password.length)}
             onChange={(e) => setPassword(e.target.value)}
-            autoComplete="off"
             required
           />
+
         </div>
       </div>
 

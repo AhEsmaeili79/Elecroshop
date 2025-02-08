@@ -21,11 +21,10 @@ const Body = () => {
         setSortBy, 
         reviewsData, 
         categoryName, 
-        priceRange, // Add priceRange from the hook
-        setPriceRange // Add setPriceRange to handle changes
+        priceRange,
+        setPriceRange
     } = useProducts();
 
-    // Filter products by price range
     const filteredProducts = products.filter(product => 
         product.price >= priceRange[0] && product.price <= priceRange[1]
     );
@@ -45,7 +44,7 @@ const Body = () => {
                     <div className="row">
                         <div className="col-lg-9">
                             <ToolBox
-                                totalProducts={filteredProducts.length} // Use filteredProducts here
+                                totalProducts={filteredProducts.length}
                                 currentPage={currentPage}     
                                 productsPerPage={productsPerPage}  
                                 sortBy={sortBy}
@@ -55,7 +54,7 @@ const Body = () => {
                             {error && <p>{error}</p>}
                             <ProductCardList products={currentProducts} reviewsData={reviewsData} />
                             <Pagination
-                                totalProducts={filteredProducts.length} // Use filteredProducts here
+                                totalProducts={filteredProducts.length} 
                                 productsPerPage={productsPerPage}
                                 paginate={paginate}
                                 currentPage={currentPage}
@@ -67,7 +66,7 @@ const Body = () => {
                             setSelectedColor={setSelectedColor} 
                             CategoryFiltered={categoryName} 
                             setPriceRange={setPriceRange} 
-                            priceRange={priceRange}  // Pass priceRange to AsideProduct
+                            priceRange={priceRange}  
                         />
                     </div>
                 </div>

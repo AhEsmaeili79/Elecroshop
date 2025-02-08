@@ -1,4 +1,4 @@
-import { FaCamera } from 'react-icons/fa'; // Importing a camera icon from react-icons
+import { FaCamera } from 'react-icons/fa'; 
 
 const ProfileImageUpload = ({ profileImage, handleImageChange }) => {
     return (
@@ -7,9 +7,9 @@ const ProfileImageUpload = ({ profileImage, handleImageChange }) => {
                 <img
                     src={
                         profileImage && profileImage instanceof File
-                            ? URL.createObjectURL(profileImage) // When it's a file, create an object URL
+                            ? URL.createObjectURL(profileImage) 
                             : profileImage || 'https://via.placeholder.com/150'
-                    } // Else show the URL or placeholder
+                    } 
                     alt="Profile"
                     className="profile-image"
                 />

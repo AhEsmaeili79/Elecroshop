@@ -15,15 +15,13 @@ const CheckoutButtons = ({ paymentType, setPaymentType, errorMessages, paymentRe
 
       {
         paymentType === 'credit_card' && paymentReady ? (
-          // Show the payment gateway button when conditions are met
           <button
             type="button"
-            className="btn btn-outline-success btn-order btn-block btn-checkout" // Assuming this function is used to handle redirection
+            className="btn btn-outline-success btn-order btn-block btn-checkout"
           >
             انتقال به درگاه پرداخت
           </button>
         ) : (
-          // Show the order submit button when it's not a credit card or not ready for payment
           <button
             type="submit"
             className="btn btn-outline-primary-2 btn-order btn-block btn-checkout"

@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import BreadCrumb from "../../components/Breadcrumb/BreadCrumb";
 import CheckoutForm from "./CheckoutForm";
 import ChekcoutHeader from "../../components/Header/CheckoutHeader/checkoutheader";
 import './css/CheckoutForm.rtl.css';
 
 const Body = () => {
-    const [discountCode, setDiscountCode] = useState(""); // State to handle input
+    const [discountCode, setDiscountCode] = useState(""); 
 
     const handleInputChange = (e) => {
-        setDiscountCode(e.target.value); // Update the discount code value
+        setDiscountCode(e.target.value); 
     };
 
     return(
@@ -29,8 +29,8 @@ const Body = () => {
                                   id="checkout-discount-input"
                                   value={discountCode}
                                   onChange={handleInputChange}
-                                  placeholder=" "  /* Ensure the placeholder triggers label fade */
-                                  autoFocus={false} /* Optional: only auto-focus if needed */
+                                  placeholder=" " 
+                                  autoFocus={false} 
                                 />
             					<label htmlFor="checkout-discount-input" className="text-truncate">
                                   کد تخفیف دارید؟ <span>کد تخفیف خود را اینجا وارد کنید</span>

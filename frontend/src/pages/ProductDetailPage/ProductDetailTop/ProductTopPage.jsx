@@ -32,7 +32,6 @@ const ProductTopPage = ({ productId }) => {
   const { cartItems, setCartItems } = useCart();
 
  
-// Inside your component
 useEffect(() => {
   const loadProductDetails = async () => {
     try {

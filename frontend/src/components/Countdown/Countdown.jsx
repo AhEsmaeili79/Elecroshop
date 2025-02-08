@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './Countdown.css';
 
 const CountdownTimer = () => {
-  const target = { days: 0, hours: 0, minutes: 30, seconds: 59 }; // تنظیمات زمان
+  const target = { days: 0, hours: 0, minutes: 30, seconds: 59 }; 
 
   const targetTime = new Date().getTime() + (target.days * 24 * 60 * 60 * 1000) + (target.hours * 60 * 60 * 1000) + (target.minutes * 60 * 1000);
-  const [timeLeft, setTimeLeft] = useState(target); // وضعیت اولیه با استفاده از شی هدف
+  const [timeLeft, setTimeLeft] = useState(target);
 
   const updateCountdown = () => {
     const distance = targetTime - new Date().getTime();

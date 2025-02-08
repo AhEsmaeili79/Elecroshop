@@ -1,5 +1,3 @@
-// src/components/IconBox.js
-
 const IconBox = ({ icon, title, description }) => (
   <div className="col-sm-6 col-lg-3">
       <div className="icon-box icon-box-side">

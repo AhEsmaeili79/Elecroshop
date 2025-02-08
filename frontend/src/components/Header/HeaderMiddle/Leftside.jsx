@@ -4,7 +4,6 @@ import { fetchFiltersData } from '../../../api/FilterAsideApi';
 import Sidebar from "../../MobileMenu/Sidebar";
 import Logo from "../../../assets/images/logo.png";
 
-// Placeholder image for the banner
 import BannerImage from "../../../assets/images/menu/banner-1.jpg";
 
 const LeftSide = ({isLoggedIn, handleLogout ,username,toggleModal}) => {

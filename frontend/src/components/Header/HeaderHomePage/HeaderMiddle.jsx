@@ -35,7 +35,6 @@ const HeaderMiddle = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
                     </div>
                 </div>
             </div>
-            {/* Sidebar Component */}
             <Sidebar username={username} isLoggedIn={isLoggedIn} handleLogout={handleLogout} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} toggleModal={toggleModal}/>
         </>
     );

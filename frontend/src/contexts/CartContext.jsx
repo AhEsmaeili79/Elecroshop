@@ -33,7 +33,6 @@ export const CartProvider = ({ children }) => {
     );
 };
 
-// Custom hook to use cart context
 export const useCart = () => {
     const context = useContext(CartContext);
     if (!context) {

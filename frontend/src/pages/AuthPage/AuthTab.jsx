@@ -1,23 +1,20 @@
-// src/auth/AuthTab.jsx
 const AuthTab = ({ isSignUp, onTabChange }) => {
   return (
     <ul className="nav nav-pills nav-fill nav-border-anim" role="tablist">
-      {/* Sign In Tab */}
       <li className="nav-item">
         <a
-          className={`nav-link ${!isSignUp ? 'active' : ''}`}  // Add 'active' class to the currently selected tab
-          onClick={() => onTabChange(false)}  // Switch to sign-in when clicked
+          className={`nav-link ${!isSignUp ? 'active' : ''}`}  
+          onClick={() => onTabChange(false)}  
           role="tab"
         >
           ورود
         </a>
       </li>
 
-      {/* Sign Up Tab */}
       <li className="nav-item">
         <a
-          className={`nav-link ${isSignUp ? 'active' : ''}`}  // Add 'active' class to the currently selected tab
-          onClick={() => onTabChange(true)}  // Switch to sign-up when clicked
+          className={`nav-link ${isSignUp ? 'active' : ''}`} 
+          onClick={() => onTabChange(true)}  
           role="tab"
         >
           ثبت نام

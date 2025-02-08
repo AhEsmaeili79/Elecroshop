@@ -62,7 +62,7 @@ const Footer = () => {
               <FooterLinks key={index} title={section.title} links={
                 section.links.map(link => ({ 
                   ...link, 
-                  href: link.href.startsWith('/') ? link.href : '#' // Ensure valid links
+                  href: link.href.startsWith('/') ? link.href : '#' 
                 }))
               } />
             ))}

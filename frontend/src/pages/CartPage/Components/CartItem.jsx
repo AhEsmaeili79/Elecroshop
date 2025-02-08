@@ -73,7 +73,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
           <button 
             className="quantity-btn"
             onClick={() => handleQuantityChange(item.quantity - 1)}
-            disabled={item.quantity <= 1} // Disable decrement if quantity is 1 or less
+            disabled={item.quantity <= 1} 
           >
             -
           </button>
@@ -81,7 +81,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
           <button 
             className="quantity-btn"
             onClick={() => handleQuantityChange(item.quantity + 1)}
-            disabled={item.quantity >= item.product.quantity} // Disable increment if quantity exceeds available product quantity
+            disabled={item.quantity >= item.product.quantity}  
           >
             +
           </button>

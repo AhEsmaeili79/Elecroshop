@@ -38,7 +38,6 @@ const ProductCarousel = ({ activeTab }) => {
 
   useEffect(() => {
     if (!loading) {
-      // Trigger shuffle when activeTab changes
       const shuffledProducts = shuffleArray(products);
       setProducts(shuffledProducts);
     }

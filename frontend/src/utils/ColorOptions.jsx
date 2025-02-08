@@ -3,10 +3,8 @@ import './css/coloroption.css';
 const ColorOptions = ({ colors, selectedColor, handleColorChange }) => {
   const toggleColorSelection = (colorId) => {
     if (selectedColor === colorId) {
-      // If the color is already selected, deselect it
       handleColorChange(null);
     } else {
-      // If the color is not selected, select it
       handleColorChange(colorId);
     }
   };
@@ -18,8 +16,8 @@ const ColorOptions = ({ colors, selectedColor, handleColorChange }) => {
           key={color.id}
           className={`product-color-option ${selectedColor === color.id ? "selected" : ""}`}
           onClick={(e) => {
-            e.preventDefault(); // Prevent default link behavior
-            toggleColorSelection(color.id); // Toggle the color selection
+            e.preventDefault(); 
+            toggleColorSelection(color.id); 
           }}
           style={{ backgroundColor: color.color_hex }}
         >

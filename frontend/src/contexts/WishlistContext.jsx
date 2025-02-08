@@ -3,15 +3,12 @@ import { addToWishlist, removeFromWishlist, fetchWishlist } from '../api/wishlis
 
 const WishlistContext = createContext();
 
-// Custom hook to use the WishlistContext
 export const useWishlist = () => useContext(WishlistContext);
 
-// WishlistProvider component to provide the context
 export const WishlistProvider = ({ children }) => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
 
-  // Fetch the wishlist from the API
   const loadWishlist = async () => {
     try {
       setIsWishlistLoading(true);
@@ -27,7 +24,7 @@ export const WishlistProvider = ({ children }) => {
   const handleAddToWishlist = async (productId) => {
     try {
       await addToWishlist(productId);
-      loadWishlist(); // Refresh wishlist in real-time
+      loadWishlist(); 
     } catch (error) {
       console.error("Failed to add product to wishlist:", error);
     }
@@ -36,14 +33,14 @@ export const WishlistProvider = ({ children }) => {
   const handleRemoveFromWishlist = async (productId) => {
     try {
       await removeFromWishlist(productId);
-      loadWishlist(); // Refresh wishlist in real-time
+      loadWishlist();
     } catch (error) {
       console.error("Failed to remove product from wishlist:", error);
     }
   };
 
   useEffect(() => {
-    loadWishlist(); // Load wishlist on initial mount
+    loadWishlist(); 
   }, []);
 
   return (

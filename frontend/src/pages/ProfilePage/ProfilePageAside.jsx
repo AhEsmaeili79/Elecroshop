@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 
 const DashboardAside = ({ handleLogout, setActiveTab }) => {
-    const location = useLocation(); // Get the current URL path
+    const location = useLocation(); 
 
     const navItems = [
         { id: "dashboard", label: "داشبورد", href: "/dashboard" },
@@ -11,15 +11,14 @@ const DashboardAside = ({ handleLogout, setActiveTab }) => {
     ];
 
     const handleTabClick = (id) => {
-        setActiveTab(id); // This will update the active tab
+        setActiveTab(id); 
     };
 
     const isActive = (href) => {
-        // Check if the current URL is either the absolute path or a hash-based URL
         if (href.startsWith('#')) {
-            return location.hash === href; // For hash-based links, match the hash part of the URL
+            return location.hash === href; 
         } else {
-            return location.pathname === href; // For normal links, match the full URL
+            return location.pathname === href; 
         }
     };
 
@@ -29,7 +28,7 @@ const DashboardAside = ({ handleLogout, setActiveTab }) => {
                 {navItems.map(({ id, label, href }) => (
                     <li key={id || label} className="nav-item">
                         <a
-                            className={`nav-link ${isActive(href) ? 'active' : ''}`} // Apply 'active' class if current path matches href
+                            className={`nav-link ${isActive(href) ? 'active' : ''}`} 
                             id={id ? `tab-${id}-link` : undefined}
                             data-toggle={id ? "tab" : undefined}
                             href={href}

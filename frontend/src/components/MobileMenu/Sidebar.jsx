@@ -21,7 +21,7 @@ const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, to
                     <Link to="/" className="logo_name">
                         <img src={Logo} alt="لوگوی اکتروشاپ" width="105" height="25" />
                     </Link>
-                    <i className="bx bx-x" id="btn" onClick={toggleSidebar}></i> {/* Close button */}
+                    <i className="bx bx-x" id="btn" onClick={toggleSidebar}></i>  
                 </div>
                 <ul className="nav-list">
                     <li>

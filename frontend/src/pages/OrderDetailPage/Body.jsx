@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { fetchOrderDetails } from '../../api/orderApi';
 import BreadCrumb from '../../components/Breadcrumb/BreadCrumb';
 import OrderProducts from './OrderProducts';
-// import './css/orderDetail.css'; // Updated CSS filename to avoid conflict
 
 const OrderDetailPage = () => {
   const { orderCode } = useParams();

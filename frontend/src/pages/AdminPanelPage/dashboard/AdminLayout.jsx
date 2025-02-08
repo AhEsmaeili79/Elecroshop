@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link, useNavigate } from 'react-router-dom'; 
 import style from '../css/AdminSidebar.module.css'; 
 import { FaBars, FaTimes, FaFilter, FaSignOutAlt } from 'react-icons/fa'; 
 import { FaTachometerAlt, FaBox, FaUserAlt, FaFirstOrder } from 'react-icons/fa'; 
-import { logoutUser } from '../../../api/admin/auth'; // Import logoutUser
+import { logoutUser } from '../../../api/admin/auth'; 
 
 const MenuItem = ({ to, icon, label, isSidebarOpen }) => (
   <li className={`${style.menuItem} list-group-item bg-dark border-0`}>

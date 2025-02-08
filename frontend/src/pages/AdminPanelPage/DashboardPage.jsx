@@ -9,13 +9,10 @@ import moment from "moment-jalaali";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 
-// Register chart components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-// Import CSS module
 import styles from './css/AdminDashboard.module.css';
 
-// Helper functions
 const convertToPersianDate = (date) => moment(date).format("jYYYY/jMM/jDD HH:mm:ss");
 const getPersianMonth = (date) => moment(date).locale('fa').format("jMM");
 
@@ -35,7 +32,6 @@ const DashboardPage = () => {
     ]
   });
 
-  // Fetch user data on mount
   useEffect(() => {
     const getUserData = async () => {
       const data = await fetchUserData();
@@ -45,7 +41,6 @@ const DashboardPage = () => {
     getUserData();
   }, []);
 
-  // Fetch all required data in parallel and update chart
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -87,7 +82,6 @@ const DashboardPage = () => {
     fetchData();
   }, []);
 
-  // Utility function for displaying role in Persian
   const getRoleInPersian = (role) => {
     const roles = { admin: "مدیر", seller: "فروشنده" };
     return roles[role] || "نامشخص";
@@ -112,7 +106,6 @@ const DashboardPage = () => {
           <p className={styles.errorMessage}>اطلاعات کاربر یافت نشد</p>
         )}
 
-        {/* Cards Section */}
         <div className={styles.dashboardCards}>
           {isAdmin || isSeller ? (
             <>
@@ -131,13 +124,11 @@ const DashboardPage = () => {
           )}
         </div>
 
-        {/* Chart Section */}
         <div className={styles.chartSection}>
           <h2 className={styles.chartTitle}>گراف تعداد سفارشات</h2>
           <Line data={chartData} />
         </div>
 
-        {/* Orders Section */}
         {isAdmin && orders.length > 0 && (
           <div className={styles.ordersSection} dir="rtl">
             <h2 className={styles.ordersTitle}>سفارش‌های تکمیل شده</h2>
@@ -160,7 +151,6 @@ const DashboardPage = () => {
   );
 };
 
-// DashboardCard Component
 const DashboardCard = ({ title, count, link }) => (
   <div className={styles.dashboardCard}>
     <h3 className={styles.dashboardCardTitle}>{title}</h3>

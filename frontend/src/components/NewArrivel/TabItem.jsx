@@ -8,7 +8,7 @@ const TabItem = ({ id, label, isActive, onClick }) => (
       role="tab"
       aria-controls={`${id}-tab`}
       aria-selected={isActive}
-      onClick={onClick} // Call the onClick function passed as prop
+      onClick={onClick} 
     >
       {label}
     </a>

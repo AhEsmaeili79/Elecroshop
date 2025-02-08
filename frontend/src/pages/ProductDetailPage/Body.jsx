@@ -5,10 +5,9 @@ import ProductTopPage from "../../pages/ProductDetailPage/ProductDetailTop/Produ
 import ProductTabs from "./ProductDetailBottom/ProductTabs";
 
 const Body = () => {
-    const { productId } = useParams();  // Get the productId from the URL
+    const { productId } = useParams();  
 
     useEffect(() => {
-        // Scroll to the top of the page when productId changes
         window.scrollTo(0, 0);
     }, [productId]);
 

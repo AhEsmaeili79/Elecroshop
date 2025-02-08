@@ -24,7 +24,7 @@ const PaymentStatus = () => {
     if (authority && status) {
       verifyPayment(authority, status)
         .then((data) => {
-          setPaymentStatus(data.payment_status); // Assuming this is the status returned
+          setPaymentStatus(data.payment_status);
           setOrderDetails(data);
         })
         .catch((error) => console.error("Error verifying payment:", error));

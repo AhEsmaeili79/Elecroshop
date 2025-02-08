@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import ItemTitle from "./ItemTitle";
-import ProductCarousel from '../../components/NewArrivel/productsetcion'  // Make sure ProductCarousel is imported
+import ProductCarousel from '../../components/NewArrivel/productsetcion' 
 
 const NewArrivals = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null); // Set to null to make "همه" active initially
-  const [fadeKey, setFadeKey] = useState(0); // Key to trigger fade in/out
+  const [selectedCategory, setSelectedCategory] = useState(null); 
+  const [fadeKey, setFadeKey] = useState(0);
 
   const handleCategoryChange = (categoryId) => {
-    setFadeKey(prevKey => prevKey + 1); // Increment key to trigger re-render and fade effect
-    setSelectedCategory(categoryId); // Update the selected category (or null for "همه")
+    setFadeKey(prevKey => prevKey + 1); 
+    setSelectedCategory(categoryId); 
   };
 
   return (
     <div className="container new-arrivals">
       <ItemTitle onCategoryChange={handleCategoryChange} selectedCategory={selectedCategory} />
-      <ProductCarousel categoryId={selectedCategory} fadeKey={fadeKey} /> {/* Pass fadeKey to trigger fade-in effect */}
+      <ProductCarousel categoryId={selectedCategory} fadeKey={fadeKey} /> 
     </div>
   );
 };

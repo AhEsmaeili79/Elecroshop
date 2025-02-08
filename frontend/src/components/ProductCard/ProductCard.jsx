@@ -114,6 +114,11 @@ const ProductCard = ({ product, index }) => {
     }
   };
 
+
+  const toPersianNumbers = (num) => {
+    return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  };
+
   const handleRemoveFromCart = async () => {
     try {
       await removeCartItem(cartItem.id);
@@ -281,11 +286,11 @@ const ProductCard = ({ product, index }) => {
             handleColorChange={handleColorChange}
           />
         </div>
-        <div className="ratings-container">
+        <div className="ratings-container" dir='rtl'>
           <div className="ratings">
             <div className="ratings-val" style={{ width: `${ratingPercentage}%` }}></div>
           </div>
-          <span className="ratings-text">({reviewsCount} نقد و بررسی)</span>
+          <span className="ratings-text">({toPersianNumbers(reviewsCount)} نقد و بررسی)</span>
         </div>
       </div>
     </div>

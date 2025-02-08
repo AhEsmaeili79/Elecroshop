@@ -1,4 +1,3 @@
-// src/components/Main.js
 import Slider from "../../components/Slider/Slider";
 import Offer1 from "../../components/Offer/offer1";
 import Categories from "../../components/Categories/Categories";

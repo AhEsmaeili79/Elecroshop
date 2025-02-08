@@ -1,4 +1,3 @@
-// src/components/IconBoxesContainer.js
 import IconBox from './IconBox';
 
 const IconBoxesContainer = () => {
