@@ -18,6 +18,13 @@ const AuthForm = ({ isSignUp, onSuccessfulSignup  }) => {
     e.preventDefault();
     setIsLoading(true);
 
+
+    if (isSignUp && password !== confirmPassword) {
+      setIsLoading(false);
+      setError('کلمه عبور و تأیید کلمه عبور با هم مطابقت ندارند.');
+      return;
+    }
+
     try {
       if (isSignUp) {
         await signupUser(username, email, toLatinNumbers(password));
@@ -38,7 +45,7 @@ const AuthForm = ({ isSignUp, onSuccessfulSignup  }) => {
 
       if (isSignUp) {
         if (error.response?.status === 400) {
-          setError('لطفاً تمام فیلدها را پر کنید.');
+          setError('نام کاربری یا ایمیل وارد شده قبلاً ثبت شده است.');
         } else if (error.response?.status === 401) {
           setError('نام کاربری یا ایمیل وارد شده قبلاً ثبت شده است.');
         } else if (error.response?.status === 500) {
@@ -76,7 +83,7 @@ const AuthForm = ({ isSignUp, onSuccessfulSignup  }) => {
         <label htmlFor="username" className="font-weight-bold">{isSignUp ? 'نام کاربری *' : 'نام کاربری *'}</label>
         <input
           type="text"
-          className="form-control rounded-lg p-3"
+          className="form-control rounded-lg p-3 border-0 shadow-sm"
           id="username"
           name="username"
           value={username}
@@ -90,7 +97,7 @@ const AuthForm = ({ isSignUp, onSuccessfulSignup  }) => {
           <label htmlFor="email" className="font-weight-bold">آدرس ایمیل شما *</label>
           <input
             type="email"
-            className="form-control rounded-lg p-3"
+            className="form-control rounded-lg p-3 border-0 shadow-sm"
             id="email"
             name="email"
             value={email}
@@ -112,7 +119,7 @@ const AuthForm = ({ isSignUp, onSuccessfulSignup  }) => {
           </span>
           <input
             type={showPassword ? 'text' : 'password'}
-            className="form-control pl-4 rounded-lg p-3"
+            className="form-control pl-4 rounded-lg p-3 border-0 shadow-sm"
             id="password"
             name="password"
             value={password ? toPersianNumbers(password) : '•'.repeat(password.length)}
@@ -142,7 +149,7 @@ const AuthForm = ({ isSignUp, onSuccessfulSignup  }) => {
             </span>
             <input
               type={showRepeatPassword ? 'text' : 'password'}
-              className="form-control pl-4 rounded-lg p-3"
+              className="form-control pl-4 rounded-lg p-3 border-0 shadow-sm"
               id="confirm-password"
               name="confirm-password"
               value={toPersianNumbers(confirmPassword)}
