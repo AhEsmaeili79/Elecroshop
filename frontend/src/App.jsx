@@ -11,7 +11,7 @@ function App() {
       <UserProvider>
         <CartProvider>
           <WishlistProvider>
-          <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} newestOnTop />
+          <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} newestOnTop rtl={true} closeOnClick pauseOnHover theme="light"/>
             <AppRouter />
           </WishlistProvider>
         </CartProvider>

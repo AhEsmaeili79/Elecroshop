@@ -146,7 +146,7 @@ const handleImageSwitch = (image) => setActiveImage(image);
 const handleAddToWishlist = async () => {
   try {
     if (!localStorage.getItem("token")) {
-      alert("لطفا وارد شوید تا به لیست علاقه مندی‌ها اضافه کنید.");
+      toast.error("لطفا وارد شوید تا به لیست علاقه مندی‌ها اضافه کنید.");
       return;
     }
 
