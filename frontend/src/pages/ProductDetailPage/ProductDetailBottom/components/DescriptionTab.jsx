@@ -40,8 +40,8 @@ const DescriptionTab = ({ activeTab, product }) => (
           <img
             src={product.photo3}
             alt={product.name}
-            className="img-fluid rounded shadow-lg"
-            style={{ maxWidth: "80%", height: "auto", border: "3px solid #f1f1f1" }}
+            className="img-fluid rounded"
+            style={{ maxWidth: "80%", height: "auto" }}
           />
         </div>
       </div>
@@ -86,7 +86,7 @@ const DescriptionTab = ({ activeTab, product }) => (
       <div className="d-flex justify-content-center mb-4">
         <a
           href="#"
-          className="btn btn-lg btn-primary shadow-lg rounded-pill px-5 py-3"
+          className="btn btn-lg btn-primary rounded-lg px-5 py-3 text-light"
           role="button"
         >
           خرید این محصول
