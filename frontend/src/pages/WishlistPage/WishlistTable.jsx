@@ -19,10 +19,12 @@ const WishlistTable = ({
         return cartItems.some((item) => item.product.id === productId);
     };
 
-    const toPersianNumerals = (number) => {
-        const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-        return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
-      };
+    function formatPrice(price) {
+        const formattedPrice = price.toLocaleString();
+        
+        const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
+        return persianNumerals;
+    }
 
     return (
         <table className="table table-wishlist table-mobile">
@@ -64,7 +66,7 @@ const WishlistTable = ({
                                         </h3>
                                     </div>
                                 </td>
-                                <td className="price-col">{toPersianNumerals(product.price) ? `${toPersianNumerals(product.price)} تومان` : "نامشخص"}</td>
+                                <td className="price-col">{formatPrice(product.price) ? `${formatPrice(product.price)} تومان` : "نامشخص"}</td>
                                 <td className="stock-col">
                                     <span className={isOutOfStock ? "out-of-stock" : "in-stock"}>
                                         {isOutOfStock ? "تمام شده" : "موجود در انبار"}

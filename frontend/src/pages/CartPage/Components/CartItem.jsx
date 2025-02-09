@@ -13,6 +13,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
     const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
     return persianNumerals;
   }
+  
   const totalprice = item.product.price * item.quantity;
 
   const handleQuantityChange = (newQuantity) => {
