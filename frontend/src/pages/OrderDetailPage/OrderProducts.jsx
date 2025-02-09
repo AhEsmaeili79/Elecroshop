@@ -45,7 +45,7 @@ const OrderProducts = ({ order }) => {
     <>
       <div className="container mt-5">
         <div className="row">
-          <div className="col-lg-9 col-md-12">
+          <div className="col-lg-12 col-md-12">
             <div className="mb-4">
               <h3 className="text-center text-success mb-4">جزئیات سفارش</h3>
               <div className="card shadow-lg border-0 rounded-3">
