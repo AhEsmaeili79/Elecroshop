@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Wishlist from './Wishlist';
-import Favorites from './Favorites';
 import Cart from './Cart';
 import Logo from '../../../assets/images/logo.png';
 import SearchComponent from './Search';
@@ -30,7 +29,6 @@ const HeaderMiddle = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
                     <SearchComponent />
                     <div className="header-right">
                         <Wishlist />
-                        <Favorites />
                         <Cart />
                     </div>
                 </div>

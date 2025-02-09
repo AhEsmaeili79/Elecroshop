@@ -40,7 +40,7 @@ const NewAddressForm = ({ newAddress, setNewAddress, addAddress }) => {
           <label>{fieldLabels[key]} *</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control rounded-lg"
             name={key}
             value={newAddress[key]}
             onChange={handleAddressChange}

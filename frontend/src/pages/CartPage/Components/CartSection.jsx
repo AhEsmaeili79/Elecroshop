@@ -18,6 +18,14 @@ const CartSection = ({ cartItems, setCartItems, setTotalPrice }) => {
     loadCartItems();
   }, [setCartItems]);
 
+
+  function formatPrice(price) {
+    const formattedPrice = price.toLocaleString();
+    
+    const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
+    return persianNumerals;
+  }
+  
   const calculateTotalPrice = (items) => {
     const total = items.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
     setTotalPrice(total);
@@ -51,10 +59,9 @@ const CartSection = ({ cartItems, setCartItems, setTotalPrice }) => {
       console.error("Error removing cart item:", error);
     }
   };
-  
 
   return (
-    <div className="col-lg-9">
+    <div className={cartItems.length === 0 ? "col-lg-12" : "col-lg-9"}>
       <table className="table table-cart table-mobile">
         <thead>
           <tr>
@@ -69,7 +76,7 @@ const CartSection = ({ cartItems, setCartItems, setTotalPrice }) => {
         <tbody>
           {cartItems.length === 0 ? (
             <tr>
-              <td colSpan="5">سبد خرید شما خالی است.</td>
+              <td colSpan="6" className="text-center">سبد خرید شما خالی است.</td>
             </tr>
           ) : (
             cartItems.map((item) => (

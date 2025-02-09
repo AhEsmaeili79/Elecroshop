@@ -17,7 +17,6 @@ persian_date, persian_time = get_persian_datetime()
 
 load_dotenv()
 
-# Retrieve the values from the .env file
 ZARINPAL_REQUEST_URL = os.getenv('ZARINPAL_REQUEST_URL')
 ZARINPAL_VERIFY_URL = os.getenv('ZARINPAL_VERIFY_URL')
 ZARINPAL_STARTPAY_URL = os.getenv('ZARINPAL_STARTPAY_URL')
@@ -70,14 +69,10 @@ class OrderViewSet(viewsets.ModelViewSet):
             return self.redirect_to_zarinpal(order)
 
     def redirect_to_zarinpal(self, order):
-        """
-        Call ZarinPal API to initiate the payment process and generate an authority.
-        """
         merchant_id = os.getenv('ZARINPAL_MERCHANT_ID')
         amount = order.total_amount * 10  
         callback_url = os.getenv('CALLBACK_URL')
-        metadata = {'mobile': order.user.phonenumber, 'email': order.user.email}
-
+        
         try:
             logger.info(f"Sending payment request to ZarinPal for Order #{order.id} with amount: {amount}")
             response = requests.post(ZARINPAL_REQUEST_URL, json={
@@ -85,7 +80,7 @@ class OrderViewSet(viewsets.ModelViewSet):
                 'amount': amount,
                 'callback_url': callback_url,
                 'description': f'Order #{order.id} Payment',
-                'metadata': metadata
+                
             })
 
             response_data = response.json()
@@ -100,7 +95,7 @@ class OrderViewSet(viewsets.ModelViewSet):
                 payment.save()
 
                 payment_url = f'{ZARINPAL_STARTPAY_URL}{authority}'
-                return Response({'payment_url': payment_url, 'authority': authority})  # Include authority in the response
+                return Response({'payment_url': payment_url, 'authority': authority})
             else:
                 logger.error(f"ZarinPal payment request failed with code: {response_data.get('data', {}).get('code')}")
                 return Response({'detail': 'ZarinPal payment request failed.'}, status=400)

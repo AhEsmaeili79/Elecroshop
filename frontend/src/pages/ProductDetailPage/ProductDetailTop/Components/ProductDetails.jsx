@@ -3,7 +3,7 @@ import WishlistButton from "./WishlistButton";
 import QuantityInput from "./QuantityInput";
 import ColorOptions from "../../../../utils/ColorOptions.jsx";
 import { fetchReviews } from "../../../../api/reviews.js";
-
+import { useNavigate } from 'react-router-dom';
 const ProductDetails = ({
   product,
   selectedColor,
@@ -19,6 +19,11 @@ const ProductDetails = ({
   const [reviews, setReviews] = useState([]);
   const [reviewsCount, setReviewsCount] = useState(0);
   const [averageRating, setAverageRating] = useState(0);
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (categoryId) => {
+    navigate(`/product/?category=${categoryId}`);
+  };
 
   useEffect(() => {
     const loadReviews = async () => {
@@ -48,10 +53,12 @@ const ProductDetails = ({
 
   const categories = [product.category]; 
 
-  const toPersianNumerals = (number) => {
-    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
-  };
+  function formatPrice(price) {
+    const formattedPrice = price.toLocaleString();
+    
+    const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
+    return persianNumerals;
+  }
 
   return (
     <div className="product-details">
@@ -63,11 +70,11 @@ const ProductDetails = ({
         </div>
 
         <a className="ratings-text" href="#product-review-link">
-          {averageRating > 0 ? `${toPersianNumerals(averageRating.toFixed(1))} / ۵` : "هیچ امتیازی هنوز ثبت نشده است"} ({toPersianNumerals(reviewsCount)} نظر{toPersianNumerals(reviewsCount) !== 1 ? "ها" : ""})
+          {averageRating > 0 ? `${formatPrice(averageRating.toFixed(1))} / ۵` : "هیچ امتیازی هنوز ثبت نشده است"} ({formatPrice(reviewsCount)} نظر{formatPrice(reviewsCount) !== 1 ? "ها" : ""})
         </a>
       </div>
 
-      <div className="product-price">{toPersianNumerals(product.price)} تومان</div>
+      <div className="product-price">{formatPrice(product.price)} تومان</div>
 
       <div className="product-content">
         
@@ -105,9 +112,6 @@ const ProductDetails = ({
             isFavorited={isFavorited}
             handleAddToWishlist={handleAddToWishlist}
           />
-          <a href="#" className="btn-product btn-compare" title="مقایسه">
-            <span>افزودن به مقایسه</span>
-          </a>
         </div>
       </div>
 
@@ -116,23 +120,23 @@ const ProductDetails = ({
           <span>دسته‌بندی:</span>
 
           {categories.map((category, index) => (
-            <a key={index} href="#">
+            <a key={index} onClick={() => handleCategoryClick(category.id)} style={{cursor:'pointer'}}>
               {category.name}
             </a>
           ))}
         </div>
         <div className="social-icons social-icons-sm">
           <span className="social-label">اشتراک‌گذاری:</span>
-          <a href="#" className="social-icon" title="فیس‌بوک" target="_blank">
+          <a href="https://facebook.com" className="social-icon" title="فیس‌بوک" target="_blank">
             <i className="icon-facebook-f"></i>
           </a>
-          <a href="#" className="social-icon" title="توییتر" target="_blank">
+          <a href="https://twitter.com" className="social-icon" title="توییتر" target="_blank">
             <i className="icon-twitter"></i>
           </a>
-          <a href="#" className="social-icon" title="اینستاگرام" target="_blank">
+          <a href="https://instagram.com" className="social-icon" title="اینستاگرام" target="_blank">
             <i className="icon-instagram"></i>
           </a>
-          <a href="#" className="social-icon" title="پینترست" target="_blank">
+          <a href="https://pinterst.com" className="social-icon" title="پینترست" target="_blank">
             <i className="icon-pinterest"></i>
           </a>
         </div>

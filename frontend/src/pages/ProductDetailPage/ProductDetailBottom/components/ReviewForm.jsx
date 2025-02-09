@@ -71,7 +71,7 @@ const ReviewForm = ({ productId, onSubmit, reviewToEdit, clearEdit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="review-form">
+    <form onSubmit={handleSubmit} className="review-form mt-2">
       <div className="form-group">
         <label htmlFor="review-title">عنوان نظر</label>
         <input
@@ -105,11 +105,9 @@ const ReviewForm = ({ productId, onSubmit, reviewToEdit, clearEdit }) => {
       <button type="submit" className="submit-btn mb-2" disabled={loading}>
         {loading ? 'در حال ارسال...' : reviewToEdit ? 'بروزرسانی نظر' : 'ارسال نظر'}
       </button>
-      {reviewToEdit && (
         <button type="button" className="btn btn-info w-100" onClick={clearEdit}>
           لغو
         </button>
-      )}
     </form>
   );
 };

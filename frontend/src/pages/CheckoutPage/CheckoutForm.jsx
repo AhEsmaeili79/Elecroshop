@@ -18,6 +18,8 @@ const CheckoutForm = () => {
   const [ordercode, setOrderCode] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  const [isProcessing, setIsProcessing] = useState(false);
   const [newAddress, setNewAddress] = useState({
     titleAddress: "",
     address: "",
@@ -73,11 +75,13 @@ const CheckoutForm = () => {
       shippingEmpty: !selectedShipping,
     });
   }, [cartItems, selectedShipping]);
-
+  
   const handleOrderSubmit = async (e) => {
     e.preventDefault();
     if (!selectedShipping) return;
-
+  
+    setIsProcessing(true);
+  
     const orderData = {
       address: selectedAddressId,
       shipment_price: selectedShipping.id,
@@ -85,42 +89,46 @@ const CheckoutForm = () => {
       items: [],
       total_amount: getTotalPrice() + (selectedShipping ? selectedShipping.price : 0),
     };
-
+  
     try {
       const createdOrder = await createOrder(orderData);
-      setOrderCode(createdOrder.order_code); 
-
+      setOrderCode(createdOrder.order_code);
+  
       if (paymentType === 'credit_card') {
         setPaymentReady(true);
       } else {
         refreshCart();
         localStorage.removeItem('selectedShipping');
-        localStorage.removeItem('cartItems');
         navigate(`/orders/${createdOrder.order_code}`);
       }
     } catch (error) {
       console.error("Error creating order:", error);
+    } finally {
+      setIsProcessing(false);
     }
   };
-
+  
   const handlePaymentRedirect = async () => {
     if (paymentType === 'credit_card' && paymentReady && ordercode) {
+      setIsProcessing(true);
+  
       try {
+        await delay(2000); // 2-second delay
         const orderDetails = await fetchOrderByCode(ordercode);
         if (orderDetails[0] && orderDetails[0].payment) {
           const authority = orderDetails[0].payment.authority;
           refreshCart();
           localStorage.removeItem('selectedShipping');
-          localStorage.removeItem('cartItems');
           window.location.href = `https://www.zarinpal.com/pg/StartPay/${authority}`;
         }
       } catch (error) {
         console.error("Error fetching order details:", error);
+      } finally {
+        setIsProcessing(false);
       }
     }
   };
   
-
   useEffect(() => {
     handlePaymentRedirect();
   }, [paymentReady, paymentType, ordercode]);
@@ -154,6 +162,7 @@ const CheckoutForm = () => {
             setPaymentType={setPaymentType}
             errorMessages={errorMessages}
             paymentReady={paymentReady}
+            isProcessing={isProcessing}
           />
         </aside>
       </div>

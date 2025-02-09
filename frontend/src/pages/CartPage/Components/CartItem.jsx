@@ -7,11 +7,12 @@ import { useState } from 'react';
 const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
   const [toastShown, setToastShown] = useState(false); 
 
-  const toPersianNumerals = (number) => {
-    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
-  };
-
+  function formatPrice(price) {
+    const formattedPrice = price.toLocaleString();
+    
+    const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
+    return persianNumerals;
+  }
   const totalprice = item.product.price * item.quantity;
 
   const handleQuantityChange = (newQuantity) => {
@@ -67,7 +68,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
           }}>
         </a>
       </td>
-      <td className="price-col">{`${toPersianNumerals(item.product.price)} تومان`}</td>
+      <td className="price-col">{`${formatPrice(item.product.price)} تومان`}</td>
       <td className="quantity-col">
         <div className="quantity-controls">
           <button 
@@ -77,7 +78,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
           >
             -
           </button>
-          <span>{toPersianNumerals(item.quantity)}</span>
+          <span>{formatPrice(item.quantity)}</span>
           <button 
             className="quantity-btn"
             onClick={() => handleQuantityChange(item.quantity + 1)}
@@ -88,7 +89,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
         </div>
       </td>
 
-      <td className="total-col">{`${toPersianNumerals(totalprice)} تومان`}</td>
+      <td className="total-col">{`${formatPrice(totalprice)} تومان`}</td>
 
       <td className="remove-col">
         <button className="btn-remove" onClick={() => onRemove(item.id)}>

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { getAddress, addAddress, updateAddress, deleteAddress } from '../../../api/addresses';
 import './AddressComponent.css';
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddressComponent = () => {
   const [addressList, setAddressList] = useState([]); 
@@ -34,7 +36,7 @@ const AddressComponent = () => {
     if (isEditing) {
       updateAddress(selectedAddressId, formData)
         .then(() => {
-          alert('آدرس با موفقیت به روز شد');
+          toast.success('آدرس با موفقیت به روز شد');
           setIsEditing(false);
           fetchAddresses(); 
         })
@@ -42,24 +44,25 @@ const AddressComponent = () => {
     } else {
       addAddress(formData)
         .then(() => {
-          alert('آدرس با موفقیت اضافه شد');
+          toast.success('آدرس با موفقیت اضافه شد');
           fetchAddresses();
         })
         .catch((error) => console.error('Error adding address:', error));
     }
-
+  
     setIsModalOpen(false);
     resetForm();
   };
-
+  
   const handleDelete = (id) => {
     deleteAddress(id)
       .then(() => {
-        alert('آدرس با موفقیت حذف شد');
+        toast.success('آدرس با موفقیت حذف شد');
         fetchAddresses(); 
       })
       .catch((error) => console.error('Error deleting address:', error));
   };
+
 
   const handleEdit = (address) => {
     setFormData(address);
@@ -89,7 +92,7 @@ const AddressComponent = () => {
 
   return (
     <div className="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
-      <p>آدرس‌های زیر به طور پیش‌فرض در صفحه پرداخت استفاده خواهند شد.</p>
+      <p>آدرس‌های زیر در صفحه پرداخت نمایش  داده خواهند شد.</p>
 
       <div className="row">
         {addressList.length > 0 ? (
@@ -182,13 +185,13 @@ const AddressComponent = () => {
                   />
                 </div>
                 <div className="form-group-new">
-                  <label htmlFor="apartment">آپارتمان</label>
+                  <label htmlFor="apartment">واحد</label>
                   <input
                     type="number"
                     className="form-control"
                     id="apartment"
                     name="apartment"
-                    placeholder="آپارتمان"
+                    placeholder="واحد"
                     value={formData.apartment}
                     onChange={(e) => setFormData({ ...formData, apartment: e.target.value })}
                     required
@@ -221,8 +224,8 @@ const AddressComponent = () => {
                   />
                 </div>
                 <div className="modal-footer-new">
-                  <button type="button" className="btn btn-secondary" onClick={() => setIsModalOpen(false)}>بستن</button>
-                  <button type="submit" className="btn btn-primary">{isEditing ? 'به روز رسانی آدرس' : 'افزودن آدرس'}</button>
+                  <button type="submit" className="btn btn-success">{isEditing ? 'به روز رسانی آدرس' : 'افزودن آدرس'}</button>
+                  <button type="button" className="btn btn-secondary" style={{marginLeft:'-1px'}} onClick={() => setIsModalOpen(false)}>بستن</button>
                 </div>
               </form>
             </div>

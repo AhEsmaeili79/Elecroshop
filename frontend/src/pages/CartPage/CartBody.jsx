@@ -17,6 +17,7 @@ const CartBody = () => {
         <div className="page-content">
           <div className="cart">
             <div className="container">
+            <CartBottom />
               <div className="cart-content">
                 <CartSection
                   cartItems={cartItems}
@@ -28,7 +29,7 @@ const CartBody = () => {
                   totalPrice={totalPrice}
                 />
               </div>
-              <CartBottom />
+              
             </div>
           </div>
         </div>

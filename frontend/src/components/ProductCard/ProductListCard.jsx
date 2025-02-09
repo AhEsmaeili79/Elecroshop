@@ -8,7 +8,7 @@ import { useWishlist } from '../../contexts/WishlistContext';
 import ColorOptions from '../../utils/ColorOptions';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { FaHeart, FaRegHeart } from 'react-icons/fa'; 
 
 const ProductListCard = ({ product, reviewsData }) => {
     const { cartItems, setCartItems } = useCart();
@@ -48,6 +48,13 @@ const ProductListCard = ({ product, reviewsData }) => {
         return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
       };
 
+      function formatPrice(price) {
+        const formattedPrice = price.toLocaleString();
+        
+        const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
+        return persianNumerals;
+      }
+    
       
     useEffect(() => {
         const checkCartItem = async () => {
@@ -190,19 +197,18 @@ const ProductListCard = ({ product, reviewsData }) => {
                         <img src={currentImage} alt={product.name} className="product-image" />
                     </Link>
                     <div className="product-action-vertical">
-                        <a
+                    
+                        <a  
                             onClick={handleWishlistToggle}
-                            className={`btn-product-icon btn-wishlist btn-expandable ${isInWishlist ? 'active' : ''}`}
+                            className={`btn-product-icon btn-expandable ${isInWishlist ? 'active' : ''}`}
                         >
+                            {isInWishlist ? <FaHeart className="text-danger" /> : <FaRegHeart className="text-primary" />}
                             <span>
                                 {isInWishlist ? 'حذف از لیست علاقه‌مندی‌ها' : 'افزودن به لیست علاقه‌مندی‌ها'}
                             </span>
                         </a>
                         <a className="btn-product-icon btn-quickview" title="مشاهده سریع">
                             <span>مشاهده سریع</span>
-                        </a>
-                        <a className="btn-product-icon btn-compare" title="مقایسه">
-                            <span>مقایسه</span>
                         </a>
                     </div>
                     <div className="product-action">
@@ -245,7 +251,7 @@ const ProductListCard = ({ product, reviewsData }) => {
                     <h3 className="product-title">
                         <Link to={`/product/${product.id}`}>{product.name}</Link>
                     </h3>
-                    <div className="product-price">{toPersianNumerals(product.price)} تومان</div>
+                    <div className="product-price">{formatPrice(product.price)} تومان</div>
                     <div className="ratings-container">
                         <div className="ratings">
                             <div className="ratings-val" style={{ width: `${(averageRating / 5) * 100}%` }}></div>

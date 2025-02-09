@@ -66,14 +66,13 @@ const ReviewsTab = ({ productId }) => {
       {error && <div>{error}</div>}
       {!loading && !error && (
         <>
-          <ReviewList reviews={reviews} onDelete={handleDelete} onEdit={handleEdit} />
           {!userHasReviewed && !isFormVisible && (
             <button
-              className="btn btn-primary"
-              onClick={() => setIsFormVisible(true)}
-            >
-              نوشتن نظر
-            </button>
+            className="btn btn-primary btn-lg rounded-lg mt-1 ml-2 px-4 py-2 shadow-sm hover-shadow-lg"
+            onClick={() => setIsFormVisible(true)}
+          >
+            نوشتن نظر
+          </button>
           )}
           {(userHasReviewed || isFormVisible) && (
             <ReviewForm
@@ -83,6 +82,7 @@ const ReviewsTab = ({ productId }) => {
               clearEdit={handleCancel} 
             />
           )}
+          <ReviewList reviews={reviews} onDelete={handleDelete} onEdit={handleEdit} />
         </>
       )}
     </div>

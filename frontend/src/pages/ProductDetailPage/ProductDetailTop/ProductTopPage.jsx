@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import {
   fetchProductDetails,
   addProductToCart,
@@ -117,7 +116,6 @@ const handleAddToCart = async () => {
   }
 };
 
-
 const handleRemoveFromCart = async () => {
   try {
     const cartItem = cartItems.find(
@@ -143,6 +141,26 @@ const handleRemoveFromCart = async () => {
   }
 };
 const handleImageSwitch = (image) => setActiveImage(image);
+
+
+useEffect(() => {
+  const checkWishlist = async () => {
+    try {
+      if (!localStorage.getItem("token")) return;
+      
+      const data = await fetchWishlist();
+      setWishlist(data);
+      
+      const isInWishlist = data.some((item) => item.product_id === productId);
+      setIsFavorited(isInWishlist);
+    } catch (err) {
+      console.error("خطا در دریافت لیست علاقه مندی‌ها:", err);
+    }
+  };
+  
+  checkWishlist();
+}, [productId]);
+
 const handleAddToWishlist = async () => {
   try {
     if (!localStorage.getItem("token")) {

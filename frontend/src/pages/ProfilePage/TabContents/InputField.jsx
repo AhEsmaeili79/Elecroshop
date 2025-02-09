@@ -4,7 +4,7 @@ const InputField = ({ label, type, name, value, onChange, required, readOnly, au
             <label>{label}</label>
             <input
                 type={type}
-                className="form-control"
+                className="form-control rounded-lg"
                 name={name}
                 value={value}
                 onChange={onChange}

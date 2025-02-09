@@ -31,6 +31,14 @@ const Cart = () => {
         return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
       };
 
+    function formatPrice(price) {
+        const formattedPrice = price.toLocaleString();
+        
+        const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
+        return persianNumerals;
+    }
+    
+
     return (
         <div className="dropdown cart-dropdown">
             <Link to="/cart" className="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
@@ -55,7 +63,7 @@ const Cart = () => {
                                         
                                     <span className="cart-product-qty">{toPersianNumerals(item.quantity)} * </span> 
                                     
-                                    {toPersianNumerals(item.product.price)} تومان
+                                    {formatPrice(item.product.price)} تومان
                                          
                                     </span>
                                     
@@ -92,7 +100,7 @@ const Cart = () => {
                 </div>
                 <div className="dropdown-cart-total">
                     <span>جمع کل</span>
-                    <span className="cart-total-price">{toPersianNumerals(totalPrice)} تومان </span>
+                    <span className="cart-total-price">{formatPrice(totalPrice)} تومان </span>
                 </div>
                 <div className="dropdown-cart-action">
                     <Link to="/cart" className="btn btn-primary">سبد خرید</Link>

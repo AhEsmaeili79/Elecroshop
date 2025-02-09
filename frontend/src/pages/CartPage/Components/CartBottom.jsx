@@ -5,16 +5,15 @@ const CartBottom = () => {
 		  <div className="cart-discount">
 			<form action="#">
 			  <div className="input-group">
-				<input type="text" className="form-control" required placeholder="کد کوپن" />
-				<div className="input-group-append">
-				  <button className="btn btn-outline-primary-2" type="submit">
-					<i className="icon-long-arrow-right"></i>
-				  </button>
+				<div className="input">
+				<a href="/" className="btn btn-outline-dark-2 p-3">
+				<i className="icon-arrow-right"></i> بازگشت
+				</a>
 				</div>
 			  </div>
 			</form>
 		  </div>
-		  <a href="#" className="btn btn-outline-dark-2">
+		  <a href="/product" className="btn btn-outline-dark-2">
 			<span>بروزرسانی سبد خرید</span>
 			<i className="icon-refresh"></i>
 		  </a>

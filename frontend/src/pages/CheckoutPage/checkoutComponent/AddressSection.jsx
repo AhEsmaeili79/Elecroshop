@@ -15,7 +15,7 @@ const AddressSection = ({
       <div className="form-group">
         <label>آدرس خود را انتخاب کنید *</label>
         <select
-          className="form-control"
+          className="form-control rounded-lg p-2"
           value={selectedAddressId || ""}
           onChange={(e) => setSelectedAddressId(e.target.value)}
         >
@@ -27,13 +27,15 @@ const AddressSection = ({
         </select>
       </div>
 
-      <button
-        type="button"
-        className="btn btn-link"
-        onClick={() => setShowAddressForm(!showAddressForm)}
-      >
-        {showAddressForm ? "لغو" : "افزودن آدرس جدید"}
-      </button>
+      <div className="col-12">
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            onClick={() => setShowAddressForm(!showAddressForm)}
+          >
+            {showAddressForm ? "لغو" : "افزودن آدرس جدید"}
+          </button>
+        </div>
 
       {showAddressForm && (
         <NewAddressForm 

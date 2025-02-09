@@ -15,7 +15,7 @@ const Wishlist = () => {
     <div className="wishlist">
       <a href='/wishlist' title=" علاقه‌مندی‌ها">
         <div className="icon">
-          <i className="icon-heart-o"></i>
+          <i className="icon-heart-o" style={{cursor:'pointer'}}></i>
           <span className="wishlist-count badge">{isWishlistLoading ? '...' : toPersianNumerals(wishlistItems.length)}</span>  
         </div>
         <p> علاقه‌مندی‌ها</p>

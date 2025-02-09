@@ -18,10 +18,12 @@ const CartSummary = ({ cartItems, totalPrice }) => {
     getShippingOptions();
   }, []);
 
-  const toPersianNumerals = (number) => {
-    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
-  };
+  function formatPrice(price) {
+    const formattedPrice = price.toLocaleString();
+    
+    const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
+    return persianNumerals;
+  }
 
   useEffect(() => {
     setFinalTotal(totalPrice + shippingPrice);
@@ -46,6 +48,10 @@ const CartSummary = ({ cartItems, totalPrice }) => {
 
   const isCheckoutDisabled = cartItems.length === 0 || !selectedShipping;
 
+  if (cartItems.length === 0) {
+    return null; 
+  }
+
   return (
     <aside className="col-lg-3">
       <div className="summary summary-cart">
@@ -54,7 +60,7 @@ const CartSummary = ({ cartItems, totalPrice }) => {
           <tbody>
             <tr className="summary-subtotal">
               <td>مجموع موقت:</td>
-              <td>{toPersianNumerals(totalPrice)} تومان</td>
+              <td>{formatPrice(totalPrice)} تومان</td>
             </tr>
             <tr className="summary-shipping">
               <td>هزینه حمل و نقل:</td>
@@ -77,13 +83,13 @@ const CartSummary = ({ cartItems, totalPrice }) => {
                     </label>
                   </div>
                 </td>
-                <td>{toPersianNumerals(option.price)} تومان</td>
+                <td>{formatPrice(option.price)} تومان</td>
               </tr>
             ))}
 
             <tr className="summary-total">
               <td>مجموع نهایی:</td>
-              <td>{toPersianNumerals(finalTotal)} تومان</td>
+              <td>{formatPrice(finalTotal)} تومان</td>
             </tr>
           </tbody>
         </table>

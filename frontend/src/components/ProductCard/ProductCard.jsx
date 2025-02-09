@@ -10,7 +10,7 @@ import { fetchReviews } from '../../api/reviews';
 import { useCart } from '../../contexts/CartContext'; 
 import { useWishlist } from '../../contexts/WishlistContext'; 
 import ColorOptions from '../../utils/ColorOptions';
-
+import { FaHeart, FaRegHeart } from 'react-icons/fa'; 
 import './css/ProductCard.css';
 
 const ProductCard = ({ product, index }) => {
@@ -119,6 +119,14 @@ const ProductCard = ({ product, index }) => {
     return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
   };
 
+  function formatPrice(price) {
+    const formattedPrice = price.toLocaleString();
+    
+    const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
+    return persianNumerals;
+  }
+
+
   const handleRemoveFromCart = async () => {
     try {
       await removeCartItem(cartItem.id);
@@ -194,10 +202,10 @@ const ProductCard = ({ product, index }) => {
         <div className="product-action-vertical">
           <a
             onClick={handleWishlistToggle}
-            className={`btn-product-icon btn-wishlist btn-expandable ${isInWishlist ? 'active' : ''}`}
+            className={`btn-product-icon btn-expandable ${isInWishlist ? 'active' : ''}`}
             title="افزودن به لیست علاقه‌مندی‌ها"
             disabled={isWishlistLoading}
-          >
+          >{isInWishlist ? <FaHeart className="text-danger" /> : <FaRegHeart className="text-dark" />}
             {isWishlistLoading ? (
               <span>در حال بارگذاری...</span>
             ) : (
@@ -267,14 +275,14 @@ const ProductCard = ({ product, index }) => {
           {product.oldPrice ? (
             <>
               <span className="new-price">
-                {toPersianNumerals(product.price) || 'نامشخص'}
+                {formatPrice(product.price) || 'نامشخص'}
               </span>
               <span className="old-price">
-                {toPersianNumerals(product.oldPrice)}
+                {formatPrice(product.oldPrice)}
               </span>
             </>
           ) : (
-            toPersianNumerals(product.price) || 'نامشخص'
+            formatPrice(product.price) || 'نامشخص'
           )}
           تومان
         </div>

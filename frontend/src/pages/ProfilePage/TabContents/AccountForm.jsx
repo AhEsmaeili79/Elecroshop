@@ -1,9 +1,9 @@
 import { useUserData } from '../../../hooks/useUserData'; 
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ProfileImageUpload from './ProfileImageUpload'; 
 import InputField from './InputField'; 
 import SubmitButton from './SubmitButton'; 
-import { toast } from 'react-toastify'; 
-import 'react-toastify/dist/ReactToastify.css'; 
 import './css/accountform.css';
 
 const AccountForm = () => {
@@ -11,28 +11,10 @@ const AccountForm = () => {
         formData,
         profileImage,
         loading,
-        error,
         handleChange,
         handleImageChange,
         handleSubmit
     } = useUserData(); 
-
-    const phoneRegex = /^09\d{9}$/;
-
-    const toPersianNumbers = (num) => {
-        return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
-    };
-
-    const handleValidatedChange = (e) => {
-        const { name, value } = e.target;
-
-        if (name === 'phonenumber' && !phoneRegex.test(value)) {
-            toast.error('شماره تلفن باید با 09 شروع و 11 رقم باشد');
-            return; 
-        }
-
-        handleChange(e);
-    };
 
     return (
         <div className="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
@@ -42,41 +24,45 @@ const AccountForm = () => {
 
                 <div className="row">
                     <div className="col-sm-6">
-                        <InputField label="نام *" type="text" name="firstName" value={formData.firstName} onChange={handleValidatedChange} required />
+                        <InputField label="نام *" type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
                     </div>
                     <div className="col-sm-6">
-                        <InputField label="نام خانوادگی *" type="text" name="lastName" value={formData.lastName} onChange={handleValidatedChange} required />
+                        <InputField label="نام خانوادگی *" type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
                     </div>
                 </div>
 
-                <InputField label="آدرس ایمیل *" type="email" name="email" value={toPersianNumbers(formData.email)} onChange={handleValidatedChange} required readOnly autoComplete="email" />
+                <InputField label="آدرس ایمیل *" type="email" name="email" value={formData.email} required readOnly autoComplete="email" />
 
                 <div className="row">
                     <div className="col-sm-6">
                         <InputField label="نام نمایشی" type="text" name="displayName" value={formData.username} readOnly required />
                     </div>
                     <div className="col-sm-6">
-                        <InputField 
-                            label="شماره تلفن" 
-                            type="text" 
-                            name="phonenumber" 
-                            value={toPersianNumbers(formData.phonenumber)} 
-                            onChange={handleValidatedChange} 
-                            autoComplete="tel" 
-                            placeholder="09xxxxxxxxx" 
-                        />
+                    <InputField
+                        label="شماره تلفن"
+                        type="text"
+                        name="phonenumber"
+                        value={formData.phonenumber}
+                        onChange={handleChange}
+                        onInput={handleChange}
+                        autoComplete="tel"
+                        maxLength={11} 
+                        pattern="\d{11}" 
+                        placeholder="09xxxxxxxxxxx"
+                    />
+
                     </div>
                 </div>
                 <small className="form-text">این نامی است که در بخش حساب کاربری و در بررسی‌ها نمایش داده خواهد شد</small>
 
-                <InputField label="تاریخ تولد" type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleValidatedChange} autoComplete="bday" />
+                <InputField label="تاریخ تولد" type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} autoComplete="bday" />
 
                 <label>اطلاعات اضافی</label>
                 <textarea
-                    className="form-control"
+                    className="form-control rounded-lg"
                     name="additionalInformation"
                     value={formData.additionalInformation}
-                    onChange={handleValidatedChange}
+                    onChange={handleChange}
                     autoComplete="off"
                 />
 

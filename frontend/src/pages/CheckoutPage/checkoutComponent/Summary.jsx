@@ -4,10 +4,14 @@ const Summary = ({ cartItems, selectedShipping }) => {
   const getTotalPrice = () => {
     return cartItems.reduce((sum, item) => sum + item.total_price, 0);
   };
-  const toPersianNumerals = (number) => {
-    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
-  };
+
+  function formatPrice(price) {
+      const formattedPrice = price.toLocaleString();
+      
+      const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
+      return persianNumerals;
+  }
+
   return (
     <div className="summary">
       <h3 className="summary-title">سفارش شما</h3>
@@ -30,23 +34,23 @@ const Summary = ({ cartItems, selectedShipping }) => {
                   />
                 </Link>
               </td>
-              <td>{toPersianNumerals(item.total_price)} تومان</td>
+              <td>{formatPrice(item.total_price)} تومان</td>
             </tr>
           ))}
           <tr className="summary-total">
             <td>مجموع:</td>
-            <td>{toPersianNumerals(getTotalPrice())} تومان</td>
+            <td>{formatPrice(getTotalPrice())} تومان</td>
           </tr>
           {selectedShipping && (
             <tr className="summary-shipping">
               <td>هزینه ارسال:</td>
-              <td>{selectedShipping.title} {toPersianNumerals(selectedShipping.price)} تومان</td>
+              <td>{selectedShipping.title} {formatPrice(selectedShipping.price)} تومان</td>
             </tr>
           )}
           <tr className="summary-total">
             <td>مجموع نهایی:</td>
             <td>
-              {toPersianNumerals(getTotalPrice() + (selectedShipping ? selectedShipping.price : 0))} تومان
+              {formatPrice(getTotalPrice() + (selectedShipping ? selectedShipping.price : 0))} تومان
             </td>
           </tr>
         </tbody>
