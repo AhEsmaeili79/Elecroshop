@@ -44,6 +44,14 @@ const CheckoutForm = () => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        navigate('/');
+    }
+}, [navigate]);
+
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const [user, cart, addressList] = await Promise.all([

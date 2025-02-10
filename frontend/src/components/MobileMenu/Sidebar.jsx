@@ -1,11 +1,23 @@
-import { Link, useNavigate } from 'react-router-dom';
-import './sidebar.module-rtl.css';
-import Logo from '../../assets/images/logo.png';
-import { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import "./sidebar.module-rtl.css";
+import Logo from "../../assets/images/logo.png";
 
 const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, toggleModal }) => {
     const navigate = useNavigate();
     const [query, setQuery] = useState("");
+    const sidebarRef = useRef(null);
+    const btnRef = useRef(null);
+
+    useEffect(() => {
+        if (sidebarRef.current && btnRef.current) {
+            if (sidebarRef.current.classList.contains("open")) {
+                btnRef.current.classList.replace("bx-menu", "bx-menu-alt-right");
+            } else {
+                btnRef.current.classList.replace("bx-menu-alt-right", "bx-menu");
+            }
+        }
+    }, [isOpen]); 
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -15,13 +27,13 @@ const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, to
     };
 
     return (
-        <div className={`sidebarr-containerr ${isOpen ? 'open' : ''}`}>
-            <div className={`sidebarr ${isOpen ? 'open' : ''}`}>
+        <div className={`sidebarr-containerr ${isOpen ? "open" : ""}`}>
+            <div className={`sidebarr ${isOpen ? "open" : ""}`} ref={sidebarRef}>
                 <div className="logo-details">
                     <Link to="/" className="logo_name">
                         <img src={Logo} alt="لوگوی اکتروشاپ" width="105" height="25" />
                     </Link>
-                    <i className="bx bx-x" id="btn" onClick={toggleSidebar}></i>  
+                    <i className="bx bx-menu" id="btn" onClick={toggleSidebar} ref={btnRef}></i>
                 </div>
                 <ul className="nav-list">
                     <li>

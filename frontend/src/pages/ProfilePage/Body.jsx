@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation,useNavigate } from 'react-router-dom';
 import BreadCrumb from '../../components/Breadcrumb/BreadCrumb';
 import DashboardAside from './ProfilePageAside';
 import UserDetailHeader from '../../components/Header/UserDetailHeader/UserDetailHeader';
@@ -22,8 +22,17 @@ const handleLogout = async () => {
 
 const Body = () => {
     const location = useLocation(); 
-    const [activeTab, setActiveTab] = useState("dashboard");
+    const [activeTab, setActiveTab] = useState("dashboard");  
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/');
+        }
+    }, [navigate]);
+
+    
     useEffect(() => {
         const path = location.pathname;
         if (path === '/orders') setActiveTab("orders");
