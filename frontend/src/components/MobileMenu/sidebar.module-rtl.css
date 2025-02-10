@@ -1,21 +1,7 @@
-@media screen and (min-width: 992px) {
-    .main-nav{
-        display: block !important;
-    }
-    .sidebarr-containerr{
-        display: none;
-    }
-}
-@media screen and (min-width: 400px) {
-    .sidebarr{
-        z-index: -200;
-    }
-}
 .sidebarr-containerr {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
 }
 
 .sidebarr {
@@ -23,17 +9,17 @@
     right: 0;
     top: 0;
     height: 100%;
-    width: 0;
+    width: 78px;
     background: #d6d6d6;
     padding: 6px 14px;
-    z-index: -10;
+    z-index: 200;
     transition: all 0.5s ease;
 }
+
 
 .sidebarr.open {
     width: 250px;
     z-index: 200;
-    transition: all 0.5s ease;
 }
 
 .sidebarr .logo-details {
@@ -280,4 +266,24 @@
     width: calc(100%-250px);
 }
 
+
+@media screen and (max-width: 400px) {
+    .sidebarr{
+        z-index: -200;
+        width: 0;
+    }
+    #root{
+        margin-right:0;
+    }
+}
+
+
+@media screen and (min-width: 400px) {
+    #root{
+        margin-right:78px;
+    }
+    .mobile-menu-toggler{
+        display: none;
+    }
+}
 
