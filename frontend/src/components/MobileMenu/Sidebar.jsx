@@ -6,6 +6,7 @@ import Logo from "../../assets/images/logo.png";
 const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, toggleModal }) => {
     const navigate = useNavigate();
     const [query, setQuery] = useState("");
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     const sidebarRef = useRef(null);
     const btnRef = useRef(null);
 
@@ -17,7 +18,7 @@ const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, to
                 btnRef.current.classList.replace("bx-menu-alt-right", "bx-menu");
             }
         }
-    }, [isOpen]); 
+    }, [isOpen]);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -25,6 +26,7 @@ const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, to
             navigate(`/product?q=${encodeURIComponent(query)}`);
         }
     };
+
 
     return (
         <div className={`sidebarr-containerr ${isOpen ? "open" : ""}`}>
@@ -56,22 +58,45 @@ const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, to
                     </li>
                     <li>
                         <Link to="/product" onClick={toggleSidebar}>
-                            <i className="bx bx-grid-alt"></i>
+                           <i className='bx bx-basket'></i>
                             <span className="links_name">محصولات</span>
                         </Link>
                     </li>
                     <li>
+                        <Link>
+                            <i className="bx bx-grid-alt" onClick={() => setDropdownOpen(!dropdownOpen)} ></i>
+                            <span className="links_name" onClick={() => setDropdownOpen(!dropdownOpen)} >دسته بندی ها <i className={`bx ${dropdownOpen ? "bx-chevron-up" : "bx-chevron-down"}`}></i></span>
+                        </Link>
+                            {dropdownOpen && (
+                            <ul className="dropdown-menu">
+                                <li>
+                                    <Link to="/category/electronics" onClick={toggleSidebar}>الکترونیک</Link>
+                                </li>
+                                <li>
+                                    <Link to="/category/clothing" onClick={toggleSidebar}>پوشاک</Link>
+                                </li>
+                                <li>
+                                    <Link to="/category/home" onClick={toggleSidebar}>لوازم خانگی</Link>
+                                </li>
+                            </ul>
+                        )}
+                    </li>
+                    {localStorage.getItem("token") && (<li>
                         <Link to="/wishlist" onClick={toggleSidebar}>
                             <i className="bx bx-heart"></i>
-                            <span className="links_name">لیست علاقه‌مندی‌ها</span>
+                            <span className="links_name">علاقه‌مندی‌ها</span>
                         </Link>
                     </li>
-                    <li>
-                        <Link to="/dashboard" onClick={toggleSidebar}>
-                            <i className="bx bx-user-circle"></i>
-                            <span className="links_name">داشبورد</span>
-                        </Link>
-                    </li>
+                    )}
+                    {localStorage.getItem("token") && (
+                        <li>
+                            <Link to="/dashboard" onClick={toggleSidebar}>
+                                <i className="bx bx-user-circle"></i>
+                                <span className="links_name">داشبورد</span>
+                            </Link>
+                        </li>
+                    )}
+
                     <li className="profile">
                         {isLoggedIn ? (
                             <>
@@ -80,7 +105,7 @@ const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, to
                                         <img src={username.profile_image} alt="profileImg" />
                                         <div className="name_job">
                                             <div className="name">{username.first_name}</div>
-                                            <div className="job">{username.role}</div>
+                                            {username.role !== "customer" && <div className="job">{username.role}</div>}
                                         </div>
                                     </Link>
                                 </div>
