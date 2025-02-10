@@ -17,7 +17,8 @@ export const fetchUserData = async () => {
         return response.data;
     } catch (error) {
         if (error.response && error.response.status === 401) {
-            return null; 
+            localStorage.removeItem('token');
+            localStorage.removeItem('refresh_token');
         }
         return null; 
     }

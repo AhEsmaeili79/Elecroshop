@@ -32,6 +32,8 @@ const Header = () => {
       console.error("Failed to fetch user data:", error);
       if (error.response && error.response.status === 401 && !isRefreshing) {
         await handleTokenRefresh();
+        localStorage.removeItem('token');
+        localStorage.removeItem('refresh_token');
       } else {
         handleLogout();
       }
@@ -46,6 +48,8 @@ const Header = () => {
     } catch (error) {
       console.error("Token refresh failed:", error);
       handleLogout(); 
+      localStorage.removeItem('token');
+      localStorage.removeItem('refresh_token');
     } finally {
       setIsRefreshing(false);
     }
