@@ -43,10 +43,6 @@ const ProductListCard = ({ product, reviewsData }) => {
         }
     }, [product.created_at, product.quantity]);
 
-    const toPersianNumerals = (number) => {
-        const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-        return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
-      };
 
       function formatPrice(price) {
         const formattedPrice = price.toLocaleString();

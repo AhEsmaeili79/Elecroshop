@@ -73,9 +73,9 @@ export const useUserData = () => {
         e.preventDefault();
 
         const currentTime = Date.now();
-        if (lastSubmitTime && currentTime - lastSubmitTime < 5000) {
+        if (lastSubmitTime && currentTime - lastSubmitTime < 2000) {
             if (!messageShown) {
-                toast.error('لطفاً تا 5 ثانیه دیگر دوباره امتحان کنید.');
+                toast.error('لطفاً تا 2 ثانیه دیگر دوباره امتحان کنید.');
                 setMessageShown(true); 
             }
             return;

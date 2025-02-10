@@ -41,6 +41,13 @@ const OrderProducts = ({ order }) => {
     return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
   };
 
+  function formatPrice(price) {
+    const formattedPrice = price.toLocaleString();
+    
+    const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
+    return persianNumerals;
+  }
+
   return (
     <>
       <div className="container mt-5">
@@ -74,13 +81,13 @@ const OrderProducts = ({ order }) => {
                             </div>
                             <div className="d-flex justify-content-between">
                               <strong>قیمت:</strong>
-                              <span>{toPersianNumbers(item.product_price)} تومان</span>
+                              <span>{formatPrice(item.product_price)} تومان</span>
                             </div>
                             <div className="d-flex justify-content-between">
                               <strong>فروشنده:</strong> <span>{item.product_seller}</span>
                             </div>
                             <div className="d-flex justify-content-between">
-                              <strong>تعداد:</strong> <span>{toPersianNumbers(item.quantity)}</span>
+                              <strong>تعداد:</strong> <span>{formatPrice(item.quantity)}</span>
                             </div>
                           </div>
                           <div className="d-flex justify-content-between mt-3">
@@ -138,7 +145,7 @@ const OrderProducts = ({ order }) => {
                 </div>
                 <div className="d-flex justify-content-between mb-3">
                   <strong>مجموع قیمت:</strong>{" "}
-                  <span>{toPersianNumbers(calculateTotalPrice(order.items, order.shipment_price))} تومان</span>
+                  <span>{formatPrice(calculateTotalPrice(order.items, order.shipment_price))} تومان</span>
                 </div>
               </div>
             </div>

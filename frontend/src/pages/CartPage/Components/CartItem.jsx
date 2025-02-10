@@ -41,7 +41,6 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
               <img 
                 src={item.product.main_photo} 
                 alt={item.product.name} 
-                className="cart-item-image"
               />
             </Link>
           </figure>

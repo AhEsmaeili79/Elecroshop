@@ -4,12 +4,11 @@ body {
   background-color: #f8f8f8;
 }
 
-/* Cart Item Styles */
 .cart-item-image {
   object-fit: cover;
   border-radius: 8px;
   transition: transform 0.3s ease;
-  width: auto; /* Prevent stretching */
+  width: auto; 
 
 }
 
@@ -22,7 +21,7 @@ body {
   font-weight: 600;
   color: #333;
   text-decoration: none;
-  text-align: center; /* Center align the title */
+  text-align: center; 
 }
 
 .product-title:hover {
@@ -75,7 +74,7 @@ body {
 .product-title,
 .product-color,
 .product-seller {
-  margin: 0; /* Optional: to reduce space between each line */
+  margin: 0; 
   text-align: right;
 }
 
@@ -94,7 +93,6 @@ body {
   color: #d32f2f;
 }
 
-/* Cart Table Styles */
 .table-cart {
   width: 100%;
   border-collapse: collapse;
@@ -121,7 +119,6 @@ body {
   border-bottom: 1px solid #ddd;
 }
 
-/* Cart Summary Styles */
 .summary-cart {
   padding: 20px;
   background-color: #fff;
@@ -202,7 +199,6 @@ body {
   color: #007bff;
 }
 
-/* Shipping Radio Button Styling */
 .custom-control {
   display: flex;
   align-items: center;
@@ -227,64 +223,57 @@ body {
   color: #007bff;
 }
 
-/* Style for color and seller text */
 .product-color,
 .product-seller {
-  font-size: 14px; /* Default font size */
-  margin-top: 5px; /* Space between name and other info */
-  color: #555; /* Subtle color for these text elements */
+  font-size: 14px; 
+  margin-top: 5px; 
+  color: #555; 
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
   .product-color,
   .product-seller {
-    font-size: 12px; /* Smaller font size on small screens */
-    margin-top: 10px; /* Increase space between name and other info on smaller screens */
+    font-size: 12px; 
+    margin-top: 10px; 
   }
 
   .product {
-    text-align: center; /* Center align product info on smaller screens */
+    text-align: center; 
   }
 
-  /* Stack color and seller below each other */
   .product-color,
   .product-seller {
-    display: block; /* Ensure each item takes full width */
-    margin-top: 10px; /* Ensure space between elements */
+    display: block;
+    margin-top: 10px; 
   }
 
-  /* Stack the cart columns for smaller screens */
   .table-cart th, .table-cart td {
     display: block;
     width: 100%;
     text-align: center;
   }
 
-  /* Adjust layout for cart item images */
   .cart-item-image {
-    width: 70px;  /* Adjust image size for smaller screens */
-    height: 70px; /* Adjust height to maintain aspect ratio */
+    width: 70px;  
+    height: 70px; 
     object-fit: cover;
     border-radius: 8px;
   }
 
   .product-title {
     font-size: 14px;
-    text-align: center; /* Reduce font size */
+    text-align: center; 
   }
 
-  /* Center-align the quantity buttons */
   .quantity-controls {
     justify-content: center;
-    gap: 8px; /* Reduce gap for mobile */
+    gap: 8px; 
   }
 
   .quantity-btn {
-    font-size: 18px; /* Smaller buttons */
+    font-size: 18px;
   }
 
-  /* Price and total columns */
   .price-col, .total-col, .remove-col {
     display: inline-block;
     width: 100%;
@@ -292,49 +281,41 @@ body {
   }
 }
 
-/* Specific for very small screens below 438px */
 @media (max-width: 600px) {
 
   .table-mobile .product-col .product-title {
     text-align: center;
 }
-  /* Reduce image size even further to ensure it fits */
   .cart-item-image {
-    width: 100px; /* Smaller image */
- /* Adjust height to maintain aspect ratio */
+    width: 100px; 
     border-radius: 5px;
   }
 
-  /* Allow the table to be scrollable if necessary */
   .table-cart {
     overflow-x: auto;
-    display: block; /* Enable horizontal scrolling */
+    display: block; 
   }
 
-  /* Ensure text content fits within small screens */
   .product-title {
     font-size: 12px;
-    text-align: center; /* Reduce title size */
+    text-align: center; 
   }
 
-  /* Make quantity controls smaller and more compact */
   .quantity-controls {
-    gap: 5px; /* Reduce gap between buttons */
+    gap: 5px; 
   }
 
   .quantity-btn {
-    width: 28px; /* Smaller buttons */
-    height: 28px; /* Smaller buttons */
-    font-size: 14px; /* Smaller font size */
+    width: 28px; 
+    height: 28px; 
+    font-size: 14px;
   }
 
-  /* Price and total columns */
   .price-col, .total-col, .remove-col {
     text-align: center;
-    font-size: 14px; /* Smaller font size */
+    font-size: 14px; 
   }
 
-  /* Product info layout */
   .product {
     padding-right: 10px;
     padding-left: 10px;
@@ -362,9 +343,8 @@ body {
   }
 }
 
-/* For screens with min-width of 450px, ensure quantity controls are on one line and center the title */
 @media (min-width: 450px) {
   .quantity-controls {
-    gap: 16px; /* Maintain space between the buttons */
+    gap: 16px; 
   }
 }

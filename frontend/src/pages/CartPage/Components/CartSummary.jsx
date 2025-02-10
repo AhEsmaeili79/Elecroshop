@@ -53,7 +53,7 @@ const CartSummary = ({ cartItems, totalPrice }) => {
   }
 
   return (
-    <aside className="col-lg-3">
+    <aside className="col-lg-3 summary">
       <div className="summary summary-cart">
         <h3 className="summary-title">جمع سبد خرید</h3>
         <table className="table table-summary">

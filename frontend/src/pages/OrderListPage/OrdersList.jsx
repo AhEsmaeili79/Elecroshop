@@ -46,6 +46,15 @@ const OrdersList = () => {
     return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
   };
 
+
+  function formatPrice(price) {
+    const formattedPrice = price.toLocaleString();
+    
+    const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
+    return persianNumerals;
+  }
+
+
   const calculateTotalPrice = (items, shipmentPrice) => {
     const itemsTotal = items.reduce((total, item) => {
       const price = parseFloat(item.product_price) || 0;
@@ -121,7 +130,7 @@ const OrdersList = () => {
                   ))}
                 </div>
                 <p className="total-price">
-                  <strong>قیمت نهایی:</strong> {toPersianNumbers(totalPrice)} تومان
+                  <strong>قیمت نهایی:</strong> {formatPrice(totalPrice)} تومان
                 </p>
               </div>
             );
