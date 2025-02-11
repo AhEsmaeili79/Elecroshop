@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchOrderDetails } from '../../api/orderApi';
 import BreadCrumb from '../../components/Breadcrumb/BreadCrumb';
 import OrderProducts from './OrderProducts';
+import { FaSpinner } from 'react-icons/fa'; // Import spinner icon from react-icons
 
 const OrderDetailPage = () => {
   const { orderCode } = useParams();
@@ -32,9 +33,8 @@ const OrderDetailPage = () => {
   if (loading)
     return (
       <div className="order-detail-loading d-flex justify-content-center align-items-center vh-100">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">در حال بارگذاری...</span>
-        </div>
+        {/* Replace spinner-border with FaSpinner */}
+        <FaSpinner className="spinner-icon text-primary" size={50} spin />
       </div>
     );
 
@@ -51,8 +51,6 @@ const OrderDetailPage = () => {
         هیچ سفارشی با کد سفارش وارد شده پیدا نشد.
       </div>
     );
-
-  
 
   return (
     <main className="main">

@@ -1,9 +1,5 @@
 import { Link } from "react-router-dom";
-import moment from 'moment-jalaali';
 
-const convertToPersianDate = (date) => {
-  return moment(date).format('jYYYY/jMM/jDD HH:mm:ss');
-};
 
 const OrderProducts = ({ order }) => {
   const getStatusInPersian = (status) => {
@@ -41,9 +37,13 @@ const OrderProducts = ({ order }) => {
     return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
   };
 
+  const formatTime = (timeString) => {
+    const [hours, minutes] = timeString.split(':');
+    return `${hours}:${minutes}`;
+  };
+
   function formatPrice(price) {
     const formattedPrice = price.toLocaleString();
-    
     const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
     return persianNumerals;
   }
@@ -55,23 +55,23 @@ const OrderProducts = ({ order }) => {
           <div className="col-lg-12 col-md-12">
             <div className="mb-4">
               <h3 className="text-center text-success mb-4">جزئیات سفارش</h3>
-              <div className="card shadow-lg border-0 rounded-3">
+              <div className="card shadow-lg border-0 rounded-5">
                 <div className="card-body p-4">
                   {order.items.map((item) => (
-                    <div className="d-flex mb-4 border-bottom pb-4" key={item.id}>
-                      <div className="col-6 col-lg-3">
+                    <div className="d-flex flex-column flex-md-row mb-4 border-bottom pb-4" key={item.id}>
+                      <div className="col-6 col-md-3">
                         <figure className="product-media">
                           <Link to={`/product/${item.product}`}>
                             <img
                               src={item.product_image}
                               alt={item.product_name}
-                              className="img-fluid rounded shadow-sm"
+                              className="img-fluid rounded-3 shadow-sm"
                             />
                           </Link>
                         </figure>
                       </div>
-                      <div className="col-lg-6">
-                        <div className="product-body">
+                      <div className="col-md-9 d-flex flex-column justify-content-between">
+                        <div className="product-body" style={{ maxWidth: '400px' }}>
                           <div className="order-summary">
                             <div className="d-flex justify-content-between">
                               <strong>نام محصول:</strong>
@@ -112,7 +112,7 @@ const OrderProducts = ({ order }) => {
               </div>
             </div>
 
-            <div className="card shadow-lg mt-4 border-0 rounded-3">
+            <div className="card shadow-lg mt-4 border-0 rounded-5">
               <div className="card-body p-4">
                 <h5 className="mb-4 text-dark">اطلاعات سفارش</h5>
                 <div className="d-flex justify-content-between mb-3">
@@ -120,12 +120,12 @@ const OrderProducts = ({ order }) => {
                 </div>
                 <div className="d-flex justify-content-between mb-3">
                   <strong>تاریخ:</strong>{" "}
-                  <span>{toPersianNumbers(convertToPersianDate(order.payment.created_at))}</span>
+                  {toPersianNumbers(formatTime(order.created_at_time))} {toPersianNumbers(order.created_at_date)} 
                 </div>
                 <div className="d-flex justify-content-between mb-3">
                   <strong>وضعیت سفارش:</strong>
                   <span
-                    className={`${getStatusBadgeClass(order.status)}`}
+                    className={`${getStatusBadgeClass(order.status)} badge-pill`}
                     style={{ fontSize: "1.5rem" }}
                   >
                     {getStatusInPersian(order.status)}
