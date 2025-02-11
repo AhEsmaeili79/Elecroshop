@@ -23,3 +23,13 @@ img.wishlist-media , .btn{
 .btn{
     margin-left: 25px;
 }
+
+@media screen and (max-width: 420px) {
+    #wishlist-page {
+        position: relative;
+        background-color: #f8f8f8;
+    }
+    .header-4 .header-middle{
+        margin-bottom: 0;
+    }
+}

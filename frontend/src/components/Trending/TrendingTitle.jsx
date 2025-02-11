@@ -10,7 +10,7 @@ const ItemTitle = ({ activeTab, onTabChange }) => {
   return (
     <div className="heading heading-flex mb-3">
       <div className="heading-left">
-        <h2 className="title"> محبوب ترین ها</h2>
+        <h2 className="title"></h2>
       </div>
       <div className="heading-right">
         <ul className="nav nav-pills nav-border-anim justify-content-center" role="tablist">

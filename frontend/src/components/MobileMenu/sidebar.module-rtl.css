@@ -10,7 +10,7 @@
     top: 0;
     height: 100%;
     width: 78px;
-    background: #d6d6d6;
+    background: #504a4a;
     padding: 6px 14px;
     z-index: 200;
     transition: all 0.5s ease;
@@ -59,7 +59,7 @@
 }
 
 .sidebarr i {
-    color: #222222;
+    color: #dadada;
     height: 60px;
     min-width: 50px;
     font-size: 28px;
@@ -107,8 +107,9 @@
 }
 
 .sidebarr .bx-search:hover {
-    background: #838383;
-    color: #d6d6d6;
+    background: #e4e3e3;
+    cursor: pointer;
+    color: #504a4a;
 }
 
 .sidebarr.open .bx-search:hover {
@@ -131,7 +132,7 @@
     align-items: center;
     text-decoration: none;
     transition: all 0.4s ease;
-    background: #d6d6d6;
+    background: #504a4a;
 }
 
 .sidebarr li a:hover {
@@ -139,7 +140,7 @@
 }
 
 .sidebarr li a .links_name {
-    color: #020202;
+    color: #aaa9a9;
     font-size: 15px;
     font-weight: 400;
     white-space: nowrap;
@@ -156,7 +157,7 @@
 .sidebarr li a:hover .links_name,
 .sidebarr li a:hover i {
     transition: all 0.5s ease;
-    color: #d6d6d6;
+    color: #504a4a;
 }
 
 .sidebarr li .tooltip {
@@ -194,7 +195,7 @@
     right: 0;
     bottom: -8px;
     padding: 10px 14px;
-    background: #d6d6d6;
+    background: #504a4a;
     transition: all 0.5s ease;
     overflow: hidden;
     margin-bottom: 8px;
@@ -235,7 +236,7 @@
 .sidebarr li.profile .job {
     font-size: 15px;
     font-weight: 400;
-    color: #000000;
+    color: #d3cbcb;
     white-space: nowrap;
 }
 
@@ -248,7 +249,7 @@
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    background: #d6d6d6;
+    background: #504a4a;
     width: 100%;
     height: 60px;
     line-height: 60px;
@@ -260,6 +261,13 @@
     background: none;
 }
 
+#log_out:hover{
+    color: #adaaaa;
+}
+
+span.user-log{
+    margin-right: 10px;
+}
 
 .sidebarr.open~.main {
     right: 250px;
@@ -271,12 +279,20 @@
     .sidebarr{
         z-index: -200;
         width: 0;
+        transition: all 0.5s ease;
     }
     #root{
         margin-right:0;
     }
+    .sidebarr.open {
+        width: 250px;
+        z-index: 200;
+        transition: all 0.5s ease;
+    }
+    #checkout{
+        background-color: #fff;
+    }
 }
-
 
 @media screen and (min-width: 400px) {
     #root{

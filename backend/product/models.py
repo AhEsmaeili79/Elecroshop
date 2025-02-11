@@ -36,7 +36,6 @@ class Product(models.Model):
         return f"ProductName: {self.name}, Count: {self.quantity}, Seller: {self.seller}"
 
     def save(self, *args, **kwargs):
-        # Resize all the images before saving
         if self.main_photo:
             self.main_photo = self.resize_image(self.main_photo)
         if self.photo1:
@@ -49,25 +48,19 @@ class Product(models.Model):
         super(Product, self).save(*args, **kwargs)
 
     def resize_image(self, image_field):
-        # Open the image
         img = Image.open(image_field)
 
-        # If the image has an alpha channel (RGBA), convert it to RGB
         if img.mode == 'RGBA':
             img = img.convert('RGB')
 
-        # Resize the image
         img = img.resize((500, 500), Image.Resampling.LANCZOS)
 
-        # Save it into a BytesIO object to convert it back to an InMemoryUploadedFile
         img_io = BytesIO()
         img.save(img_io, format='JPEG')
         img_io.seek(0)
 
-        # Generate the file name
         image_field_name = image_field.name.split('/')[-1]
 
-        # Return the image as an InMemoryUploadedFile
         image_file = InMemoryUploadedFile(
             img_io, None, image_field_name, 'image/jpeg', img_io.tell(), None
         )
@@ -81,7 +74,7 @@ class Wishlist(models.Model):
     added_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        unique_together = ('user', 'product')  # Prevents adding the same product to the wishlist multiple times
-
+        unique_together = ('user', 'product')
+        
     def __str__(self):
         return f"{self.user} - {self.product.name} Wishlist"

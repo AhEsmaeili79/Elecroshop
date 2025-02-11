@@ -86,7 +86,7 @@ const Body = () => {
     };
 
     return (
-        <div className="page-content">
+        <div className="page-content" id="wishlist-page">
             <WishlistHeader />
             <BreadCrumb />
             <div className="container">

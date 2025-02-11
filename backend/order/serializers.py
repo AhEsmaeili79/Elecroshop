@@ -20,13 +20,13 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "product_price",
             "product_seller",
             "quantity",
-            "color",  # Include color field
+            "color", 
         ]
 
     def to_representation(self, instance):
         user = self.context.get("request").user
         if user.role == "seller" and instance.product.seller != user:
-            return {}  # Return empty data for items not belonging to the seller
+            return {}
         return super().to_representation(instance)
 
 
@@ -95,31 +95,26 @@ class OrderSerializer(serializers.ModelSerializer):
         items_data = self.context["items_data"]
         shipment_price = validated_data.get("shipment_price")
 
-        # Calculate total amount based on items_data
         total_amount = sum(
             item["product"].price * item["quantity"] for item in items_data
         ) + shipment_price.price
 
-        # Remove `total_amount` from `validated_data` to avoid conflicts
         if "total_amount" in validated_data:
             del validated_data["total_amount"]
 
-        # Create the order
         order = Order.objects.create(
             **validated_data,
             total_amount=total_amount,
         )
 
-        # Create OrderItem instances for each item
         for item in items_data:
             OrderItem.objects.create(
                 order=order,
                 product=item["product"],
                 quantity=item["quantity"],
-                color=item.get("color"),  # Handle cases where color might be None
+                color=item.get("color"),
             )
 
-        # Create an initial Payment instance for the order
         Payment.objects.create(
             order=order,
             amount=total_amount,

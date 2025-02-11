@@ -1,4 +1,3 @@
-# order/models.py
 from django.db import models
 from django.contrib.auth import get_user_model
 from product.models import Product, Color
@@ -9,7 +8,6 @@ import random
 User = get_user_model()
 persian_date, persian_time = get_persian_datetime()
 
-# Helper function to generate a 7-digit random order code
 def generate_order_code():
     return str(random.randint(1000000, 9999999))
 

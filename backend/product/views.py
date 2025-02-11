@@ -6,8 +6,6 @@ from .serializers import ProductSerializer, WishlistSerializer,ColorSerializer
 from .Pagination.pagination import ProductPagination
 from .Permissions.permissions import IsSellerOrReadOnly
 
-
-# Seller CRUD
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -15,68 +13,55 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        # If the user is a seller, filter products by that seller
         if user.is_authenticated and user.role == "seller":
             return Product.objects.filter(seller=user)
-        # If the user is not a seller, return an empty queryset
         return Product.objects.none()
 
     def perform_create(self, serializer):
-        # Automatically set the seller to the logged-in user
         serializer.save(seller=self.request.user)
 
 
 class CustomerProductViewSet(viewsets.ReadOnlyModelViewSet): 
     serializer_class = ProductSerializer
-    permission_classes = []  # Allow read-only access to everyone
+    permission_classes = [] 
     
     def get_queryset(self):
         """
         This method customizes the queryset based on the category, color, and brand filters in the request.
         """
-        queryset = Product.objects.all()  # Default to all products
+        queryset = Product.objects.all() 
 
-        # Filter by category - support multiple categories
         category_ids = self.request.query_params.get('category', '')
         if category_ids:
-            category_ids_list = category_ids.split(',')  # Split by commas
-            # Remove 'category-' prefix and convert to integers
+            category_ids_list = category_ids.split(',')  
             category_ids_list = [int(id.replace('category-', '')) for id in category_ids_list]
             queryset = queryset.filter(category__id__in=category_ids_list)
 
-        # Filter by brand - support multiple brands
         brand_ids = self.request.query_params.get('brand', '')
         if brand_ids:
-            # If the 'brand' is passed as a comma-separated string
-            brand_ids_list = brand_ids.split(',')  # Split by commas
-            # Remove 'brand-' prefix and convert to integers
+            brand_ids_list = brand_ids.split(',')
             brand_ids_list = [int(id.replace('brand-', '')) for id in brand_ids_list]
             queryset = queryset.filter(brand__id__in=brand_ids_list)
 
-        # Filter by color - support both comma-separated and multiple '&' parameters
         color_ids = self.request.query_params.get('color', '')
         if color_ids:
             if ',' in color_ids:
-                # If the color values are comma-separated, split them manually
                 color_ids_list = color_ids.split(',')
             else:
-                # If there are multiple 'color' query parameters, use getlist()
                 color_ids_list = self.request.query_params.getlist('color')
-
-            # Remove 'color-' prefix and convert to integers
             color_ids_list = [int(id.replace('color-', '')) for id in color_ids_list]
             queryset = queryset.filter(colors__id__in=color_ids_list)
 
         return queryset
 
 class WishlistViewSet(viewsets.ViewSet):
-    permission_classes = [permissions.IsAuthenticated]  # Only authenticated users can manage their wishlist
+    permission_classes = [permissions.IsAuthenticated]
 
     def list(self, request):
         """
         Get all products in the user's wishlist
         """
-        if request.user.is_staff or request.user.is_superuser:  # Check if the user is an admin
+        if request.user.is_staff or request.user.is_superuser: 
             wishlist = Wishlist.objects.all()
         else:
             wishlist = Wishlist.objects.filter(user=request.user)
@@ -86,33 +71,24 @@ class WishlistViewSet(viewsets.ViewSet):
 
     @action(detail=True, methods=['post'])
     def add_to_wishlist(self, request, pk=None):
-        """
-        Add product to wishlist, if not already in the wishlist
-        """
         try:
             product = Product.objects.get(id=pk)
         except Product.DoesNotExist:
             return Response({"detail": "Product not found."}, status=404)
 
-        # Check if the product is already in the wishlist
         if Wishlist.objects.filter(user=request.user, product=product).exists():
             return Response({"detail": "Product is already in your wishlist."}, status=400)
 
-        # Create wishlist entry
         Wishlist.objects.create(user=request.user, product=product)
         return Response({"detail": "Product added to wishlist."}, status=201)
 
     @action(detail=True, methods=['delete'])
     def remove_from_wishlist(self, request, pk=None):
-        """
-        Remove product from wishlist
-        """
         try:
             product = Product.objects.get(id=pk)
         except Product.DoesNotExist:
             return Response({"detail": "Product not found."}, status=404)
 
-        # Remove from wishlist if it exists
         try:
             wishlist_item = Wishlist.objects.get(user=request.user, product=product)
             wishlist_item.delete()
@@ -123,4 +99,4 @@ class WishlistViewSet(viewsets.ViewSet):
 class ColorViewSet(viewsets.ModelViewSet):
     queryset = Color.objects.all()
     serializer_class = ColorSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]  # Read-only for unauthenticated users, write for authenticated ones
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]

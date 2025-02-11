@@ -13,34 +13,32 @@ const Body = () => {
 
     return(
         <>
-        <div className="page-content">
+        <div className="page-content" id='checkout'>
             <ChekcoutHeader />
             <BreadCrumb />
-        </div>
-        <div className="page-content">
-            	<div className="checkout">
-	                <div className="container">
-                        <div className="checkout-discount">
-            				<form action="#">
-        						<input 
-                                  type="text" 
-                                  className="form-control" 
-                                  required 
-                                  id="checkout-discount-input"
-                                  value={discountCode}
-                                  onChange={handleInputChange}
-                                  placeholder=" " 
-                                  autoFocus={false} 
-                                />
-            					<label htmlFor="checkout-discount-input" className="text-truncate">
-                                  کد تخفیف دارید؟ <span>کد تخفیف خود را اینجا وارد کنید</span>
-                                </label>
-            				</form>
-            			</div>
-                        <CheckoutForm/>
+            <div className="checkout">
+                <div className="container">
+                    <div className="checkout-discount">
+                        <form action="#">
+                            <input 
+                                type="text" 
+                                className="form-control" 
+                                required 
+                                id="checkout-discount-input"
+                                value={discountCode}
+                                onChange={handleInputChange}
+                                placeholder=" " 
+                                autoFocus={false} 
+                            />
+                            <label htmlFor="checkout-discount-input" className="text-truncate">
+                                کد تخفیف دارید؟ <span>کد تخفیف خود را اینجا وارد کنید</span>
+                            </label>
+                        </form>
                     </div>
+                    <CheckoutForm/>
                 </div>
             </div>
+        </div>
         </>
     );
 };

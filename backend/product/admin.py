@@ -2,8 +2,6 @@ from django.contrib import admin
 
 from .models import Product,Color,Wishlist
 
-
-# Register your models here.
 class Productadmin(admin.ModelAdmin):
     list_display = ["id","name", "quantity", "price", "seller__username"]
 

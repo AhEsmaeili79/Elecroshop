@@ -26,10 +26,9 @@ class CartItemViewSet(viewsets.ModelViewSet):
     def create(self, request):
         cart = get_or_create_cart(request.user)
         product_id = request.data.get("product_id")
-        quantity = request.data.get("quantity", 1)  # Default to 1 if not provided
+        quantity = request.data.get("quantity", 1) 
         color_id = request.data.get("color_id")
 
-        # Check if product and color are valid
         product = Product.objects.filter(id=product_id).first()
         color = Color.objects.filter(id=color_id).first()
 
@@ -44,11 +43,9 @@ class CartItemViewSet(viewsets.ModelViewSet):
                 {"detail": "Quantity exceeds available stock."}, status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Check if the product with the color already exists in the cart
         existing_item = CartItem.objects.filter(cart=cart, product=product, color=color).first()
 
         if existing_item:
-            # Update quantity if item already exists
             total_quantity = existing_item.quantity + quantity
             if total_quantity > product.quantity:
                 return Response(
@@ -60,7 +57,6 @@ class CartItemViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(existing_item)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        # Create a new cart item
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save(cart=cart)
@@ -84,14 +80,12 @@ class CartItemViewSet(viewsets.ModelViewSet):
             )
 
         if quantity == 0:
-            # Remove this cart item
             cart_item.delete()
             return Response({"detail": "Item removed from cart."}, status=status.HTTP_204_NO_CONTENT)
 
         cart_item.quantity = quantity
         cart_item.save()
 
-        # If the product quantity is zero, remove it from all carts
         if cart_item.product.quantity == 0:
             CartItem.objects.filter(product=cart_item.product).delete()
 

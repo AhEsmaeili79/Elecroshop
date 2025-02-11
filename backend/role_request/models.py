@@ -26,4 +26,4 @@ class RoleRequest(models.Model):
             return True
         return (
             timezone.now() - self.denied_time
-        ).total_seconds() > 86400  # 86400 seconds = 24 hours
+        ).total_seconds() > 86400  

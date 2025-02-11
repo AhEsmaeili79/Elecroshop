@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import Logo from "../../assets/images/logo-white.png";
 import "./sidebar.module-rtl.css";
-import Logo from "../../assets/images/logo.png";
 
 const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, toggleModal }) => {
     const navigate = useNavigate();
@@ -117,7 +117,7 @@ const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, to
                             <>
                                 <Link onClick={toggleModal}>
                                     <i className="bx bx-log-in" id="log_out"></i>
-                                    <span className="links_name">ورود</span>
+                                    <span className="links_name user-log">ورود</span>
                                 </Link>
                             </>
                         )}

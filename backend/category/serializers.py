@@ -1,4 +1,3 @@
-# category/serializers.py
 from rest_framework import serializers
 from .models import Category, SubCategory, Brand, Model
 
@@ -20,7 +19,7 @@ class SubCategorySerializer(serializers.ModelSerializer):
         fields = ["id", "name", "category", "owner", "category_name"]
         read_only_fields = [
             "owner"
-        ]  # Make owner read-only if you don't want to expose it in API
+        ] 
 
     def create(self, validated_data):
         return super().create(validated_data)

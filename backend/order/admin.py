@@ -1,12 +1,10 @@
-# order/admin.py
-
 from django.contrib import admin
 from .models import Order, OrderItem, ShipmentPrice, Payment
 
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
-    extra = 1  # Number of empty forms to display for adding items
+    extra = 1  
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -22,7 +20,7 @@ class OrderAdmin(admin.ModelAdmin):
     )
     search_fields = ("order_code", "user__username", "address")
     list_filter = ("status", "payment_type")
-    inlines = [OrderItemInline]  # Display OrderItem as inline
+    inlines = [OrderItemInline] 
 
 
 class OrderItemAdmin(admin.ModelAdmin):
@@ -54,7 +52,6 @@ class PaymentAdmin(admin.ModelAdmin):
     list_filter = ("status", "payment_method")
 
 
-# Register your models
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(ShipmentPrice, admin.ModelAdmin)

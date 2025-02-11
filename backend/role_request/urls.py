@@ -1,4 +1,3 @@
-# role_request/urls.py
 from django.urls import path
 from .views import (
     RoleRequestCreateView,
@@ -17,7 +16,7 @@ urlpatterns = [
     ),
     path(
         "request/user/", UserRoleRequestView.as_view(), name="user_role_request"
-    ),  # New endpoint
+    ),  
     path(
         "request/status/",
         UserRoleRequestStatusView.as_view(),

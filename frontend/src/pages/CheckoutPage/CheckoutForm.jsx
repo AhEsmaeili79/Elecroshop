@@ -121,7 +121,7 @@ const CheckoutForm = () => {
       setIsProcessing(true);
   
       try {
-        await delay(2000); // 2-second delay
+        await delay(2000); 
         const orderDetails = await fetchOrderByCode(ordercode);
         if (orderDetails[0] && orderDetails[0].payment) {
           const authority = orderDetails[0].payment.authority;

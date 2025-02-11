@@ -1,4 +1,4 @@
-const AdditionalInfoTab = ({ activeTab, product }) => (
+const AdditionalInfoTab = ({ activeTab }) => (
   <div className={`tab-pane ${activeTab === "additionalInfo" ? "active" : ""}`}>
     <div className="product-desc-content">
       <h2 className="mb-4">اطلاعات اضافی</h2>

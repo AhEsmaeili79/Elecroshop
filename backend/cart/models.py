@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from product.models import Product,Color  # assuming Product model is in products app
+from product.models import Product,Color 
 
 
 class Cart(models.Model):

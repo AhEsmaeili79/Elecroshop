@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.db import models
 from django.contrib.auth import get_user_model
-from product.models import Product  # Adjust if the product model is in a different app
+from product.models import Product  
 
 User = get_user_model()
 
@@ -10,7 +10,7 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE
-    )  # Assuming you have a Product model
+    )
     title = models.CharField(max_length=25,default='No Title')
     rating = models.PositiveIntegerField()
     comment = models.TextField()

@@ -21,8 +21,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         read_only_fields = ["user", "created_at"]
 
     def validate(self, attrs):
-        # Check if the user is creating a new review, not updating
-        if self.instance is None:  # This is a new review (POST)
+        if self.instance is None: 
             if Review.objects.filter(
                 user=self.context["request"].user, product=attrs["product"]
             ).exists():

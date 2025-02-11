@@ -4,6 +4,9 @@ import QuantityInput from "./QuantityInput";
 import ColorOptions from "../../../../utils/ColorOptions.jsx";
 import { fetchReviews } from "../../../../api/reviews.js";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const ProductDetails = ({
   product,
   selectedColor,
@@ -60,6 +63,38 @@ const ProductDetails = ({
     return persianNumerals;
   }
 
+  const handleSocialClick = (socialMedia) => {
+    const currentUrl = window.location.href;
+    const shareableLink = encodeURIComponent(currentUrl); 
+    let shareUrl = "";
+    
+    toast.success(` لینک اشتراک در ${socialMedia} کپی شد!`);
+
+      switch (socialMedia) {
+        case "facebook":
+          shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareableLink}`;
+          break;
+        case "twitter":
+          shareUrl = `https://twitter.com/intent/tweet?url=${shareableLink}`;
+          break;
+        case "instagram":
+          shareUrl = `https://www.instagram.com/?url=${shareableLink}`;
+          break;
+        case "telegram":
+          shareUrl = `https://t.me/share/url?url=${shareableLink}`;
+          break;
+        default:
+          return;
+      }
+    
+
+    navigator.clipboard.writeText(currentUrl).then(() => {
+      window.location.href = shareUrl;
+    }).catch((error) => {
+      console.error("Failed to copy text: ", error);
+    });
+  };
+
   return (
     <div className="product-details">
       <h1 className="product-title">{product.name}</h1>
@@ -97,7 +132,6 @@ const ProductDetails = ({
         </div>
       </div>
 
-
       <div className="details-filter-row details-row-size">
         <label htmlFor="qty">تعداد:</label>
         <QuantityInput quantity={quantity} setQuantity={setQuantity} />
@@ -127,17 +161,17 @@ const ProductDetails = ({
         </div>
         <div className="social-icons social-icons-sm">
           <span className="social-label">اشتراک‌گذاری:</span>
-          <a href="https://facebook.com" className="social-icon" title="فیس‌بوک" target="_blank">
+          <a href="#" className="social-icon" title="فیس‌بوک" onClick={() => handleSocialClick("facebook")}>
             <i className="icon-facebook-f"></i>
           </a>
-          <a href="https://twitter.com" className="social-icon" title="توییتر" target="_blank">
+          <a href="#" className="social-icon" title="توییتر" onClick={() => handleSocialClick("twitter")}>
             <i className="icon-twitter"></i>
           </a>
-          <a href="https://instagram.com" className="social-icon" title="اینستاگرام" target="_blank">
+          <a href="#" className="social-icon" title="اینستاگرام" onClick={() => handleSocialClick("instagram")}>
             <i className="icon-instagram"></i>
           </a>
-          <a href="https://pinterst.com" className="social-icon" title="پینترست" target="_blank">
-            <i className="icon-pinterest"></i>
+          <a href="#" className="social-icon" title="تلگرام" onClick={() => handleSocialClick("telegram")}>
+            <i className="icon-telegram"></i>
           </a>
         </div>
       </div>

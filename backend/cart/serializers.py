@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from .models import Cart, CartItem
-from product.serializers import ProductSerializer,ColorSerializer  # assuming you have this
+from product.serializers import ProductSerializer,ColorSerializer 
 from product.models import Product,Color
 
 
 class CartItemSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(read_only=True)  # Only read product details
+    product = ProductSerializer(read_only=True)   
     product_id = serializers.PrimaryKeyRelatedField(
         queryset=Product.objects.all(), source="product", write_only=True
     )
