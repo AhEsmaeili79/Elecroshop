@@ -4,7 +4,7 @@ import Pagination from "../../components/Pagination/Pagination";
 import BreadCrumb from "../../components/Breadcrumb/BreadCrumb";
 import AsideProduct from "../../components/Aside/Aside";
 import ProductListHeader from "../../components/Header/ProductListHeader/ProductListHeader";
-import ToolBox from "../../components/Toolbox/ToolBox";
+import ToolBox from '../../components/Toolbox/Toolbox';
 import ProductCardList from "./ProductCardList";
 import useProducts from "../../hooks/useProducts";
 
