@@ -59,11 +59,14 @@ const WishlistTable = ({
                                                 />
                                             </Link>
                                         </figure>
-                                        <h3 className="product-title">
+                                        <h3 className="product-title wishlist-product-title">
                                             <Link to={`/product/${product.id}`}>
                                                 {product.name}
                                             </Link>
                                         </h3>
+
+
+
                                     </div>
                                 </td>
                                 <td className="price-col">{formatPrice(product.price) ? `${formatPrice(product.price)} تومان` : "نامشخص"}</td>

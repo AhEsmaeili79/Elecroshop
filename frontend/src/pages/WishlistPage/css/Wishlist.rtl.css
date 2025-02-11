@@ -2,10 +2,6 @@
     background-color: #f8f8f8;
 }
 
-img.wishlist-media , .btn{
-    border-radius: 5px;
-}
-
 .table .price-col {
     text-align: right;
 }
@@ -14,17 +10,28 @@ img.wishlist-media , .btn{
     padding-right: 15px;
 }
 
+.btn{
+    margin-left: 25px;
+}
+
 @media (max-width: 990px) {
     .table .price-col {
         text-align: center;
     }
 }
 
-.btn{
-    margin-left: 25px;
+@media (max-width: 600px) {
+    .wishlist-product-title {
+        text-align: center;
+        margin-top: 20px;
+        margin-left: 10px;
+    }
 }
 
 @media screen and (max-width: 420px) {
+    .wishlist-product-title{
+        margin-top: 10px;
+    }
     #wishlist-page {
         position: relative;
         background-color: #f8f8f8;
