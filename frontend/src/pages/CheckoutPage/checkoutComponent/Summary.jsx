@@ -27,10 +27,11 @@ const Summary = ({ cartItems, selectedShipping }) => {
             <tr key={index}>
               <td>
                 <Link to={`/product/${item.product.id}`}>
-                  <img
+                <img
                     src={item.product.main_photo}
                     alt={item.product.name}
-                    className="checkout-item-image"
+                    className="rounded-full object-cover p-4"
+                    style={{ width: "100px", height: "100px" }}
                   />
                 </Link>
               </td>

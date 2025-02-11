@@ -64,9 +64,6 @@ const WishlistTable = ({
                                                 {product.name}
                                             </Link>
                                         </h3>
-
-
-
                                     </div>
                                 </td>
                                 <td className="price-col">{formatPrice(product.price) ? `${formatPrice(product.price)} تومان` : "نامشخص"}</td>
