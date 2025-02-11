@@ -183,7 +183,7 @@ const ProductCard = ({ product, index }) => {
   };
   
   return (
-    <div className="product product-2" key={index}>
+    <div className="product product-2 border border-gray p-3 rounded" key={index}>
       <figure className="product-media">
         {product.label && (
           <span

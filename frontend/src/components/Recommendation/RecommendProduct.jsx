@@ -26,9 +26,10 @@ const RecommendProduct = () => {
       <div className="products">
         <div className="row justify-content-center">
         {displayedProducts.map((product, index) => (
-            <div key={index} className="col-6 col-md-4 col-lg-3">
+            <div key={index} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
               <ProductCard key={index} product={product} />
-            </div>
+          </div>
+          
           ))}
         </div>
       </div>
