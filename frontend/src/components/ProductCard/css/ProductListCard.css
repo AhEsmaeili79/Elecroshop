@@ -11,12 +11,34 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px; /* Adjust spacing between buttons and quantity */
-    margin: 0 auto; /* Center horizontally within parent */
-    padding: 10px 0; /* Optional: Add some vertical padding */
+    gap: 10px; 
+    margin: 0 auto;
+    padding: 10px 0;
   }
 
   .product.product-7{
     border: 1px solid rgb(231, 231, 231);
     border-radius: 5px;
   }
+
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; 
+  }
+  
+  .spinner-icon {
+    font-size: 2rem; 
+    animation: spin 1s infinite linear;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
