@@ -15,6 +15,10 @@ const Pagination = ({ totalProducts, productsPerPage, paginate, currentPage }) =
         }
     };
 
+    const toPersianNumbers = (num) => {
+        return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+    };
+
     return (
         <nav aria-label="ناوبری صفحه">
             <ul className="pagination justify-content-center">
@@ -27,7 +31,7 @@ const Pagination = ({ totalProducts, productsPerPage, paginate, currentPage }) =
                         onClick={() => handlePageClick(currentPage - 1)}
                     >
                         <span aria-hidden="true">
-                            <i className="icon-long-arrow-left"></i>
+                            <i className="icon-long-arrow-right"></i>
                         </span>
                         قبلی
                     </button>
@@ -43,7 +47,7 @@ const Pagination = ({ totalProducts, productsPerPage, paginate, currentPage }) =
                             className="page-link"
                             onClick={() => handlePageClick(page)}
                         >
-                            {page}
+                            {toPersianNumbers(page)}
                         </button>
                     </li>
                 ))}
@@ -57,7 +61,7 @@ const Pagination = ({ totalProducts, productsPerPage, paginate, currentPage }) =
                     >
                         بعدی
                         <span aria-hidden="true">
-                            <i className="icon-long-arrow-right"></i>
+                            <i className="icon-long-arrow-left"></i>
                         </span>
                     </button>
                 </li>

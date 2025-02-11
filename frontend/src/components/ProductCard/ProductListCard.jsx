@@ -51,7 +51,9 @@ const ProductListCard = ({ product, reviewsData }) => {
         return persianNumerals;
       }
     
-      
+      const toPersianNumbers = (num) => {
+        return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+    };
     useEffect(() => {
         const checkCartItem = async () => {
             if (product && product.id) {
@@ -252,7 +254,7 @@ const ProductListCard = ({ product, reviewsData }) => {
                         <div className="ratings">
                             <div className="ratings-val" style={{ width: `${(averageRating / 5) * 100}%` }}></div>
                         </div>
-                        <span className="ratings-text">({reviewsCount} نظرات)</span>
+                        <span className="ratings-text">({toPersianNumbers(reviewsCount)} نظر)</span>
                     </div>
                     <div className="details-row-color">
                     <ColorOptions

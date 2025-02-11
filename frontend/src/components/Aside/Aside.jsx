@@ -88,7 +88,7 @@ const AsideProduct = ({ setSelectedCategory, CategoryFiltered, setSelectedBrand,
       <div className="sidebar sidebar-shop">
         <div className="widget widget-clean">
           <label>فیلترها:</label>
-          <a href="#" className="sidebar-filter-clear" onClick={resetFilters}>
+          <a className="sidebar-filter-clear" onClick={resetFilters}>
             پاک کردن همه
           </a>
         </div>
