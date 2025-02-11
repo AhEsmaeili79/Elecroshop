@@ -4,6 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL + '/users';
 
 // Function to handle the login API request
 export const login = async (username, password) => {
+  username = username.toLowerCase();
   try {
     const response = await axios.post(`${API_URL}/login/admin/`, { username, password });
     return response.data; 
