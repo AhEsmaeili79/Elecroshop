@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import './Aside.css';
+import { useState, useEffect } from 'react';
 import { fetchFiltersData } from '../../api/FilterAsideApi';
 import CategoryFilter from './AsideComponents/CategoryFilter';
 import BrandFilter from './AsideComponents/BrandFilter';
 import ColorFilter from './AsideComponents/ColorFilter';
 import PriceFilter from './AsideComponents/PriceFilter';
+
+import './Aside.css';
 
 const AsideProduct = ({ setSelectedCategory, CategoryFiltered, setSelectedBrand, setSelectedColor, setPriceRange, priceRange }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -13,6 +14,7 @@ const AsideProduct = ({ setSelectedCategory, CategoryFiltered, setSelectedBrand,
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [colors, setColors] = useState([]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,22 +71,24 @@ const AsideProduct = ({ setSelectedCategory, CategoryFiltered, setSelectedBrand,
       return updatedItems;
     });
   };
-  
 
-  const clearAllFilters = () => {
-    setSelectedCategories([]);
-    setSelectedColors([]);
-    setSelectedBrands([]);
+  const resetFilters = () => {
+    setSelectedCategories([]); 
+    setSelectedColors([]);     
+    setSelectedBrands([]);     
     setPriceRange([0, 100000]);
-    setSelectedCategory([]);
-  };
+    setSelectedCategory([]);   
+    setSelectedBrand([]);      
+    setSelectedColor([]);      
+};
+
 
   return (
     <aside className="col-lg-3 order-lg-first">
       <div className="sidebar sidebar-shop">
         <div className="widget widget-clean">
           <label>فیلترها:</label>
-          <a href="#" className="sidebar-filter-clear" onClick={clearAllFilters}>
+          <a href="#" className="sidebar-filter-clear" onClick={resetFilters}>
             پاک کردن همه
           </a>
         </div>
