@@ -57,7 +57,11 @@ const Body = () => {
                                 </div>
                             )}
                             {error && <p>{error}</p>}
-                            <ProductCardList products={currentProducts} reviewsData={reviewsData} />
+                            {currentProducts.length === 0 ? (
+                                <p>هیچ محصولی مطابق با فیلتر شما وجود ندارد</p>
+                            ) : (
+                                <ProductCardList products={currentProducts} reviewsData={reviewsData} />
+                            )}
                             <Pagination
                                 totalProducts={filteredProducts.length} 
                                 productsPerPage={productsPerPage}
