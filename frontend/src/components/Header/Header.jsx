@@ -4,14 +4,13 @@ import HeaderTop from './HeaderTop';
 import HeaderMiddle from './HeaderHomePage/HeaderMiddle';
 import HeaderBottom from './HeaderBottom';
 import { fetchUserData } from '../../api/user';
-import { logoutUser, refreshToken } from '../../api/auth';
+import { logoutUser } from '../../api/auth';
 
 const Header = () => {
   const [showModal, setShowModal] = useState(false);
   const toggleModal = () => setShowModal(!showModal);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
-  const [isRefreshing, setIsRefreshing] = useState(false);
 
 
   useEffect(() => {
@@ -30,8 +29,7 @@ const Header = () => {
       setIsLoggedIn(true);
     } catch (error) {
       console.error("Failed to fetch user data:", error);
-      if (error.response && error.response.status === 401 && !isRefreshing) {
-        await handleTokenRefresh();
+      if (error.response && error.response.status === 401 ) {
         localStorage.removeItem('token');
         localStorage.removeItem('refresh_token');
       } else {
@@ -39,21 +37,7 @@ const Header = () => {
       }
     }
   };
-
-  const handleTokenRefresh = async () => {
-    setIsRefreshing(true);
-    try {
-      await refreshToken(); 
-      await getUserData();
-    } catch (error) {
-      console.error("Token refresh failed:", error);
-      handleLogout(); 
-      localStorage.removeItem('token');
-      localStorage.removeItem('refresh_token');
-    } finally {
-      setIsRefreshing(false);
-    }
-  };
+  
 
   const handleLogout = async () => {
     try {
@@ -67,8 +51,6 @@ const Header = () => {
       window.location.href = '/';
     }
   };
-
-  
 
   return (
     <>
