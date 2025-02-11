@@ -70,6 +70,9 @@ const CheckoutForm = () => {
         if (storedShipping) {
           setSelectedShipping(JSON.parse(storedShipping));
         }
+        if (!storedShipping) {
+          navigate('/');
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
