@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { useCart } from '../../contexts/CartContext';
 import { addProductToCart, updateCartItemQuantity, removeCartItem, fetchCartItem ,fetchAllCartItems } from '../../api/cartApi';
 import './css/ProductListCard.css';
 import { useWishlist } from '../../contexts/WishlistContext'; 
-import ColorOptions from '../../utils/ColorOptions';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { FaHeart, FaRegHeart } from 'react-icons/fa'; 
+import 'react-toastify/dist/ReactToastify.css';; 
+import ProductListLayout1 from '../ProductLayouts/ProductListLayout1';
+import ProductListLayout3 from '../ProductLayouts/ProductListLayout3';
+import ProductListLayout2 from '../ProductLayouts/ProductListLayout2';
+import ProductListLayout4 from '../ProductLayouts/ProductListLayout4';
 
-const ProductListCard = ({ product, reviewsData }) => {
+const ProductListCard = ({ product, reviewsData, currentLayout }) => {
     const { cartItems, setCartItems } = useCart();
     const [currentImage, setCurrentImage] = useState(product.main_photo);
     const [productLabel, setProductLabel] = useState('');
@@ -179,93 +180,70 @@ const ProductListCard = ({ product, reviewsData }) => {
     const reviewsCount = productReviews.reviewsCount || 0;
 
     return (
-        <div className="col-6 col-md-4 col-lg-4">
-            <div className="product product-7 text-center">
-                <figure className="product-media">
-                    {productLabel && (
-                        <span className={`product-label ${productLabel}`}>
-                            {productLabel === 'label-new'
-                                ? 'جدید'
-                                : productLabel === 'label-low'
-                                ? 'موجودی کم'
-                                : 'تمام شده'}
-                        </span>
-                    )}
-                    <Link to={`/product/${product.id}`}>
-                        <img src={currentImage} alt={product.name} className="product-image" />
-                    </Link>
-                    <div className="product-action-vertical">
-                    
-                        <a  
-                            onClick={handleWishlistToggle}
-                            className={`btn-product-icon btn-expandable ${isInWishlist ? 'active' : ''}`}
-                        >
-                            {isInWishlist ? <FaHeart className="text-danger" /> : <FaRegHeart className="text-primary" />}
-                            <span>
-                                {isInWishlist ? 'حذف از لیست علاقه‌مندی‌ها' : 'افزودن به لیست علاقه‌مندی‌ها'}
-                            </span>
-                        </a>
-                        <a className="btn-product-icon btn-quickview" title="مشاهده سریع">
-                            <span>مشاهده سریع</span>
-                        </a>
-                    </div>
-                    <div className="product-action">
-                        {cartItem ? (
-                            <div className="quantity-controls">
-                                <button
-                                    onClick={() => {
-                                        if (quantity === 1) {
-                                            handleRemoveFromCart();
-                                        } else {
-                                            handleQuantityChange(quantity - 1);
-                                        }
-                                    }}
-                                    className="btn-product btn-quantity"
-                                    title="کاهش تعداد"
-                                >
-                                    <span>-</span>
-                                </button>
-                                <span className="quantity">{quantity}</span>
-                                <button
-                                    onClick={() => handleQuantityChange(quantity + 1)}
-                                    className="btn-product btn-quantity"
-                                    title="افزایش تعداد"
-                                >
-                                    <span>+</span>
-                                </button>
-                            </div>
-                        ) : (
-                            <a onClick={(e) => { e.preventDefault(); handleAddToCart(); }} className="btn-product btn-cart" title="افزودن به سبد خرید">
-                                <span>افزودن به سبد خرید</span>
-                            </a>
-                        )}
-                    </div>
-                </figure>
-
-                <div className="product-body">
-                    <div className="product-cat">
-                        <a href="#">{product.category?.name || 'بدون دسته‌بندی'}</a>
-                    </div>
-                    <h3 className="product-title">
-                        <Link to={`/product/${product.id}`}>{product.name}</Link>
-                    </h3>
-                    <div className="product-price">{formatPrice(product.price)} تومان</div>
-                    <div className="ratings-container">
-                        <div className="ratings">
-                            <div className="ratings-val" style={{ width: `${(averageRating / 5) * 100}%` }}></div>
-                        </div>
-                        <span className="ratings-text">({toPersianNumbers(reviewsCount)} نظر)</span>
-                    </div>
-                    <div className="details-row-color">
-                    <ColorOptions
-                        colors={product.colors}
-                        selectedColor={selectedColor}
-                        handleColorChange={handleColorChange}
-                    />
-                    </div>
-                </div>
-            </div>
-        </div>
+        <>
+        {currentLayout === '1' && (
+            <ProductListLayout1
+            product={product}
+            productLabel={productLabel}
+            currentImage={currentImage}
+            averageRating={averageRating}
+            reviewsCount={reviewsCount}
+            cartItem={cartItem}
+            quantity={quantity}
+            handleAddToCart={handleAddToCart}
+            handleRemoveFromCart={handleRemoveFromCart}
+            handleQuantityChange={handleQuantityChange}
+            handleWishlistToggle={handleWishlistToggle}
+            isInWishlist={isInWishlist}
+            selectedColor={selectedColor}
+            handleColorChange={handleColorChange}
+            />
+        )}
+        {currentLayout === '2' && <ProductListLayout2 product={product}
+            productLabel={productLabel}
+            currentImage={currentImage}
+            averageRating={averageRating}
+            reviewsCount={reviewsCount}
+            cartItem={cartItem}
+            quantity={quantity}
+            handleAddToCart={handleAddToCart}
+            handleRemoveFromCart={handleRemoveFromCart}
+            handleQuantityChange={handleQuantityChange}
+            handleWishlistToggle={handleWishlistToggle}
+            isInWishlist={isInWishlist}
+            selectedColor={selectedColor}
+            handleColorChange={handleColorChange}/>
+            }
+        {currentLayout === '3' && <ProductListLayout3 product={product}
+            productLabel={productLabel}
+            currentImage={currentImage}
+            averageRating={averageRating}
+            reviewsCount={reviewsCount}
+            cartItem={cartItem}
+            quantity={quantity}
+            handleAddToCart={handleAddToCart}
+            handleRemoveFromCart={handleRemoveFromCart}
+            handleQuantityChange={handleQuantityChange}
+            handleWishlistToggle={handleWishlistToggle}
+            isInWishlist={isInWishlist}
+            selectedColor={selectedColor}
+            handleColorChange={handleColorChange}/>}
+        {currentLayout === '4' && <ProductListLayout4 product={product}
+            productLabel={productLabel}
+            currentImage={currentImage}
+            averageRating={averageRating}
+            reviewsCount={reviewsCount}
+            cartItem={cartItem}
+            quantity={quantity}
+            handleAddToCart={handleAddToCart}
+            handleRemoveFromCart={handleRemoveFromCart}
+            handleQuantityChange={handleQuantityChange}
+            handleWishlistToggle={handleWishlistToggle}
+            isInWishlist={isInWishlist}
+            selectedColor={selectedColor}
+            handleColorChange={handleColorChange}/>}
+           
+        </>
     );
 };
 

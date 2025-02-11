@@ -1,35 +1,57 @@
-const Toolbox = ({ totalProducts, currentPage, productsPerPage, sortBy, onSortChange }) => {
+import { Link } from "react-router-dom";
+
+const Toolbox = ({ 
+    totalProducts, 
+    currentPage, 
+    productsPerPage, 
+    sortBy, 
+    onSortChange, 
+    currentLayout, 
+    onLayoutChange 
+}) => {
     const layouts = [
-        { href: "category-list.html", svg: [
-            { x: 0, y: 0, width: 4, height: 4 },
-            { x: 6, y: 0, width: 10, height: 4 },
-            { x: 0, y: 6, width: 4, height: 4 },
-            { x: 6, y: 6, width: 10, height: 4 }
-        ]},
-        { href: "category-2cols.html", svg: [
-            { x: 0, y: 0, width: 4, height: 4 },
-            { x: 6, y: 0, width: 4, height: 4 },
-            { x: 0, y: 6, width: 4, height: 4 },
-            { x: 6, y: 6, width: 4, height: 4 }
-        ]},
-        { href: "category.html", svg: [
-            { x: 0, y: 0, width: 4, height: 4 },
-            { x: 6, y: 0, width: 4, height: 4 },
-            { x: 12, y: 0, width: 4, height: 4 },
-            { x: 0, y: 6, width: 4, height: 4 },
-            { x: 6, y: 6, width: 4, height: 4 },
-            { x: 12, y: 6, width: 4, height: 4 }
-        ], active: true},
-        { href: "category-4cols.html", svg: [
-            { x: 0, y: 0, width: 4, height: 4 },
-            { x: 6, y: 0, width: 4, height: 4 },
-            { x: 12, y: 0, width: 4, height: 4 },
-            { x: 18, y: 0, width: 4, height: 4 },
-            { x: 0, y: 6, width: 4, height: 4 },
-            { x: 6, y: 6, width: 4, height: 4 },
-            { x: 12, y: 6, width: 4, height: 4 },
-            { x: 18, y: 6, width: 4, height: 4 }
-        ]}
+        {
+            id: "1",
+            svg: [
+                { x: 0, y: 0, width: 4, height: 4 },
+                { x: 6, y: 0, width: 10, height: 4 },
+                { x: 0, y: 6, width: 4, height: 4 },
+                { x: 6, y: 6, width: 10, height: 4 }
+            ]
+        },
+        {
+            id: "2",
+            svg: [
+                { x: 0, y: 0, width: 4, height: 4 },
+                { x: 6, y: 0, width: 4, height: 4 },
+                { x: 0, y: 6, width: 4, height: 4 },
+                { x: 6, y: 6, width: 4, height: 4 }
+            ]
+        },
+        {
+            id: "3",
+            svg: [
+                { x: 0, y: 0, width: 4, height: 4 },
+                { x: 6, y: 0, width: 4, height: 4 },
+                { x: 12, y: 0, width: 4, height: 4 },
+                { x: 0, y: 6, width: 4, height: 4 },
+                { x: 6, y: 6, width: 4, height: 4 },
+                { x: 12, y: 6, width: 4, height: 4 }
+            ]
+        },
+        {
+            id: "4",
+            svg: [
+                { x: 0, y: 0, width: 4, height: 4 },
+                { x: 6, y: 0, width: 4, height: 4 },
+                { x: 12, y: 0, width: 4, height: 4 },
+                { x: 18, y: 0, width: 4, height: 4 },
+                { x: 0, y: 6, width: 4, height: 4 },
+                { x: 6, y: 6, width: 4, height: 4 },
+                { x: 12, y: 6, width: 4, height: 4 },
+                { x: 18, y: 6, width: 4, height: 4 }
+            ]
+        }
     ];
     
     const indexOfLastProduct = currentPage * productsPerPage;
@@ -66,14 +88,18 @@ const Toolbox = ({ totalProducts, currentPage, productsPerPage, sortBy, onSortCh
                     </div>
                 </div>
                 <div className="toolbox-layout">
-                    {layouts.map(({ href, svg, active }, index) => (
-                        <a key={index} href={href} className={`btn-layout${active ? ' active' : ''}`}>
+                    {layouts.map(({ id, svg }) => (
+                        <Link
+                            key={id}
+                            className={`btn-layout${currentLayout === id ? ' active' : ''}`}
+                            onClick={() => onLayoutChange(id)}
+                        >
                             <svg width={svg.length * 4} height="10">
                                 {svg.map((rect, idx) => (
                                     <rect key={idx} x={rect.x} y={rect.y} width={rect.width} height={rect.height} />
                                 ))}
                             </svg>
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </div>

@@ -1,9 +1,10 @@
+import { useState, useEffect } from 'react';
 import { FaSpinner } from "react-icons/fa"; 
 import Pagination from "../../components/Pagination/Pagination";
 import BreadCrumb from "../../components/Breadcrumb/BreadCrumb";
 import AsideProduct from "../../components/Aside/Aside";
 import ProductListHeader from "../../components/Header/ProductListHeader/ProductListHeader";
-import ToolBox from "../../components/Toolbox/Toolbox";
+import ToolBox from "../../components/Toolbox/ToolBox";
 import ProductCardList from "./ProductCardList";
 import useProducts from "../../hooks/useProducts";
 
@@ -13,7 +14,6 @@ const Body = () => {
         loading, 
         error, 
         currentPage, 
-        productsPerPage, 
         setCurrentPage, 
         setSelectedCategory, 
         setSelectedBrand, 
@@ -25,6 +25,20 @@ const Body = () => {
         priceRange,
         setPriceRange
     } = useProducts();
+
+    const [currentLayout, setCurrentLayout] = useState("3"); 
+    const [productsPerPage, setProductsPerPage] = useState(6); 
+
+    useEffect(() => {
+        const layoutMapping = {
+            "1": 5,
+            "2": 4,
+            "3": 6
+        };
+        
+        setProductsPerPage(layoutMapping[currentLayout] || 8);
+    }, [currentLayout]);
+    
 
     const filteredProducts = products.filter(product => 
         product.price >= priceRange[0] && product.price <= priceRange[1]
@@ -50,6 +64,8 @@ const Body = () => {
                                 productsPerPage={productsPerPage}  
                                 sortBy={sortBy}
                                 onSortChange={setSortBy}
+                                currentLayout={currentLayout}
+                                onLayoutChange={setCurrentLayout}
                             />
                             {loading && (
                                 <div className="spinner-container">
@@ -60,7 +76,7 @@ const Body = () => {
                             {currentProducts.length === 0 ? (
                                 <p>هیچ محصولی مطابق با فیلتر شما وجود ندارد</p>
                             ) : (
-                                <ProductCardList products={currentProducts} reviewsData={reviewsData} />
+                                <ProductCardList products={currentProducts} reviewsData={reviewsData} currentlayout={currentLayout}/>
                             )}
                             <Pagination
                                 totalProducts={filteredProducts.length} 

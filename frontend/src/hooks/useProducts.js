@@ -9,7 +9,6 @@ const useProducts = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 6;
     const [selectedCategory, setSelectedCategory] = useState([]);
     const [selectedBrand, setSelectedBrand] = useState([]);
     const [selectedColor, setSelectedColor] = useState([]);
@@ -115,7 +114,6 @@ const useProducts = () => {
         loading,
         error,
         currentPage,
-        productsPerPage,
         setCurrentPage,
         selectedCategory,
         setSelectedCategory,
