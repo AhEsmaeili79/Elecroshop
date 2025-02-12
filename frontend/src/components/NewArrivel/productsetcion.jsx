@@ -4,8 +4,8 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import ProductCard from '../ProductCard/ProductCard';
 import { fetchProductList } from '../../api/productdetail';
+import { FaSpinner } from 'react-icons/fa'; 
 import './css/productsection.css';
-import Spinner from '../Loading/loading';
 
 const ProductCarousel = ({ categoryId }) => {
   const [products, setProducts] = useState([]);
@@ -61,7 +61,9 @@ const ProductCarousel = ({ categoryId }) => {
   }, []);
 
   if (loading) return (
-    <Spinner/>
+    <div className="loading-spinner">
+      <FaSpinner className="spinner-icon" size={40} spin /> 
+    </div>
   );
   
   if (error) return <p className="error-message">{error}</p>;

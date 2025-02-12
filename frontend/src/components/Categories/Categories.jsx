@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchCategories } from '../../api/Category';
-import Spinner from '../Loading/loading';
+import { FaSpinner } from 'react-icons/fa'; 
 
 import './category.css';
+
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +39,9 @@ const Categories = () => {
     <div className="container category-containter">
       <h2 className="title text-center mb-4">محبوب ترین دسته بندی ها</h2>
       {loading && (
-        <Spinner/>
+        <div className="loading-spinner">
+          <FaSpinner className="spinner-icon" />
+        </div>
       )}
       {error && <p className="error">{error}</p>}
       {!loading && delayed && (

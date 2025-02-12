@@ -4,9 +4,8 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import { fetchProductList } from '../../api/productdetail'; 
-
+import { FaSpinner } from 'react-icons/fa'; 
 import banner from "../../assets/images/demos/demo-4/banners/banner-4.jpg"; 
-import Spinner from '../Loading/loading';
 
 const shuffleArray = (array) => {
   const shuffled = [...array];
@@ -57,9 +56,11 @@ const ProductCarousel = ({ activeTab }) => {
     }
   };
 
-  if (loading) {
-    return <Spinner/>
-  }
+  if (loading) return (
+      <div className="loading-spinner">
+        <FaSpinner className="spinner-icon" size={40} spin /> 
+      </div>
+    );
 
   if (error) {
     return <div>{error}</div>;
