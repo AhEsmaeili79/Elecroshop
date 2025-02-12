@@ -31,6 +31,7 @@ const BreadCrumb = ({ categoryName }) => {
     '/product/': 'محصولات',
     '/about-us/': 'درباره ما',
     '/contact-us/': 'تماس با ما',
+    '/role-request/' : 'تغییر نقش'
   };
 
   const breadcrumbs = pathSegments.map((segment, index) => {

@@ -34,6 +34,7 @@ const AppRouter = () => {
       <Route path="/orders" element={<ProfilePage/>} />
       <Route path="/orders/:orderCode" element={<OrderDetail/>} />
       <Route path="/payment/callback" element={<PaymentStatus/>} />
+      <Route path='/role-request' element={<ProfilePage/>} />
       <Route path="/admin" element={<PrivateRoute element={<DashboardPage />} roles={['admin', 'seller']} />} />
       <Route path="/admin/*" element={<PrivateRoute element={<DashboardPage />} roles={['admin', 'seller']} />} />
       <Route path="/admin/RoleRequest" element={<PrivateRoute element={<AdminRoleRequests />} roles={['admin']} />} />

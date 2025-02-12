@@ -46,6 +46,7 @@ const OrdersList = () => {
     const [hours, minutes] = timeString.split(':');
     return `${hours}:${minutes}`;
   };
+  
   const toPersianNumbers = (num) => {
     return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
   };

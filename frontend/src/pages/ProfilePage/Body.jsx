@@ -7,6 +7,7 @@ import AccountForm from './TabContents/AccountForm';
 import AddressComponent from './Addresses/AddressComponent';
 import OrdersList from '../OrderListPage/OrdersList';
 import { logoutUser } from '../../api/auth';
+import UserRoleRequest from './TabContents/RoleRequest';
 
 const handleLogout = async () => {
     try {
@@ -38,6 +39,7 @@ const Body = () => {
         if (path === '/orders') setActiveTab("orders");
         else if (path === '/address') setActiveTab("address");
         else if (path === '/account') setActiveTab("account");
+        else if (path === '/role-request') setActiveTab("rolerequest");
         else setActiveTab("dashboard");
     }, [location.pathname]); 
 
@@ -48,7 +50,9 @@ const Body = () => {
             case "address":
                 return <AddressComponent />;
             case "orders":
-                return <OrdersList />;
+                return <OrdersList />; 
+            case "rolerequest":
+                return <UserRoleRequest />;
             default:
                 return <div>خوش آمدید به داشبورد</div>;
         }

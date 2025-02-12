@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL +'/role_request';
 
-// Existing function to create a new role request
 export const createRoleRequest = async () => {
     const token = localStorage.getItem('token');
     const response = await axios.post(

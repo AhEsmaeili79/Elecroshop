@@ -6,8 +6,9 @@ const DashboardAside = ({ handleLogout, setActiveTab }) => {
     const navItems = [
         { id: "dashboard", label: "داشبورد", href: "/dashboard" },
         { id: "orders", label: "سفارشات", href: "/orders" },
-        { id: "address", label: "آدرس‌ها", href: "#tab-address" }, 
         { id: "account", label: "جزئیات حساب", href: "#tab-account" },
+        { id: "address", label: "آدرس‌ها", href: "#tab-address" }, 
+        { id: "rolerequest", label: "تغییر نقش", href: "/role-request" },
     ];
 
     const handleTabClick = (id) => {
