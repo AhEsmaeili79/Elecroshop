@@ -281,7 +281,7 @@ span.user-log{
         width: 0;
         transition: all 0.5s ease;
     }
-    #root{
+    .layout-space{
         margin-right:0;
     }
     .sidebarr.open {
@@ -295,7 +295,7 @@ span.user-log{
 }
 
 @media screen and (min-width: 400px) {
-    #root{
+    .layout-space{
         margin-right:78px;
     }
     .mobile-menu-toggler{

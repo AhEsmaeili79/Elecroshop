@@ -16,6 +16,10 @@ const AdminRoleRequests = () => {
     }
   };
 
+  const toPersianNumbers = (num) => {
+    return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  };
+
   const handleUpdateRequest = async (requestId, status) => {
     try {
       await updateRoleRequest(requestId, status);
@@ -41,7 +45,7 @@ const AdminRoleRequests = () => {
                 <th>ایمیل</th>
                 <th>زمان درخواست</th>
                 <th>وضعیت</th>
-                <th>اقدامات</th>
+                <th>عملیات</th>
               </tr>
             </thead>
             <tbody>
@@ -50,7 +54,7 @@ const AdminRoleRequests = () => {
                   <td>{request.user.username}</td>
                   <td>{request.user.email}</td>
                   <td>
-                    {moment(request.request_time).locale('fa').format('jYYYY/jMM/jDD HH:mm:ss')}
+                    {toPersianNumbers(moment(request.request_time).locale('fa').format('jYYYY/jMM/jDD HH:mm:ss'))}
                   </td>
                   <td>
                     <span className={`badge ${styles[`admin-badge-${request.status}`]}`}>
