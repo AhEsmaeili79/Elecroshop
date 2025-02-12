@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import ColorOptions from '../../utils/ColorOptions';
+import QuantitySelector from './components/QuantitySelector';
 
 const formatPrice = (price) => {
     const formattedPrice = price.toLocaleString();
@@ -10,11 +11,6 @@ const formatPrice = (price) => {
 
 const toPersianNumbers = (num) => {
     return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
-};
-
-const toPersianNumerals = (number) => {
-    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
 };
 
 const ProductPrice = ({ price }) => <div className="product-price">{formatPrice(price)} تومان</div>;
@@ -37,42 +33,6 @@ const WishlistButton = ({ isInWishlist, handleWishlistToggle }) => (
     {isInWishlist ? <FaHeart className="text-danger" style={{cursor:'pointer'}}/> : <FaRegHeart className="text-primary" style={{cursor:'pointer'}}/>}
     <span style={{cursor:'pointer'}}>{isInWishlist ? 'حذف از لیست علاقه‌مندی‌ها' : 'افزودن به لیست علاقه‌مندی‌ها'}</span>
   </a>
-);
-
-const CartActions = ({
-  cartItem, quantity, handleQuantityChange, handleRemoveFromCart, handleAddToCart,
-}) => (
-  cartItem ? (
-    <div className="details-filter-row details-filter-quantity">
-      <div className="product-details-quantity">
-        <div className="quantity-input">
-          <button
-            type="button"
-            className="btn-decrement"
-            onClick={() => (quantity === 1 ? handleRemoveFromCart() : handleQuantityChange(quantity - 1))}
-          >-</button>
-          <input
-            type="text"
-            id="sticky-cart-qty"
-            className="form-control"
-            value={toPersianNumerals(quantity)}
-            min="1"
-            max="10"
-            readOnly
-          />
-          <button
-            type="button"
-            className="btn-increment"
-            onClick={() => handleQuantityChange(quantity + 1)}
-          >+</button>
-        </div>
-      </div>
-    </div>
-  ) : (
-    <a onClick={(e) => { e.preventDefault(); handleAddToCart(); }} className="btn-product btn-cart" title="افزودن به سبد خرید">
-      <span>افزودن به سبد خرید</span>
-    </a>
-  )
 );
 
 const ProductListLayout4 = ({
@@ -110,21 +70,19 @@ const ProductListLayout4 = ({
 
           <div className="product-action-vertical">
             <WishlistButton isInWishlist={isInWishlist} handleWishlistToggle={handleWishlistToggle} />
-            <a className="btn-product-icon btn-quickview" title="مشاهده سریع" aria-label="مشاهده سریع">
-              <span>مشاهده سریع</span>
-            </a>
-            <a href="#" className="btn-product-icon btn-compare" title="مقایسه" aria-label="مقایسه">
-              <span>مقایسه</span>
-            </a>
           </div>
 
-          <CartActions
-            cartItem={cartItem}
-            quantity={quantity}
-            handleQuantityChange={handleQuantityChange}
-            handleRemoveFromCart={handleRemoveFromCart}
-            handleAddToCart={handleAddToCart}
+          {cartItem ? (
+            <QuantitySelector
+            initialQuantity={1}
+            handleQuantityChange={(newQuantity) => console.log('New Quantity:', newQuantity)}
+            handleRemoveFromCart={() => console.log('Item removed from cart')}
           />
+          ) : (
+              <a onClick={(e) => { e.preventDefault(); handleAddToCart(); }} className="btn-product btn-cart" title="افزودن به سبد خرید">
+                  <span>افزودن به سبد خرید</span>
+              </a>
+          )}
         </figure>
 
         <div className="product-body">

@@ -1,15 +1,15 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import BreadCrumb from "../../components/Breadcrumb/BreadCrumb";
 import CheckoutForm from "./CheckoutForm";
 import ChekcoutHeader from "../../components/Header/CheckoutHeader/checkoutheader";
 import './css/CheckoutForm.rtl.css';
 
 const Body = () => {
-    const [discountCode, setDiscountCode] = useState(""); 
+    // const [discountCode, setDiscountCode] = useState(""); 
 
-    const handleInputChange = (e) => {
-        setDiscountCode(e.target.value); 
-    };
+    // const handleInputChange = (e) => {
+    //     setDiscountCode(e.target.value); 
+    // };
 
     return(
         <>
@@ -18,7 +18,7 @@ const Body = () => {
             <BreadCrumb />
             <div className="checkout">
                 <div className="container">
-                    <div className="checkout-discount">
+                    {/* <div className="checkout-discount">
                         <form action="#">
                             <input 
                                 type="text" 
@@ -34,7 +34,7 @@ const Body = () => {
                                 کد تخفیف دارید؟ <span>کد تخفیف خود را اینجا وارد کنید</span>
                             </label>
                         </form>
-                    </div>
+                    </div> */}
                     <CheckoutForm/>
                 </div>
             </div>

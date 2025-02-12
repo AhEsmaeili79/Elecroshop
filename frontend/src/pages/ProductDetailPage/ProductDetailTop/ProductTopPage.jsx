@@ -15,6 +15,8 @@ import ProductDetails from "./Components/ProductDetails";
 import "./css/ProductTopPage.css";
 import { fetchAllCartItems } from "../../../api/cartApi.js";
 import { useCart } from "../../../contexts/CartContext.jsx";
+import StickyBar from "../ProductDetailBottom/components/stickybar.jsx";
+import Spinner from "../../../components/Loading/loading.jsx";
 
 const ProductTopPage = ({ productId }) => {
   const [product, setProduct] = useState(null);
@@ -257,7 +259,7 @@ useEffect(() => {
 }, [quantity, selectedColor, product, warned]); 
 
 
-  if (loading) return <div>در حال بارگذاری...</div>;
+  if (loading) return <Spinner/>;
   if (error) return <div>{error}</div>;
 
   return (
@@ -285,6 +287,18 @@ useEffect(() => {
           />
         </div>
       </div>
+      <StickyBar 
+        product={product}
+        selectedColor={selectedColor}
+        quantity={quantity}
+        setQuantity={handleQuantityChange}  
+        handleAddToCart={selectedColor ? (isInCart ? handleRemoveFromCart : handleAddToCart) : null}
+        handleAddToWishlist={handleAddToWishlist}
+        isFavorited={isFavorited}
+        handleColorChange={handleColorChange}
+        buttonText={selectedColor ? buttonText : "ابتدا رنگ انتخاب کنید"}
+        btnClass={selectedColor ? btnClass : "disabledbtn"}
+        />
     </div>
   );
 };

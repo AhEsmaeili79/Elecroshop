@@ -38,7 +38,7 @@ const AuthForm = ({ isSignUp, onSuccessfulSignup  }) => {
         toast.success(`${username} عزیز خوش آمدید! `);
         setTimeout(() => {
           window.location.href = '/';
-        }, 2000)
+        }, 1500)
       }
     } catch (error) {
       setIsLoading(false);

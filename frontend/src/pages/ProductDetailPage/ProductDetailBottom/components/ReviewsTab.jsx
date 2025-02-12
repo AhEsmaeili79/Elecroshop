@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { fetchReviews, deleteReview } from '../../../../api/reviews';
 import ReviewForm from './ReviewForm';
 import ReviewList from './ReviewList';
-
+import { fetchUserData } from '../../../../api/user';
+import Spinner from '../../../../components/Loading/loading';
 const ReviewsTab = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,6 +11,8 @@ const ReviewsTab = ({ productId }) => {
   const [reviewToEdit, setReviewToEdit] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false); 
   const [userHasReviewed, setUserHasReviewed] = useState(false); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 
   const loadReviews = async () => {
     setLoading(true);
@@ -31,6 +34,24 @@ const ReviewsTab = ({ productId }) => {
     }
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      getUserData();
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
+  const getUserData = async () => {
+    try {
+      await fetchUserData();
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+    }
+  };
+  
   useEffect(() => {
     loadReviews();
   }, [productId]);
@@ -62,17 +83,17 @@ const ReviewsTab = ({ productId }) => {
 
   return (
     <div className="reviews-tab">
-      {loading && <div>در حال بارگذاری نظرها...</div>}
+      {loading && <Spinner/>}
       {error && <div>{error}</div>}
       {!loading && !error && (
         <>
-          {!userHasReviewed && !isFormVisible && (
+        {isLoggedIn && !userHasReviewed && !isFormVisible && (
             <button
-            className="btn btn-primary btn-lg rounded-lg mt-1 ml-2 px-4 py-2 shadow-sm hover-shadow-lg"
-            onClick={() => setIsFormVisible(true)}
-          >
-            نوشتن نظر
-          </button>
+              className="btn btn-primary btn-lg rounded-lg mt-1 ml-2 px-4 py-2 shadow-sm hover-shadow-lg"
+              onClick={() => setIsFormVisible(true)}
+            >
+              نوشتن نظر
+            </button>
           )}
           {(userHasReviewed || isFormVisible) && (
             <ReviewForm

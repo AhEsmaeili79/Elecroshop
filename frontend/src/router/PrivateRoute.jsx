@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { fetchUserData } from '../api/admin/adminDashboard';
+import Spinner from '../components/Loading/loading';
 
 const PrivateRoute = ({ element, roles }) => {
   const [userRole, setUserRole] = useState(null);
@@ -20,7 +21,7 @@ const PrivateRoute = ({ element, roles }) => {
     checkUserRole();
   }, [roles]);
 
-  if (loading) return <div>Loading...</div>; 
+  if (loading) return <Spinner/>; 
 
   if (!userRole) {
     return <Navigate to="/" replace />;

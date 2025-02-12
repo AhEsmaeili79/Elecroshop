@@ -10,21 +10,22 @@ const ColorOptions = ({ colors, selectedColor, handleColorChange }) => {
   };
 
   return (
-    <div className="product-color-options">
-      {colors.map((color) => (
-        <a
-          key={color.id}
-          className={`product-color-option ${selectedColor === color.id ? "selected" : ""}`}
-          onClick={(e) => {
-            e.preventDefault(); 
-            toggleColorSelection(color.id); 
-          }}
-          style={{ backgroundColor: color.color_hex }}
-        >
-          <span className="sr-only">{color.name || "Color Name"}</span>
-        </a>
-      ))}
-    </div>
+      <div className="product-nav product-nav-dots">
+        {colors.map((color) => (
+          <a
+            key={color.id}
+            href="#"
+            className={selectedColor === color.id ? "active" : ""}
+            onClick={(e) => {
+              e.preventDefault(); 
+              toggleColorSelection(color.id); 
+            }}
+            style={{ background: color.color_hex }}
+          >
+            <span className="sr-only">{color.name || "Color name"}</span>
+          </a>
+        ))}
+      </div>
   );
 };
 

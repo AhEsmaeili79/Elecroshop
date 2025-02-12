@@ -126,10 +126,10 @@ const ProductListLayout1 = ({
             </h3>
 
             <div className="product-content">
-              <p>{product.description || 'توضیحات محصول در دسترس نیست'}</p>
+              <p>{product.desc || 'توضیحات محصول در دسترس نیست'}</p>
             </div>
 
-            <div className="details-row-color">
+            <div className="details-row-color" style={{marginRight:'10px',marginBottom:'10px'}}>
               <ColorOptions
                 colors={product.colors}
                 selectedColor={selectedColor}

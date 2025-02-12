@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { fetchUserOrders } from '../../api/orderApi';
 import { fetchShippingOptions } from '../../api/shipment';
 import './css/OrdersList.rtl.css'; 
+import Spinner from '../../components/Loading/loading';
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
@@ -11,10 +12,13 @@ const OrdersList = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [ordersPerPage] = useState(4);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
       try {
+        setTimeout(() => setShowSpinner(true), 300); 
+
         const [ordersData, shippingData] = await Promise.all([
           fetchUserOrders(),
           fetchShippingOptions(),
@@ -89,7 +93,14 @@ const OrdersList = () => {
 
   const totalPages = Math.ceil(orders.length / ordersPerPage);
   
-  if (loading) return <div>در حال بارگذاری...</div>;
+  if (loading) {
+    return (
+      <Spinner/>
+    );
+  }
+  
+  
+
   if (error) return <div>{error}</div>;
 
   return (

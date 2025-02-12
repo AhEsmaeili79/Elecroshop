@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import BreadCrumb from '../../components/Breadcrumb/BreadCrumb';
 import ProductTopPage from "../../pages/ProductDetailPage/ProductDetailTop/ProductTopPage";
 import ProductTabs from "./ProductDetailBottom/ProductTabs";
-
 const Body = () => {
     const { productId } = useParams();  
 

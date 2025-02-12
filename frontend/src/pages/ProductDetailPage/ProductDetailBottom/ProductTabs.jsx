@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 const ProductTabs = ({ productId }) => {
   const [activeTab, setActiveTab] = useState("description");
   const [product, setProduct] = useState("description");
+  
   useEffect(() => {
     const loadProductDetails = async () => {
       try {

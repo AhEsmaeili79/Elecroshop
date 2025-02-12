@@ -6,6 +6,7 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import { fetchProductList } from '../../api/productdetail'; 
 
 import banner from "../../assets/images/demos/demo-4/banners/banner-4.jpg"; 
+import Spinner from '../Loading/loading';
 
 const shuffleArray = (array) => {
   const shuffled = [...array];
@@ -57,7 +58,7 @@ const ProductCarousel = ({ activeTab }) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Spinner/>
   }
 
   if (error) {

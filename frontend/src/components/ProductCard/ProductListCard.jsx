@@ -43,18 +43,7 @@ const ProductListCard = ({ product, reviewsData, currentLayout }) => {
             setProductLabel('');
         }
     }, [product.created_at, product.quantity]);
-
-
-      function formatPrice(price) {
-        const formattedPrice = price.toLocaleString();
-        
-        const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
-        return persianNumerals;
-      }
-    
-      const toPersianNumbers = (num) => {
-        return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
-    };
+      
     useEffect(() => {
         const checkCartItem = async () => {
             if (product && product.id) {
@@ -174,76 +163,38 @@ const ProductListCard = ({ product, reviewsData, currentLayout }) => {
         }
     };
     
+    const LayoutComponent = {
+        '1': ProductListLayout1,
+        '2': ProductListLayout2,
+        '3': ProductListLayout3,
+        '4': ProductListLayout4
+      };
+
+    const SelectedLayout = LayoutComponent[currentLayout];
 
     const productReviews = reviewsData[product.id] || {};
     const averageRating = productReviews.averageRating || 0;
     const reviewsCount = productReviews.reviewsCount || 0;
 
     return (
-        <>
-        {currentLayout === '1' && (
-            <ProductListLayout1
-            product={product}
-            productLabel={productLabel}
-            currentImage={currentImage}
-            averageRating={averageRating}
-            reviewsCount={reviewsCount}
-            cartItem={cartItem}
-            quantity={quantity}
-            handleAddToCart={handleAddToCart}
-            handleRemoveFromCart={handleRemoveFromCart}
-            handleQuantityChange={handleQuantityChange}
-            handleWishlistToggle={handleWishlistToggle}
-            isInWishlist={isInWishlist}
-            selectedColor={selectedColor}
-            handleColorChange={handleColorChange}
+        SelectedLayout && (
+            <SelectedLayout
+              product={product}
+              productLabel={productLabel}
+              currentImage={currentImage}
+              averageRating={averageRating}
+              reviewsCount={reviewsCount}
+              cartItem={cartItem}
+              quantity={quantity}
+              handleAddToCart={handleAddToCart}
+              handleRemoveFromCart={handleRemoveFromCart}
+              handleQuantityChange={handleQuantityChange}
+              handleWishlistToggle={handleWishlistToggle}
+              isInWishlist={isInWishlist}
+              selectedColor={selectedColor}
+              handleColorChange={handleColorChange}
             />
-        )}
-        {currentLayout === '2' && <ProductListLayout2 product={product}
-            productLabel={productLabel}
-            currentImage={currentImage}
-            averageRating={averageRating}
-            reviewsCount={reviewsCount}
-            cartItem={cartItem}
-            quantity={quantity}
-            handleAddToCart={handleAddToCart}
-            handleRemoveFromCart={handleRemoveFromCart}
-            handleQuantityChange={handleQuantityChange}
-            handleWishlistToggle={handleWishlistToggle}
-            isInWishlist={isInWishlist}
-            selectedColor={selectedColor}
-            handleColorChange={handleColorChange}/>
-            }
-        {currentLayout === '3' && <ProductListLayout3 product={product}
-            productLabel={productLabel}
-            currentImage={currentImage}
-            averageRating={averageRating}
-            reviewsCount={reviewsCount}
-            cartItem={cartItem}
-            quantity={quantity}
-            handleAddToCart={handleAddToCart}
-            handleRemoveFromCart={handleRemoveFromCart}
-            handleQuantityChange={handleQuantityChange}
-            handleWishlistToggle={handleWishlistToggle}
-            isInWishlist={isInWishlist}
-            selectedColor={selectedColor}
-            handleColorChange={handleColorChange}/>}
-        {currentLayout === '4' && <ProductListLayout4 product={product}
-            productLabel={productLabel}
-            currentImage={currentImage}
-            averageRating={averageRating}
-            reviewsCount={reviewsCount}
-            cartItem={cartItem}
-            quantity={quantity}
-            handleAddToCart={handleAddToCart}
-            handleRemoveFromCart={handleRemoveFromCart}
-            handleQuantityChange={handleQuantityChange}
-            handleWishlistToggle={handleWishlistToggle}
-            isInWishlist={isInWishlist}
-            selectedColor={selectedColor}
-            handleColorChange={handleColorChange}/>}
-           
-        </>
+        )
     );
 };
 

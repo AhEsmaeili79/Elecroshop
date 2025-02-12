@@ -21,12 +21,13 @@ const CheckoutButtons = ({ paymentType, setPaymentType, errorMessages, paymentRe
 
   return (
     <div>
-      <div className="form-group">
+      <div>
         <label>نوع پرداخت *</label>
         <select
-          className="form-control rounded-lg"
+          className="form-control rounded-lg pr-3 p-1"
           value={paymentType}
           onChange={(e) => setPaymentType(e.target.value)}
+          style={{cursor:'pointer'}}
         >
           <option value="credit_card">کارت اعتباری</option>
           <option value="cash">نقدی</option>

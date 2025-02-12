@@ -103,9 +103,9 @@ const Cart = () => {
                     <span className="cart-total-price">{formatPrice(totalPrice)} تومان </span>
                 </div>
                 <div className="dropdown-cart-action">
-                    <Link to="/cart" className="btn btn-primary">سبد خرید</Link>
-                    <Link to="/Cart" className="btn btn-outline-primary-2">
-                        <span>تسویه </span><i className="icon-long-arrow-right"></i>
+                    <Link to="/cart" className="btn btn-primary rounded-lg">سبد خرید</Link>
+                    <Link to="/Cart" className="btn btn-outline-primary-2 rounded-lg">
+                        <span>تسویه </span><i className="icon-long-arrow-left"></i>
                     </Link>
                 </div>
             </div>

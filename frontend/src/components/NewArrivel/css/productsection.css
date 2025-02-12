@@ -18,7 +18,6 @@
     transform: scale(1.1);
   }
   
-  /* Product List Fade-in effect */
   .category-content ,.owl-stage-outer {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
@@ -28,13 +27,11 @@
     opacity: 1;
   }
   
-  /* Optional: Add a smooth transition for the tab switching */
   .nav-link {
     transition: color 0.3s ease;
   }
 
 
-  /* Add loading spinner */
 .loading-spinner {
     display: flex;
     justify-content: center;

@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import ProductCard from '../ProductCard/ProductCard';
 import { fetchProductList } from '../../api/productdetail';
 import './css/productsection.css';
+import Spinner from '../Loading/loading';
 
-const ProductCarousel = ({ categoryId, fadeKey }) => {
+const ProductCarousel = ({ categoryId }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,33 +30,40 @@ const ProductCarousel = ({ categoryId, fadeKey }) => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const response = await fetchProductList(); 
+      const response = await fetchProductList();
       let filteredProducts = response;
 
       if (categoryId) {
         filteredProducts = filteredProducts.filter(product => product.category.id === categoryId);
       }
 
-      filteredProducts = filteredProducts.slice(0, 10); 
-      setProducts(filteredProducts); 
+      filteredProducts = filteredProducts.slice(0, 10);
+      setProducts(filteredProducts);
+      
+      setTimeout(() => {
+        setShowProducts(true);
+      },200); 
+
     } catch (err) {
       setError('بارگذاری محصولات با مشکل مواجه شد. لطفا بعدا تلاش کنید.');
     } finally {
       setLoading(false);
-      setShowProducts(true);
     }
   };
 
   useEffect(() => {
-    setShowProducts(false); 
+    setShowProducts(false);  
     fetchProducts();
   }, [categoryId]);
 
   useEffect(() => {
-    setShowProducts(false); 
-  }, [fadeKey]);
+    setShowProducts(false);  
+  }, []);
 
-  if (loading) return <p>در حال بارگذاری محصولات...</p>;
+  if (loading) return (
+    <Spinner/>
+  );
+  
   if (error) return <p className="error-message">{error}</p>;
 
   return (

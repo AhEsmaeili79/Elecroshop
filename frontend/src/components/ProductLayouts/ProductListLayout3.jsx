@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import ColorOptions from '../../utils/ColorOptions';
+import QuantitySelector from './components/QuantitySelector';
 
 function formatPrice(price) {
     const formattedPrice = price.toLocaleString();
@@ -11,11 +12,6 @@ function formatPrice(price) {
 
   const toPersianNumbers = (num) => {
     return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
-};
-
-const toPersianNumerals = (number) => {
-  const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-  return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
 };
 
 
@@ -70,40 +66,16 @@ const ProductListLayout3 = ({
               <span>مشاهده سریع</span>
             </a>
           </div>
-            {cartItem ? (
-              <div className="details-filter-row details-filter-quantity">
-              <div className="product-details-quantity">
-              <div className="quantity-input">
-                <button
-                  type="button"
-                  className="btn-decrement"
-                 onClick={() => (quantity === 1 ? handleRemoveFromCart() : handleQuantityChange(quantity - 1))}
-                >-
-                </button>
-                <input
-                type="text"
-                id="sticky-cart-qty"
-                className="form-control"
-                value={toPersianNumerals(quantity)}
-                min="1"
-                max="10"
-                />
-                
-                <button
-                    type="button"
-                    className="btn-increment" 
-                    onClick={() => handleQuantityChange(quantity + 1)}
-                    >
-                    +
-                  </button>
-                </div>
-              </div>
-              </div>
-
+          {cartItem ? (
+                <QuantitySelector
+                  initialQuantity={1}
+                  handleQuantityChange={(newQuantity) => console.log('New Quantity:', newQuantity)}
+                  handleRemoveFromCart={() => console.log('')}
+              />
             ) : (
-              <a onClick={(e) => { e.preventDefault(); handleAddToCart(); }} className="btn-product btn-cart" title="افزودن به سبد خرید">
-                <span>افزودن به سبد خرید</span>
-              </a>
+                <a onClick={(e) => { e.preventDefault(); handleAddToCart(); }} className="btn-product btn-cart" title="افزودن به سبد خرید">
+                    <span>افزودن به سبد خرید</span>
+                </a>
             )}
         </figure>
 

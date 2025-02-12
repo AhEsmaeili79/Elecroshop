@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import ColorOptions from '../../utils/ColorOptions'; 
+import QuantitySelector from './components/QuantitySelector';
 
 function formatPrice(price) {
     const formattedPrice = price.toLocaleString();
@@ -69,40 +70,16 @@ const ProductListLayout2 = ({  product,
         </div>
   
           {cartItem ? (
-           <div className="details-filter-row details-filter-quantity">
-           <div className="product-details-quantity">
-           <div className="quantity-input">
-             <button
-               type="button"
-               className="btn-decrement"
-              onClick={() => (quantity === 1 ? handleRemoveFromCart() : handleQuantityChange(quantity - 1))}
-             >-
-             </button>
-             <input
-             type="text"
-             id="sticky-cart-qty"
-             className="form-control"
-             value={toPersianNumerals(quantity)}
-             min="1"
-             max="10"
-             />
-             
-             <button
-                 type="button"
-                 className="btn-increment" 
-                 onClick={() => handleQuantityChange(quantity + 1)}
-                 >
-                 +
-               </button>
-             </div>
-           </div>
-           </div>
-
-         ) : (
-           <a onClick={(e) => { e.preventDefault(); handleAddToCart(); }} className="btn-product btn-cart" title="افزودن به سبد خرید">
-             <span>افزودن به سبد خرید</span>
-           </a>
-         )}
+              <QuantitySelector
+              initialQuantity={1}
+              handleQuantityChange={(newQuantity) => console.log('New Quantity:', newQuantity)}
+              handleRemoveFromCart={() => console.log('Item removed from cart')}
+            />
+          ) : (
+              <a onClick={(e) => { e.preventDefault(); handleAddToCart(); }} className="btn-product btn-cart" title="افزودن به سبد خرید">
+                  <span>افزودن به سبد خرید</span>
+              </a>
+          )}
       </figure>
   
       <div className="product-body">

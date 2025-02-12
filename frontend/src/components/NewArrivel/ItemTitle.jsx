@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchCategories } from '../../api/Category'; 
 import TabItem from './TabItem';
 import './css/Tabitem.css'
+import Spinner from '../Loading/loading';
 
 const ItemTitle = ({ onCategoryChange, selectedCategory }) => {
   const [categories, setCategories] = useState([]);
@@ -26,7 +27,7 @@ const ItemTitle = ({ onCategoryChange, selectedCategory }) => {
   };
 
   if (loading) {
-    return <div>در حال بارگذاری دسته‌ها...</div>; 
+    <Spinner/>
   }
 
   return (

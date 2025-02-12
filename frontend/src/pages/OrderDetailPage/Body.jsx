@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { fetchOrderDetails } from '../../api/orderApi';
 import BreadCrumb from '../../components/Breadcrumb/BreadCrumb';
 import OrderProducts from './OrderProducts';
-import { FaSpinner } from 'react-icons/fa'; // Import spinner icon from react-icons
+import Spinner from '../../components/Loading/loading';
 
 const OrderDetailPage = () => {
   const { orderCode } = useParams();
@@ -32,10 +32,7 @@ const OrderDetailPage = () => {
 
   if (loading)
     return (
-      <div className="order-detail-loading d-flex justify-content-center align-items-center vh-100">
-        {/* Replace spinner-border with FaSpinner */}
-        <FaSpinner className="spinner-icon text-primary" size={50} spin />
-      </div>
+      <Spinner/>
     );
 
   if (error)

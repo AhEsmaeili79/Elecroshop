@@ -18,6 +18,7 @@ const AddressSection = ({
           className="form-control rounded-lg p-2"
           value={selectedAddressId || ""}
           onChange={(e) => setSelectedAddressId(e.target.value)}
+          style={{cursor:'pointer'}}
         >
           {addresses.map((addr) => (
             <option key={addr.id} value={addr.id}>
@@ -30,7 +31,7 @@ const AddressSection = ({
       <div className="col-12">
           <button
             type="button"
-            className="btn btn-outline-primary"
+            className="btn btn-outline-primary rounded-lg"
             onClick={() => setShowAddressForm(!showAddressForm)}
           >
             {showAddressForm ? "لغو" : "افزودن آدرس جدید"}

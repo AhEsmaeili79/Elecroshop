@@ -15,9 +15,8 @@ const WishlistButton = ({ isFavorited, handleAddToWishlist }) => (
   >
     {isFavorited ? <FaHeart className="text-danger" /> : <FaRegHeart className="text-dark" />}
     <span style={{ marginRight: '8px' }}>
-      {isFavorited ? "حذف از علاقه مندی ها" : "افزودن به علاقه مندی ها"}
+      {isFavorited ? "حذف از علاقه مندی" : "افزودن به علاقه مندی ها"}
     </span>
-    
   </a>
 );
 

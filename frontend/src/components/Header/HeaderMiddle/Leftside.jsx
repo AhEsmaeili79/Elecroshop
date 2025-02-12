@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { fetchFiltersData } from '../../../api/FilterAsideApi';
 import Sidebar from "../../MobileMenu/Sidebar";
 import Logo from "../../../assets/images/logo.png";
-
 import BannerImage from "../../../assets/images/menu/banner-1.jpg";
+import Spinner from "../../Loading/loading";
 
 const LeftSide = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
   const [filters, setFilters] = useState({ categories: [], brands: [] });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [loading, setLoading] = useState(true); 
+  const [showLoading, setShowLoading] = useState(false); 
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -17,10 +19,16 @@ const LeftSide = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setTimeout(() => {
+          setShowLoading(true);
+        }, 300); 
+
         const filtersData = await fetchFiltersData();
         setFilters(filtersData);
+        setLoading(false);
       } catch (error) {
         console.log('Error fetching filters data', error);
+        setLoading(false);
       }
     };
 
@@ -63,16 +71,22 @@ const LeftSide = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
                         <div className="col-md-6">
                           <div className="menu-title">دسته‌بندی محصولات</div>
                           <ul>
-                            {filters.categories.length > 0 ? (
-                              filters.categories.map(category => (
-                                <li key={category.id}>
-                                  <Link to={`/product/?category=${category.id}`}>
-                                    {category.name}
-                                  </Link>
-                                </li>
-                              ))
+                            {loading && showLoading ? ( 
+                              <li>
+                                <Spinner/>
+                              </li>
                             ) : (
-                              <li>در حال بارگذاری...</li>
+                              filters.categories.length > 0 ? (
+                                filters.categories.map(category => (
+                                  <li key={category.id}>
+                                    <Link to={`/product/?category=${category.id}`}>
+                                      {category.name}
+                                    </Link>
+                                  </li>
+                                ))
+                              ) : (
+                                <li>داده ای یافت نشد</li>
+                              )
                             )}
                           </ul>
                         </div>
@@ -99,14 +113,20 @@ const LeftSide = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
             <li>
               <Link to="/product" className="sf-with-ul">برند</Link>
               <ul>
-                {filters.brands.length > 0 ? (
-                  filters.brands.map(brand => (
-                    <li key={brand.id}>
-                      <Link to={`/brand/${brand.id}`}>{brand.name}</Link>
-                    </li>
-                  ))
+                {loading && showLoading ? ( 
+                  <li>
+                    <Spinner/>
+                  </li>
                 ) : (
-                  <li>در حال بارگذاری...</li>
+                  filters.brands.length > 0 ? (
+                    filters.brands.map(brand => (
+                      <li key={brand.id}>
+                        <Link to={`/brand/${brand.id}`}>{brand.name}</Link>
+                      </li>
+                    ))
+                  ) : (
+                    <li>داده ای یافت نشد</li>
+                  )
                 )}
               </ul>
             </li>

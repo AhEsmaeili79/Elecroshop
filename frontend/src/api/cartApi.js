@@ -68,6 +68,21 @@ export const addProductToCart = async (productId, quantity, color_id) => {
     return [];
   }
   try {
+    const currentCart = await axios.get(CART_API_URL, getAuthHeaders());
+    const productInCart = currentCart.data.find(item => item.product_id === productId && item.color_id === color_id);
+
+    if (productInCart) {
+      const newQuantity = productInCart.quantity + quantity;
+      if (newQuantity > 3) {
+        console.error('Cannot add more than 3 of the same product');
+        return null;
+      }
+    } else {
+      if (quantity > 3) {
+        console.error('Cannot add more than 3 of the same product');
+        return null;
+      }
+    }
     const response = await axios.post(
       CART_API_URL,
       { product_id: productId, quantity, color_id },
@@ -82,6 +97,10 @@ export const addProductToCart = async (productId, quantity, color_id) => {
 
 export const updateCartItemQuantity = async (cartItemId, quantity, color_id) => {
   try {
+    if (quantity > 3) {
+      console.error('Cannot update the quantity to more than 3');
+      return null;
+    }
     const response = await axios.patch(
       `${CART_API_URL}${cartItemId}/`,
       { quantity, color_id },

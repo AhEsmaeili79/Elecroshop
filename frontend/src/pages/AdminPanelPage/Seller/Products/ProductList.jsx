@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { fetchSellerProducts} from '../../../../api/seller/Products';
+import { fetchSellerProducts } from '../../../../api/seller/Products';
 import ProductCard from './ProductCard';
-import Spinner from 'react-bootstrap/Spinner';
 import style from './css/SellerProductList.module.css';  
 import AdminLayout from '../../dashboard/AdminLayout';
+import Spinner from '../../../../components/Loading/loading';
 
 function SellerProductList() {
   const [products, setProducts] = useState([]);
@@ -13,11 +13,13 @@ function SellerProductList() {
     const getProducts = async () => {
       try {
         const data = await fetchSellerProducts();
-        setProducts(data);
+        setTimeout(() => {
+          setProducts(data);
+          setLoading(false);
+        }, 500); 
       } catch (err) {
         console.error('مشکل در بارگذاری محصولات:', err);
-      } finally {
-        setLoading(false);
+        setLoading(false); 
       }
     };
     getProducts();
@@ -25,10 +27,7 @@ function SellerProductList() {
 
   if (loading) {
     return (
-      <div className={`text-center ${style.sellerProductList__loadingContainer}`}>
-        <Spinner animation="border" variant="primary" />
-        <p>در حال بارگذاری محصولات...</p>
-      </div>
+      <Spinner/>
     );
   }
 

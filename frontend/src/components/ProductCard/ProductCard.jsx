@@ -12,6 +12,7 @@ import { useWishlist } from '../../contexts/WishlistContext';
 import ColorOptions from '../../utils/ColorOptions';
 import { FaHeart, FaRegHeart } from 'react-icons/fa'; 
 import './css/ProductCard.css';
+import Spinner from '../Loading/loading';
 
 const ProductCard = ({ product, index }) => {
   const [cartItem, setCartItem] = useState(null);
@@ -81,6 +82,12 @@ const ProductCard = ({ product, index }) => {
     }
   };
 
+
+  const toPersianNumbers = (num) => {
+    return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  };
+
+
   const ratingPercentage = (averageRating / 5) * 100;
 
   const handleAddToCart = async () => {
@@ -112,11 +119,6 @@ const ProductCard = ({ product, index }) => {
     } catch (error) {
       console.error('خطا در به‌روزرسانی تعداد آیتم سبد خرید:', error);
     }
-  };
-
-
-  const toPersianNumbers = (num) => {
-    return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
   };
 
   function formatPrice(price) {
@@ -176,11 +178,6 @@ const ProductCard = ({ product, index }) => {
   }
 
   const isOutOfStock = product.quantity === 0;
-
-  const toPersianNumerals = (number) => {
-    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    return String(number).replace(/\d/g, (digit) => persianNumbers[digit]);
-  };
   
   return (
     <div className="product product-2 border border-gray p-3 rounded" key={index}>
@@ -207,7 +204,7 @@ const ProductCard = ({ product, index }) => {
             disabled={isWishlistLoading}
           >{isInWishlist ? <FaHeart className="text-danger" /> : <FaRegHeart className="text-dark" />}
             {isWishlistLoading ? (
-              <span>در حال بارگذاری...</span>
+              <Spinner/>
             ) : (
               <span>{isInWishlist ? 'حذف از لیست علاقه‌مندی‌ها' : 'افزودن به لیست علاقه‌مندی‌ها'}</span>
             )}
@@ -235,7 +232,7 @@ const ProductCard = ({ product, index }) => {
               >
                 <span>-</span>
               </button>
-              <span className="quantity">{quantity}</span>
+              <span className="quantity">{toPersianNumbers(quantity)}</span>
               <button
                 onClick={() => handleQuantityChange(quantity + 1)}
                 className="btn-product btn-quantity"
@@ -271,6 +268,12 @@ const ProductCard = ({ product, index }) => {
             {product.name || 'محصول بی‌نام'}
           </Link>
         </h3>
+        <div className="ratings-container mt-1" dir='rtl'>
+          <div className="ratings">
+            <div className="ratings-val" style={{ width: `${ratingPercentage}%` }}></div>
+          </div>
+          <span className="ratings-text">({toPersianNumbers(reviewsCount)} نقد و بررسی)</span>
+        </div>
         <div className="product-price text-muted" dir='rtl'>
           {product.oldPrice ? (
             <>
@@ -284,21 +287,14 @@ const ProductCard = ({ product, index }) => {
           ) : (
             formatPrice(product.price) || 'نامشخص'
           )}
-          تومان
+            تومان
         </div>
-
         <div className="details-row-color">
           <ColorOptions
             colors={product.colors}
             selectedColor={selectedColor}
             handleColorChange={handleColorChange}
           />
-        </div>
-        <div className="ratings-container" dir='rtl'>
-          <div className="ratings">
-            <div className="ratings-val" style={{ width: `${ratingPercentage}%` }}></div>
-          </div>
-          <span className="ratings-text">({toPersianNumbers(reviewsCount)} نقد و بررسی)</span>
         </div>
       </div>
     </div>
