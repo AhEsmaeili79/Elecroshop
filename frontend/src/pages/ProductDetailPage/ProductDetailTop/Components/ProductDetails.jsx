@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const ProductDetails = ({
   product,
+  colorQuantity,
   selectedColor,
   quantity,
   setQuantity,
@@ -62,6 +63,9 @@ const ProductDetails = ({
     const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
     return persianNumerals;
   }
+
+  const lowQuantityWarning = colorQuantity < 4 && colorQuantity > 0;
+
 
   const handleSocialClick = (socialMedia) => {
     const currentUrl = window.location.href;
@@ -118,7 +122,7 @@ const ProductDetails = ({
       <div className="details-filter-row details-row-color">
         <label>رنگ:</label>
         <ColorOptions
-          colors={product.colors}
+          colors={product.color_quantities}
           selectedColor={selectedColor}
           handleColorChange={handleColorChange}
         />
@@ -131,7 +135,11 @@ const ProductDetails = ({
           <p>{product.desc}</p>
         </div>
       </div>
-
+      {lowQuantityWarning && (
+            <div style={{ color: 'red', fontSize: '12px', marginLeft: '15px'}}>
+                <strong>تنها {formatPrice(colorQuantity)} عدد موجود است!</strong>
+            </div>
+        )}
       <div className="details-filter-row details-row-size">
         <label htmlFor="qty">تعداد:</label>
         <QuantityInput quantity={quantity} setQuantity={setQuantity} />

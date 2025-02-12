@@ -2,9 +2,10 @@ import requests
 import os
 import logging
 from django.conf import settings
-from rest_framework import viewsets
+from rest_framework import viewsets,status
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.response import Response
+from product.models import ProductColorQuantity
 from .models import Order, ShipmentPrice, Payment
 from .serializers import OrderSerializer, ShipmentPriceSerializer
 from .permissions import IsCustomerOrSeller
@@ -48,25 +49,57 @@ class OrderViewSet(viewsets.ModelViewSet):
         cart = get_or_create_cart(self.request.user)
         cart_items = cart.cart_items.all()
 
-        items_data = [
-            {
+        items_data = []
+
+        for item in cart_items:
+            product = item.product
+            color = item.color
+            quantity = item.quantity
+
+            try:
+                product_color_quantity = product.productcolorquantity_set.get(color=color)
+                available_quantity = product_color_quantity.quantity
+            except ProductColorQuantity.DoesNotExist:
+                return Response({"detail": f"Color {color.color_hex} not available for product {product.name}."}, status=status.HTTP_400_BAD_REQUEST)
+
+            if quantity > available_quantity:
+                return Response(
+                    {"detail": f"Not enough stock for color {color.color_hex} of {product.name}. Available: {available_quantity}, Requested: {quantity}."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            items_data.append({
                 "product": item.product,
                 "quantity": item.quantity,
                 "color": item.color,
-            }
-            for item in cart_items
-        ]
-
-        shipment_price = ShipmentPrice.objects.get(id=self.request.data['shipment_price'])
+            })
+            
+        try:
+            shipment_price = ShipmentPrice.objects.get(id=self.request.data['shipment_price'])
+        except ShipmentPrice.DoesNotExist:
+            return Response({"detail": "Invalid shipment price."}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer.context["items_data"] = items_data
 
         order = serializer.save(user=self.request.user, shipment_price=shipment_price)
 
-        cart_items.delete()  
+        for item in cart_items:
+            product = item.product
+            color = item.color
+            quantity = item.quantity
+
+            try:
+                product_color_quantity = product.productcolorquantity_set.get(color=color)
+                product_color_quantity.quantity -= quantity
+                product_color_quantity.save() 
+            except ProductColorQuantity.DoesNotExist:
+                pass  
+        
+        cart_items.delete()
 
         if order.payment_type in ['credit_card', 'درگاه پرداخت']:
             return self.redirect_to_zarinpal(order)
+
 
     def redirect_to_zarinpal(self, order):
         merchant_id = os.getenv('ZARINPAL_MERCHANT_ID')

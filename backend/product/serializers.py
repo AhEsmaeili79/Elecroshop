@@ -1,24 +1,33 @@
 from rest_framework import serializers
-from .models import Product, Color, Wishlist  
+from .models import Product, Color, Wishlist, ProductColorQuantity
 from category.serializers import CategorySerializer
 
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Color
         fields = ["id", "color_hex"] 
+        
+
+
+class ProductColorQuantitySerializer(serializers.ModelSerializer):
+    color_hex = serializers.ReadOnlyField(source='color.color_hex')
+
+    class Meta:
+        model = ProductColorQuantity
+        fields = ['color', 'color_hex', 'quantity']
+
 
 class ProductSerializer(serializers.ModelSerializer):
     seller = serializers.CharField(source="seller.username", read_only=True)
     category = CategorySerializer(read_only=True)
     is_in_wishlist = serializers.SerializerMethodField()
-    colors = ColorSerializer(many=True, read_only=True)
+    color_quantities = ProductColorQuantitySerializer(source='productcolorquantity_set', many=True, read_only=True)
     
     class Meta:
         model = Product
         fields = [
             "id", 
             "name", 
-            "quantity", 
             "price", 
             "desc", 
             "main_photo", 
@@ -30,6 +39,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "category", 
             "is_favorited_by", 
             "colors",
+            "color_quantities", 
             "brand",
             "is_in_wishlist",
             "created_at",
@@ -40,6 +50,7 @@ class ProductSerializer(serializers.ModelSerializer):
         if user.is_authenticated:
             return Wishlist.objects.filter(user=user, product=obj).exists()  
         return False
+
 
 
 class WishlistSerializer(serializers.ModelSerializer):

@@ -95,7 +95,7 @@ const ProductListLayout3 = ({
           </div>
           <div className="details-row-color">
             <ColorOptions
-              colors={product.colors}
+              colors={product.color_quantities}
               selectedColor={selectedColor}
               handleColorChange={handleColorChange}
             />

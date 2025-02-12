@@ -7,7 +7,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source="product.name", read_only=True)
     product_image = serializers.ImageField(source="product.main_photo", read_only=True)
     product_price = serializers.IntegerField(source="product.price", read_only=True)
-    product_seller = serializers.CharField(source="product.seller", read_only=True)
+    product_seller = serializers.CharField(source="product.seller.username", read_only=True)
     color = ColorSerializer(read_only=True)
 
     class Meta:

@@ -69,7 +69,6 @@ export const updateCartItemQuantity = async (cartItemId, quantity,color_id) => {
   }
 };
 
-// New function to remove a cart item
 export const removeCartItem = async (cartItemId) => {
   try {
     await axios.delete(`${CART_API_URL}${cartItemId}/`, { headers: getAuthHeader() });
@@ -79,7 +78,6 @@ export const removeCartItem = async (cartItemId) => {
   }
 };
 
-// Add a product to the wishlist
 export const addToWishlist = async (productId) => {
   try {
     const response = await axios.post(
@@ -94,7 +92,6 @@ export const addToWishlist = async (productId) => {
   }
 };
 
-// Remove a product from the wishlist
 export const removeFromWishlist = async (productId) => {
   try {
     const response = await axios.delete(
@@ -108,7 +105,6 @@ export const removeFromWishlist = async (productId) => {
   }
 };
 
-// Fetch the current user's wishlist
 export const fetchWishlist = async () => {
   try {
     const response = await axios.get(WISHLIST_API_URL, {

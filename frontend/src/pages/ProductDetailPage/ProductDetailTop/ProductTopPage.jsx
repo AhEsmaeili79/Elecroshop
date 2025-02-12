@@ -31,8 +31,9 @@ const ProductTopPage = ({ productId }) => {
   const [btnClass, setbtnClass] = useState("addcartbtn");
   const [isInCart, setIsInCart] = useState(false);
   const { cartItems, setCartItems } = useCart();
+  const [colorQuantity, setColorQuantity ] = useState();
 
- 
+
 useEffect(() => {
   const loadProductDetails = async () => {
     try {
@@ -57,7 +58,12 @@ useEffect(() => {
           item.product.id === productId &&
           (!selectedColor || item.color.id === selectedColor)
       );
-      
+      if (selectedColor){
+        const colorQuantities = product.color_quantities.find(
+          (color) => color.color === selectedColor
+        ).quantity;
+        setColorQuantity(colorQuantities)
+      }
       if (cartItem) {
         setQuantity(cartItem.quantity);
         setButtonText("حذف از سبد خرید");
@@ -75,6 +81,8 @@ useEffect(() => {
   loadProductDetails();
 }, [productId, selectedColor]);
 
+
+
 const handleAddToCart = async () => {
   if (!selectedColor) {
     toast.error("لطفا رنگی را برای افزودن به سبد انتخاب کنید.");
@@ -84,9 +92,10 @@ const handleAddToCart = async () => {
     toast.error("لطفاً برای افزودن به سبد وارد شوید.");
     return;
   }
-  if (quantity > product.quantity) {
-    toast.warning(`فقط ${product.quantity} عدد از این محصول باقی مانده`);
-    return;
+
+  if (quantity > 3) {
+    toast.warning("شما نمی‌توانید بیشتر از 3 عدد از این محصول را اضافه کنید.");
+    setQuantity(3);  
   }
 
   try {
@@ -98,7 +107,7 @@ const handleAddToCart = async () => {
     );
 
     if (cartItem) {
-      await updateCartItemQuantity(cartItem.id, quantity, selectedColor);
+      await updateCartItemQuantity(cartItem.id, cartItem.quantity + quantity, selectedColor);
     } else {
       await addProductToCart(product.id, quantity, selectedColor);
       toast.success("محصول به سبد خرید اضافه شد.");
@@ -117,6 +126,8 @@ const handleAddToCart = async () => {
     toast.error("خطا در افزودن به سبد خرید.");
   }
 };
+
+
 
 const handleRemoveFromCart = async () => {
   try {
@@ -214,27 +225,41 @@ const handleColorChange = (color) => {
 };
 
 const handleQuantityChange = async (newQuantity) => {
-  if (!product) {
+  if (!product || !selectedColor) {
     return; 
+  }
+
+  const maxQuantity = colorQuantity < 3 ? colorQuantity : 3;
+
+  if (newQuantity > maxQuantity) {
+    toast.warning(`شما نمی‌توانید بیشتر از ${maxQuantity} عدد از این محصول را اضافه کنید.`);
+    setQuantity(maxQuantity); 
+    return;
   }
 
   if (newQuantity > product.quantity && !warned) {
     toast.warning(`تعداد درخواستی بیشتر از موجودی است. موجودی محصول: ${product.quantity}`);
     setWarned(true); 
+    setQuantity(product.quantity);  
     return;
   }
 
   setQuantity(newQuantity); 
 };
 
-const [warned, setWarned] = useState(false); 
+const [warned, setWarned] = useState(false);
 
 useEffect(() => {
   const updateQuantity = async () => {
     if (!product || !selectedColor) return;
 
+    const maxQuantity = colorQuantity < 3 ? colorQuantity : 3;
+
+    if (quantity > maxQuantity) {
+      setQuantity(maxQuantity);
+    }
+
     if (quantity > product.quantity && !warned) {
-      toast.warning(`فقط ${product.quantity} عدد از این محصول باقی مانده`);
       setQuantity(product.quantity);
       setWarned(true);
       return;
@@ -276,6 +301,7 @@ useEffect(() => {
           <ProductDetails
             product={product}
             selectedColor={selectedColor}
+            colorQuantity={colorQuantity}
             quantity={quantity}
             setQuantity={handleQuantityChange}  
             handleAddToCart={selectedColor ? (isInCart ? handleRemoveFromCart : handleAddToCart) : null}
@@ -291,6 +317,7 @@ useEffect(() => {
         product={product}
         selectedColor={selectedColor}
         quantity={quantity}
+        colorQuantity={colorQuantity}
         setQuantity={handleQuantityChange}  
         handleAddToCart={selectedColor ? (isInCart ? handleRemoveFromCart : handleAddToCart) : null}
         handleAddToWishlist={handleAddToWishlist}

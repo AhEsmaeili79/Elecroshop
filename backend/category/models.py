@@ -29,7 +29,8 @@ class SubCategory(models.Model):
 class Brand(models.Model):
     name = models.CharField(max_length=100)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)  
-
+    image = models.ImageField(upload_to="brand/%Y/%m/%d/", blank=True, null=True)  
+    
     def __str__(self):
         return self.name
 

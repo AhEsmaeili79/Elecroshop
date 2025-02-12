@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from category.models import Category , Brand
+from category.models import Category , Brand, Model
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -11,13 +11,11 @@ class Color(models.Model):
     
     def __str__(self):
         return f"Color: {self.color_hex}"
-
-
+    
 class Product(models.Model):
     name = models.CharField(max_length=255)
     price = models.PositiveIntegerField(blank=False)
-    quantity = models.IntegerField(blank=False)
-    model = models.CharField(max_length=255)
+    model = models.ForeignKey(Model,on_delete=models.CASCADE,default=1, related_name="products")
     desc = models.TextField(null=True)
     is_favorited_by = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="favorite_products", blank=True
@@ -29,11 +27,11 @@ class Product(models.Model):
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
-    colors = models.ManyToManyField(Color, related_name="products", blank=True)
+    colors = models.ManyToManyField(Color, related_name='products',through='ProductColorQuantity')
     brand = models.ForeignKey(Brand,on_delete=models.CASCADE,default=1, related_name="products")
 
     def __str__(self):
-        return f"ProductName: {self.name}, Count: {self.quantity}, Seller: {self.seller}"
+        return f"ProductName: {self.name}, Seller: {self.seller}"
 
     def save(self, *args, **kwargs):
         if self.main_photo:
@@ -66,6 +64,22 @@ class Product(models.Model):
         )
 
         return image_file
+    
+    
+    
+class ProductColorQuantity(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)  
+
+    class Meta:
+        unique_together = ('product', 'color')
+
+
+    def __str__(self):
+        return f"{self.product.name} - {self.color.color_hex} Quantity: {self.quantity}"
+
+
 
 
 class Wishlist(models.Model):

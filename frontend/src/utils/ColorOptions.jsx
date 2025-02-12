@@ -10,22 +10,24 @@ const ColorOptions = ({ colors, selectedColor, handleColorChange }) => {
   };
 
   return (
-      <div className="product-nav product-nav-dots">
-        {colors.map((color) => (
+    <div className="product-nav product-nav-dots">
+      {colors.map((color) => (
+        color.quantity > 0 && (
           <a
-            key={color.id}
+            key={color.color}  
             href="#"
-            className={selectedColor === color.id ? "active" : ""}
+            className={selectedColor === color.color ? "active" : ""}
             onClick={(e) => {
               e.preventDefault(); 
-              toggleColorSelection(color.id); 
+              toggleColorSelection(color.color); 
             }}
-            style={{ background: color.color_hex }}
+            style={{ background: color.color_hex }} 
           >
-            <span className="sr-only">{color.name || "Color name"}</span>
+            <span className="sr-only">{`Color: ${color.color}`}</span>
           </a>
-        ))}
-      </div>
+        )
+      ))}
+    </div>
   );
 };
 

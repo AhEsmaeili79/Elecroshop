@@ -98,7 +98,7 @@ const ProductListLayout2 = ({  product,
         </div>
         <div className="product-nav">
             <ColorOptions
-              colors={product.colors}
+              colors={product.color_quantities}
               selectedColor={selectedColor}
               handleColorChange={handleColorChange}
             />

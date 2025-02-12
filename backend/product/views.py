@@ -26,9 +26,6 @@ class CustomerProductViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [] 
     
     def get_queryset(self):
-        """
-        This method customizes the queryset based on the category, color, and brand filters in the request.
-        """
         queryset = Product.objects.all() 
 
         category_ids = self.request.query_params.get('category', '')
@@ -43,14 +40,16 @@ class CustomerProductViewSet(viewsets.ReadOnlyModelViewSet):
             brand_ids_list = [int(id.replace('brand-', '')) for id in brand_ids_list]
             queryset = queryset.filter(brand__id__in=brand_ids_list)
 
+        queryset = Product.objects.all()
+
         color_ids = self.request.query_params.get('color', '')
         if color_ids:
-            if ',' in color_ids:
-                color_ids_list = color_ids.split(',')
-            else:
-                color_ids_list = self.request.query_params.getlist('color')
+            color_ids_list = color_ids.split(',')
             color_ids_list = [int(id.replace('color-', '')) for id in color_ids_list]
-            queryset = queryset.filter(colors__id__in=color_ids_list)
+            queryset = queryset.filter(
+                productcolorquantity__color__id__in=color_ids_list,
+                productcolorquantity__quantity__gt=0
+            ).distinct()
 
         return queryset
 

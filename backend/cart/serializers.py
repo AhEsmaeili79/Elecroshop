@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Cart, CartItem
 from product.serializers import ProductSerializer,ColorSerializer 
-from product.models import Product,Color
+from product.models import Product,Color,ProductColorQuantity
 
 
 class CartItemSerializer(serializers.ModelSerializer):
@@ -17,7 +17,26 @@ class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
         fields = ["id", "product", "product_id", "color", "color_id", "quantity", "total_price"]
+
+    def validate(self, data):
+        product = data.get('product')
+        color = data.get('color')
+        quantity = data.get('quantity')
+
+        if not product or not color or quantity <= 0:
+            raise serializers.ValidationError("Product, color, and valid quantity are required.")
+
+        try:
+            product_color_quantity = product.productcolorquantity_set.get(color=color)
+            available_quantity = product_color_quantity.quantity
+        except ProductColorQuantity.DoesNotExist:
+            raise serializers.ValidationError(f"Color {color.color_hex} is not available for product {product.name}.")
         
+        if quantity > available_quantity:
+            raise serializers.ValidationError(f"Not enough stock for color {color.color_hex} of {product.name}. Available: {available_quantity}, Requested: {quantity}.")
+
+        return data
+
 class CartSerializer(serializers.ModelSerializer):
     cart_items = CartItemSerializer(many=True, read_only=True)
     total_price = serializers.ReadOnlyField()

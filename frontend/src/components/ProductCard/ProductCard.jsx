@@ -22,6 +22,7 @@ const ProductCard = ({ product, index }) => {
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const [selectedColor, setSelectedColor] = useState(null);
+  const [colorQuantities, setColorQuantities] = useState({});
 
   const { cartItems, setCartItems } = useCart();
   const { wishlistItems, handleAddToWishlist, handleRemoveFromWishlist } = useWishlist();
@@ -82,11 +83,9 @@ const ProductCard = ({ product, index }) => {
     }
   };
 
-
   const toPersianNumbers = (num) => {
     return String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
   };
-
 
   const ratingPercentage = (averageRating / 5) * 100;
 
@@ -95,7 +94,7 @@ const ProductCard = ({ product, index }) => {
       alert("لطفاً برای افزودن به سبد خرید، وارد شوید.");
       return;
     }
-    else if (!product || !product.id || product.quantity === 0) return;
+    else if (!product || !product.id || colorQuantities[selectedColor] === 0) return;
     try {
       const addedItem = await addProductToCart(product.id, quantity, selectedColor);
       setCartItem(addedItem);
@@ -107,10 +106,10 @@ const ProductCard = ({ product, index }) => {
   };
 
   const handleQuantityChange = async (newQuantity) => {
-    if (newQuantity < 1 || product.quantity === 0) return;
+    if (newQuantity < 1 || colorQuantities[selectedColor] === 0) return;
 
     try {
-      const updatedItem = await updateCartItemQuantity(cartItem.id, newQuantity);
+      const updatedItem = await updateCartItemQuantity(cartItem.id, newQuantity, selectedColor);
       setQuantity(updatedItem.quantity);
       setCartItem(updatedItem);
       setCartItems((prevItems) =>
@@ -123,12 +122,11 @@ const ProductCard = ({ product, index }) => {
 
   function formatPrice(price) {
     const formattedPrice = price.toLocaleString();
-    
     const persianNumerals = formattedPrice.replace(/[0-9]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) + 1728));
     return persianNumerals;
   }
 
-
+  // Handle removing the item from the cart
   const handleRemoveFromCart = async () => {
     try {
       await removeCartItem(cartItem.id);
@@ -140,45 +138,34 @@ const ProductCard = ({ product, index }) => {
     }
   };
 
-  const handleColorChange = async (color) => {
-    setSelectedColor(color);
+  // Handle color change and update quantities
+  const handleColorChange = (colorId) => {
+    setSelectedColor(colorId);
+
+    const colorQuantity = product.color_quantities.find((item) => item.color === colorId)?.quantity || 0;
+    setColorQuantities((prevState) => ({ ...prevState, [colorId]: colorQuantity }));
 
     const existingCartItem = cartItems.find(
-      (item) => item.product.id === product.id && item.color.id === color
+      (item) => item.product.id === product.id && item.color === colorId
     );
 
     if (existingCartItem) {
       setCartItem(existingCartItem);
       setQuantity(existingCartItem.quantity);
     } else {
-      try {
-        const fetchedCartItem = await fetchCartItem(product.id, color);
-        if (fetchedCartItem) {
-          setCartItem(fetchedCartItem);
-          setQuantity(fetchedCartItem.quantity);
-
-          setCartItems((prevItems) => {
-            if (!prevItems.some((item) => item.id === fetchedCartItem.id)) {
-              return [...prevItems, fetchedCartItem];
-            }
-            return prevItems;
-          });
-        } else {
-          setCartItem(null);
-          setQuantity(1);
-        }
-      } catch (error) {
-        console.error('خطا در بارگذاری آیتم سبد خرید:', error);
-      }
+      setCartItem(null);
+      setQuantity(1);
     }
   };
 
+  // Ensure that product is available for rendering
   if (!product || !product.id) {
     return <p>در حال بارگذاری...</p>;
   }
 
-  const isOutOfStock = product.quantity === 0;
-  
+  // Check if product is out of stock
+  const isOutOfStock = colorQuantities[selectedColor] === 0;
+
   return (
     <div className="product product-2 border border-gray p-3 rounded" key={index}>
       <figure className="product-media">
@@ -204,7 +191,7 @@ const ProductCard = ({ product, index }) => {
             disabled={isWishlistLoading}
           >{isInWishlist ? <FaHeart className="text-danger" /> : <FaRegHeart className="text-dark" />}
             {isWishlistLoading ? (
-              <Spinner/>
+              <Spinner />
             ) : (
               <span>{isInWishlist ? 'حذف از لیست علاقه‌مندی‌ها' : 'افزودن به لیست علاقه‌مندی‌ها'}</span>
             )}
@@ -268,13 +255,13 @@ const ProductCard = ({ product, index }) => {
             {product.name || 'محصول بی‌نام'}
           </Link>
         </h3>
-        <div className="ratings-container mt-1" dir='rtl'>
+        <div className="ratings-container mt-1" dir="rtl">
           <div className="ratings">
             <div className="ratings-val" style={{ width: `${ratingPercentage}%` }}></div>
           </div>
           <span className="ratings-text">({toPersianNumbers(reviewsCount)} نقد و بررسی)</span>
         </div>
-        <div className="product-price text-muted" dir='rtl'>
+        <div className="product-price text-muted" dir="rtl">
           {product.oldPrice ? (
             <>
               <span className="new-price">
@@ -287,11 +274,11 @@ const ProductCard = ({ product, index }) => {
           ) : (
             formatPrice(product.price) || 'نامشخص'
           )}
-            تومان
+          تومان
         </div>
         <div className="details-row-color">
           <ColorOptions
-            colors={product.colors}
+            colors={product.color_quantities}
             selectedColor={selectedColor}
             handleColorChange={handleColorChange}
           />
