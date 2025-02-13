@@ -1,10 +1,9 @@
 import ProductForm from "./Form/ProductForm";
 import AdminLayout from "../../dashboard/AdminLayout";
-
+import { toast } from "react-toastify";
 const AddProductPage = () => {
   const handleSuccess = () => {
-    alert("Product saved successfully!");
-    window.location.reload();
+    toast.success('محصول با موفقیت اضافه شد.')
   };
 
   return (

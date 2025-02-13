@@ -1,7 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL + '/products/';
-const token = localStorage.getItem('access_token');
+const API_URL = import.meta.env.VITE_API_URL + "/products/";
+const token = localStorage.getItem("access_token");
+
+
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -10,6 +12,46 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+export const fetchCategories = async () => {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/category/categories/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    throw error;
+  }
+};
+
+export const fetchBrands = async () => {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/category/brands/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching brands:", error);
+    throw error;
+  }
+};
+
+export const fetchModels = async () => {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/category/models/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching models:", error);
+    throw error;
+  }
+};
+
+export const fetchProductDetails = async (productId) => {
+  try {
+    const response = await axios.get(`${API_URL}${productId}/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching product details:", error);
+    throw error;
+  }
+};
 
 export const fetchSellerProducts = async () => {
   try {
@@ -21,7 +63,7 @@ export const fetchSellerProducts = async () => {
   }
 };
 
-export const addProduct = async (productData) => {
+export const createProduct = async (productData) => {
   try {
 
     const response = await axios.post(API_URL, productData, {
