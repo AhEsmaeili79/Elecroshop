@@ -15,7 +15,7 @@ const MenuItem = ({ to, icon, label, isSidebarOpen }) => (
 );
 
 const AdminLayout = ({ children }) => {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const toggleSidebar = () => setSidebarOpen(prevState => !prevState);
 

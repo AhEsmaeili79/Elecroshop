@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL + "/products/";
+const API_URL_PRODUCT = import.meta.env.VITE_API_URL + '/customer-products/';
 const token = localStorage.getItem("access_token");
 
 const axiosInstance = axios.create({
@@ -43,7 +44,7 @@ export const fetchModels = async () => {
 
 export const fetchProductDetails = async (productId) => {
   try {
-    const response = await axios.get(`${API_URL}${productId}/`);
+    const response = await axios.get(`${API_URL_PRODUCT}${productId}/`);
     return response.data;
   } catch (error) {
     console.error("Error fetching product details:", error);

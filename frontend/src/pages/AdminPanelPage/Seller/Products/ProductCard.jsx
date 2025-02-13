@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import style from './css/SellerProductList.module.css';
 
 const ProductCard = ({ product }) => {
-    console.log(product)
   return (
     <Link to={`/admin/products/edit/${product.id}`} className={style.sellerProductList__productLink}>
       <div className={`${style.sellerProductList__productCard} shadow-lg p-3 mb-5 bg-white rounded`}>
@@ -14,7 +13,7 @@ const ProductCard = ({ product }) => {
         {product.desc.length > 25 ? product.desc.slice(0, 25) + '...' : product.desc}
         </p>
 
-        <p className={style.sellerProductList__productModel}><strong>دسته بندی:</strong> {product.category.name}</p>
+        <p className={style.sellerProductList__productModel}><strong>دسته بندی:</strong> {product.category}</p>
         <p className={style.sellerProductList__productModel}><strong>مدل:</strong> {product.model}</p>
         <p className={style.sellerProductList__productBrand}><strong>برند:</strong> {product.brand}</p>
         
