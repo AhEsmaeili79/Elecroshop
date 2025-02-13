@@ -1,9 +1,10 @@
 from rest_framework import viewsets, permissions
 from .models import Product, Wishlist,Color
 from rest_framework.decorators import action
+from rest_framework import serializers
 from rest_framework.response import Response
-from .serializers import ProductSerializer, WishlistSerializer,ColorSerializer
-from .Pagination.pagination import ProductPagination
+from category.models import Category
+from .serializers import ProductSerializer, WishlistSerializer, ColorSerializer
 from .Permissions.permissions import IsSellerOrReadOnly
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -18,7 +19,14 @@ class ProductViewSet(viewsets.ModelViewSet):
         return Product.objects.none()
 
     def perform_create(self, serializer):
-        serializer.save(seller=self.request.user)
+        user = self.request.user
+        if user.is_authenticated and user.role == "seller":
+            category_id = self.request.data.get('category')
+            if category_id:
+                category = Category.objects.get(id=category_id)
+                serializer.save(seller=user, category=category)
+            else:
+                raise serializers.ValidationError("Category is required.")
 
 
 class CustomerProductViewSet(viewsets.ReadOnlyModelViewSet): 

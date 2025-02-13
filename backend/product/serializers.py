@@ -1,13 +1,12 @@
 from rest_framework import serializers
 from .models import Product, Color, Wishlist, ProductColorQuantity
+from category.models import Category
 from category.serializers import CategorySerializer
 
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Color
         fields = ["id", "color_hex"] 
-        
-
 
 class ProductColorQuantitySerializer(serializers.ModelSerializer):
     color_hex = serializers.ReadOnlyField(source='color.color_hex')
@@ -19,7 +18,7 @@ class ProductColorQuantitySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     seller = serializers.CharField(source="seller.username", read_only=True)
-    category = CategorySerializer(read_only=True)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())  
     is_in_wishlist = serializers.SerializerMethodField()
     color_quantities = ProductColorQuantitySerializer(source='productcolorquantity_set', many=True, read_only=True)
     
@@ -51,6 +50,10 @@ class ProductSerializer(serializers.ModelSerializer):
             return Wishlist.objects.filter(user=user, product=obj).exists()  
         return False
 
+    def validate_category(self, value):
+        if not Category.objects.filter(id=value.id).exists():
+            raise serializers.ValidationError("Invalid category ID.")
+        return value
 
 
 class WishlistSerializer(serializers.ModelSerializer):

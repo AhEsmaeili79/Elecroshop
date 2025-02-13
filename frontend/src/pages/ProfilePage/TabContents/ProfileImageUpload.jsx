@@ -8,7 +8,7 @@ const ProfileImageUpload = ({ profileImage, handleImageChange }) => {
                     src={
                         profileImage && profileImage instanceof File
                             ? URL.createObjectURL(profileImage) 
-                            : profileImage || 'https://via.placeholder.com/150'
+                            : profileImage || 'https://source.unsplash.com/random/150x150'
                     } 
                     alt="Profile"
                     className="profile-image"

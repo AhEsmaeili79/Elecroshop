@@ -16,14 +16,11 @@ class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrAdminOrReadOnly]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            if self.request.user.is_superuser:
-                return super().get_queryset()
-            return self.queryset.filter(owner=self.request.user)
         return Category.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
 
 class SubCategoryViewSet(viewsets.ModelViewSet):
     queryset = SubCategory.objects.all()
@@ -31,13 +28,7 @@ class SubCategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrAdminOrReadOnly]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            if self.request.user.is_superuser:
-                return super().get_queryset() 
-            return self.queryset.filter(
-                owner=self.request.user
-            )
-        return SubCategory.objects.none()
+        return SubCategory.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -46,13 +37,9 @@ class SubCategoryViewSet(viewsets.ModelViewSet):
 class BrandViewSet(viewsets.ModelViewSet):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
-    permission_classes = [IsOwnerOrAdminOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrAdminOrReadOnly]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            if self.request.user.is_superuser:
-                return super().get_queryset()  
-            return self.queryset.filter(owner=self.request.user) 
         return Brand.objects.all()
 
     def perform_create(self, serializer):
@@ -65,11 +52,7 @@ class ModelViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrAdminOrReadOnly]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            if self.request.user.is_superuser:
-                return super().get_queryset() 
-            return self.queryset.filter(owner=self.request.user) 
-        return Model.objects.none()
+        return Model.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

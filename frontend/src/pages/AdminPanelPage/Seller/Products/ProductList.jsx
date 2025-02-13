@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchSellerProducts } from '../../../../api/seller/Products';
+import {Link} from 'react-router-dom';
 import ProductCard from './ProductCard';
 import style from './css/SellerProductList.module.css';  
 import AdminLayout from '../../dashboard/AdminLayout';
@@ -34,6 +35,7 @@ function SellerProductList() {
   return (
     <AdminLayout>
       <div className={`container ${style.sellerProductList__container}`}>
+        <Link to="/admin/products/add">اضافخ کردن</Link>
         <h1 className={`text-center my-5 ${style.sellerProductList__pageTitle}`}>محصولات شما</h1>
         <div className="row">
           {products.map((product) => (
