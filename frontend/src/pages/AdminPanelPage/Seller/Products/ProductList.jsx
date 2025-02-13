@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { fetchSellerProducts } from '../../../../api/seller/Products';
+import { 
+  fetchSellerProducts, 
+  fetchCategories,
+  fetchBrands,
+  fetchModels, 
+} from '../../../../api/seller/Products';
 import {Link} from 'react-router-dom';
 import ProductCard from './ProductCard';
 import style from './css/SellerProductList.module.css';  
@@ -9,7 +14,28 @@ import Spinner from '../../../../components/Loading/loading';
 function SellerProductList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [models, setModels] = useState([]);
+  useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        const [cats, brds, mods] = await Promise.all([
+          fetchCategories(),
+          fetchBrands(),
+          fetchModels(),
+        ]);
+        setCategories(cats);
+        setBrands(brds);
+        setModels(mods);
+      } catch (error) {
+        console.error("Error loading initial data:", error);
+      }
+    };
 
+    loadInitialData();
+  }, []);  
+  
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -40,7 +66,7 @@ function SellerProductList() {
         <div className="row">
           {products.map((product) => (
             <div className="col-md-4 mb-4" key={product.id}>
-              <ProductCard product={product} />
+              <ProductCard product={product} category={categories} brand={brands} model={models} />
             </div>
           ))}
         </div>

@@ -84,6 +84,11 @@
   height: 4rem;
 }
 
+.sellerProductList__productCard {
+  text-align: right;
+}
+
+
 .sellerProductList__text-center {
   text-align: center;
 }

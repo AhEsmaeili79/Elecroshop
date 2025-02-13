@@ -24,7 +24,7 @@ const PrivateRoute = ({ element, roles }) => {
   if (loading) return <Spinner/>; 
 
   if (!userRole) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   return element;

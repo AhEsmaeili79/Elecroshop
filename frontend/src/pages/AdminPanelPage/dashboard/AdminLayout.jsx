@@ -41,7 +41,7 @@ const AdminLayout = ({ children }) => {
           <MenuItem to="/admin/rolerequest" icon={<FaFilter />} label="درخواست ها" isSidebarOpen={isSidebarOpen} />
           <MenuItem to="/admin/orders" icon={<FaBox />} label="سفارشات" isSidebarOpen={isSidebarOpen} />
           <MenuItem to="/admin/products" icon={<FaFirstOrder />} label="محصولات" isSidebarOpen={isSidebarOpen} />
-          <MenuItem to="/admin/categories" icon={<FaFirstOrder />} label="دسته بندی ها" isSidebarOpen={isSidebarOpen} />
+          <MenuItem to="/admin/category" icon={<FaFirstOrder />} label="دسته بندی ها" isSidebarOpen={isSidebarOpen} />
           <li className={`${style.menuItem} list-group-item bg-dark border-0 text-center`}>
             <Link onClick={handleLogout} className="text-light text-decoration-none">
               <FaSignOutAlt />

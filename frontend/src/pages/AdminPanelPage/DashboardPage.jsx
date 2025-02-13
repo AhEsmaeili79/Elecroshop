@@ -3,15 +3,15 @@ import AdminLayout from "./dashboard/AdminLayout";
 import { fetchUserData } from "../../api/admin/adminDashboard";
 import { fetchCategories, fetchBrands, fetchModels } from "../../api/admin/adminDashboard";
 import { fetchUserOrders } from "../../api/admin/adminDashboard";
-import { fetchProductList } from "../../api/admin/adminDashboard";
+import { fetchSellerProducts } from "../../api/seller/Products";
 import { fetchWishlist } from "../../api/admin/adminDashboard";
 import moment from "moment-jalaali";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+import styles from './css/AdminDashboard.module.css';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-import styles from './css/AdminDashboard.module.css';
 
 const convertToPersianDate = (date) => moment(date).format("jYYYY/jMM/jDD HH:mm:ss");
 const getPersianMonth = (date) => moment(date).locale('fa').format("jMM");
@@ -49,7 +49,7 @@ const DashboardPage = () => {
           fetchBrands(),
           fetchModels(),
           fetchUserOrders(),
-          fetchProductList(),
+          fetchSellerProducts(),
           fetchWishlist(),
         ]);
 

@@ -41,8 +41,6 @@ const InputField = ({
   </div>
 );
 
-
-
 const ProductForm = ({ productId }) => {
   const navigate = useNavigate();
   const [productData, setProductData] = useState({
@@ -213,7 +211,6 @@ const ProductForm = ({ productId }) => {
                       alt={label}
                       className="img-fluid rounded shadow-sm"
                     />
-
                     <div className="edit-icon">
                       <FaCamera />
                     </div>
