@@ -111,6 +111,7 @@ const DashboardPage = () => {
             <>
               <DashboardCard title="دسته‌بندی‌ها" count={categories.length} link="/admin/categories" />
               <DashboardCard title="محصولات" count={products.length} link="/admin/products" />
+              <DashboardCard title="سفارش‌ها" count={orders.length} link="/admin/orders" />
             </>
           ) : null}
           
@@ -118,7 +119,6 @@ const DashboardPage = () => {
             <>
               <DashboardCard title="برندها" count={brands.length} link="/admin/brands" />
               <DashboardCard title="مدل‌ها" count={models.length} link="/admin/models" />
-              <DashboardCard title="سفارش‌ها" count={orders.length} link="/admin/orders" />
               <DashboardCard title="لیست علاقه‌مندی‌ها" count={wishlist.length} link="/admin/wishlist" />
             </>
           )}

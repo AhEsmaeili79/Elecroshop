@@ -3,8 +3,6 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL + "/products/";
 const token = localStorage.getItem("access_token");
 
-
-
 const axiosInstance = axios.create({
   baseURL: API_URL,
   headers: {

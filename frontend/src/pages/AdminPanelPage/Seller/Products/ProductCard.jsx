@@ -4,7 +4,7 @@ import style from './css/SellerProductList.module.css';
 const ProductCard = ({ product }) => {
     console.log(product)
   return (
-    <Link to={`/seller/edit-product/${product.id}`} className={style.sellerProductList__productLink}>
+    <Link to={`/admin/products/edit/${product.id}`} className={style.sellerProductList__productLink}>
       <div className={`${style.sellerProductList__productCard} shadow-lg p-3 mb-5 bg-white rounded`}>
         <img src={product.main_photo} alt={product.name} className={`${style.sellerProductList__productImage} img-fluid`} />
         

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { FaCamera } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   fetchCategories,
@@ -9,13 +10,25 @@ import {
   createProduct,
   updateProduct,
 } from "../../../../../api/seller/Products";
+import ImagePlaceholder from '../../../../../assets/images/landscape-placeholder.svg'
 
-const InputField = ({ label, type, name, value, onChange, required, multiple, accept }) => (
-  <div className="mb-3">
-    <label className="form-label fw-bold">{label}</label>
+const InputField = ({
+  label,
+  type,
+  name,
+  value,
+  onChange,
+  required,
+  multiple,
+  accept,
+}) => (
+  <div className="mb-4">
+    <label htmlFor={name} className="form-label fw-bold mb-2">
+      {label}
+    </label>
     <input
+      id={name}
       type={type}
-      className="form-control"
       name={name}
       value={value}
       onChange={onChange}
@@ -23,11 +36,15 @@ const InputField = ({ label, type, name, value, onChange, required, multiple, ac
       multiple={multiple}
       accept={accept}
       dir="rtl"
+      className="form-control rounded-lg py-2 px-3 shadow-sm transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
     />
   </div>
 );
 
+
+
 const ProductForm = ({ productId, onSuccess }) => {
+  const navigate = useNavigate();
   const [productData, setProductData] = useState({
     name: "",
     price: "",
@@ -95,7 +112,6 @@ const ProductForm = ({ productId, onSuccess }) => {
     if (productId) fetchProductDetails();
   }, [productId]);
 
-  // Handlers for Form Inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProductData((prev) => ({
@@ -131,9 +147,11 @@ const ProductForm = ({ productId, onSuccess }) => {
       if (productId) {
         await updateProduct(productId, formData);
         toast.success("محصول با موفقیت به‌روزرسانی شد!");
+        navigate('/admin/products')
       } else {
         await createProduct(formData);
         toast.success("محصول با موفقیت اضافه شد!");
+        navigate('/admin/products')
       }
       onSuccess();
     } catch (error) {
@@ -144,22 +162,27 @@ const ProductForm = ({ productId, onSuccess }) => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4">{productId ? "Edit Product" : "Add Product"}</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="image-upload-row" style={{ display: "flex", gap: "20px" }}>
+    <div className="container" dir="rtl">
+    <div className="row justify-content-center">
+      <div className="col-12 col-md-10 col-lg-8 bg-white rounded-lg shadow-md p-4 p-md-5">
+        <h2 className="text-xl md:text-2xl font-semibold mb-4">
+          {productId ? "ویرایش محصول" : "افزودن محصول"}
+        </h2>
+        <form onSubmit={handleSubmit}>
+          
+          <div className="row mb-4">
             {photoLabels.map((label, index) => (
-              <div className="image-upload-container" key={label}>
-                <label>{index === 0 ? "Main Photo" : `Photo ${index}`}</label>
-                <label htmlFor={label} className="image-upload-label">
+              <div className="col-6 col-md-4 col-lg-3 text-center" key={label}>
+                <label>{index === 0 ? "تصویر اصلی" : `تصویر شماره ${index}`}</label>
+                <label htmlFor={label} className="image-upload-label d-block">
                   <img
                     src={
                       productData.images[label]
                         ? URL.createObjectURL(productData.images[label])
-                        : "https://picsum.photos/800"
+                        : ImagePlaceholder
                     }
                     alt={label}
-                    className="profile-image"
+                    className="img-fluid rounded shadow-sm"
                   />
                   <div className="edit-icon">
                     <FaCamera />
@@ -171,48 +194,117 @@ const ProductForm = ({ productId, onSuccess }) => {
                   name={label}
                   accept="image/*"
                   onChange={handleFileChange}
-                  style={{ display: "none" }}
+                  className="d-none"
                 />
               </div>
             ))}
           </div>
-        <InputField label="Product Name *" type="text" name="name" value={productData.name} onChange={handleChange} required />
-        <InputField label="Price *" type="number" name="price" value={productData.price} onChange={handleChange} required />
-        <label>Description</label>
-        <textarea name="desc" value={productData.desc} onChange={handleChange} className="form-control rounded-lg" />
-
-        <label>Category *</label>
-        <select name="category" value={productData.category} onChange={handleChange} className="form-control rounded-lg" required>
-          <option value="">Select Category</option>
-          {categories.map((cat) => (
-            <option key={cat.id} value={cat.id}>{cat.name}</option>
-          ))}
-        </select>
-
-        <label>Brand *</label>
-        <select name="brand" value={productData.brand} onChange={handleChange} className="form-control rounded-lg" required>
-          <option value="">Select Brand</option>
-          {brands.map((brand) => (
-            <option key={brand.id} value={brand.id}>{brand.name}</option>
-          ))}
-        </select>
-
-        <label>Model *</label>
-        <select name="model" value={productData.model} onChange={handleChange} className="form-control rounded-lg" required>
-          <option value="">Select Model</option>
-          {models.map((model) => (
-            <option key={model.id} value={model.id}>{model.name}</option>
-          ))}
-        </select>
-
-        
-
-
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-full" disabled={loading}>
-          {loading ? "Saving..." : productId ? "Update Product" : "Add Product"}
-        </button>
-      </form>
+  
+          <div className="row">
+            <div className="col-12 col-md-6 mb-3">
+              <InputField
+                label="نام محصول *"
+                type="text"
+                name="name"
+                value={productData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="col-12 col-md-6 mb-3">
+              <InputField
+                label="قیمت *"
+                type="number"
+                name="price"
+                value={productData.price}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+  
+          <div className="mb-3">
+            <label>توضیحات</label>
+            <textarea
+              name="desc"
+              value={productData.desc}
+              onChange={handleChange}
+              className="form-control rounded-lg py-2 px-3 shadow-sm transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
+            />
+          </div>
+  
+          <div className="row">
+            <div className="col-12 col-md-4 mb-3">
+              <label>دسته‌بندی *</label>
+              <select
+                name="category"
+                value={productData.category}
+                onChange={handleChange}
+                className="form-control rounded-lg py-2 px-3 shadow-sm transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
+                required
+                style={{ cursor: 'pointer' }}
+              >
+                <option value="">انتخاب دسته‌بندی</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+  
+            <div className="col-12 col-md-4 mb-3">
+              <label>برند *</label>
+              <select
+                name="brand"
+                value={productData.brand}
+                onChange={handleChange}
+                className="form-control rounded-lg py-2 px-3 shadow-sm transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
+                required
+                style={{ cursor: 'pointer' }}
+              >
+                <option value="">انتخاب برند</option>
+                {brands.map((brand) => (
+                  <option key={brand.id} value={brand.id}>
+                    {brand.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+  
+            <div className="col-12 col-md-4 mb-3">
+              <label>مدل *</label>
+              <select
+                name="model"
+                value={productData.model}
+                onChange={handleChange}
+                className="form-control rounded-lg py-2 px-3 shadow-sm transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
+                required
+                style={{ cursor: 'pointer', fontWeight: '200' }}
+              >
+                <option value="">انتخاب مدل</option>
+                {models.map((model) => (
+                  <option key={model.id} value={model.id}>
+                    {model.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+  
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-100 disabled:opacity-50"
+            disabled={loading}
+            style={{ fontSize: '15px' }}
+          >
+            {loading ? "در حال ذخیره..." : productId ? "به‌روزرسانی محصول" : "افزودن محصول"}
+          </button>
+        </form>
+      </div>
     </div>
+  </div>
+  
   );
 };
 

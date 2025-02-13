@@ -1,11 +1,9 @@
-/* General Wrapper */
 .adminPanel_wrapper {
   min-height: 100vh;
-  direction: rtl; /* RTL layout for Persian */
-  padding-right: 0; /* Prevent extra space on the right */
+  direction: rtl; 
+  padding-right: 0; 
 }
 
-/* Sidebar Style */
 .adminPanel_sidebar {
   position: fixed;
   top: 0;
@@ -19,41 +17,40 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: center;
 }
+
+
 .adminPanel_sidebar .list-group-item {
   padding: 15px 20px;
-  font-size: 1.2rem; /* Increase menu font size */
+  font-size: 1.2rem; 
   border-radius: 5px;
 }
 
 .adminPanel_sidebar .list-group-item:hover {
-  background-color: #495057; /* Darker on hover */
+  background-color: #495057;
 }
 
-/* Sidebar when closed */
 .adminPanel_sidebar.closed {
-  width: 60px; /* Reduced width when closed */
-  justify-content: center;
+  width: 60px;
+  align-items: center;
 }
 
-/* When sidebar is collapsed, hide text */
-.adminPanel_sidebar.closed .list-group-item span h4.title-sidebar  {
-  display: none; /* Hide text when sidebar is collapsed */
+.adminPanel_sidebar.closed .list-group-item span,
+.adminPanel_sidebar.closed .list-group-item h4.title-sidebar {
+  display: none;
 }
 
-/* Make the sidebar compact when collapsed */
 .adminPanel_sidebar .list-group-item {
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
 
-/* Show only icons */
 .adminPanel_sidebar.closed .list-group-item .menuText {
   display: none;
 }
 
-/* Center toggle button when sidebar is closed */
 .adminPanel_sidebar.closed .toggleBtn {
   position: absolute;
   top: 50%;
@@ -67,7 +64,6 @@
   z-index: 1100;
 }
 
-/* Show the button on hover */
 .adminPanel_sidebar .toggleBtn {
   background-color: transparent;
   border: none;
@@ -77,29 +73,26 @@
   z-index: 1000;
 }
 
-/* Smooth sidebar transition when open/close */
 .adminPanel_sidebar .list-group-item .menuText {
   transition: opacity 0.3s ease, margin-left 0.3s ease;
 }
 
-/* Main Content Area */
 .adminPanel_content {
-  margin-right: 240px; /* Sidebar width when open */
+  margin-right: 240px; 
   background-color: #f8f9fa;
   min-height: 100vh;
-  direction: ltr; /* Content should remain left-to-right */
-  transition: margin-right 0.3s ease; /* Smooth transition for margin change */
+  direction: ltr; 
+  transition: margin-right 0.3s ease;
 }
 
-/* When sidebar is closed, reduce the margin */
 .adminPanel_sidebar.closed ~ .adminPanel_content {
-  margin-right: 60px; /* Sidebar width when collapsed */
+  margin-right: 60px; 
 }
 .noHover:hover {
-  text-decoration: none; /* Remove underline or text decoration on hover */
-  background-color: transparent; /* Ensure the background color doesn't change on hover */
+  text-decoration: none; 
+  background-color: transparent;
 }
-/* Responsive Styles for Mobile */
+
 @media (max-width: 767px) {
   .adminPanel_sidebar {
     transition: transform 0.3s ease-in-out;
@@ -113,3 +106,6 @@
     margin-right: 0;
   }
 }
+
+
+
