@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ImagePlaceholder from "../../../../assets/images/landscape-placeholder.svg";
-import { fetchCategories } from "../../../../api/Category";
+import { fetchCategories } from "../../../../api/seller/category";
 import { FaEdit } from "react-icons/fa";
 import AdminLayout from "../../dashboard/AdminLayout";
 

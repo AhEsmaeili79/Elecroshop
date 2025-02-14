@@ -109,7 +109,7 @@ const DashboardPage = () => {
         <div className={styles.dashboardCards}>
           {isAdmin || isSeller ? (
             <>
-              <DashboardCard title="دسته‌بندی‌ها" count={categories.length} link="/admin/categories" />
+              <DashboardCard title="دسته‌بندی‌ها" count={categories.length} link="/admin/category" />
               <DashboardCard title="محصولات" count={products.length} link="/admin/products" />
               <DashboardCard title="سفارش‌ها" count={orders.length} link="/admin/orders" />
             </>

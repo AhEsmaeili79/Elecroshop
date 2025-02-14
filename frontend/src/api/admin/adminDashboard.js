@@ -57,10 +57,17 @@ export const fetchProductList = async () => {
 
 
 export const fetchCategories = async () => {
-    const response = await axios.get(`${CATEGORY_API_URL}/categories/`);
+  try {
+    const response = await axios.get(
+      `${CATEGORY_API_URL}/seller-categories/`,
+      getAuthHeaders()
+    );
     return response.data;
-  };
-  
+  } catch (error) {
+    console.error("Failed to fetch categories:", error);
+    throw error;
+  }
+};
 
   export const fetchBrands = async () => {
     const response = await axios.get(`${CATEGORY_API_URL}/brands/`);

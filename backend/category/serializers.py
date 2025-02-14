@@ -39,3 +39,4 @@ class ModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Model
         fields = ["id", "name", "brand", "sub_category", "owner"]
+
