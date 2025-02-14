@@ -2,6 +2,9 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL + "/products/";
 const API_URL_PRODUCT = import.meta.env.VITE_API_URL + '/customer-products/';
+const API_URL_CQ = import.meta.env.VITE_API_URL + "/product_color_quantities/";
+
+
 const token = localStorage.getItem("access_token");
 
 const axiosInstance = axios.create({
@@ -100,3 +103,49 @@ export const updateProduct = async (productId, productData) => {
       throw error;
     }
   };
+
+export const fetchProductColorQuantities = async (productId) => {
+  try {
+    const response = await axios.get(`${API_URL_CQ}?product=${productId}`, {
+      headers: {
+        'Content-Type': 'multipart/form-data', 
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching color quantities:", error);
+    throw error;
+  }
+};
+
+export const saveColorQuantities = async (colorQuantitiesData) => {
+  try {
+    const response = await axios.post(`${API_URL_CQ}`, colorQuantitiesData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', 
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+    console.log(colorQuantitiesData)
+    return response.data;
+  } catch (error) {
+    console.error("Error saving color quantities:", error);
+    throw error;
+  }
+};
+
+export const updateColorQuantities = async (productId, colorQuantitiesData) => {
+  try {
+    const response = await axios.put(`${API_URL_CQ}?product=${productId}`, colorQuantitiesData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', 
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating color quantities:", error);
+    throw error;
+  }
+};

@@ -1,11 +1,14 @@
 from rest_framework import viewsets, permissions
-from .models import Product, Wishlist,Color
+from .models import Product, Wishlist, Color, ProductColorQuantity
 from rest_framework.decorators import action
 from rest_framework import serializers
 from rest_framework.response import Response
 from category.models import Category
-from .serializers import ProductSerializer, WishlistSerializer, ColorSerializer
+from .serializers import ProductSerializer, WishlistSerializer, ColorSerializer, ProductColorQuantitySerializer
 from .Permissions.permissions import IsSellerOrReadOnly
+from django.contrib.auth import get_user_model
+from rest_framework.exceptions import PermissionDenied
+User = get_user_model()
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
@@ -65,9 +68,6 @@ class WishlistViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def list(self, request):
-        """
-        Get all products in the user's wishlist
-        """
         if request.user.is_staff or request.user.is_superuser: 
             wishlist = Wishlist.objects.all()
         else:
@@ -107,3 +107,46 @@ class ColorViewSet(viewsets.ModelViewSet):
     queryset = Color.objects.all()
     serializer_class = ColorSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    
+    
+class ProductColorQuantityViewSet(viewsets.ModelViewSet): 
+    permission_classes = [IsSellerOrReadOnly]
+    serializer_class = ProductColorQuantitySerializer
+    queryset = ProductColorQuantity.objects.all()
+    
+    def get_queryset(self):
+        user = self.request.user
+        queryset = ProductColorQuantity.objects.all()
+        
+        product_id = self.request.query_params.get('product')
+        if product_id:
+            queryset = queryset.filter(product__id=product_id)
+        
+        if user.role in ['admin', 'seller']:
+            return queryset
+        return ProductColorQuantity.objects.none()
+
+    def create(self, request, *args, **kwargs):
+        product_id = request.data.get('product')
+        if not product_id:
+            return Response({"error": "Product ID is required."}, status=400)
+        return super().create(request, *args, **kwargs)
+
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if not self.check_object_permissions(request, instance):
+            raise PermissionDenied("You do not have permission to edit this.")
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if not self.check_object_permissions(request, instance):
+            raise PermissionDenied("You do not have permission to partially update this.")
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)

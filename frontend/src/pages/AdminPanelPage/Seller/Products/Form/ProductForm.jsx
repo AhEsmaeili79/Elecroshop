@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+
 import { FaCamera } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import {fetchColors} from "../../../../../api/Colors";
 import {
   fetchCategories,
   fetchBrands,
@@ -9,6 +11,9 @@ import {
   fetchProductDetails,
   createProduct,
   updateProduct,
+  saveColorQuantities,
+  updateColorQuantities,
+  fetchProductColorQuantities
 } from "../../../../../api/seller/Products";
 import ImagePlaceholder from '../../../../../assets/images/landscape-placeholder.svg';
 
@@ -67,18 +72,22 @@ const ProductForm = ({ productId }) => {
   const [brands, setBrands] = useState([]);
   const [models, setModels] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [colorQuantities, setColorQuantities] = useState([{ color: "", quantity: "" }]);
+  const [colors, setColors] = useState([]);
 
   useEffect(() => {
     const loadInitialData = async () => {
       try {
-        const [cats, brds, mods] = await Promise.all([
+        const [cats, brds, mods, clrs] = await Promise.all([
           fetchCategories(),
           fetchBrands(),
           fetchModels(),
+          fetchColors(),
         ]);
         setCategories(cats);
         setBrands(brds);
         setModels(mods);
+        setColors(clrs);
       } catch (error) {
         console.error("Error loading initial data:", error);
       }
@@ -94,7 +103,6 @@ const ProductForm = ({ productId }) => {
   const loadProductDetails = async () => {
     try {
       const data = await fetchProductDetails(productId);
-      console.log(data);
       setProductData({
         name: data.name,
         price: data.price,
@@ -116,9 +124,33 @@ const ProductForm = ({ productId }) => {
         photo2: data.photo2 || ImagePlaceholder,
         photo3: data.photo3 || ImagePlaceholder,
       });
+
+      const existingColorQuantities = await fetchProductColorQuantities(productId);
+      if (existingColorQuantities.length > 0) {
+        setColorQuantities(existingColorQuantities);
+      }
+
+
     } catch (error) {
       console.error("Error fetching product details:", error);
     }
+  };
+
+  const addColorQuantity = () => {
+    setColorQuantities([...colorQuantities, { color: "", quantity: "" }]);
+  };
+
+
+  const removeColorQuantity = (index) => {
+    const updatedQuantities = colorQuantities.filter((_, i) => i !== index);
+    setColorQuantities(updatedQuantities);
+  };
+
+
+  const handleColorQuantityChange = (index, field, value) => {
+    const updatedQuantities = [...colorQuantities];
+    updatedQuantities[index][field] = value;
+    setColorQuantities(updatedQuantities);
   };
   
 
@@ -176,19 +208,54 @@ const ProductForm = ({ productId }) => {
       if (productId) {
         await updateProduct(productId, formData);
         toast.success("محصول با موفقیت به‌روزرسانی شد!");
-        navigate('/admin/products');
       } else {
-        await createProduct(formData);
-        toast.success("محصول با موفقیت اضافه شد!");
-        navigate('/admin/products');
+        const createResponse = await createProduct(formData);
+        toast.success("محصول با موفقیت اضافه شد!"); 
+        productId = createResponse.id;
       }
+  
+      let existingColorQuantities = [];
+      if (productId) {
+        existingColorQuantities = await fetchProductColorQuantities(productId);
+        console.log(existingColorQuantities)
+      }
+  
+      if (colorQuantities.length > 0) {
+        try {
+          for (const cq of colorQuantities) {
+            const existingCQ = existingColorQuantities.find(
+              (item) => item.color === cq.color && item.product === productId
+            );
+  
+            const colorQuantitiesData = {
+              color: cq.color,
+              quantity: cq.quantity,
+              product: productId
+            };
+
+            console.log(colorQuantitiesData)
+            if (existingCQ) {
+              await updateColorQuantities(existingCQ.id, colorQuantitiesData);
+              toast.success("رنگ‌ها و تعدادها با موفقیت به‌روزرسانی شدند!");
+            } else {
+              await saveColorQuantities(colorQuantitiesData);
+              toast.success("رنگ‌ها و تعدادها با موفقیت ذخیره شدند!");
+            }
+          }
+        } catch (error) {
+          toast.error("خطا در ذخیره رنگ‌ها و تعدادها: " + (error.response?.data || error.message));
+        }
+      }
+  
     } catch (error) {
       toast.error("خطا در ذخیره محصول: " + (error.response?.data || error.message));
+      console.log(error.response?.data || error.message)
     } finally {
       setLoading(false);
     }
   };
-
+  
+  
   return (
     <div className="container" dir="rtl">
       <div className="row justify-content-center">
@@ -262,8 +329,8 @@ const ProductForm = ({ productId }) => {
 
             <div className="row">
               <div className="col-12 col-md-4 mb-3">
-                <label>دسته‌بندی *</label>
-                <select
+                  <label>دسته‌بندی *</label>
+                  <select
                     name="category"
                     value={String(productData.category)}  
                     onChange={handleChange}
@@ -273,13 +340,12 @@ const ProductForm = ({ productId }) => {
                   >
                     <option value="">انتخاب دسته‌بندی</option>
                     {categories.map((cat) => (
-                      <option key={cat.id} value={String(cat.id)}>  {/* Ensure value is string */}
+                      <option key={cat.id} value={String(cat.id)}>  
                         {cat.name}
                       </option>
                     ))}
                   </select>
-
-                                </div>
+              </div>
 
               <div className="col-12 col-md-4 mb-3">
                 <label>برند *</label>
@@ -319,7 +385,61 @@ const ProductForm = ({ productId }) => {
                 </select>
               </div>
             </div>
-
+            <div className="row">
+            <div className="mb-3">
+              <label className="form-label fw-bold mb-2">رنگ‌ها و تعدادها</label>
+              {colorQuantities.map((cq, index) => (
+                <div key={index} className="row mb-3 align-items-center">
+                  <div className="col-6 d-flex flex-wrap gap-2">
+                    {colors.map((color) => (
+                      <div
+                        key={color.id}
+                        onClick={() => handleColorQuantityChange(index, "color", color.id)}
+                        style={{
+                          backgroundColor: color.color_hex,
+                          width: "30px",
+                          height: "30px",
+                          borderRadius: "50%",
+                          marginRight:"5px",
+                          cursor: "pointer",
+                          border: cq.color === color.id ? "2px solid #ccc" : "2px solid transparent",
+                          boxShadow: "0 0 5px rgba(0,0,0,0.2)",
+                        }}
+                        title={color.color_hex} 
+                      />
+                    ))}
+                  </div>
+                  <div className="col-4">
+                    <input
+                      type="number"
+                      min="1"
+                      placeholder="تعداد"
+                      value={cq.quantity}
+                      onChange={(e) => handleColorQuantityChange(index, "quantity", e.target.value)}
+                      className="form-control rounded-lg py-2 mb-0 px-3 shadow-sm transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
+                      required
+                    />
+                  </div>
+                  <div className="col-2">
+                    <button
+                      type="button"
+                      className="btn btn-danger rounded-lg"
+                      onClick={() => removeColorQuantity(index)}
+                    >
+                      حذف
+                    </button>
+                  </div>
+                </div>
+              ))}
+              </div>
+            </div>
+            <button
+                type="button"
+                className="btn btn-success mt-2 mb-2 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-100 disabled:opacity-50"
+                onClick={addColorQuantity}
+              >
+                افزودن رنگ و تعداد
+              </button>
             <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-100 disabled:opacity-50"

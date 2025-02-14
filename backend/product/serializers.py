@@ -10,10 +10,11 @@ class ColorSerializer(serializers.ModelSerializer):
 
 class ProductColorQuantitySerializer(serializers.ModelSerializer):
     color_hex = serializers.ReadOnlyField(source='color.color_hex')
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
 
     class Meta:
         model = ProductColorQuantity
-        fields = ['color', 'color_hex', 'quantity']
+        fields = ['color', 'color_hex', 'quantity', 'product']
 
 
 class ProductSerializer(serializers.ModelSerializer):
