@@ -244,6 +244,8 @@
     font-size: 12px;
 }
 
+
+
 .sidebarr .profile #log_out {
     position: absolute;
     top: 50%;
@@ -262,7 +264,7 @@
 }
 
 #log_out:hover{
-    color: #adaaaa;
+    color: #666565;
 }
 
 span.user-log{

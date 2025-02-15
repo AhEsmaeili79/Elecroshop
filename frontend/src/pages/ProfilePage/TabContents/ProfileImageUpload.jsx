@@ -1,4 +1,5 @@
 import { FaCamera } from 'react-icons/fa'; 
+import ImagePlaceholder from '../../../assets/images/landscape-placeholder.svg';
 
 const ProfileImageUpload = ({ profileImage, handleImageChange }) => {
     return (
@@ -8,7 +9,7 @@ const ProfileImageUpload = ({ profileImage, handleImageChange }) => {
                     src={
                         profileImage && profileImage instanceof File
                             ? URL.createObjectURL(profileImage) 
-                            : profileImage || 'https://source.unsplash.com/random/150x150'
+                            : profileImage || ImagePlaceholder
                     } 
                     alt="Profile"
                     className="profile-image"

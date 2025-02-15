@@ -4,6 +4,7 @@ import Logo from "../../assets/images/logo-white.png";
 import "./sidebar.module-rtl.css";
 import { fetchCategories } from '../../api/Category';
 
+import ImagePlaceholder from '../../assets/images/landscape-placeholder.svg';
 const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, toggleModal }) => {
     const navigate = useNavigate();
     const [query, setQuery] = useState("");
@@ -29,7 +30,6 @@ const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, to
         }
     };
 
-    // Fetch categories on component mount
     useEffect(() => {
         const getCategories = async () => {
             try {
@@ -85,14 +85,12 @@ const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, to
                             </span>
                         </Link>
 
-                        {/* Dynamic Mega menu section */}
                         {dropdownOpen && (
                             <ul className="mega-menu">
                                 {categories.map((category) => (
                                     <li key={category.id}>
                                         <Link to={`/product/?category=${category.id}`} onClick={toggleSidebar}>
                                             <span>{category.name}</span>
-                                            {/* Render subcategories if available */}
                                             {category.subcategories && category.subcategories.length > 0 && (
                                                 <ul className="subcategory-list">
                                                     {category.subcategories.map((subcategory) => (
@@ -132,13 +130,14 @@ const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, to
                         {isLoggedIn ? (
                             <>
                                 <div className="profile-details">
-                                    <Link to="/dashboard">
-                                        <img src={username.profile_image} alt="profileImg" />
+                                <Link to="/dashboard">
+                                        <img src={username.profile_image ? username.profile_image : ImagePlaceholder} alt="profileImg" />
                                         <div className="name_job">
                                             <div className="name">{username.first_name}</div>
                                             {username.role !== "customer" && <div className="job">{username.role}</div>}
                                         </div>
-                                    </Link>
+                                </Link>
+
                                 </div>
                                 <Link onClick={handleLogout}>
                                     <i className="bx bx-log-out" id="log_out"></i>
