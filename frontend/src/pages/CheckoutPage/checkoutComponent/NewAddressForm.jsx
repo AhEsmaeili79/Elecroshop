@@ -17,6 +17,7 @@ const NewAddressForm = ({ newAddress, setNewAddress, addAddress }) => {
         apartment: "",
         zip_code: "",
       });
+      window.location.reload();
     } catch (error) {
       console.error("Error adding address:", error);
     }

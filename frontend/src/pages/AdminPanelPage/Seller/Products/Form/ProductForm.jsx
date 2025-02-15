@@ -246,7 +246,7 @@ const ProductForm = ({ productId }) => {
           toast.error("خطا در ذخیره رنگ‌ها و تعدادها: " + (error.response?.data || error.message));
         }
       }
-  
+      navigate('/admin/products');
     } catch (error) {
       toast.error("خطا در ذخیره محصول: " + (error.response?.data || error.message));
       console.log(error.response?.data || error.message)

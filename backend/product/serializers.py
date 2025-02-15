@@ -19,7 +19,8 @@ class ProductColorQuantitySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     seller = serializers.CharField(source="seller.username", read_only=True)
-    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())  
+    category_name = serializers.CharField(source="category.name", read_only=True)
+    category = CategorySerializer(read_only=True)
     is_in_wishlist = serializers.SerializerMethodField()
     color_quantities = ProductColorQuantitySerializer(source='productcolorquantity_set', many=True, read_only=True)
     
@@ -43,6 +44,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "brand",
             "is_in_wishlist",
             "created_at",
+            "category_name"
         ]
     
     def get_is_in_wishlist(self, obj):

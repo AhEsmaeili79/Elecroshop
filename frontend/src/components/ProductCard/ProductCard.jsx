@@ -126,7 +126,6 @@ const ProductCard = ({ product, index }) => {
     return persianNumerals;
   }
 
-  // Handle removing the item from the cart
   const handleRemoveFromCart = async () => {
     try {
       await removeCartItem(cartItem.id);
@@ -138,7 +137,6 @@ const ProductCard = ({ product, index }) => {
     }
   };
 
-  // Handle color change and update quantities
   const handleColorChange = (colorId) => {
     setSelectedColor(colorId);
 
@@ -158,12 +156,10 @@ const ProductCard = ({ product, index }) => {
     }
   };
 
-  // Ensure that product is available for rendering
   if (!product || !product.id) {
     return <p>در حال بارگذاری...</p>;
   }
 
-  // Check if product is out of stock
   const isOutOfStock = colorQuantities[selectedColor] === 0;
 
   return (

@@ -24,9 +24,6 @@ const ProductCard = ({ product, category, brand, model }) => {
         </p>
         
         <p className={style.sellerProductList__productModel}>
-          <strong>دسته بندی:</strong> {categoryName}
-        </p>
-        <p className={style.sellerProductList__productModel}>
           <strong>مدل:</strong> {modelName}
         </p>
         <p className={style.sellerProductList__productBrand}>
