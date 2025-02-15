@@ -6,7 +6,7 @@ import Logo from "../../../assets/images/logo.png";
 import BannerImage from "../../../assets/images/menu/banner-1.jpg";
 import Spinner from "../../Loading/loading";
 
-const LeftSide = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
+const LeftSide = ({isLoggedIn, handleLogout, username, toggleModal}) => {
   const [filters, setFilters] = useState({ categories: [], brands: [] });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true); 
@@ -67,29 +67,6 @@ const LeftSide = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
                             <li><Link to="/dashboard">حساب کاربری من</Link></li>
                           </ul>
                         </div>
-
-                        <div className="col-md-6">
-                          <div className="menu-title">دسته‌بندی محصولات</div>
-                          <ul>
-                            {loading && showLoading ? ( 
-                              <li>
-                                <Spinner/>
-                              </li>
-                            ) : (
-                              filters.categories.length > 0 ? (
-                                filters.categories.map(category => (
-                                  <li key={category.id}>
-                                    <Link to={`/product/?category=${category.id}`}>
-                                      {category.name}
-                                    </Link>
-                                  </li>
-                                ))
-                              ) : (
-                                <li>داده ای یافت نشد</li>
-                              )
-                            )}
-                          </ul>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -110,26 +87,33 @@ const LeftSide = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
               </div>
             </li>
 
-            <li>
-              <Link to="/product" className="sf-with-ul">برند</Link>
-              <ul>
-                {loading && showLoading ? ( 
-                  <li>
-                    <Spinner/>
-                  </li>
-                ) : (
-                  filters.brands.length > 0 ? (
-                    filters.brands.map(brand => (
-                      <li key={brand.id}>
-                        <Link to={`/brand/${brand.id}`}>{brand.name}</Link>
-                      </li>
-                    ))
-                  ) : (
-                    <li>داده ای یافت نشد</li>
-                  )
-                )}
-              </ul>
-            </li>
+            {/* Dynamic Categories and Brands as Mega Menu */}
+            {loading && showLoading ? (
+              <li>
+                <Spinner/>
+              </li>
+            ) : (
+              filters.categories.slice(0, 3).map((category, categoryIndex) => (
+                <li key={category.id} className="megamenu-container">
+                  <Link to={`/category/${category.id}`} className="sf-with-ul">{category.name}</Link>
+                  <div className="megamenu">
+                    <div className="menu-col">
+                      <div className="menu-title">{category.name}</div>
+                      <ul>
+                        {filters.brands
+                          .slice(categoryIndex * 10, (categoryIndex + 1) * 10)
+                          .map(brand => (
+                            <li key={brand.id}>
+                              <Link to={`/brand/${brand.id}`}>{brand.name}</Link>
+                            </li>
+                          ))
+                        }
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              ))
+            )}
 
             <li>
               <Link to="/product">محصولات</Link>
@@ -137,7 +121,14 @@ const LeftSide = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
           </ul>
         </nav>
       </div>
-      <Sidebar username={username} isLoggedIn={isLoggedIn} handleLogout={handleLogout} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} toggleModal={toggleModal}/>
+      <Sidebar 
+        username={username} 
+        isLoggedIn={isLoggedIn} 
+        handleLogout={handleLogout} 
+        isOpen={isSidebarOpen} 
+        toggleSidebar={toggleSidebar} 
+        toggleModal={toggleModal}
+      />
     </>
   );
 };

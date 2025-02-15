@@ -187,56 +187,11 @@ const ProductCard = ({ product, index }) => {
             disabled={isWishlistLoading}
           >{isInWishlist ? <FaHeart className="text-danger" /> : <FaRegHeart className="text-dark" />}
             {isWishlistLoading ? (
-              <Spinner />
+              null
             ) : (
               <span>{isInWishlist ? 'حذف از لیست علاقه‌مندی‌ها' : 'افزودن به لیست علاقه‌مندی‌ها'}</span>
             )}
           </a>
-        </div>
-        <div className="product-action">
-          {isOutOfStock ? (
-            <a
-              className="btn-product btn-cart"
-              title="تمام شده"
-              disabled
-            ></a>
-          ) : cartItem ? (
-            <div className="qty-control">
-              <button
-                onClick={() => {
-                  if (quantity === 1) {
-                    handleRemoveFromCart();
-                  } else {
-                    handleQuantityChange(quantity - 1);
-                  }
-                }}
-                className="btn-product btn-quantity"
-                title="کاهش تعداد"
-              >
-                <span>-</span>
-              </button>
-              <span className="quantity">{toPersianNumbers(quantity)}</span>
-              <button
-                onClick={() => handleQuantityChange(quantity + 1)}
-                className="btn-product btn-quantity"
-                title="افزایش تعداد"
-              >
-                <span>+</span>
-              </button>
-            </div>
-          ) : selectedColor ? (  
-            <a
-              onClick={(e) => {
-                e.preventDefault();
-                handleAddToCart();
-              }}
-              className="btn-product btn-cart"
-              title="افزودن به سبد خرید"
-            ></a>
-          ) : (
-            <span className="btn-product btn-cart" title="لطفا رنگ را انتخاب کنید" disabled></span> 
-          )}
-          <a className="btn-product btn-quickview" title="مشاهده سریع"></a>
         </div>
       </figure>
 

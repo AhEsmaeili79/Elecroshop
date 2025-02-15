@@ -19,7 +19,7 @@ const HeaderMiddle = ({isLoggedIn, handleLogout ,username,toggleModal}) => {
                 <div className="container">
                     <div className="header-left">
                         <button className="mobile-menu-toggler" onClick={toggleSidebar}>
-                            <span className="sr-only">تنظیم منوی موبایل</span>
+                            <span className="sr-only">سایدبار</span>
                             <i className="icon-bars"></i>
                         </button>
                         <Link to='/' className="logo">
