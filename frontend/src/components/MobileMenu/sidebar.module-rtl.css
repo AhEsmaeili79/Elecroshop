@@ -275,6 +275,38 @@ span.user-log{
 }
 
 
+    .sidebarr li .dropdown-menu {
+        display: none;
+        margin-left: 20px;
+        padding-left: 10px;
+    }
+
+    .sidebarr li .dropdown-menu.open {
+        display: block;
+    }
+    .mega-menu {
+        color: #aaa9a9;
+    }
+
+    .mega-menu li a {
+        color: #aaa9a9;
+        border-radius: 5px;
+        padding-right: 10px;
+    }
+
+    .mega-menu li a:hover {
+        color: #000; 
+    }
+
+    .subcategory-list li a {
+        color: #aaa9a9;
+        margin-right: 15px;
+    }
+
+    .subcategory-list li a:hover {
+        color: #000; 
+    }
+
 @media screen and (max-width: 400px) {
     .sidebarr{
         z-index: -200;

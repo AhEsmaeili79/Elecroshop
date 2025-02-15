@@ -2,11 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import Logo from "../../assets/images/logo-white.png";
 import "./sidebar.module-rtl.css";
+import { fetchCategories } from '../../api/Category';
 
 const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, toggleModal }) => {
     const navigate = useNavigate();
     const [query, setQuery] = useState("");
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [categories, setCategories] = useState([]);
     const sidebarRef = useRef(null);
     const btnRef = useRef(null);
 
@@ -27,6 +29,19 @@ const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, to
         }
     };
 
+    // Fetch categories on component mount
+    useEffect(() => {
+        const getCategories = async () => {
+            try {
+                const data = await fetchCategories();
+                setCategories(data);
+            } catch (error) {
+                console.error('Error loading categories:', error);
+            }
+        };
+
+        getCategories();
+    }, []);
 
     return (
         <div className={`sidebarr-containerr ${isOpen ? "open" : ""}`}>
@@ -58,35 +73,51 @@ const Sidebar = ({ isOpen, toggleSidebar, username, isLoggedIn, handleLogout, to
                     </li>
                     <li>
                         <Link to="/product" onClick={toggleSidebar}>
-                           <i className='bx bx-basket'></i>
+                            <i className='bx bx-basket'></i>
                             <span className="links_name">محصولات</span>
                         </Link>
                     </li>
                     <li>
                         <Link>
-                            <i className="bx bx-grid-alt" onClick={() => setDropdownOpen(!dropdownOpen)} ></i>
-                            <span className="links_name" onClick={() => setDropdownOpen(!dropdownOpen)} >دسته بندی ها <i className={`bx ${dropdownOpen ? "bx-chevron-up" : "bx-chevron-down"}`}></i></span>
+                            <i className="bx bx-grid-alt" onClick={() => setDropdownOpen(!dropdownOpen)}></i>
+                            <span className="links_name" onClick={() => setDropdownOpen(!dropdownOpen)}>
+                                دسته بندی ها <i className={`bx ${dropdownOpen ? "bx-chevron-up" : "bx-chevron-down"}`}></i>
+                            </span>
                         </Link>
-                            {dropdownOpen && (
-                            <ul className="dropdown-menu">
-                                <li>
-                                    <Link to="/category/electronics" onClick={toggleSidebar}>الکترونیک</Link>
-                                </li>
-                                <li>
-                                    <Link to="/category/clothing" onClick={toggleSidebar}>پوشاک</Link>
-                                </li>
-                                <li>
-                                    <Link to="/category/home" onClick={toggleSidebar}>لوازم خانگی</Link>
-                                </li>
+
+                        {/* Dynamic Mega menu section */}
+                        {dropdownOpen && (
+                            <ul className="mega-menu">
+                                {categories.map((category) => (
+                                    <li key={category.id}>
+                                        <Link to={`/product/?category=${category.id}`} onClick={toggleSidebar}>
+                                            <span>{category.name}</span>
+                                            {/* Render subcategories if available */}
+                                            {category.subcategories && category.subcategories.length > 0 && (
+                                                <ul className="subcategory-list">
+                                                    {category.subcategories.map((subcategory) => (
+                                                        <li key={subcategory.id}>
+                                                            <Link to={`/subcategory/${subcategory.id}`} onClick={toggleSidebar}>
+                                                                {subcategory.name}
+                                                            </Link>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </Link>
+                                    </li>
+                                ))}
                             </ul>
                         )}
                     </li>
-                    {localStorage.getItem("token") && (<li>
-                        <Link to="/wishlist" onClick={toggleSidebar}>
-                            <i className="bx bx-heart"></i>
-                            <span className="links_name">علاقه‌مندی‌ها</span>
-                        </Link>
-                    </li>
+
+                    {localStorage.getItem("token") && (
+                        <li>
+                            <Link to="/wishlist" onClick={toggleSidebar}>
+                                <i className="bx bx-heart"></i>
+                                <span className="links_name">علاقه‌مندی‌ها</span>
+                            </Link>
+                        </li>
                     )}
                     {localStorage.getItem("token") && (
                         <li>
