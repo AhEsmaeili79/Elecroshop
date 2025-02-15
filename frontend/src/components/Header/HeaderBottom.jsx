@@ -57,7 +57,7 @@ const HeaderBottom = () => {
                               <ul>
                                 {groupedBrands[index] && groupedBrands[index].map(brand => (
                                   <li key={brand.id}>
-                                    <Link to={`/brand/${brand.id}`}>{brand.name}</Link>
+                                    <Link to={`/product`}>{brand.name}</Link>
                                   </li>
                                 ))}
                               </ul>
@@ -85,12 +85,13 @@ const HeaderBottom = () => {
               <li>
                 <Link to="/brands" className="sf-with-ul">برند ها</Link>
                 <ul>
-                  {brands.map(brand => (
+                  {brands.slice(0, 7).map(brand => (
                     <li key={brand.id}>
                       <Link to={`/brand/${brand.id}`}>{brand.name}</Link>
                     </li>
                   ))}
                 </ul>
+
               </li>
               <li>
                 <Link to="/product">محصولات</Link>

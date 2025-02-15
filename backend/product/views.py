@@ -17,13 +17,13 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_authenticated and user.role == "seller":
+        if user.is_authenticated and user.role == "seller" or user.role == "admin":
             return Product.objects.filter(seller=user)
         return Product.objects.none()
 
     def perform_create(self, serializer):
         user = self.request.user
-        if user.is_authenticated and user.role == "seller":
+        if user.is_authenticated and user.role == "seller" or user.role == "admin":
             category_id = self.request.data.get('category')
             if category_id:
                 category = Category.objects.get(id=category_id)

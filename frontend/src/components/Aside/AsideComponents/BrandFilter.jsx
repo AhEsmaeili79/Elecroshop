@@ -16,8 +16,8 @@ const BrandFilter = ({ brands, selectedBrands, handleCheckboxChange, setSelected
       </h3>
       <div className="collapse" id="brand">
         <div className="widget-body">
-          <div className="filter-items category filter-items-count">
-            {brands.map((brand) => (
+        <div className="filter-items category filter-items-count">
+            {brands.slice(0, 10).map((brand) => (
               <div className="filter-item" key={brand.id}>
                 <div className="custom-control custom-checkbox">
                   <input
@@ -34,6 +34,7 @@ const BrandFilter = ({ brands, selectedBrands, handleCheckboxChange, setSelected
               </div>
             ))}
           </div>
+
         </div>
       </div>
     </div>

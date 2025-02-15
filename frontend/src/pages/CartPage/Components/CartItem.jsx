@@ -69,25 +69,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
         </a>
       </td>
       <td className="price-col">{`${formatPrice(item.product.price)} تومان`}</td>
-      <td className="quantity-col">
-        <div className="quantity-controls">
-          <button 
-            className="quantity-btn"
-            onClick={() => handleQuantityChange(item.quantity - 1)}
-            disabled={item.quantity <= 1} 
-          >
-            -
-          </button>
-          <span>{formatPrice(item.quantity)}</span>
-          <button 
-            className="quantity-btn"
-            onClick={() => handleQuantityChange(item.quantity + 1)}
-            disabled={item.quantity >= item.product.quantity}  
-          >
-            +
-          </button>
-        </div>
-      </td>
+      
 
       <td className="total-col">{`${formatPrice(totalprice)} تومان`}</td>
 

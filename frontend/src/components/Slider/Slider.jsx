@@ -14,7 +14,7 @@ const slides = [
     oldPrice: '۹,۵۰۰,۰۰۰',
     newPrice: '۹,۲۴۹,۰۰۰ ',
     linkText: 'خرید ',
-    linkHref: 'product',
+    linkHref: 'product/3',
   },
   {
     image: slide2,

@@ -87,7 +87,6 @@ const LeftSide = ({isLoggedIn, handleLogout, username, toggleModal}) => {
               </div>
             </li>
 
-            {/* Dynamic Categories and Brands as Mega Menu */}
             {loading && showLoading ? (
               <li>
                 <Spinner/>
@@ -95,7 +94,7 @@ const LeftSide = ({isLoggedIn, handleLogout, username, toggleModal}) => {
             ) : (
               filters.categories.slice(0, 3).map((category, categoryIndex) => (
                 <li key={category.id} className="megamenu-container">
-                  <Link to={`/category/${category.id}`} className="sf-with-ul">{category.name}</Link>
+                  <Link to={`/product/?category=${category.id}`} className="sf-with-ul">{category.name}</Link>
                   <div className="megamenu">
                     <div className="menu-col">
                       <div className="menu-title">{category.name}</div>
@@ -104,7 +103,7 @@ const LeftSide = ({isLoggedIn, handleLogout, username, toggleModal}) => {
                           .slice(categoryIndex * 10, (categoryIndex + 1) * 10)
                           .map(brand => (
                             <li key={brand.id}>
-                              <Link to={`/brand/${brand.id}`}>{brand.name}</Link>
+                              <Link to={`/product`}>{brand.name}</Link>
                             </li>
                           ))
                         }
