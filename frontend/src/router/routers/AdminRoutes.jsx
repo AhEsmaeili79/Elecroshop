@@ -9,6 +9,8 @@ import EditProductPage from '../../pages/AdminPanelPage/Seller/Products/ProductE
 import AddCategoryPage from '../../pages/AdminPanelPage/Seller/Categories/CategoryAdd.jsx';
 import EditCategoryPage from '../../pages/AdminPanelPage/Seller/Categories/CategoryEdit.jsx';
 import CategoryList from '../../pages/AdminPanelPage/Seller/Categories/CategoryList.jsx';
+import OrdersList from '../../pages/AdminPanelPage/Seller/orders/OrdersList.jsx';
+import OrderDetail from '../../pages/AdminPanelPage/Seller/orders/orderDetail.jsx';
 
 const AdminRoutes = () => {
   return (
@@ -21,6 +23,8 @@ const AdminRoutes = () => {
       <Route path="/category/add" element={<PrivateRoute element={<AddCategoryPage />} roles={['admin', 'seller']} />} />
       <Route path="/products/edit/:productId" element={<PrivateRoute element={<EditProductPage />} roles={['admin', 'seller']} />} />
       <Route path="/category/edit/:categoryId" element={<PrivateRoute element={<EditCategoryPage />} roles={['admin', 'seller']} />} />
+      <Route path="/orders" element={<PrivateRoute element={<OrdersList />} roles={['admin', 'seller']} />} />
+      <Route path="/orders/:orderId" element={<PrivateRoute element={<OrderDetail />} roles={['admin', 'seller']} />} />
       <Route path="/login" element={<AdminLoginPage />} />
     </Routes>
   );

@@ -20,7 +20,6 @@ const getAuthHeaders = () => ({
     }
   };
 
-// Create an order using the updated endpoint
 export const createOrder = async (orderData) => {
     try {
       const response = await axios.post(`${API_BASE_URL}/`, orderData, getAuthHeaders());

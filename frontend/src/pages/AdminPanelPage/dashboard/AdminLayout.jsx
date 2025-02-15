@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import style from '../css/AdminSidebar.module.css';
 import { FaBars, FaTimes, FaFilter, FaSignOutAlt } from 'react-icons/fa';
-import { FaTachometerAlt, FaBox, FaUserAlt, FaFirstOrder } from 'react-icons/fa';
+import { FaTachometerAlt, FaBox, FaCartPlus, FaFirstOrder } from 'react-icons/fa';
 import { logoutUser } from '../../../api/admin/auth';
 
 const MenuItem = ({ to, icon, label, isSidebarOpen }) => (
@@ -37,9 +37,8 @@ const AdminLayout = ({ children }) => {
         {isSidebarOpen && <h4 className="fw-bold title-sidebar text-light">پنل مدیریت</h4>}
         <ul className="list-group list-group-flush w-100">
           <MenuItem to="/admin" icon={<FaTachometerAlt />} label="داشبورد" isSidebarOpen={isSidebarOpen} />
-          <MenuItem to="/admin/users" icon={<FaUserAlt />} label="کاربران" isSidebarOpen={isSidebarOpen} />
           <MenuItem to="/admin/rolerequest" icon={<FaFilter />} label="درخواست ها" isSidebarOpen={isSidebarOpen} />
-          <MenuItem to="/admin/orders" icon={<FaBox />} label="سفارشات" isSidebarOpen={isSidebarOpen} />
+          <MenuItem to="/admin/orders/" icon={<FaCartPlus />} label=" سفارشات" isSidebarOpen={isSidebarOpen} />
           <MenuItem to="/admin/products" icon={<FaFirstOrder />} label="محصولات" isSidebarOpen={isSidebarOpen} />
           <MenuItem to="/admin/category" icon={<FaFirstOrder />} label="دسته بندی ها" isSidebarOpen={isSidebarOpen} />
           <li className={`${style.menuItem} list-group-item bg-dark border-0 text-center`}>
