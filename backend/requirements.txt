@@ -1,1 +1,9 @@
 djangoDjango==6.0
+djangorestframework==3.16.1
+django-cors-headers==4.9.0
+djangorestframework==3.16.1
+pillow==12.0.0
+django-silk==5.4.3
+django-debug-toolbar==6.1.0
+psycopg2-binary==2.9.11
+# granian[reload]==2.6.0
