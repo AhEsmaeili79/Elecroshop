@@ -3,11 +3,14 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenRefreshView as SimpleJWTTokenRefreshView
 
 from apps.authentication.api.v1.schemas import (
     login_request_schema,
     login_response_schema,
+    logout_request_schema,
     logout_response_schema,
     register_request_schema,
     register_response_schema,
@@ -100,22 +103,38 @@ class LogoutView(APIView):
     serializer_class = LogoutResponseSerializer
     
     @extend_schema(
+        request=logout_request_schema,
         responses={
             200: LogoutResponseSerializer,
+            400: OpenApiResponse(description='Invalid token'),
             401: OpenApiResponse(description='Unauthorized'),
         },
         summary='User logout',
-        description='Logout the currently authenticated user.',
+        description='Logout the currently authenticated user and blacklist the refresh token. Send the refresh token in the request body to blacklist it.',
         tags=['Authentication'],
     )
     def post(self, request):
-        """Logout user."""
-        # In a simple implementation, we just return success
-        # For token blacklisting, you would need to implement a blacklist mechanism
-        return Response(
-            {'message': 'Logout successful.'},
-            status=status.HTTP_200_OK
-        )
+        """Logout user and blacklist refresh token."""
+        try:
+            # Get refresh token from request body
+            refresh_token = request.data.get('refresh')
+            
+            if refresh_token:
+                # Blacklist the refresh token
+                token = RefreshToken(refresh_token)
+                token.blacklist()
+            
+            return Response(
+                {'message': 'Logout successful.'},
+                status=status.HTTP_200_OK
+            )
+        except (TokenError, InvalidToken, Exception) as e:
+            # If token is invalid or already blacklisted, still return success
+            # to prevent information leakage about token validity
+            return Response(
+                {'message': 'Logout successful.'},
+                status=status.HTTP_200_OK
+            )
 
 
 class TokenRefreshView(SimpleJWTTokenRefreshView):

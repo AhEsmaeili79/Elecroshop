@@ -1,12 +1,14 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-v(_#idtz)+*i2vrim46vyj#!*@fywdrodq#58251xr2%zet&p9'
+# Security: Use environment variables for sensitive settings
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-v(_#idtz)+*i2vrim46vyj#!*@fywdrodq#58251xr2%zet&p9')
 
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 
 DJANGO_APPS = [
@@ -21,6 +23,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',  # JWT token blacklisting
     'drf_spectacular',
     'corsheaders',
 ]

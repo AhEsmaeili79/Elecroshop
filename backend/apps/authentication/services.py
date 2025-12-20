@@ -1,5 +1,6 @@
 from typing import Dict, Optional
 
+from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.users.models import User
@@ -41,6 +42,7 @@ def refresh_access_token(refresh_token: str) -> Optional[Dict[str, str]]:
             'access': str(access_token),
             'refresh': str(refresh),
         }
-    except Exception:
+    except (TokenError, InvalidToken, ValueError, TypeError):
+        # Catch specific JWT-related exceptions instead of generic Exception
         return None
 
