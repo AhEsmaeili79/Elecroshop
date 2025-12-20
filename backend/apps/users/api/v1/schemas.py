@@ -2,7 +2,7 @@
 Dynamic OpenAPI schemas for users endpoints.
 These schemas are automatically generated based on serializer fields.
 """
-from drf_spectacular.utils import extend_schema_serializer, inline_serializer
+from drf_spectacular.utils import extend_schema_serializer, inline_serializer, OpenApiExample, OpenApiResponse
 from rest_framework import serializers
 
 from apps.users.api.v1.serializers import (
@@ -142,16 +142,25 @@ def get_schema_from_serializer(serializer_class, name=None):
 # Extended schema serializers for better control and documentation
 @extend_schema_serializer(
     examples=[
-        {
-            'email': 'user@example.com',
-            'phone': '+1234567890',
-        },
-        {
-            'email': 'newemail@example.com',
-        },
-        {
-            'phone': '+9876543210',
-        },
+        OpenApiExample(
+            'Update with email and phone',
+            value={
+                'email': 'user@example.com',
+                'phone': '+1234567890',
+            },
+        ),
+        OpenApiExample(
+            'Update email only',
+            value={
+                'email': 'newemail@example.com',
+            },
+        ),
+        OpenApiExample(
+            'Update phone only',
+            value={
+                'phone': '+9876543210',
+            },
+        ),
     ]
 )
 class UserUpdateRequestSchema(UserUpdateSerializer):
@@ -163,3 +172,70 @@ class UserUpdateRequestSchema(UserUpdateSerializer):
 class UserProfileResponseSchema(UserSerializer):
     """Schema for user profile response - extends UserSerializer."""
     pass
+
+
+# Schema configurations for views
+# These can be unpacked in @extend_schema decorators
+
+# User Profile View Schema
+user_profile_view_schema = {
+    'responses': {
+        200: user_profile_response_schema,
+        401: OpenApiResponse(description='Unauthorized - Authentication credentials were not provided or are invalid.'),
+    },
+    'summary': 'Get user profile',
+    'description': 'Retrieve the profile information of the currently authenticated user. Returns user details including ID, email, phone number, creation date, and active status.',
+    'tags': ['Users'],
+    'operation_id': 'get_user_profile',
+}
+
+# User Update Profile View Examples
+user_update_profile_examples = [
+    OpenApiExample(
+        'Update with email and phone',
+        value={
+            'email': 'test@example.com',
+            'phone': '+1234567890',
+        },
+    ),
+    OpenApiExample(
+        'Update email only',
+        value={
+            'email': 'updated@example.com',
+        },
+    ),
+    OpenApiExample(
+        'Update phone only',
+        value={
+            'phone': '+989123456789',
+        },
+    ),
+]
+
+# User Update Profile View Schema
+user_update_profile_view_schema = {
+    'request': user_update_request_schema,
+    'responses': {
+        200: user_update_response_schema,
+        400: validation_error_response_schema,
+        401: OpenApiResponse(description='Unauthorized - Authentication credentials were not provided or are invalid.'),
+    },
+    'summary': 'Update user profile',
+    'tags': ['Users'],
+    'operation_id': 'update_user_profile',
+    'examples': user_update_profile_examples,
+}
+
+# Password Update View Schema
+password_update_view_schema = {
+    'request': password_update_request_schema,
+    'responses': {
+        200: password_update_response_schema,
+        400: validation_error_response_schema,
+        401: OpenApiResponse(description='Unauthorized - Authentication credentials were not provided or are invalid.'),
+    },
+    'summary': 'Update user password',
+    'description': 'Update the password for the currently authenticated user. Requires current password verification.',
+    'tags': ['Users'],
+    'operation_id': 'update_user_password',
+}

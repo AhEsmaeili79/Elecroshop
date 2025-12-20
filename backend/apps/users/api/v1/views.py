@@ -1,7 +1,7 @@
 import logging
 
 from django.db import transaction
-from drf_spectacular.utils import extend_schema, OpenApiResponse
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -10,12 +10,9 @@ from rest_framework.views import APIView
 logger = logging.getLogger('apps.users')
 
 from apps.users.api.v1.schemas import (
-    password_update_request_schema,
-    password_update_response_schema,
-    user_profile_response_schema,
-    user_update_request_schema,
-    user_update_response_schema,
-    validation_error_response_schema,
+    password_update_view_schema,
+    user_profile_view_schema,
+    user_update_profile_view_schema,
 )
 from apps.users.api.v1.serializers import (
     PasswordUpdateSerializer,
@@ -29,16 +26,7 @@ class UserProfileView(APIView):
     
     permission_classes = [IsAuthenticated]
     
-    @extend_schema(
-        responses={
-            200: user_profile_response_schema,
-            401: OpenApiResponse(description='Unauthorized - Authentication credentials were not provided or are invalid.'),
-        },
-        summary='Get user profile',
-        description='Retrieve the profile information of the currently authenticated user. Returns user details including ID, email, phone number, creation date, and active status.',
-        tags=['Users'],
-        operation_id='get_user_profile',
-    )
+    @extend_schema(**user_profile_view_schema)
     def get(self, request):
         """Get current user profile."""
         serializer = UserSerializer(request.user)
@@ -50,29 +38,7 @@ class UserUpdateProfileView(APIView):
     
     permission_classes = [IsAuthenticated]
     
-    @extend_schema(
-        request=user_update_request_schema,
-        responses={
-            200: user_update_response_schema,
-            400: validation_error_response_schema,
-            401: OpenApiResponse(description='Unauthorized - Authentication credentials were not provided or are invalid.'),
-        },
-        summary='Update user profile',
-        tags=['Users'],
-        operation_id='update_user_profile',
-        examples=[
-            {
-                'email': 'test@example.com',
-                'phone': '+1234567890',
-            },
-            {
-                'email': 'updated@example.com',
-            },
-            {
-                'phone': '+989123456789',
-            },
-        ],
-    )
+    @extend_schema(**user_update_profile_view_schema)
     @transaction.atomic
     def patch(self, request):
         """Update current user profile."""
@@ -115,18 +81,7 @@ class PasswordUpdateView(APIView):
     
     permission_classes = [IsAuthenticated]
     
-    @extend_schema(
-        request=password_update_request_schema,
-        responses={
-            200: password_update_response_schema,
-            400: validation_error_response_schema,
-            401: OpenApiResponse(description='Unauthorized - Authentication credentials were not provided or are invalid.'),
-        },
-        summary='Update user password',
-        description='Update the password for the currently authenticated user. Requires current password verification.',
-        tags=['Users'],
-        operation_id='update_user_password',
-    )
+    @extend_schema(**password_update_view_schema)
     @transaction.atomic
     def post(self, request):
         """Update user password."""
