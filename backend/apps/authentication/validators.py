@@ -22,7 +22,7 @@ def validate_email_or_phone_provided(email: Optional[str] = None, phone: Optiona
     normalized = normalize_email_phone(email, phone)
     if not normalized['email'] and not normalized['phone']:
         raise serializers.ValidationError(
-            'Either email or phone number must be provided.'
+            'User must have either an email or phone number.'
         )
 
 

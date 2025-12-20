@@ -5,7 +5,11 @@ These schemas are automatically generated based on serializer fields.
 from drf_spectacular.utils import extend_schema_serializer, inline_serializer
 from rest_framework import serializers
 
-from apps.users.api.v1.serializers import UserSerializer, UserUpdateSerializer
+from apps.users.api.v1.serializers import (
+    PasswordUpdateSerializer,
+    UserSerializer,
+    UserUpdateSerializer,
+)
 
 
 # User Profile Response Schema - dynamically generated from UserSerializer
@@ -62,6 +66,17 @@ user_update_success_response_schema = inline_serializer(
     }
 )
 
+# Password Update Request Schema - dynamically generated from PasswordUpdateSerializer
+password_update_request_schema = PasswordUpdateSerializer
+
+# Password Update Response Schema
+password_update_response_schema = inline_serializer(
+    name='PasswordUpdateResponse',
+    fields={
+        'message': serializers.CharField(help_text='Success message'),
+    }
+)
+
 # Validation Error Response Schema
 validation_error_response_schema = inline_serializer(
     name='ValidationErrorResponse',
@@ -75,6 +90,21 @@ validation_error_response_schema = inline_serializer(
             child=serializers.CharField(),
             required=False,
             help_text='Phone validation errors'
+        ),
+        'current_password': serializers.ListField(
+            child=serializers.CharField(),
+            required=False,
+            help_text='Current password validation errors'
+        ),
+        'new_password': serializers.ListField(
+            child=serializers.CharField(),
+            required=False,
+            help_text='New password validation errors'
+        ),
+        'new_password_confirm': serializers.ListField(
+            child=serializers.CharField(),
+            required=False,
+            help_text='New password confirmation validation errors'
         ),
         'non_field_errors': serializers.ListField(
             child=serializers.CharField(),
