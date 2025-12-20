@@ -6,7 +6,7 @@ from apps.authentication.validators import (
     validate_registration_data,
     validate_user_credentials,
 )
-from apps.users.models import User
+from apps.users.api.v1.serializers import UserSerializer
 from apps.users.services import create_user
 
 
@@ -91,13 +91,4 @@ class UserLoginSerializer(serializers.Serializer):
 class TokenRefreshSerializer(TokenRefreshSerializer):
     """Serializer for refreshing access token."""
     pass
-
-
-class UserSerializer(serializers.ModelSerializer):
-    """Serializer for user profile."""
-    
-    class Meta:
-        model = User
-        fields = ['id', 'email', 'phone', 'created_at', 'is_active']
-        read_only_fields = ['id', 'created_at']
 

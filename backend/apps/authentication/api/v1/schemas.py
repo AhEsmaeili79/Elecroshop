@@ -9,8 +9,8 @@ from apps.authentication.api.v1.serializers import (
     TokenRefreshSerializer,
     UserLoginSerializer,
     UserRegistrationSerializer,
-    UserSerializer,
 )
+from apps.users.api.v1.serializers import UserSerializer
 
 
 # Registration Request Schema - dynamically generated from UserRegistrationSerializer

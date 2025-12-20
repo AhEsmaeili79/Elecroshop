@@ -16,7 +16,6 @@ from apps.authentication.api.v1.schemas import (
     register_response_schema,
     token_refresh_request_schema,
     token_refresh_response_schema,
-    user_profile_response_schema,
 )
 from apps.authentication.api.v1.schemas import LogoutResponseSerializer
 from apps.authentication.api.v1.serializers import (
@@ -155,24 +154,4 @@ class TokenRefreshView(SimpleJWTTokenRefreshView):
     def post(self, request, *args, **kwargs):
         """Refresh access token."""
         return super().post(request, *args, **kwargs)
-
-
-class UserProfileView(APIView):
-    """View for getting current user profile."""
-    
-    permission_classes = [IsAuthenticated]
-    
-    @extend_schema(
-        responses={
-            200: user_profile_response_schema,
-            401: OpenApiResponse(description='Unauthorized'),
-        },
-        summary='Get user profile',
-        description='Get the profile of the currently authenticated user.',
-        tags=['Authentication'],
-    )
-    def get(self, request):
-        """Get current user profile."""
-        serializer = UserSerializer(request.user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
