@@ -50,6 +50,17 @@ login_response_schema = inline_serializer(
     }
 )
 
+# Logout Request Schema
+logout_request_schema = inline_serializer(
+    name='LogoutRequest',
+    fields={
+        'refresh': serializers.CharField(
+            required=False,
+            help_text='Refresh token to blacklist (optional but recommended)',
+        ),
+    }
+)
+
 # Logout Response Schema
 logout_response_schema = inline_serializer(
     name='LogoutResponse',
