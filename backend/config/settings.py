@@ -9,7 +9,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-v(_#idtz)+*i2vrim46vy
 # DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 DEBUG=True
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,95.216.121.250').split(',')
 
 
 DJANGO_APPS = [
@@ -170,9 +170,26 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://localhost:3005",
+    "http://127.0.0.1:3005",
+    "http://95.216.121.250:3005",
 ]
 
+# Allow credentials for CORS (needed for cookies/auth headers)
 CORS_ALLOW_CREDENTIALS = True
+
+# Allow common headers
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
 
 # Spectacular Settings
 SPECTACULAR_SETTINGS = {
