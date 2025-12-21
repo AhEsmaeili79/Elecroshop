@@ -10,13 +10,13 @@ export default defineConfig({
     },
     output: {
       mode: 'tags-split',
-      target: 'src/api/authentication/authentication.ts',
-      schemas: 'src/api/authentication/model',
+      target: 'app/api/authentication/authentication.ts',
+      schemas: 'app/api/authentication/model',
       client: 'react-query',
       mock: false,
       override: {
         mutator: {
-          path: 'src/api/axios-instance.ts',
+          path: 'app/api/axios-instance.ts',
           name: 'customInstance',
         },
       },
@@ -31,13 +31,13 @@ export default defineConfig({
     },
     output: {
       mode: 'tags-split',
-      target: 'src/api/users/users.ts',
-      schemas: 'src/api/users/model',
+      target: 'app/api/users/users.ts',
+      schemas: 'app/api/users/model',
       client: 'react-query',
       mock: false,
       override: {
         mutator: {
-          path: 'src/api/axios-instance.ts',
+          path: 'app/api/axios-instance.ts',
           name: 'customInstance',
         },
       },
