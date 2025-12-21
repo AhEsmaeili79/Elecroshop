@@ -8,9 +8,17 @@ services:
     image: electroshop-frontend:v1
     container_name: electroshop-frontend
     ports:
-      - "3005:3000"
+      - "0.0.0.0:3005:3000"
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
+      - HOSTNAME=0.0.0.0
+      - PORT=3000
     restart: unless-stopped
+    networks:
+      - frontend-network
+
+networks:
+  frontend-network:
+    driver: bridge
 
