@@ -35,11 +35,12 @@ A modern, full-stack e-commerce platform built with Django REST Framework backen
 ## 🏗️ Architecture
 
 ### Backend (Django)
-- **Framework**: Django 5.1.2 with Django REST Framework
-- **Database**: SQLite (configurable for production)
+- **Framework**: Django 6.0 with Django REST Framework
+- **Database**: PostgreSQL (Dockerized)
 - **Authentication**: JWT with SimpleJWT
 - **File Handling**: Pillow for image processing
 - **Localization**: Persian date/time support
+- **Containerization**: Docker & Docker Compose
 
 ### Frontend (React)
 - **Framework**: React 19 with Vite
@@ -78,11 +79,61 @@ ElectroShop/
 ## 🛠️ Installation & Setup
 
 ### Prerequisites
-- Python 3.8+
-- Node.js 16+
-- npm or yarn
+- Docker and Docker Compose installed
+- OR Python 3.8+ and Node.js 16+ for local development
 
-### Backend Setup
+### Docker Setup (Recommended)
+
+1. **Create a `.env` file** in the `backend` directory:
+```env
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+POSTGRES_DB=electroshop
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+DB_NAME=electroshop
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_HOST=db
+DB_PORT=5432
+```
+
+2. **Build and run with Docker Compose**:
+```bash
+cd backend
+docker-compose up --build
+```
+
+The application will be available at `http://localhost:8000`
+
+**Useful Docker Commands**:
+```bash
+# Start services
+docker-compose up
+
+# Start in detached mode
+docker-compose up -d
+
+# Stop services
+docker-compose down
+
+# View logs
+docker-compose logs -f
+
+# Rebuild containers
+docker-compose up --build
+
+# Access Django shell
+docker-compose exec web python manage.py shell
+
+# Create superuser
+docker-compose exec web python manage.py createsuperuser
+```
+
+### Local Development Setup
+
+#### Backend Setup
 ```bash
 cd backend
 python -m venv venv
@@ -100,12 +151,17 @@ npm install
 npm run dev
 ```
 
-### Environment Variables
-Create a `.env` file in the backend directory:
+### Environment Variables (for local development)
+If running locally without Docker, create a `.env` file in the backend directory:
 ```env
 SECRET_KEY=your-secret-key
 DEBUG=True
 CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+DB_NAME=electroshop
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_HOST=localhost
+DB_PORT=5432
 ```
 
 ## 🚀 Usage
@@ -117,11 +173,13 @@ CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
 4. Access the admin panel at `http://localhost:8000/admin`
 
 ### Production
-1. Set `DEBUG=False` in Django settings
-2. Configure a production database (PostgreSQL recommended)
-3. Set up static file serving
-4. Configure CORS settings for your domain
-5. Build the frontend: `npm run build`
+1. Set `DEBUG=False` in your `.env` file
+2. Use strong `SECRET_KEY` and secure `POSTGRES_PASSWORD`
+3. Configure production database settings
+4. Set up static file serving (or use a CDN)
+5. Configure CORS settings for your domain in `.env`
+6. Build the frontend: `npm run build`
+7. Use `docker-compose -f docker-compose.prod.yml up -d` for production (if you create a production compose file)
 
 ## 📚 API Documentation
 
