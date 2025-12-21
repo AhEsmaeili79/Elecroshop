@@ -1,3 +1,6 @@
 # Environments 
 .env 
 push.sh
+
+# Django static files (generated in container)
+backend/staticfiles/

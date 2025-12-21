@@ -19,6 +19,7 @@ env/
 *.db
 logs/
 *.log
+staticfiles/
 .DS_Store
 .vscode
 .idea
