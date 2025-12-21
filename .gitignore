@@ -1,6 +1,7 @@
 # Environments 
 .env 
 push.sh
+template/nextjs-ecommerce-template/
 
 # Django static files (generated in container)
 backend/staticfiles/
