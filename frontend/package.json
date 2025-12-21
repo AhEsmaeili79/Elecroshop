@@ -6,9 +6,11 @@
     "dev": "next dev -H 0.0.0.0",
     "build": "next build",
     "start": "next start -H 0.0.0.0",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:api": "orval"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.12",
     "next": "16.1.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
@@ -18,9 +20,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "axios": "^1.13.2",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.0",
+    "orval": "^7.13.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
