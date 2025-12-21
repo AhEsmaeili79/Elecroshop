@@ -118,6 +118,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Note: staticfiles directory is created in Dockerfile, not here
+# This prevents it from being created on local system
 
 # Custom User Model
 AUTH_USER_MODEL = 'users.User'

@@ -3,6 +3,7 @@ version: '3.8'
 services:
   db:
     image: postgres:17-alpine
+    container_name: electroshop-db
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-electroshop}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
@@ -19,7 +20,9 @@ services:
 
   web:
     build: .
-    command: sh -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput || true && python manage.py runserver 0.0.0.0:8000"
+    image: electroshop-backend:v1
+    container_name: electroshop-backend
+    command: sh -c "python manage.py migrate --noinput || true && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
