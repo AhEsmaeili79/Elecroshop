@@ -33,3 +33,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated api schema
+openapi-schema.json
+openapi-schema.yaml
+orval.config.temp.ts

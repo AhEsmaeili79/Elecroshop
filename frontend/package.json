@@ -6,10 +6,13 @@
     "dev": "next dev -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:api": "node scripts/generate-api.js",
+    "generate:api:watch": "node scripts/generate-api.js --watch"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.1",
+    "axios": "^1.7.9",
     "autoprefixer": "10.4.15",
     "next": "^16.0.4",
     "next-auth": "^4.24.13",
@@ -31,6 +34,8 @@
     "@types/react-dom": "19.0.4",
     "eslint": "8.49.0",
     "eslint-config-next": "15.2.3",
+    "js-yaml": "^4.1.0",
+    "orval": "^7.4.1",
     "tailwindcss-rtl": "^0.9.0",
     "typescript": "5.2.2"
   }
