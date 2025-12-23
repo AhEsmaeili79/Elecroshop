@@ -40,8 +40,7 @@ class AuthenticationAPITestCase(TestCase):
         """Test successful registration with email."""
         data = {
             'email': 'newuser@example.com',
-            'password': 'NewPassword123!',
-            'password_confirm': 'NewPassword123!'
+            'password': 'NewPassword123!'
         }
         response = self.client.post(self.register_url, data, format='json')
         
@@ -62,8 +61,7 @@ class AuthenticationAPITestCase(TestCase):
         """Test successful registration with phone number."""
         data = {
             'phone': '+1111111111',
-            'password': 'PhonePassword123!',
-            'password_confirm': 'PhonePassword123!'
+            'password': 'PhonePassword123!'
         }
         response = self.client.post(self.register_url, data, format='json')
         
@@ -80,8 +78,7 @@ class AuthenticationAPITestCase(TestCase):
         data = {
             'email': 'both@example.com',
             'phone': '+2222222222',
-            'password': 'BothPassword123!',
-            'password_confirm': 'BothPassword123!'
+            'password': 'BothPassword123!'
         }
         response = self.client.post(self.register_url, data, format='json')
         
@@ -92,31 +89,7 @@ class AuthenticationAPITestCase(TestCase):
     def test_register_missing_password(self):
         """Test registration fails when password is missing."""
         data = {
-            'email': 'test@example.com',
-            'password_confirm': 'TestPassword123!'
-        }
-        response = self.client.post(self.register_url, data, format='json')
-        
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn('password', response.data)
-    
-    def test_register_missing_password_confirm(self):
-        """Test registration fails when password_confirm is missing."""
-        data = {
-            'email': 'test@example.com',
-            'password': 'TestPassword123!'
-        }
-        response = self.client.post(self.register_url, data, format='json')
-        
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn('password_confirm', response.data)
-    
-    def test_register_password_mismatch(self):
-        """Test registration fails when passwords don't match."""
-        data = {
-            'email': 'test@example.com',
-            'password': 'TestPassword123!',
-            'password_confirm': 'DifferentPassword123!'
+            'email': 'test@example.com'
         }
         response = self.client.post(self.register_url, data, format='json')
         
@@ -127,8 +100,7 @@ class AuthenticationAPITestCase(TestCase):
         """Test registration fails with duplicate email."""
         data = {
             'email': self.existing_user.email,
-            'password': 'TestPassword123!',
-            'password_confirm': 'TestPassword123!'
+            'password': 'TestPassword123!'
         }
         response = self.client.post(self.register_url, data, format='json')
         
@@ -139,8 +111,7 @@ class AuthenticationAPITestCase(TestCase):
         """Test registration fails with duplicate phone."""
         data = {
             'phone': self.existing_user.phone,
-            'password': 'TestPassword123!',
-            'password_confirm': 'TestPassword123!'
+            'password': 'TestPassword123!'
         }
         response = self.client.post(self.register_url, data, format='json')
         
@@ -151,8 +122,7 @@ class AuthenticationAPITestCase(TestCase):
         """Test registration fails with weak password."""
         data = {
             'email': 'test@example.com',
-            'password': '123',  # Too short
-            'password_confirm': '123'
+            'password': '123'  # Too short
         }
         response = self.client.post(self.register_url, data, format='json')
         
@@ -162,8 +132,7 @@ class AuthenticationAPITestCase(TestCase):
     def test_register_no_email_no_phone(self):
         """Test registration fails when neither email nor phone is provided."""
         data = {
-            'password': 'TestPassword123!',
-            'password_confirm': 'TestPassword123!'
+            'password': 'TestPassword123!'
         }
         response = self.client.post(self.register_url, data, format='json')
         
@@ -173,8 +142,7 @@ class AuthenticationAPITestCase(TestCase):
         """Test registration fails with invalid email format."""
         data = {
             'email': 'invalid-email',
-            'password': 'TestPassword123!',
-            'password_confirm': 'TestPassword123!'
+            'password': 'TestPassword123!'
         }
         response = self.client.post(self.register_url, data, format='json')
         

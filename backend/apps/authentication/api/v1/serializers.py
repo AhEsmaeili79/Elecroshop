@@ -25,31 +25,22 @@ class UserRegistrationSerializer(serializers.Serializer):
         required=True,
         style={'input_type': 'password'}
     )
-    password_confirm = serializers.CharField(
-        write_only=True,
-        required=True,
-        style={'input_type': 'password'}
-    )
     
     def validate(self, attrs):
         """Validate registration data using validator layers."""
         email = attrs.get('email')
         phone = attrs.get('phone')
         password = attrs.get('password')
-        password_confirm = attrs.get('password_confirm')
         
         # Use validator layer for all registration validation
         validated_data = validate_registration_data(
             email=email,
             phone=phone,
-            password=password,
-            password_confirm=password_confirm
+            password=password
         )
         
         # Update attrs with normalized and validated data
         attrs.update(validated_data)
-        # Remove password_confirm as it's not needed after validation
-        attrs.pop('password_confirm', None)
         return attrs
     
     def create(self, validated_data):

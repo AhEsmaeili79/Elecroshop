@@ -3,7 +3,7 @@ from typing import Optional
 
 from rest_framework import serializers
 
-from apps.core.validators import normalize_email_phone, validate_password_strength, validate_passwords_match
+from apps.core.validators import normalize_email_phone, validate_password_strength
 from apps.users.selectors import user_exists_by_email, user_exists_by_phone
 from apps.users.services import authenticate_user
 
@@ -83,8 +83,7 @@ def validate_user_credentials(email_or_phone: str, password: str) -> dict:
 def validate_registration_data(
     email: Optional[str] = None,
     phone: Optional[str] = None,
-    password: Optional[str] = None,
-    password_confirm: Optional[str] = None
+    password: Optional[str] = None
 ) -> dict:
     """
     Validate all registration data.
@@ -93,7 +92,6 @@ def validate_registration_data(
         email: Email address
         phone: Phone number
         password: Password
-        password_confirm: Password confirmation
         
     Returns:
         Dictionary with normalized and validated data
@@ -116,10 +114,6 @@ def validate_registration_data(
     # Validate phone uniqueness if provided
     if normalized_phone:
         validate_phone_uniqueness(normalized_phone)
-    
-    # Validate passwords match
-    if password and password_confirm:
-        validate_passwords_match(password, password_confirm)
     
     # Validate password strength
     if password:

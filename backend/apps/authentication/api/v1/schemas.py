@@ -116,9 +116,7 @@ def get_schema_from_serializer(serializer_class, name=None):
 
 
 # Alternative: Use extend_schema_serializer decorator for more control
-@extend_schema_serializer(
-    exclude_fields=['password_confirm'],  # Example: exclude from schema if needed
-)
+@extend_schema_serializer()
 class RegisterRequestSchema(UserRegistrationSerializer):
     """Schema for registration request - extends UserRegistrationSerializer."""
     pass
