@@ -8,6 +8,7 @@
 import { useMutation } from "@tanstack/react-query";
 import type {
   MutationFunction,
+  QueryClient,
   UseMutationOptions,
   UseMutationResult,
 } from "@tanstack/react-query";
@@ -105,15 +106,18 @@ export type AuthLoginCreateMutationError = ErrorType<void>;
 export const useAuthLoginCreate = <
   TError = ErrorType<void>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof authLoginCreate>>,
-    TError,
-    { data: UserLoginRequest },
-    TContext
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof authLoginCreate>>,
+      TError,
+      { data: UserLoginRequest },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof authLoginCreate>>,
   TError,
   { data: UserLoginRequest },
@@ -121,7 +125,7 @@ export const useAuthLoginCreate = <
 > => {
   const mutationOptions = getAuthLoginCreateMutationOptions(options);
 
-  return useMutation(mutationOptions);
+  return useMutation(mutationOptions, queryClient);
 };
 /**
  * Logout the currently authenticated user and blacklist the refresh token. Send the refresh token in the request body to blacklist it.
@@ -194,15 +198,18 @@ export type AuthLogoutCreateMutationError = ErrorType<void | void>;
 export const useAuthLogoutCreate = <
   TError = ErrorType<void | void>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof authLogoutCreate>>,
-    TError,
-    { data: LogoutRequestRequest },
-    TContext
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof authLogoutCreate>>,
+      TError,
+      { data: LogoutRequestRequest },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof authLogoutCreate>>,
   TError,
   { data: LogoutRequestRequest },
@@ -210,7 +217,7 @@ export const useAuthLogoutCreate = <
 > => {
   const mutationOptions = getAuthLogoutCreateMutationOptions(options);
 
-  return useMutation(mutationOptions);
+  return useMutation(mutationOptions, queryClient);
 };
 /**
  * Request an OTP code for registration or login. Rate limited: 3 requests max, 1 min cooldown, 1 hour lockout after 3 consecutive requests.
@@ -283,15 +290,18 @@ export type AuthOtpRequestCreateMutationError = ErrorType<OTPRequestError>;
 export const useAuthOtpRequestCreate = <
   TError = ErrorType<OTPRequestError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof authOtpRequestCreate>>,
-    TError,
-    { data: OTPRequestRequest },
-    TContext
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof authOtpRequestCreate>>,
+      TError,
+      { data: OTPRequestRequest },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof authOtpRequestCreate>>,
   TError,
   { data: OTPRequestRequest },
@@ -299,7 +309,7 @@ export const useAuthOtpRequestCreate = <
 > => {
   const mutationOptions = getAuthOtpRequestCreateMutationOptions(options);
 
-  return useMutation(mutationOptions);
+  return useMutation(mutationOptions, queryClient);
 };
 /**
  * Verify an OTP code for registration or login.
@@ -372,15 +382,18 @@ export type AuthOtpVerifyCreateMutationError = ErrorType<OTPVerifyError>;
 export const useAuthOtpVerifyCreate = <
   TError = ErrorType<OTPVerifyError>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof authOtpVerifyCreate>>,
-    TError,
-    { data: OTPVerifyRequest },
-    TContext
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof authOtpVerifyCreate>>,
+      TError,
+      { data: OTPVerifyRequest },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof authOtpVerifyCreate>>,
   TError,
   { data: OTPVerifyRequest },
@@ -388,7 +401,7 @@ export const useAuthOtpVerifyCreate = <
 > => {
   const mutationOptions = getAuthOtpVerifyCreateMutationOptions(options);
 
-  return useMutation(mutationOptions);
+  return useMutation(mutationOptions, queryClient);
 };
 /**
  * Refresh the access token using a valid refresh token.
@@ -461,15 +474,18 @@ export type AuthRefreshCreateMutationError = ErrorType<void>;
 export const useAuthRefreshCreate = <
   TError = ErrorType<void>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof authRefreshCreate>>,
-    TError,
-    { data: TokenRefreshRequest },
-    TContext
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof authRefreshCreate>>,
+      TError,
+      { data: TokenRefreshRequest },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof authRefreshCreate>>,
   TError,
   { data: TokenRefreshRequest },
@@ -477,7 +493,7 @@ export const useAuthRefreshCreate = <
 > => {
   const mutationOptions = getAuthRefreshCreateMutationOptions(options);
 
-  return useMutation(mutationOptions);
+  return useMutation(mutationOptions, queryClient);
 };
 /**
  * Register a new user with email or phone number. Supports both password and OTP-based registration.
@@ -550,15 +566,18 @@ export type AuthRegisterCreateMutationError = ErrorType<void>;
 export const useAuthRegisterCreate = <
   TError = ErrorType<void>,
   TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof authRegisterCreate>>,
-    TError,
-    { data: UserRegistrationRequest },
-    TContext
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}): UseMutationResult<
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof authRegisterCreate>>,
+      TError,
+      { data: UserRegistrationRequest },
+      TContext
+    >;
+    request?: SecondParameter<typeof customInstance>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
   Awaited<ReturnType<typeof authRegisterCreate>>,
   TError,
   { data: UserRegistrationRequest },
@@ -566,5 +585,5 @@ export const useAuthRegisterCreate = <
 > => {
   const mutationOptions = getAuthRegisterCreateMutationOptions(options);
 
-  return useMutation(mutationOptions);
+  return useMutation(mutationOptions, queryClient);
 };

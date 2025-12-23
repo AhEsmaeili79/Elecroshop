@@ -78,11 +78,11 @@ class RegisterView(APIView):
         password = validated_data.get('password')
         otp_code = validated_data.get('otp_code')
         
-        # If OTP is provided, verify it first
+        # If OTP is provided, validate it during registration
         if otp_code:
             identifier = email or phone
             is_valid, error_message = OTPService.verify_otp(identifier, 'register', otp_code)
-            
+
             if not is_valid:
                 logger.warning(
                     f'OTP verification failed for registration: identifier={identifier}, '
@@ -92,7 +92,7 @@ class RegisterView(APIView):
                     {'otp_code': [error_message]},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-            
+
             # OTP verified, create user (serializer will handle temp password)
             user = serializer.save()
             logger.info(

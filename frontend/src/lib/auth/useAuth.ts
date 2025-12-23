@@ -10,18 +10,16 @@ import {
   useAuthLoginCreate,
   useAuthRegisterCreate,
   useAuthOtpRequestCreate,
-  useAuthOtpVerifyCreate,
   useAuthRefreshCreate,
   useAuthLogoutCreate,
 } from '@/api/authentication/authentication';
 import type {
-  UserLoginRequest,
-  UserRegistrationRequest,
   OTPRequestRequest,
-  OTPVerifyRequest,
   PurposeEnum,
-  User,
 } from '@/api/authentication/models';
+import type { UserLoginRequest } from '@/api/users/models/userLoginRequest';
+import type { UserRegistrationRequest } from '@/api/users/models/userRegistrationRequest';
+import type { User } from '@/api/users/models/user';
 import {
   setTokens,
   clearTokens,
@@ -50,7 +48,6 @@ interface UseAuthReturn {
 
   // OTP methods
   requestOTP: (identifier: string, purpose: PurposeEnum) => Promise<void>;
-  verifyOTP: (identifier: string, otpCode: string, purpose: PurposeEnum) => Promise<void>;
 
   // Token management
   refreshToken: () => Promise<boolean>;
@@ -77,7 +74,6 @@ export const useAuth = (): UseAuthReturn => {
   const loginMutation = useAuthLoginCreate();
   const registerMutation = useAuthRegisterCreate();
   const otpRequestMutation = useAuthOtpRequestCreate();
-  const otpVerifyMutation = useAuthOtpVerifyCreate();
   const refreshMutation = useAuthRefreshCreate();
   const logoutMutation = useAuthLogoutCreate();
 
@@ -147,23 +143,20 @@ export const useAuth = (): UseAuthReturn => {
   const verifyOTPAndSignIn = useCallback(async (identifier: string, otpCode: string) => {
     setIsLoading(true);
     try {
-      // First verify OTP
-      await verifyOTP(identifier, otpCode, 'login');
-
-      // Then login with OTP
+      // Login directly with OTP (verification happens during login)
       const loginData: UserLoginRequest = {
         email_or_phone: identifier,
         otp_code: otpCode,
       };
 
       const response = await loginMutation.mutateAsync({ data: loginData });
-      
+
       if (response.data?.tokens && response.data?.user) {
         handleAuthSuccess(response.data.tokens, response.data.user);
         toast.success(response.data.message || 'Signed in successfully');
       }
     } catch (error: any) {
-      const errorMessage = error?.response?.data?.detail || error?.message || 'Failed to verify OTP and sign in';
+      const errorMessage = error?.response?.data?.detail || error?.message || 'Failed to sign in with OTP';
       toast.error(errorMessage);
       throw error;
     } finally {
@@ -219,10 +212,7 @@ export const useAuth = (): UseAuthReturn => {
   const verifyOTPAndSignUp = useCallback(async (identifier: string, otpCode: string, password: string) => {
     setIsLoading(true);
     try {
-      // First verify OTP
-      await verifyOTP(identifier, otpCode, 'register');
-
-      // Then register with OTP
+      // Register with OTP directly (OTP validation happens during registration)
       const parsed = parseIdentifier(identifier);
       const registerData: UserRegistrationRequest = {
         email: parsed.email,
@@ -232,13 +222,13 @@ export const useAuth = (): UseAuthReturn => {
       };
 
       const response = await registerMutation.mutateAsync({ data: registerData });
-      
+
       if (response.data?.tokens && response.data?.user) {
         handleAuthSuccess(response.data.tokens, response.data.user);
         toast.success(response.data.message || 'Account created successfully');
       }
     } catch (error: any) {
-      const errorMessage = error?.response?.data?.detail || error?.message || 'Failed to verify OTP and create account';
+      const errorMessage = error?.response?.data?.detail || error?.message || 'Failed to create account';
       toast.error(errorMessage);
       throw error;
     } finally {
@@ -273,27 +263,6 @@ export const useAuth = (): UseAuthReturn => {
     }
   }, [otpRequestMutation]);
 
-  /**
-   * Verify OTP
-   */
-  const verifyOTP = useCallback(async (identifier: string, otpCode: string, purpose: PurposeEnum) => {
-    try {
-      const otpVerify: OTPVerifyRequest = {
-        identifier,
-        otp_code: otpCode,
-        purpose,
-      };
-
-      const response = await otpVerifyMutation.mutateAsync({ data: otpVerify });
-      
-      const message = response.data?.message || 'OTP verified successfully';
-      toast.success(message);
-    } catch (error: any) {
-      const errorMessage = error?.response?.data?.detail || error?.message || 'Invalid OTP code';
-      toast.error(errorMessage);
-      throw error;
-    }
-  }, [otpVerifyMutation]);
 
   /**
    * Refresh access token
@@ -378,7 +347,6 @@ export const useAuth = (): UseAuthReturn => {
 
     // OTP methods
     requestOTP,
-    verifyOTP,
 
     // Token management
     refreshToken,
@@ -388,3 +356,4 @@ export const useAuth = (): UseAuthReturn => {
     checkAuth,
   };
 };
+
