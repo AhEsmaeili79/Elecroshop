@@ -23,7 +23,7 @@ export const getApiBaseUrl = (): string => {
   }
 
   // 2. Check for environment variable (works on both server and client)
-  const envBaseUrl = process.env.BACKEND_API_BASE_URL;
+  const envBaseUrl = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
   if (envBaseUrl && typeof envBaseUrl === 'string') {
     return envBaseUrl.trim();
   }

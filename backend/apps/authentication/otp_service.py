@@ -5,6 +5,7 @@ Handles rate limiting, Redis storage with hashing, and expiration.
 import hashlib
 import logging
 import random
+import secrets
 import time
 from typing import Optional, Tuple
 
@@ -214,7 +215,7 @@ class OTPService:
         provided_hash = cls.hash_otp(otp_code)
         
         # Compare hashes (constant-time comparison)
-        if not hashlib.compare_digest(stored_hash.decode(), provided_hash):
+        if not secrets.compare_digest(stored_hash.decode(), provided_hash):
             # Increment failed attempts
             attempts = redis_client.incr(keys['attempts'])
             redis_client.expire(keys['attempts'], cls.OTP_EXPIRATION_SECONDS)

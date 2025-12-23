@@ -13,6 +13,7 @@ services:
       - NODE_ENV=development
       - NEXT_TELEMETRY_DISABLED=1
       - WATCHPACK_POLLING=true
+      - BACKEND_API_BASE_URL=http://95.216.121.250:8006
     volumes:
       # Mount entire project for hot reload (excluding node_modules and .next)
       - .:/app

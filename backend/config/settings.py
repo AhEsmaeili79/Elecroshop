@@ -173,6 +173,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3005",
     "http://127.0.0.1:3005",
     "http://95.216.121.250:3005",
+    "http://95.216.121.250:3006",
 ]
 
 # Allow credentials for CORS (needed for cookies/auth headers)
