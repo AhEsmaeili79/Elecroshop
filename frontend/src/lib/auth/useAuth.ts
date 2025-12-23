@@ -61,13 +61,56 @@ export const useAuth = (): UseAuthReturn => {
   const router = useRouter();
   const [user, setUserState] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Initialize user from storage
+  // Initialize user from storage and check authentication
   useEffect(() => {
-    const storedUser = getUser();
-    if (storedUser) {
-      setUserState(storedUser);
-    }
+    const updateAuthState = () => {
+      const storedUser = getUser();
+      const hasTokens = checkIsAuthenticated();
+      
+      if (storedUser && hasTokens) {
+        setUserState(storedUser);
+        setIsAuthenticated(true);
+      } else {
+        setUserState(null);
+        setIsAuthenticated(false);
+      }
+    };
+
+    // Initial check
+    updateAuthState();
+
+    // Listen for storage changes (e.g., login/logout in another tab)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'access_t' || e.key === 'auth_user' || e.key === null) {
+        updateAuthState();
+        // Dispatch event after state update
+        setTimeout(() => {
+          const storedUser = getUser();
+          const hasTokens = checkIsAuthenticated();
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('auth-state-changed', { 
+              detail: { isAuthenticated: hasTokens && !!storedUser, user: storedUser } 
+            }));
+          }
+        }, 0);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Also check on focus (in case localStorage was changed in same tab)
+    const handleFocus = () => {
+      updateAuthState();
+    };
+
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', handleFocus);
+    };
   }, []);
 
   // Mutations
@@ -81,9 +124,49 @@ export const useAuth = (): UseAuthReturn => {
    * Helper to handle successful authentication
    */
   const handleAuthSuccess = useCallback((tokens: { access: string; refresh: string }, userData: User) => {
-    setTokens(tokens);
-    setUser(userData);
-    setUserState(userData);
+    try {
+      console.log('handleAuthSuccess called with:', {
+        hasAccessToken: !!tokens?.access,
+        hasRefreshToken: !!tokens?.refresh,
+        accessTokenLength: tokens?.access?.length,
+        refreshTokenLength: tokens?.refresh?.length,
+        user: userData
+      });
+
+      if (!tokens?.access || !tokens?.refresh) {
+        console.error('Invalid tokens provided:', tokens);
+        throw new Error('Invalid tokens provided');
+      }
+
+      // Save tokens to localStorage
+      setTokens(tokens);
+      
+      // Verify tokens were saved
+      const savedAccess = getAccessToken();
+      const savedRefresh = getRefreshToken();
+      
+      if (!savedAccess || !savedRefresh) {
+        console.error('Failed to save tokens to localStorage');
+        throw new Error('Failed to save tokens');
+      }
+
+      console.log('Tokens successfully saved to localStorage');
+
+      // Save user data
+      setUser(userData);
+      setUserState(userData);
+      setIsAuthenticated(true);
+
+      // Dispatch custom event to notify other components
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('auth-state-changed', { detail: { isAuthenticated: true, user: userData } }));
+      }
+
+      console.log('Authentication state updated successfully');
+    } catch (error) {
+      console.error('Error in handleAuthSuccess:', error);
+      throw error;
+    }
   }, []);
 
   /**
@@ -110,9 +193,17 @@ export const useAuth = (): UseAuthReturn => {
 
       const response = await loginMutation.mutateAsync({ data: loginData });
       
-      if (response.data?.tokens && response.data?.user) {
-        handleAuthSuccess(response.data.tokens, response.data.user);
-        toast.success(response.data.message || 'Signed in successfully');
+      // customInstance returns data directly, not wrapped in response.data
+      if (response?.tokens && response?.user) {
+        console.log('Login successful, saving tokens:', { 
+          access: response.tokens.access?.substring(0, 20) + '...', 
+          refresh: response.tokens.refresh?.substring(0, 20) + '...' 
+        });
+        handleAuthSuccess(response.tokens, response.user);
+        toast.success(response.message || 'Signed in successfully');
+      } else {
+        console.error('Invalid response structure:', response);
+        throw new Error('Invalid response from server');
       }
     } catch (error: any) {
       const errorMessage = error?.response?.data?.detail || error?.message || 'Failed to sign in';
@@ -151,9 +242,14 @@ export const useAuth = (): UseAuthReturn => {
 
       const response = await loginMutation.mutateAsync({ data: loginData });
 
-      if (response.data?.tokens && response.data?.user) {
-        handleAuthSuccess(response.data.tokens, response.data.user);
-        toast.success(response.data.message || 'Signed in successfully');
+      // customInstance returns data directly, not wrapped in response.data
+      if (response?.tokens && response?.user) {
+        console.log('OTP login successful, saving tokens');
+        handleAuthSuccess(response.tokens, response.user);
+        toast.success(response.message || 'Signed in successfully');
+      } else {
+        console.error('Invalid response structure:', response);
+        throw new Error('Invalid response from server');
       }
     } catch (error: any) {
       const errorMessage = error?.response?.data?.detail || error?.message || 'Failed to sign in with OTP';
@@ -179,9 +275,14 @@ export const useAuth = (): UseAuthReturn => {
 
       const response = await registerMutation.mutateAsync({ data: registerData });
       
-      if (response.data?.tokens && response.data?.user) {
-        handleAuthSuccess(response.data.tokens, response.data.user);
-        toast.success(response.data.message || 'Account created successfully');
+      // customInstance returns data directly, not wrapped in response.data
+      if (response?.tokens && response?.user) {
+        console.log('Signup successful, saving tokens');
+        handleAuthSuccess(response.tokens, response.user);
+        toast.success(response.message || 'Account created successfully');
+      } else {
+        console.error('Invalid response structure:', response);
+        throw new Error('Invalid response from server');
       }
     } catch (error: any) {
       const errorMessage = error?.response?.data?.detail || error?.message || 'Failed to create account';
@@ -212,7 +313,7 @@ export const useAuth = (): UseAuthReturn => {
   const verifyOTPAndSignUp = useCallback(async (identifier: string, otpCode: string, password: string) => {
     setIsLoading(true);
     try {
-      // Register with OTP directly (OTP validation happens during registration)
+      // Register with OTP directly (OTP validation validation happens during registration)
       const parsed = parseIdentifier(identifier);
       const registerData: UserRegistrationRequest = {
         email: parsed.email,
@@ -223,9 +324,14 @@ export const useAuth = (): UseAuthReturn => {
 
       const response = await registerMutation.mutateAsync({ data: registerData });
 
-      if (response.data?.tokens && response.data?.user) {
-        handleAuthSuccess(response.data.tokens, response.data.user);
-        toast.success(response.data.message || 'Account created successfully');
+      // customInstance returns data directly, not wrapped in response.data
+      if (response?.tokens && response?.user) {
+        console.log('OTP signup successful, saving tokens');
+        handleAuthSuccess(response.tokens, response.user);
+        toast.success(response.message || 'Account created successfully');
+      } else {
+        console.error('Invalid response structure:', response);
+        throw new Error('Invalid response from server');
       }
     } catch (error: any) {
       const errorMessage = error?.response?.data?.detail || error?.message || 'Failed to create account';
@@ -270,6 +376,7 @@ export const useAuth = (): UseAuthReturn => {
   const refreshToken = useCallback(async (): Promise<boolean> => {
     const refresh = getRefreshToken();
     if (!refresh) {
+      setIsAuthenticated(false);
       return false;
     }
 
@@ -283,13 +390,16 @@ export const useAuth = (): UseAuthReturn => {
           access: response.data.access,
           refresh: response.data.refresh,
         });
+        setIsAuthenticated(true);
         return true;
       }
+      setIsAuthenticated(false);
       return false;
     } catch (error) {
       // Refresh failed, clear tokens
       clearTokens();
       setUserState(null);
+      setIsAuthenticated(false);
       return false;
     }
   }, [refreshMutation]);
@@ -316,7 +426,12 @@ export const useAuth = (): UseAuthReturn => {
     } finally {
       clearTokens();
       setUserState(null);
+      setIsAuthenticated(false);
       setIsLoading(false);
+      // Dispatch custom event to notify other components
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('auth-state-changed', { detail: { isAuthenticated: false, user: null } }));
+      }
       toast.success('Logged out successfully');
       router.push('/signin');
     }
@@ -333,7 +448,7 @@ export const useAuth = (): UseAuthReturn => {
     // State
     user,
     isLoading,
-    isAuthenticated: checkIsAuthenticated() && !!user,
+    isAuthenticated,
 
     // Sign in methods
     signInWithPassword,

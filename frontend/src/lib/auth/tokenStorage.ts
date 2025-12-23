@@ -3,8 +3,8 @@
  * Handles secure storage and retrieval of JWT tokens
  */
 
-const ACCESS_TOKEN_KEY = 'auth_access_token';
-const REFRESH_TOKEN_KEY = 'auth_refresh_token';
+const ACCESS_TOKEN_KEY = 'access_t';
+const REFRESH_TOKEN_KEY = 'refresh_t';
 const USER_KEY = 'auth_user';
 
 export interface StoredTokens {

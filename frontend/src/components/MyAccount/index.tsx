@@ -5,18 +5,59 @@ import Image from "next/image";
 import AddressModal from "./AddressModal";
 import Orders from "../Orders";
 import { useAuth } from "@/lib/auth/useAuth";
+import { useGetUserProfile, useUpdateUserProfile, useUpdateUserPassword } from "@/api/users/users";
+import { setUser } from "@/lib/auth/tokenStorage";
+import toast from "react-hot-toast";
 
 const MyAccount = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [addressModal, setAddressModal] = useState(false);
-  const { logout, isLoading, user } = useAuth();
+  const { logout, isLoading, user, isAuthenticated } = useAuth();
 
   // Form state for account details
   const [formData, setFormData] = useState({
-    firstName: "Jhon",
-    lastName: "Deo",
-    country: "Australia"
+    email: "",
+    phone: ""
   });
+
+  // Password change form state
+  const [passwordData, setPasswordData] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: ""
+  });
+
+  // API hooks
+  const { data: userProfile, isLoading: isProfileLoading, refetch: refetchProfile } = useGetUserProfile({
+    query: {
+      enabled: !!user,
+    }
+  });
+
+  const updateProfileMutation = useUpdateUserProfile();
+  const updatePasswordMutation = useUpdateUserPassword();
+
+  // Initialize form data when user profile data is available
+  useEffect(() => {
+    if (userProfile) {
+      setFormData({
+        email: userProfile.email || "",
+        phone: userProfile.phone || ""
+      });
+    }
+  }, [userProfile]);
+
+  // Redirect if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue mx-auto mb-4"></div>
+          <p className="text-lg text-dark">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
 
   const openAddressModal = () => {
     setAddressModal(true);
@@ -34,17 +75,65 @@ const MyAccount = () => {
     }));
   };
 
-  // Initialize form data when user data is available
-  useEffect(() => {
-    if (user) {
-      // For now, keep default values since User model doesn't have firstName/lastName
-      // This can be updated when the backend provides additional user profile fields
-      setFormData(prev => ({
-        ...prev,
-        // Add user-specific initialization here when available
-      }));
+  const handlePasswordInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPasswordData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleProfileUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await updateProfileMutation.mutateAsync({
+        data: formData
+      });
+
+      if (response.data) {
+        // Update the user in local storage and auth context
+        setUser(response.data);
+        toast.success("Profile updated successfully");
+        refetchProfile(); // Refetch the profile data
+      }
+    } catch (error: any) {
+      const errorMessage = error?.response?.data?.detail || error?.message || "Failed to update profile";
+      toast.error(errorMessage);
     }
-  }, [user]);
+  };
+
+  const handlePasswordUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validate passwords match
+    if (passwordData.newPassword !== passwordData.confirmNewPassword) {
+      toast.error("New passwords do not match");
+      return;
+    }
+
+    try {
+      const response = await updatePasswordMutation.mutateAsync({
+        data: {
+          current_password: passwordData.oldPassword,
+          new_password: passwordData.newPassword,
+          new_password_confirm: passwordData.confirmNewPassword
+        }
+      });
+
+      if (response.data) {
+        toast.success("Password updated successfully");
+        // Clear password form
+        setPasswordData({
+          oldPassword: "",
+          newPassword: "",
+          confirmNewPassword: ""
+        });
+      }
+    } catch (error: any) {
+      const errorMessage = error?.response?.data?.detail || error?.message || "Failed to update password";
+      toast.error(errorMessage);
+    }
+  };
 
   return (
     <>
@@ -68,9 +157,11 @@ const MyAccount = () => {
 
                   <div>
                     <p className="font-medium text-dark mb-0.5">
-                      James Septimus
+                      {userProfile?.email || user?.email || "User"}
                     </p>
-                    <p className="text-custom-xs">Member Since Sep 2020</p>
+                    <p className="text-custom-xs">
+                      Member Since {userProfile?.created_at ? new Date(userProfile.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'N/A'}
+                    </p>
                   </div>
                 </div>
 
@@ -291,13 +382,14 @@ const MyAccount = () => {
               }`}
             >
               <p className="text-dark">
-                Hello Annie (not Annie?
-                <a
-                  href="#"
-                  className="text-red ease-out duration-200 hover:underline"
+                Hello {userProfile?.email || user?.email || 'User'} (
+                <button
+                  onClick={logout}
+                  disabled={isLoading}
+                  className="text-red ease-out duration-200 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Log Out
-                </a>
+                  {isLoading ? 'Logging out...' : 'Log Out'}
+                </button>
                 )
               </p>
 
@@ -335,15 +427,15 @@ const MyAccount = () => {
                 activeTab === "addresses" ? "flex" : "hidden"
               }`}
             >
-              <div className="xl:max-w-[370px] w-full bg-white shadow-1 rounded-xl">
+                <div className="xl:max-w-[370px] w-full bg-white shadow-1 rounded-xl">
                 <div className="flex items-center justify-between py-5 px-4 sm:pl-7.5 sm:pr-6 border-b border-gray-3">
                   <p className="font-medium text-xl text-dark">
-                    Shipping Address
+                    User Profile
                   </p>
 
                   <button
                     className="text-dark ease-out duration-200 hover:text-blue"
-                    onClick={openAddressModal}
+                    onClick={() => setActiveTab("account-details")}
                   >
                     <svg
                       className="fill-current"
@@ -406,7 +498,7 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Email: jamse@example.com
+                      Email: {userProfile?.email || user?.email || 'Not provided'}
                     </p>
 
                     <p className="flex items-center gap-2.5 text-custom-sm">
@@ -435,7 +527,7 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Phone: 1234 567890
+                      Phone: {userProfile?.phone || user?.phone || 'Not provided'}
                     </p>
 
                     <p className="flex gap-2.5 text-custom-sm">
@@ -538,7 +630,7 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Email: jamse@example.com
+                      Email: {userProfile?.email || user?.email || 'Not provided'}
                     </p>
 
                     <p className="flex items-center gap-2.5 text-custom-sm">
@@ -567,7 +659,7 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Phone: 1234 567890
+                      Phone: {userProfile?.phone || user?.phone || 'Not provided'}
                     </p>
 
                     <p className="flex gap-2.5 text-custom-sm">
@@ -607,88 +699,53 @@ const MyAccount = () => {
                 activeTab === "account-details" ? "block" : "hidden"
               }`}
             >
-              <form>
+              <form onSubmit={handleProfileUpdate}>
                 <div className="bg-white shadow-1 rounded-xl p-4 sm:p-8.5">
                   <div className="flex flex-col lg:flex-row gap-5 sm:gap-8 mb-5">
                     <div className="w-full">
-                      <label htmlFor="firstName" className="block mb-2.5">
-                        First Name <span className="text-red">*</span>
+                      <label htmlFor="email" className="block mb-2.5">
+                        Email
                       </label>
 
                       <input
-                        type="text"
-                        name="firstName"
-                        id="firstName"
-                        placeholder="Jhon"
-                        value={formData.firstName}
+                        type="email"
+                        name="email"
+                        id="email"
+                        placeholder="your-email@example.com"
+                        value={formData.email}
                         onChange={handleInputChange}
                         className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
                       />
                     </div>
 
                     <div className="w-full">
-                      <label htmlFor="lastName" className="block mb-2.5">
-                        Last Name <span className="text-red">*</span>
+                      <label htmlFor="phone" className="block mb-2.5">
+                        Phone Number
                       </label>
 
                       <input
-                        type="text"
-                        name="lastName"
-                        id="lastName"
-                        placeholder="Deo"
-                        value={formData.lastName}
+                        type="tel"
+                        name="phone"
+                        id="phone"
+                        placeholder="+1 (555) 123-4567"
+                        value={formData.phone}
                         onChange={handleInputChange}
                         className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
                       />
-                    </div>
-                  </div>
-
-                  <div className="mb-5">
-                    <label htmlFor="countryName" className="block mb-2.5">
-                      Country/ Region <span className="text-red">*</span>
-                    </label>
-
-                    <div className="relative">
-                      <select
-                        name="country"
-                        value={formData.country}
-                        onChange={handleInputChange}
-                        className="w-full bg-gray-1 rounded-md border border-gray-3 text-dark-4 py-3 pl-5 pr-9 duration-200 appearance-none outline-none focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
-                      >
-                        <option value="Australia">Australia</option>
-                        <option value="America">America</option>
-                        <option value="England">England</option>
-                      </select>
-
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-dark-4">
-                        <svg
-                          className="fill-current"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M2.41469 5.03569L2.41467 5.03571L2.41749 5.03846L7.76749 10.2635L8.0015 10.492L8.23442 10.2623L13.5844 4.98735L13.5844 4.98735L13.5861 4.98569C13.6809 4.89086 13.8199 4.89087 13.9147 4.98569C14.0092 5.08024 14.0095 5.21864 13.9155 5.31345C13.9152 5.31373 13.915 5.31401 13.9147 5.31429L8.16676 10.9622L8.16676 10.9622L8.16469 10.9643C8.06838 11.0606 8.02352 11.0667 8.00039 11.0667C7.94147 11.0667 7.89042 11.0522 7.82064 10.9991L2.08526 5.36345C1.99127 5.26865 1.99154 5.13024 2.08609 5.03569C2.18092 4.94086 2.31986 4.94086 2.41469 5.03569Z"
-                            fill=""
-                            stroke=""
-                            strokeWidth="0.666667"
-                          />
-                        </svg>
-                      </span>
                     </div>
                   </div>
 
                   <button
                     type="submit"
-                    className="inline-flex font-medium text-white bg-blue py-3 px-7 rounded-md ease-out duration-200 hover:bg-blue-dark"
+                    disabled={updateProfileMutation.isPending}
+                    className="inline-flex font-medium text-white bg-blue py-3 px-7 rounded-md ease-out duration-200 hover:bg-blue-dark disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Save Changes
+                    {updateProfileMutation.isPending ? 'Saving...' : 'Save Changes'}
                   </button>
                 </div>
+              </form>
 
-                <p className="text-custom-sm mt-5 mb-9">
+              <p className="text-custom-sm mt-5 mb-9">
                   This will be how your name will be displayed in the account
                   section and in reviews
                 </p>
@@ -697,60 +754,71 @@ const MyAccount = () => {
                   Password Change
                 </p>
 
-                <div className="bg-white shadow-1 rounded-xl p-4 sm:p-8.5">
-                  <div className="mb-5">
-                    <label htmlFor="oldPassword" className="block mb-2.5">
-                      Old Password
-                    </label>
+                <form onSubmit={handlePasswordUpdate}>
+                  <div className="bg-white shadow-1 rounded-xl p-4 sm:p-8.5">
+                    <div className="mb-5">
+                      <label htmlFor="oldPassword" className="block mb-2.5">
+                        Current Password <span className="text-red">*</span>
+                      </label>
 
-                    <input
-                      type="password"
-                      name="oldPassword"
-                      id="oldPassword"
-                      autoComplete="on"
-                      className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
-                    />
-                  </div>
+                      <input
+                        type="password"
+                        name="oldPassword"
+                        id="oldPassword"
+                        value={passwordData.oldPassword}
+                        onChange={handlePasswordInputChange}
+                        autoComplete="current-password"
+                        required
+                        className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                      />
+                    </div>
 
-                  <div className="mb-5">
-                    <label htmlFor="newPassword" className="block mb-2.5">
-                      New Password
-                    </label>
+                    <div className="mb-5">
+                      <label htmlFor="newPassword" className="block mb-2.5">
+                        New Password <span className="text-red">*</span>
+                      </label>
 
-                    <input
-                      type="password"
-                      name="newPassword"
-                      id="newPassword"
-                      autoComplete="on"
-                      className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
-                    />
-                  </div>
+                      <input
+                        type="password"
+                        name="newPassword"
+                        id="newPassword"
+                        value={passwordData.newPassword}
+                        onChange={handlePasswordInputChange}
+                        autoComplete="new-password"
+                        required
+                        className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                      />
+                    </div>
 
-                  <div className="mb-5">
-                    <label
-                      htmlFor="confirmNewPassword"
-                      className="block mb-2.5"
+                    <div className="mb-5">
+                      <label
+                        htmlFor="confirmNewPassword"
+                        className="block mb-2.5"
+                      >
+                        Confirm New Password <span className="text-red">*</span>
+                      </label>
+
+                      <input
+                        type="password"
+                        name="confirmNewPassword"
+                        id="confirmNewPassword"
+                        value={passwordData.confirmNewPassword}
+                        onChange={handlePasswordInputChange}
+                        autoComplete="new-password"
+                        required
+                        className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={updatePasswordMutation.isPending}
+                      className="inline-flex font-medium text-white bg-blue py-3 px-7 rounded-md ease-out duration-200 hover:bg-blue-dark disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Confirm New Password
-                    </label>
-
-                    <input
-                      type="password"
-                      name="confirmNewPassword"
-                      id="confirmNewPassword"
-                      autoComplete="on"
-                      className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
-                    />
+                      {updatePasswordMutation.isPending ? 'Changing Password...' : 'Change Password'}
+                    </button>
                   </div>
-
-                  <button
-                    type="submit"
-                    className="inline-flex font-medium text-white bg-blue py-3 px-7 rounded-md ease-out duration-200 hover:bg-blue-dark"
-                  >
-                    Change Password
-                  </button>
-                </div>
-              </form>
+                </form>
             </div>
             {/* <!-- details tab content end -->
 
