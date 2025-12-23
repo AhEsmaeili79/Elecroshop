@@ -1,13 +1,22 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Breadcrumb from "../Common/Breadcrumb";
 import Image from "next/image";
 import AddressModal from "./AddressModal";
 import Orders from "../Orders";
+import { useAuth } from "@/lib/auth/useAuth";
 
 const MyAccount = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [addressModal, setAddressModal] = useState(false);
+  const { logout, isLoading, user } = useAuth();
+
+  // Form state for account details
+  const [formData, setFormData] = useState({
+    firstName: "Jhon",
+    lastName: "Deo",
+    country: "Australia"
+  });
 
   const openAddressModal = () => {
     setAddressModal(true);
@@ -16,6 +25,26 @@ const MyAccount = () => {
   const closeAddressModal = () => {
     setAddressModal(false);
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Initialize form data when user data is available
+  useEffect(() => {
+    if (user) {
+      // For now, keep default values since User model doesn't have firstName/lastName
+      // This can be updated when the backend provides additional user profile fields
+      setFormData(prev => ({
+        ...prev,
+        // Add user-specific initialization here when available
+      }));
+    }
+  }, [user]);
 
   return (
     <>
@@ -219,8 +248,9 @@ const MyAccount = () => {
                     </button>
 
                     <button
-                      onClick={() => setActiveTab("logout")}
-                      className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white ${
+                      onClick={logout}
+                      disabled={isLoading}
+                      className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white disabled:opacity-50 disabled:cursor-not-allowed ${
                         activeTab === "logout"
                           ? "text-white bg-blue"
                           : "text-dark-2 bg-gray-1"
@@ -590,7 +620,8 @@ const MyAccount = () => {
                         name="firstName"
                         id="firstName"
                         placeholder="Jhon"
-                        value="Jhon"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
                         className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
                       />
                     </div>
@@ -605,7 +636,8 @@ const MyAccount = () => {
                         name="lastName"
                         id="lastName"
                         placeholder="Deo"
-                        value="Deo"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
                         className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
                       />
                     </div>
@@ -617,10 +649,15 @@ const MyAccount = () => {
                     </label>
 
                     <div className="relative">
-                      <select className="w-full bg-gray-1 rounded-md border border-gray-3 text-dark-4 py-3 pl-5 pr-9 duration-200 appearance-none outline-none focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20">
-                        <option value="0">Australia</option>
-                        <option value="1">America</option>
-                        <option value="2">England</option>
+                      <select
+                        name="country"
+                        value={formData.country}
+                        onChange={handleInputChange}
+                        className="w-full bg-gray-1 rounded-md border border-gray-3 text-dark-4 py-3 pl-5 pr-9 duration-200 appearance-none outline-none focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                      >
+                        <option value="Australia">Australia</option>
+                        <option value="America">America</option>
+                        <option value="England">England</option>
                       </select>
 
                       <span className="absolute right-4 top-1/2 -translate-y-1/2 text-dark-4">
@@ -636,7 +673,7 @@ const MyAccount = () => {
                             d="M2.41469 5.03569L2.41467 5.03571L2.41749 5.03846L7.76749 10.2635L8.0015 10.492L8.23442 10.2623L13.5844 4.98735L13.5844 4.98735L13.5861 4.98569C13.6809 4.89086 13.8199 4.89087 13.9147 4.98569C14.0092 5.08024 14.0095 5.21864 13.9155 5.31345C13.9152 5.31373 13.915 5.31401 13.9147 5.31429L8.16676 10.9622L8.16676 10.9622L8.16469 10.9643C8.06838 11.0606 8.02352 11.0667 8.00039 11.0667C7.94147 11.0667 7.89042 11.0522 7.82064 10.9991L2.08526 5.36345C1.99127 5.26865 1.99154 5.13024 2.08609 5.03569C2.18092 4.94086 2.31986 4.94086 2.41469 5.03569Z"
                             fill=""
                             stroke=""
-                            stroke-width="0.666667"
+                            strokeWidth="0.666667"
                           />
                         </svg>
                       </span>
@@ -716,6 +753,82 @@ const MyAccount = () => {
               </form>
             </div>
             {/* <!-- details tab content end -->
+
+          <!-- logout tab content start --> */}
+            <div
+              className={`xl:max-w-[770px] w-full bg-white rounded-xl shadow-1 py-9.5 px-4 sm:px-7.5 xl:px-10 ${
+                activeTab === "logout" ? "block" : "hidden"
+              }`}
+            >
+              <div className="text-center">
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+                  <svg
+                    className="h-8 w-8 text-red-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                    />
+                  </svg>
+                </div>
+                <h3 className="mb-4 text-xl font-semibold text-dark">
+                  Ready to Log Out?
+                </h3>
+                <p className="mb-6 text-dark-2">
+                  You will be logged out of your account and redirected to the sign-in page.
+                </p>
+                <button
+                  onClick={logout}
+                  disabled={isLoading}
+                  className="inline-flex items-center gap-2 font-medium text-white bg-red-600 py-3 px-7 rounded-md ease-out duration-200 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Logging out...
+                    </>
+                  ) : (
+                    <>
+                      <svg
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                        />
+                      </svg>
+                      Log Out
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+            {/* <!-- logout tab content end -->
           <!--== user dashboard content end ==--> */}
           </div>
         </div>
