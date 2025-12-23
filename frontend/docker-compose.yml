@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  template:
+    build:
+      context: .
+    image: template-app:v1
+    container_name: template-app
+    ports:
+      - "3006:3000"
+    environment:
+      NODE_ENV: production
+      NEXT_TELEMETRY_DISABLED: "1"
+    restart: unless-stopped
+    networks:
+      - template-network
+
+  cleanup:
+    image: docker:cli
+    container_name: template-cleanup
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - sh
+      - -c
+      - "sleep 15 && docker image prune -f && echo Cleanup completed: Dangling images removed"
+    depends_on:
+      - template
+    restart: "no"
+    networks:
+      - template-network
+
+networks:
+  template-network:
+    driver: bridge
