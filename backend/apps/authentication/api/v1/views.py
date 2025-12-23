@@ -1,4 +1,5 @@
 import logging
+import os
 
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework import status
@@ -17,6 +18,12 @@ from apps.authentication.api.v1.schemas import (
     login_response_schema,
     logout_request_schema,
     logout_response_schema,
+    otp_request_error_schema,
+    otp_request_response_schema,
+    otp_request_schema,
+    otp_verify_error_schema,
+    otp_verify_response_schema,
+    otp_verify_schema,
     register_request_schema,
     register_response_schema,
     token_refresh_request_schema,
@@ -24,16 +31,21 @@ from apps.authentication.api.v1.schemas import (
 )
 from apps.authentication.api.v1.schemas import LogoutResponseSerializer
 from apps.authentication.api.v1.serializers import (
+    OTPRequestSerializer,
+    OTPVerifySerializer,
     TokenRefreshSerializer,
     UserLoginSerializer,
     UserRegistrationSerializer,
     UserSerializer,
 )
+from apps.authentication.otp_service import OTPService
 from apps.authentication.services import generate_jwt_tokens
+from apps.authentication.tasks import send_email_otp, send_sms_otp
+from apps.users.services import create_user
 
 
 class RegisterView(APIView):
-    """View for user registration."""
+    """View for user registration with optional OTP."""
     
     permission_classes = [AllowAny]
     throttle_classes = [AnonRateThrottle]
@@ -46,37 +58,74 @@ class RegisterView(APIView):
             400: OpenApiResponse(description='Validation error'),
         },
         summary='Register a new user',
-        description='Register a new user with email or phone number. At least one of email or phone must be provided.',
+        description='Register a new user with email or phone number. Supports both password and OTP-based registration.',
         tags=['Authentication'],
     )
     def post(self, request):
-        """Register a new user."""
+        """Register a new user with password or OTP."""
         serializer = UserRegistrationSerializer(data=request.data)
         
-        if serializer.is_valid():
+        if not serializer.is_valid():
+            logger.warning(
+                f'User registration failed: errors={serializer.errors}, '
+                f'ip={request.META.get("REMOTE_ADDR")}'
+            )
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        validated_data = serializer.validated_data
+        email = validated_data.get('email')
+        phone = validated_data.get('phone')
+        password = validated_data.get('password')
+        otp_code = validated_data.get('otp_code')
+        
+        # If OTP is provided, verify it first
+        if otp_code:
+            identifier = email or phone
+            is_valid, error_message = OTPService.verify_otp(identifier, 'register', otp_code)
+            
+            if not is_valid:
+                logger.warning(
+                    f'OTP verification failed for registration: identifier={identifier}, '
+                    f'ip={request.META.get("REMOTE_ADDR")}'
+                )
+                return Response(
+                    {'otp_code': [error_message]},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            # OTP verified, create user (serializer will handle temp password)
             user = serializer.save()
             logger.info(
-                f'User registration successful: user_id={user.id}, '
+                f'User registration successful with OTP: user_id={user.id}, '
                 f'email={user.email}, phone={user.phone}, ip={request.META.get("REMOTE_ADDR")}'
             )
             return Response(
                 {
-                    'message': 'User registered successfully.',
+                    'message': 'User registered successfully with OTP.',
                     'user': UserSerializer(user).data,
                     'tokens': user.tokens,
                 },
                 status=status.HTTP_201_CREATED
             )
         
-        logger.warning(
-            f'User registration failed: errors={serializer.errors}, '
-            f'ip={request.META.get("REMOTE_ADDR")}'
+        # Password-based registration
+        user = serializer.save()
+        logger.info(
+            f'User registration successful: user_id={user.id}, '
+            f'email={user.email}, phone={user.phone}, ip={request.META.get("REMOTE_ADDR")}'
         )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {
+                'message': 'User registered successfully.',
+                'user': UserSerializer(user).data,
+                'tokens': user.tokens,
+            },
+            status=status.HTTP_201_CREATED
+        )
 
 
 class LoginView(APIView):
-    """View for user login."""
+    """View for user login with optional OTP."""
     
     permission_classes = [AllowAny]
     throttle_classes = [AnonRateThrottle]
@@ -89,7 +138,7 @@ class LoginView(APIView):
             400: OpenApiResponse(description='Invalid credentials'),
         },
         summary='User login',
-        description='Authenticate user with email or phone number and password.',
+        description='Authenticate user with email or phone number and password or OTP.',
         tags=['Authentication'],
     )
     def post(self, request):
@@ -98,27 +147,45 @@ class LoginView(APIView):
         email_or_phone = request.data.get('email_or_phone', 'N/A')
         ip_address = request.META.get('REMOTE_ADDR')
         
-        if serializer.is_valid():
-            user = serializer.validated_data['user']
-            tokens = generate_jwt_tokens(user)
-            logger.info(
-                f'Login successful: user_id={user.id}, '
-                f'identifier={email_or_phone}, ip={ip_address}'
+        if not serializer.is_valid():
+            logger.warning(
+                f'Login failed: identifier={email_or_phone}, '
+                f'errors={serializer.errors}, ip={ip_address}'
             )
-            return Response(
-                {
-                    'message': 'Login successful.',
-                    'user': UserSerializer(user).data,
-                    'tokens': tokens,
-                },
-                status=status.HTTP_200_OK
-            )
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-        logger.warning(
-            f'Login failed: identifier={email_or_phone}, '
-            f'errors={serializer.errors}, ip={ip_address}'
+        validated_data = serializer.validated_data
+        user = validated_data['user']
+        otp_code = request.data.get('otp_code')
+        
+        # If OTP is provided, verify it
+        if otp_code:
+            is_valid, error_message = OTPService.verify_otp(email_or_phone, 'login', otp_code)
+            
+            if not is_valid:
+                logger.warning(
+                    f'OTP verification failed for login: identifier={email_or_phone}, '
+                    f'ip={ip_address}'
+                )
+                return Response(
+                    {'otp_code': [error_message]},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        
+        # Authentication successful
+        tokens = generate_jwt_tokens(user)
+        logger.info(
+            f'Login successful: user_id={user.id}, '
+            f'identifier={email_or_phone}, method={"OTP" if otp_code else "password"}, ip={ip_address}'
         )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {
+                'message': 'Login successful.',
+                'user': UserSerializer(user).data,
+                'tokens': tokens,
+            },
+            status=status.HTTP_200_OK
+        )
 
 
 class LogoutView(APIView):
@@ -189,4 +256,139 @@ class TokenRefreshView(SimpleJWTTokenRefreshView):
     def post(self, request, *args, **kwargs):
         """Refresh access token."""
         return super().post(request, *args, **kwargs)
+
+
+class OTPRequestView(APIView):
+    """View for requesting OTP code."""
+    
+    permission_classes = [AllowAny]
+    throttle_classes = [AnonRateThrottle]
+    
+    @extend_schema(
+        request=otp_request_schema,
+        responses={
+            200: otp_request_response_schema,
+            400: otp_request_error_schema,
+        },
+        summary='Request OTP code',
+        description='Request an OTP code for registration or login. Rate limited: 3 requests max, 1 min cooldown, 1 hour lockout after 3 consecutive requests.',
+        tags=['Authentication'],
+    )
+    def post(self, request):
+        """Request OTP code for registration or login."""
+        serializer = OTPRequestSerializer(data=request.data)
+        
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        validated_data = serializer.validated_data
+        email = validated_data.get('email')
+        phone = validated_data.get('phone')
+        purpose = validated_data.get('purpose')
+        normalized_identifier = validated_data.get('normalized_identifier')
+        original_identifier = validated_data.get('original_identifier')
+        
+        # Generate and store OTP (use normalized identifier for Redis)
+        otp_code, success, error_message = OTPService.generate_and_store_otp(normalized_identifier, purpose)
+        
+        if not success:
+            logger.warning(
+                f'OTP request failed: identifier={normalized_identifier}, purpose={purpose}, '
+                f'reason={error_message}, ip={request.META.get("REMOTE_ADDR")}'
+            )
+            return Response(
+                {
+                    'error': error_message,
+                    'identifier': original_identifier,
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Send OTP via Celery
+        is_development = os.environ.get('DEVELOPMENT', 'False').lower() == 'true'
+        
+        if email:
+            send_email_otp.delay(email, otp_code)
+        if phone:
+            send_sms_otp.delay(phone, otp_code)
+        
+        logger.info(
+            f'OTP requested: identifier={normalized_identifier}, purpose={purpose}, '
+            f'ip={request.META.get("REMOTE_ADDR")}'
+        )
+        
+        response_data = {
+            'message': 'OTP code has been sent successfully.',
+            'identifier': original_identifier,
+            'purpose': purpose,
+        }
+        
+        # In development mode, include OTP in response
+        if is_development:
+            response_data['otp_code'] = otp_code
+            response_data['dev_mode'] = True
+        
+        return Response(response_data, status=status.HTTP_200_OK)
+
+
+class OTPVerifyView(APIView):
+    """View for verifying OTP code."""
+    
+    permission_classes = [AllowAny]
+    throttle_classes = [AnonRateThrottle]
+    
+    @extend_schema(
+        request=otp_verify_schema,
+        responses={
+            200: otp_verify_response_schema,
+            400: otp_verify_error_schema,
+        },
+        summary='Verify OTP code',
+        description='Verify an OTP code for registration or login.',
+        tags=['Authentication'],
+    )
+    def post(self, request):
+        """Verify OTP code."""
+        serializer = OTPVerifySerializer(data=request.data)
+        
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        validated_data = serializer.validated_data
+        email = validated_data.get('email')
+        phone = validated_data.get('phone')
+        otp_code = validated_data.get('otp_code')
+        purpose = validated_data.get('purpose')
+        normalized_identifier = validated_data.get('normalized_identifier')
+        original_identifier = validated_data.get('original_identifier')
+        
+        # Verify OTP (use normalized identifier for Redis)
+        is_valid, error_message = OTPService.verify_otp(normalized_identifier, purpose, otp_code)
+        
+        if not is_valid:
+            logger.warning(
+                f'OTP verification failed: identifier={normalized_identifier}, purpose={purpose}, '
+                f'ip={request.META.get("REMOTE_ADDR")}'
+            )
+            return Response(
+                {
+                    'error': error_message,
+                    'identifier': original_identifier,
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        logger.info(
+            f'OTP verified successfully: identifier={normalized_identifier}, purpose={purpose}, '
+            f'ip={request.META.get("REMOTE_ADDR")}'
+        )
+        
+        return Response(
+            {
+                'message': 'OTP code verified successfully.',
+                'identifier': original_identifier,
+                'purpose': purpose,
+            },
+            status=status.HTTP_200_OK
+        )
 

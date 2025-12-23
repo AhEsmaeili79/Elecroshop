@@ -6,6 +6,8 @@ from drf_spectacular.utils import extend_schema_serializer, inline_serializer
 from rest_framework import serializers
 
 from apps.authentication.api.v1.serializers import (
+    OTPRequestSerializer,
+    OTPVerifySerializer,
     TokenRefreshSerializer,
     UserLoginSerializer,
     UserRegistrationSerializer,
@@ -132,4 +134,69 @@ class LoginRequestSchema(UserLoginSerializer):
 class TokenRefreshRequestSchema(TokenRefreshSerializer):
     """Schema for token refresh request - extends TokenRefreshSerializer."""
     pass
+
+
+# OTP Request Schema
+otp_request_schema = OTPRequestSerializer
+
+# OTP Request Success Response Schema
+otp_request_response_schema = inline_serializer(
+    name='OTPRequestResponse',
+    fields={
+        'message': serializers.CharField(help_text='Success message'),
+        'identifier': serializers.CharField(help_text='Email or phone number where OTP was sent'),
+        'purpose': serializers.ChoiceField(
+            choices=['register', 'login'],
+            help_text='Purpose of OTP request'
+        ),
+        'otp_code': serializers.CharField(
+            required=False,
+            help_text='OTP code (only in development mode)'
+        ),
+        'dev_mode': serializers.BooleanField(
+            required=False,
+            help_text='Indicates if development mode is enabled'
+        ),
+    }
+)
+
+# OTP Request Error Response Schema
+otp_request_error_schema = inline_serializer(
+    name='OTPRequestError',
+    fields={
+        'error': serializers.CharField(help_text='Error message'),
+        'identifier': serializers.CharField(
+            required=False,
+            help_text='Email or phone number that caused the error'
+        ),
+    }
+)
+
+# OTP Verify Schema
+otp_verify_schema = OTPVerifySerializer
+
+# OTP Verify Success Response Schema
+otp_verify_response_schema = inline_serializer(
+    name='OTPVerifyResponse',
+    fields={
+        'message': serializers.CharField(help_text='Success message'),
+        'identifier': serializers.CharField(help_text='Email or phone number that was verified'),
+        'purpose': serializers.ChoiceField(
+            choices=['register', 'login'],
+            help_text='Purpose of OTP verification'
+        ),
+    }
+)
+
+# OTP Verify Error Response Schema
+otp_verify_error_schema = inline_serializer(
+    name='OTPVerifyError',
+    fields={
+        'error': serializers.CharField(help_text='Error message'),
+        'identifier': serializers.CharField(
+            required=False,
+            help_text='Email or phone number that caused the error'
+        ),
+    }
+)
 

@@ -3,6 +3,8 @@ from django.urls import path
 from apps.authentication.api.v1.views import (
     LoginView,
     LogoutView,
+    OTPRequestView,
+    OTPVerifyView,
     TokenRefreshView,
     RegisterView,
 )
@@ -14,5 +16,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('refresh/', TokenRefreshView.as_view(), name='refresh'),
+    path('otp/request/', OTPRequestView.as_view(), name='otp-request'),
+    path('otp/verify/', OTPVerifyView.as_view(), name='otp-verify'),
 ]
 

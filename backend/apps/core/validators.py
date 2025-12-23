@@ -1,5 +1,6 @@
 """Common validators shared across applications."""
-from typing import Dict, Optional
+import re
+from typing import Dict, Optional, Tuple
 
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
@@ -78,3 +79,48 @@ def normalize_email_phone(email: Optional[str] = None, phone: Optional[str] = No
     normalized_email = email if email and email.strip() else None
     normalized_phone = normalize_phone(phone)
     return {'email': normalized_email, 'phone': normalized_phone}
+
+
+def detect_email_or_phone(identifier: str) -> Tuple[Optional[str], Optional[str], str]:
+    """
+    Detect if identifier is an email or phone number using regex.
+    
+    Args:
+        identifier: Email address or phone number
+        
+    Returns:
+        Tuple of (email, phone, type) where type is 'email' or 'phone'
+        
+    Raises:
+        serializers.ValidationError: If identifier is neither valid email nor phone
+    """
+    if not identifier or not identifier.strip():
+        raise serializers.ValidationError('Identifier cannot be empty.')
+    
+    identifier = identifier.strip()
+    
+    # Email regex pattern (RFC 5322 simplified)
+    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    
+    # Phone regex pattern (supports international format with +, digits, spaces, dashes, parentheses)
+    # Matches: +1234567890, 1234567890, (123) 456-7890, 123-456-7890, etc.
+    phone_pattern = r'^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$'
+    
+    # Check if it's an email
+    if re.match(email_pattern, identifier):
+        normalized_email = identifier.lower()
+        return normalized_email, None, 'email'
+    
+    # Check if it's a phone number
+    # Remove common formatting characters for validation
+    phone_digits = re.sub(r'[^\d+]', '', identifier)
+    if len(phone_digits) >= 7 and len(phone_digits) <= 15:  # Reasonable phone length
+        if re.match(phone_pattern, identifier):
+            normalized_phone = normalize_phone(identifier)
+            if normalized_phone:
+                return None, normalized_phone, 'phone'
+    
+    # If neither matches, raise error
+    raise serializers.ValidationError(
+        'Invalid identifier. Please provide a valid email address or phone number.'
+    )
