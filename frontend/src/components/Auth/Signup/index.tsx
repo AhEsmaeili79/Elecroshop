@@ -3,12 +3,16 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import OTPModal from "../OTPModal";
 import toast from "react-hot-toast";
 import { useTranslation } from "@/app/hooks/useTranslation";
+import { useAuth } from "@/lib/auth/useAuth";
 
 const Signup = () => {
   const { translate } = useTranslation();
+  const router = useRouter();
+  const { signUpWithPassword, signUpWithOTP, verifyOTPAndSignUp, requestOTP, isLoading: authLoading } = useAuth();
   const [formData, setFormData] = useState({
     identifier: "", // Can be email or phone
     password: "",
@@ -76,14 +80,12 @@ const Signup = () => {
 
     setIsLoading(true);
     try {
-      // TODO: Replace with actual API call to send OTP
-      // await sendOTPForSignup(formData.identifier, formData.password);
-      
-      toast.success(translate("auth.otpSentSuccess"));
+      // Request OTP for registration
+      await signUpWithOTP(formData.identifier.trim(), formData.password);
       setShowOTPModal(true);
       setOtpError("");
     } catch (error: any) {
-      toast.error(error.message || translate("auth.failedToSendOTP"));
+      // Error is already handled in useAuth hook
     } finally {
       setIsLoading(false);
     }
@@ -94,16 +96,14 @@ const Signup = () => {
     setOtpError("");
 
     try {
-      // TODO: Replace with actual API call to verify OTP, create account, and login
-      // await verifyOTPAndSignup(formData.identifier, otp, formData.password);
-      
-      toast.success(translate("auth.accountCreatedSuccess"));
+      await verifyOTPAndSignUp(formData.identifier.trim(), otp, formData.password);
       setShowOTPModal(false);
       
-      // Redirect to dashboard or home
-      // router.push('/dashboard');
+      // Redirect to home or dashboard after successful registration
+      router.push('/');
     } catch (error: any) {
-      setOtpError(error.message || translate("auth.invalidVerificationCode"));
+      const errorMessage = error?.response?.data?.detail || error?.message || translate("auth.invalidVerificationCode");
+      setOtpError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -112,12 +112,10 @@ const Signup = () => {
   const handleResendOTP = async () => {
     setIsLoading(true);
     try {
-      // TODO: Replace with actual API call to resend OTP
-      // await sendOTPForSignup(formData.identifier, formData.password);
-      toast.success(translate("auth.otpResentSuccess"));
+      await requestOTP(formData.identifier.trim(), 'register');
       setOtpError("");
     } catch (error: any) {
-      toast.error(error.message || translate("auth.failedToResendOTP"));
+      // Error is already handled in useAuth hook
     } finally {
       setIsLoading(false);
     }
@@ -278,10 +276,10 @@ const Signup = () => {
 
                 <button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isLoading || authLoading}
                   className="w-full flex justify-center font-medium text-white bg-dark py-3 px-6 rounded-lg ease-out duration-200 hover:bg-blue disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-dark mt-7.5"
                 >
-                  {isLoading ? translate("auth.sendingOTP") : translate("auth.createAccount")}
+                  {isLoading || authLoading ? translate("auth.sendingOTP") : translate("auth.createAccount")}
                 </button>
 
                 <p className="text-center mt-6">

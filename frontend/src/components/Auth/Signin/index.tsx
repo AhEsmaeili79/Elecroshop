@@ -3,12 +3,16 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import OTPModal from "../OTPModal";
 import toast from "react-hot-toast";
 import { useTranslation } from "@/app/hooks/useTranslation";
+import { useAuth } from "@/lib/auth/useAuth";
 
 const Signin = () => {
   const { translate } = useTranslation();
+  const router = useRouter();
+  const { signInWithPassword, signInWithOTP, verifyOTPAndSignIn, requestOTP, isLoading: authLoading } = useAuth();
   const [loginMethod, setLoginMethod] = useState<"password" | "otp">("password");
   const [formData, setFormData] = useState({
     identifier: "", // Can be email or phone
@@ -34,7 +38,7 @@ const Signin = () => {
   const handlePasswordLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.identifier) {
+    if (!formData.identifier.trim()) {
       toast.error(translate("auth.emailOrPhoneRequired"));
       return;
     }
@@ -46,12 +50,11 @@ const Signin = () => {
 
     setIsLoading(true);
     try {
-      // TODO: Replace with actual API call
-      // await signInWithPassword(formData);
-      toast.success(translate("auth.signedInSuccess"));
-      // Redirect to dashboard or home
+      await signInWithPassword(formData.identifier.trim(), formData.password);
+      // Redirect to home or dashboard after successful login
+      router.push('/');
     } catch (error: any) {
-      toast.error(error.message || "Failed to sign in");
+      // Error is already handled in useAuth hook
     } finally {
       setIsLoading(false);
     }
@@ -60,30 +63,24 @@ const Signin = () => {
   const handleOTPLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.identifier) {
+    if (!formData.identifier.trim()) {
       toast.error(translate("auth.emailOrPhoneRequired"));
       return;
     }
 
-    if (isEmail(formData.identifier) && !isEmail(formData.identifier)) {
-      toast.error(translate("auth.invalidEmail"));
-      return;
-    }
-
-    if (!isEmail(formData.identifier) && !isPhone(formData.identifier)) {
+    const identifier = formData.identifier.trim();
+    if (!isEmail(identifier) && !isPhone(identifier)) {
       toast.error(translate("auth.invalidEmailOrPhone"));
       return;
     }
 
     setIsLoading(true);
     try {
-      // TODO: Replace with actual API call to send OTP
-      // await sendOTP(identifier);
-      toast.success(translate("auth.otpSentSuccess"));
+      await signInWithOTP(identifier);
       setShowOTPModal(true);
       setOtpError("");
     } catch (error: any) {
-      toast.error(error.message || translate("auth.failedToSendOTP"));
+      // Error is already handled in useAuth hook
     } finally {
       setIsLoading(false);
     }
@@ -94,13 +91,13 @@ const Signin = () => {
     setOtpError("");
     
     try {
-      // TODO: Replace with actual API call to verify OTP and login
-      // await verifyOTPAndLogin(formData.identifier, otp);
-      toast.success(translate("auth.signedInSuccess"));
+      await verifyOTPAndSignIn(formData.identifier.trim(), otp);
       setShowOTPModal(false);
-      // Redirect to dashboard or home
+      // Redirect to home or dashboard after successful login
+      router.push('/');
     } catch (error: any) {
-      setOtpError(error.message || translate("auth.invalidVerificationCode"));
+      const errorMessage = error?.response?.data?.detail || error?.message || translate("auth.invalidVerificationCode");
+      setOtpError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -109,12 +106,10 @@ const Signin = () => {
   const handleResendOTP = async () => {
     setIsLoading(true);
     try {
-      // TODO: Replace with actual API call to resend OTP
-      // await sendOTP(formData.identifier);
-      toast.success(translate("auth.otpResentSuccess"));
+      await requestOTP(formData.identifier.trim(), 'login');
       setOtpError("");
     } catch (error: any) {
-      toast.error(error.message || translate("auth.failedToResendOTP"));
+      // Error is already handled in useAuth hook
     } finally {
       setIsLoading(false);
     }
@@ -212,10 +207,10 @@ const Signin = () => {
 
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || authLoading}
                 className="w-full flex justify-center font-medium text-white bg-dark py-3 px-6 rounded-lg ease-out duration-200 hover:bg-blue disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-dark"
               >
-                {isLoading
+                {isLoading || authLoading
                   ? translate("auth.processing")
                   : loginMethod === "password"
                   ? translate("auth.signInToAccount")

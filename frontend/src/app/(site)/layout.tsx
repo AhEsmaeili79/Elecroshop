@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "../css/euclid-circular-a-font.css";
 import "../css/style.css";
 import Header from "../../components/Header";
@@ -24,6 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [loading, setLoading] = useState<boolean>(true);
+  const [queryClient] = useState(() => new QueryClient());
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
@@ -39,19 +41,21 @@ export default function RootLayout({
             <LanguageProvider>
               <ThemeProvider>
                 <ReduxProvider>
-                  <CartModalProvider>
-                    <ModalProvider>
-                      <PreviewSliderProvider>
-                        <Header />
-                        {children}
+                  <QueryClientProvider client={queryClient}>
+                    <CartModalProvider>
+                      <ModalProvider>
+                        <PreviewSliderProvider>
+                          <Header />
+                          {children}
 
-                        <QuickViewModal />
-                        <CartSidebarModal />
-                        <PreviewSliderModal />
-                        <Footer />
-                      </PreviewSliderProvider>
-                    </ModalProvider>
-                  </CartModalProvider>
+                          <QuickViewModal />
+                          <CartSidebarModal />
+                          <PreviewSliderModal />
+                          <Footer />
+                        </PreviewSliderProvider>
+                      </ModalProvider>
+                    </CartModalProvider>
+                  </QueryClientProvider>
                 </ReduxProvider>
               </ThemeProvider>
             </LanguageProvider>

@@ -29,7 +29,7 @@ export const getApiBaseUrl = (): string => {
   }
 
   // 3. Default fallback (your current backend URL)
-  return 'http://95.216.121.250:8006';
+  return '';
 };
 
 /**
