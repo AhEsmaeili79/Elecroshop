@@ -1,32 +1,25 @@
 version: "3.8"
 
 services:
-  template:
+  template-dev:
     build:
       context: .
-    image: template-app:v1
-    container_name: template-app
+      dockerfile: Dockerfile
+    image: template-app-dev:v1
+    container_name: template-app-dev
     ports:
       - "3006:3000"
     environment:
-      NODE_ENV: production
-      NEXT_TELEMETRY_DISABLED: "1"
-    restart: unless-stopped
-    networks:
-      - template-network
-
-  cleanup:
-    image: docker:cli
-    container_name: template-cleanup
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+      - WATCHPACK_POLLING=true
+      - BACKEND_API_BASE_URL=http://95.216.121.250:8006
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command:
-      - sh
-      - -c
-      - "sleep 15 && docker image prune -f && echo Cleanup completed: Dangling images removed"
-    depends_on:
-      - template
-    restart: "no"
+      # Mount entire project for hot reload (excluding node_modules and .next)
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    restart: unless-stopped
     networks:
       - template-network
 

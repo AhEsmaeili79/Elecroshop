@@ -3,13 +3,13 @@ version: '3.8'
 services:
   db:
     image: postgres:17-alpine
-    container_name: electroshop-db
+    container_name: electroshop-db-dev
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-electroshop}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_dev:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
@@ -17,41 +17,102 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - electroshop-dev
+
+  redis:
+    image: redis:8.2-alpine
+    container_name: electroshop-redis-dev
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data_dev:/data
+    networks:
+      - electroshop-dev
+    restart: unless-stopped
 
   web:
-    build: .
-    image: electroshop-backend:v2
-    container_name: electroshop-backend
-    command: sh -c "sleep 10 && python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: electroshop-backend-dev:latest
+    container_name: electroshop-backend-dev
+    command: sh -c "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
     volumes:
+      # Mount the entire backend directory for hot reload
       - .:/app
+      # Exclude node_modules and other build artifacts if any
+      - /app/.venv
+      - /app/venv
+      - /app/env
     ports:
-      - "8005:8000"
+      - "8006:8000"
     environment:
-      DB_NAME: ${POSTGRES_DB:-electroshop}
-      DB_USER: ${POSTGRES_USER:-postgres}
-      DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      DB_HOST: db
-      DB_PORT: 5432
+      - DEBUG=True
+      - DB_NAME=${POSTGRES_DB:-electroshop}
+      - DB_USER=${POSTGRES_USER:-postgres}
+      - DB_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
     env_file:
       - .env
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
     restart: unless-stopped
+    networks:
+      - electroshop-dev
 
-  cleanup:
-    image: docker:cli
-    container_name: electroshop-cleanup
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: electroshop-backend-dev:latest
+    container_name: electroshop-celery-dev
+    command: celery -A config worker --loglevel=info
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command:
-      - sh
-      - -c
-      - "sleep 20 && docker image prune -f && echo Cleanup completed: Dangling images removed"
+      - .:/app
+      - /app/.venv
+      - /app/venv
+      - /app/env
+    environment:
+      - DEBUG=True
+      - DB_NAME=${POSTGRES_DB:-electroshop}
+      - DB_USER=${POSTGRES_USER:-postgres}
+      - DB_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+    env_file:
+      - .env
     depends_on:
-      - web
-    restart: "no"
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - electroshop-dev
+
+networks:
+  electroshop-dev:
+    driver: bridge
 
 volumes:
-  postgres_data:
+  postgres_data_dev:
+  redis_data_dev:

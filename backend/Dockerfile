@@ -1,7 +1,7 @@
-# Build stage
-FROM python:3.13-alpine AS builder
+# Development Dockerfile with hot reload support
+FROM python:3.13-alpine
 
-# Install build dependencies
+# Install system dependencies
 RUN apk add --no-cache \
     postgresql-dev \
     gcc \
@@ -10,53 +10,28 @@ RUN apk add --no-cache \
     openssl-dev \
     cargo \
     rust \
+    libpq \
+    postgresql-client \
     && pip install --no-cache-dir --upgrade pip
 
-# Set work directory
-WORKDIR /app
-
-# Copy requirements and install Python dependencies
-COPY requirements-prod.txt .
-RUN pip install --no-cache-dir --user -r requirements-prod.txt
-
-# Production stage
-FROM python:3.13-alpine
-
-# Install only runtime dependencies
-RUN apk add --no-cache \
-    postgresql-client \
-    libpq \
-    && rm -rf /var/cache/apk/*
-
-# Create non-root user
-RUN addgroup -g 1000 django && \
-    adduser -D -s /bin/sh -u 1000 -G django django
-
-# Set environment variables
+# Set environment variables for development
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PATH="/home/django/.local/bin:$PATH"
+    DJANGO_SETTINGS_MODULE=config.settings
 
 # Set work directory
 WORKDIR /app
 
-# Copy Python packages from builder stage
-COPY --from=builder /root/.local /home/django/.local
+# Copy requirements and install Python dependencies (dev requirements)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project files
-COPY --chown=django:django . /app/
-
-# Create logs and staticfiles directories with proper permissions
+# Create logs and staticfiles directories
 RUN mkdir -p /app/logs /app/staticfiles && \
-    chown -R django:django /app/logs /app/staticfiles && \
     chmod 775 /app/logs /app/staticfiles
-
-# Change ownership to django user
-RUN chown django:django /app
-USER django
 
 # Expose port
 EXPOSE 8000
 
-# Default command
+# Default command (will be overridden by docker-compose)
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
