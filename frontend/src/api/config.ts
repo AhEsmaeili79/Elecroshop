@@ -1,26 +1,48 @@
 /**
  * API Configuration
  * Base URL is dynamically set from environment variables or defaults to the schema endpoint
+ * 
+ * Priority order:
+ * 1. BACKEND_API_BASE_URL environment variable (recommended)
+ * 2. Runtime window.__API_BASE_URL__ (for dynamic configuration)
+ * 3. Default fallback to http://web.com
+ * 
+ * Usage:
+ * - Development: Set BACKEND_API_BASE_URL in .env.local
+ * - Production: Set BACKEND_API_BASE_URL in your deployment environment
+ * - Runtime: Set window.__API_BASE_URL__ before API calls (for dynamic config)
  */
 
 export const getApiBaseUrl = (): string => {
-  // Check for environment variable first
+  // 1. Check for runtime configuration (client-side only)
   if (typeof window !== 'undefined') {
-    // Client-side: check for runtime config
     const runtimeBaseUrl = (window as any).__API_BASE_URL__;
-    if (runtimeBaseUrl) {
-      return runtimeBaseUrl;
+    if (runtimeBaseUrl && typeof runtimeBaseUrl === 'string') {
+      return runtimeBaseUrl.trim();
     }
   }
 
-  // Server-side or fallback: use environment variable
-  if (process.env.NEXT_PUBLIC_API_BASE_URL) {
-    return process.env.NEXT_PUBLIC_API_BASE_URL;
+  // 2. Check for environment variable (works on both server and client)
+  const envBaseUrl = process.env.BACKEND_API_BASE_URL;
+  if (envBaseUrl && typeof envBaseUrl === 'string') {
+    return envBaseUrl.trim();
   }
 
-  // Default fallback
+  // 3. Default fallback (your current backend URL)
   return 'http://95.216.121.250:8006';
 };
 
+/**
+ * Get the API base URL
+ * This is computed once when the module loads
+ */
 export const API_BASE_URL = getApiBaseUrl();
+
+/**
+ * Get the API base URL dynamically (recomputes on each call)
+ * Use this if you need to get the latest value after runtime changes
+ */
+export const getDynamicApiBaseUrl = (): string => {
+  return getApiBaseUrl();
+};
 
