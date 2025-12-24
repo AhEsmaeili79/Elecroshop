@@ -15,10 +15,9 @@ export function middleware(request: NextRequest) {
     const accessToken = request.cookies.get('access_token')?.value;
 
     if (!accessToken) {
-      // Redirect to signin page if not authenticated
-      const signinUrl = new URL('/signin', request.url);
-      signinUrl.searchParams.set('redirect', pathname);
-      return NextResponse.redirect(signinUrl);
+      // Redirect to home page if not authenticated
+      const homeUrl = new URL('/', request.url);
+      return NextResponse.redirect(homeUrl);
     }
   }
 

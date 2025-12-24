@@ -1,18 +1,21 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Breadcrumb from "../Common/Breadcrumb";
 import Image from "next/image";
 import AddressModal from "./AddressModal";
 import Orders from "../Orders";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useGetUserProfile, useUpdateUserProfile, useUpdateUserPassword } from "@/api/users/users";
-import { setUser } from "@/lib/auth/tokenStorage";
+import { setUser, isAuthenticated as checkIsAuthenticated } from "@/lib/auth/tokenStorage";
 import toast from "react-hot-toast";
 
 const MyAccount = () => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("dashboard");
   const [addressModal, setAddressModal] = useState(false);
   const { logout, isLoading, user, isAuthenticated } = useAuth();
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   // Form state for account details
   const [formData, setFormData] = useState({
@@ -37,6 +40,21 @@ const MyAccount = () => {
   const updateProfileMutation = useUpdateUserProfile();
   const updatePasswordMutation = useUpdateUserPassword();
 
+  // Redirect immediately if not authenticated (check synchronously on mount)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const authenticated = checkIsAuthenticated();
+      setIsCheckingAuth(false);
+      
+      if (!authenticated) {
+        router.replace('/');
+        return;
+      }
+    } else {
+      setIsCheckingAuth(false);
+    }
+  }, [router]);
+
   // Initialize form data when user profile data is available
   useEffect(() => {
     if (userProfile) {
@@ -47,16 +65,9 @@ const MyAccount = () => {
     }
   }, [userProfile]);
 
-  // Redirect if not authenticated
-  if (!isAuthenticated) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue mx-auto mb-4"></div>
-          <p className="text-lg text-dark">Checking authentication...</p>
-        </div>
-      </div>
-    );
+  // Don't render anything if not authenticated or still checking - redirect will happen
+  if (isCheckingAuth || !isAuthenticated) {
+    return null;
   }
 
   const openAddressModal = () => {
