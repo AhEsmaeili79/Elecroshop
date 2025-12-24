@@ -49,6 +49,8 @@ class UserUpdateProfileView(APIView):
         if serializer.is_valid():
             old_email = request.user.email
             old_phone = request.user.phone
+            old_first_name = request.user.first_name
+            old_last_name = request.user.last_name
             serializer.save()
             # Return updated user data using UserSerializer
             user_serializer = UserSerializer(serializer.instance)
@@ -59,6 +61,10 @@ class UserUpdateProfileView(APIView):
                 changes.append(f'email: {old_email} -> {serializer.instance.email}')
             if old_phone != serializer.instance.phone:
                 changes.append(f'phone: {old_phone} -> {serializer.instance.phone}')
+            if old_first_name != serializer.instance.first_name:
+                changes.append(f'first_name: {old_first_name} -> {serializer.instance.first_name}')
+            if old_last_name != serializer.instance.last_name:
+                changes.append(f'last_name: {old_last_name} -> {serializer.instance.last_name}')
             
             logger.info(
                 f'Profile updated: user_id={user_id}, changes={", ".join(changes) if changes else "none"}, '

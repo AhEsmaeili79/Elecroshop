@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['id', 'email', 'phone', 'created_at', 'is_active']
+        fields = ['id', 'email', 'phone', 'first_name', 'last_name', 'created_at', 'is_active']
         read_only_fields = ['id', 'created_at']
 
 
@@ -27,7 +27,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['email', 'phone']
+        fields = ['email', 'phone', 'first_name', 'last_name']
     
     def validate_email(self, value):
         """Validate email format and uniqueness if provided."""

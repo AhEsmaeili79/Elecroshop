@@ -40,6 +40,18 @@ user_profile_success_response_schema = inline_serializer(
             max_length=20,
             help_text='User phone number'
         ),
+        'first_name': serializers.CharField(
+            required=False,
+            allow_null=True,
+            max_length=150,
+            help_text='User first name'
+        ),
+        'last_name': serializers.CharField(
+            required=False,
+            allow_null=True,
+            max_length=150,
+            help_text='User last name'
+        ),
         'created_at': serializers.DateTimeField(help_text='Account creation timestamp'),
         'is_active': serializers.BooleanField(help_text='Whether the user account is active'),
     }
@@ -60,6 +72,18 @@ user_update_success_response_schema = inline_serializer(
             allow_null=True,
             max_length=20,
             help_text='Updated phone number'
+        ),
+        'first_name': serializers.CharField(
+            required=False,
+            allow_null=True,
+            max_length=150,
+            help_text='Updated first name'
+        ),
+        'last_name': serializers.CharField(
+            required=False,
+            allow_null=True,
+            max_length=150,
+            help_text='Updated last name'
         ),
         'created_at': serializers.DateTimeField(help_text='Account creation timestamp'),
         'is_active': serializers.BooleanField(help_text='Whether the user account is active'),
@@ -90,6 +114,16 @@ validation_error_response_schema = inline_serializer(
             child=serializers.CharField(),
             required=False,
             help_text='Phone validation errors'
+        ),
+        'first_name': serializers.ListField(
+            child=serializers.CharField(),
+            required=False,
+            help_text='First name validation errors'
+        ),
+        'last_name': serializers.ListField(
+            child=serializers.CharField(),
+            required=False,
+            help_text='Last name validation errors'
         ),
         'current_password': serializers.ListField(
             child=serializers.CharField(),
@@ -142,13 +176,20 @@ def get_schema_from_serializer(serializer_class, name=None):
 # Extended schema serializers for better control and documentation
 @extend_schema_serializer(
     examples=[
-        OpenApiExample(
-            'Update with email and phone',
-            value={
-                'email': 'user@example.com',
-                'phone': '+1234567890',
-            },
-        ),
+    OpenApiExample(
+        'Update with email and phone',
+        value={
+            'email': 'user@example.com',
+            'phone': '+1234567890',
+        },
+    ),
+    OpenApiExample(
+        'Update with first name and last name',
+        value={
+            'first_name': 'John',
+            'last_name': 'Doe',
+        },
+    ),
         OpenApiExample(
             'Update email only',
             value={
@@ -196,6 +237,13 @@ user_update_profile_examples = [
         value={
             'email': 'test@example.com',
             'phone': '+1234567890',
+        },
+    ),
+    OpenApiExample(
+        'Update with first name and last name',
+        value={
+            'first_name': 'Jane',
+            'last_name': 'Smith',
         },
     ),
     OpenApiExample(
