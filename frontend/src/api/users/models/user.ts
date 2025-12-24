@@ -21,6 +21,16 @@ export interface User {
    * @nullable
    */
   phone?: string | null;
+  /**
+   * @maxLength 150
+   * @nullable
+   */
+  first_name?: string | null;
+  /**
+   * @maxLength 150
+   * @nullable
+   */
+  last_name?: string | null;
   readonly created_at: string;
   is_active?: boolean;
 }

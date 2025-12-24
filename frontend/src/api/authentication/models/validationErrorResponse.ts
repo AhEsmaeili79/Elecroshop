@@ -11,6 +11,10 @@ export interface ValidationErrorResponse {
   email?: string[];
   /** Phone validation errors */
   phone?: string[];
+  /** First name validation errors */
+  first_name?: string[];
+  /** Last name validation errors */
+  last_name?: string[];
   /** Current password validation errors */
   current_password?: string[];
   /** New password validation errors */

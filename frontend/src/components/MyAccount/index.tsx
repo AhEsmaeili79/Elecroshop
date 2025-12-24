@@ -20,7 +20,9 @@ const MyAccount = () => {
   // Form state for account details
   const [formData, setFormData] = useState({
     email: "",
-    phone: ""
+    phone: "",
+    first_name: "",
+    last_name: ""
   });
 
   // Password change form state
@@ -60,10 +62,28 @@ const MyAccount = () => {
     if (userProfile) {
       setFormData({
         email: userProfile.email || "",
-        phone: userProfile.phone || ""
+        phone: userProfile.phone || "",
+        first_name: userProfile.first_name || "",
+        last_name: userProfile.last_name || ""
       });
     }
   }, [userProfile]);
+
+  // Helper function to get display name with fallback
+  const getDisplayName = () => {
+    if (userProfile?.first_name || userProfile?.last_name) {
+      const firstName = userProfile.first_name || "";
+      const lastName = userProfile.last_name || "";
+      return `${firstName} ${lastName}`.trim();
+    }
+    if (userProfile?.email) {
+      return userProfile.email;
+    }
+    if (userProfile?.phone) {
+      return userProfile.phone;
+    }
+    return "User";
+  };
 
   // Don't render anything if not authenticated or still checking - redirect will happen
   if (isCheckingAuth || !isAuthenticated) {
@@ -168,7 +188,7 @@ const MyAccount = () => {
 
                   <div>
                     <p className="font-medium text-dark mb-0.5">
-                      {userProfile?.email || user?.email || "User"}
+                      {getDisplayName()}
                     </p>
                     <p className="text-custom-xs">
                       Member Since {userProfile?.created_at ? new Date(userProfile.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'N/A'}
@@ -393,7 +413,7 @@ const MyAccount = () => {
               }`}
             >
               <p className="text-dark">
-                Hello {userProfile?.email || user?.email || 'User'} (
+                Hello {getDisplayName()} (
                 <button
                   onClick={logout}
                   disabled={isLoading}
@@ -490,7 +510,7 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Name: James Septimus
+                      Name: {getDisplayName()}
                     </p>
 
                     <p className="flex items-center gap-2.5 text-custom-sm">
@@ -622,7 +642,7 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Name: James Septimus
+                      Name: {getDisplayName()}
                     </p>
 
                     <p className="flex items-center gap-2.5 text-custom-sm">
@@ -712,6 +732,40 @@ const MyAccount = () => {
             >
               <form onSubmit={handleProfileUpdate}>
                 <div className="bg-white shadow-1 rounded-xl p-4 sm:p-8.5">
+                  <div className="flex flex-col lg:flex-row gap-5 sm:gap-8 mb-5">
+                    <div className="w-full">
+                      <label htmlFor="first_name" className="block mb-2.5">
+                        First Name
+                      </label>
+
+                      <input
+                        type="text"
+                        name="first_name"
+                        id="first_name"
+                        placeholder="First name"
+                        value={formData.first_name}
+                        onChange={handleInputChange}
+                        className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                      />
+                    </div>
+
+                    <div className="w-full">
+                      <label htmlFor="last_name" className="block mb-2.5">
+                        Last Name
+                      </label>
+
+                      <input
+                        type="text"
+                        name="last_name"
+                        id="last_name"
+                        placeholder="Last name"
+                        value={formData.last_name}
+                        onChange={handleInputChange}
+                        className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                      />
+                    </div>
+                  </div>
+
                   <div className="flex flex-col lg:flex-row gap-5 sm:gap-8 mb-5">
                     <div className="w-full">
                       <label htmlFor="email" className="block mb-2.5">
