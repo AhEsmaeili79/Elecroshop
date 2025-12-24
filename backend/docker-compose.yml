@@ -41,10 +41,6 @@ services:
     volumes:
       # Mount the entire backend directory for hot reload
       - .:/app
-      # Exclude node_modules and other build artifacts if any
-      - /app/.venv
-      - /app/venv
-      - /app/env
     ports:
       - "8006:8000"
     environment:
@@ -81,9 +77,6 @@ services:
     command: celery -A config worker --loglevel=info
     volumes:
       - .:/app
-      - /app/.venv
-      - /app/venv
-      - /app/env
     environment:
       - DEBUG=True
       - DB_NAME=${POSTGRES_DB:-electroshop}
