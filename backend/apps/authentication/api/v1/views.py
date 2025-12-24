@@ -41,6 +41,7 @@ from apps.authentication.api.v1.serializers import (
 from apps.authentication.otp_service import OTPService
 from apps.authentication.services import generate_jwt_tokens
 from apps.authentication.tasks import send_email_otp, send_sms_otp
+from apps.users.selectors import user_exists_by_email, user_exists_by_phone
 from apps.users.services import create_user
 
 
@@ -287,6 +288,21 @@ class OTPRequestView(APIView):
         purpose = validated_data.get('purpose')
         normalized_identifier = validated_data.get('normalized_identifier')
         original_identifier = validated_data.get('original_identifier')
+        
+        # Check if user exists (for login, user must exist; for registration, user must not exist)
+        user_exists = (email and user_exists_by_email(email)) or (phone and user_exists_by_phone(phone))
+        if purpose == 'login' and not user_exists:
+            logger.warning(
+                f'OTP request denied: user not found, identifier={normalized_identifier}, purpose={purpose}, '
+                f'ip={request.META.get("REMOTE_ADDR")}'
+            )
+            return Response(
+                {
+                    'error': 'User not found. Please check your email/phone.',
+                    'identifier': original_identifier,
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
         # Generate and store OTP (use normalized identifier for Redis)
         otp_code, success, error_message = OTPService.generate_and_store_otp(normalized_identifier, purpose)

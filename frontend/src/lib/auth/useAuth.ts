@@ -98,7 +98,21 @@ export const useAuth = (): UseAuthReturn => {
       }
     };
 
+    // Listen for custom auth-state-changed event (e.g., login/logout in same tab)
+    const handleAuthStateChanged = (e: Event) => {
+      const customEvent = e as CustomEvent<{ isAuthenticated: boolean; user: User | null }>;
+      if (customEvent.detail) {
+        const { isAuthenticated, user } = customEvent.detail;
+        setIsAuthenticated(isAuthenticated);
+        setUserState(user);
+      } else {
+        // If no detail provided, refresh from storage
+        updateAuthState();
+      }
+    };
+
     window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('auth-state-changed', handleAuthStateChanged);
 
     // Also check on focus (in case localStorage was changed in same tab)
     const handleFocus = () => {
@@ -109,6 +123,7 @@ export const useAuth = (): UseAuthReturn => {
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('auth-state-changed', handleAuthStateChanged);
       window.removeEventListener('focus', handleFocus);
     };
   }, []);
