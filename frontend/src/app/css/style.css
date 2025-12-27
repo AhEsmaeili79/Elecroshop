@@ -26,13 +26,13 @@
   .dark {
     /* Dark mode colors - using LAB color space for better eye comfort */
     --color-bg-main: lab(2.75381% 0 0); /* Base dark background - LAB color */
-    --color-bg-card: lab(4.5% -0.5 0.5); /* Card background - slightly lighter with subtle green */
-    --color-bg-white: lab(4.5% -0.5 0.5);
+    --color-bg-card: lab(8% -1 2); /* Card background - brighter with subtle green for better visibility */
+    --color-bg-white: lab(8% -1 2);
     --color-text-primary: #E8F0E8; /* Soft green-tinted white for eye comfort */
     --color-text-secondary: #A8B5A8; /* Muted green-gray */
     --color-text-muted: #7A8A7A; /* Darker green-gray */
-    --color-border: lab(6% -1 1.5); /* Border with subtle green-black */
-    --color-border-light: lab(5.5% -0.8 1); /* Lighter border for hover states */
+    --color-border: lab(9% -1.2 2); /* Border with subtle green-black - brighter for visibility */
+    --color-border-light: lab(9.5% -1.2 2.5); /* Lighter border for hover states */
     
     /* Brand colors in dark mode - adjusted for green-black theme */
     --color-sage-green: #7A9A7A; /* Muted sage green */
@@ -117,24 +117,24 @@
   
   /* Dark mode background overrides - using LAB colors with fallbacks */
   .dark .bg-white {
-    background-color: lab(4.5% -0.5 0.5) !important;
-    background-color: #0D0F0D !important; /* Fallback for browsers that don't support LAB */
+    background-color: lab(8% -1 2) !important;
+    background-color: #1A1F1A !important; /* Fallback - brighter for better visibility */
   }
   .dark .bg-gray-1 {
-    background-color: lab(4.5% -0.5 0.5) !important;
-    background-color: #0D0F0D !important;
+    background-color: lab(8% -1 2) !important;
+    background-color: #1A1F1A !important; /* Fallback - brighter */
   }
   .dark .bg-gray-2 {
-    background-color: lab(5.5% -0.8 1) !important;
-    background-color: #0F120F !important;
+    background-color: lab(8.5% -1.1 2.2) !important;
+    background-color: #1C211C !important; /* Fallback - brighter */
   }
   .dark .bg-gray-3 {
-    background-color: lab(6% -1 1.5) !important;
-    background-color: #111411 !important;
+    background-color: lab(9% -1.2 2) !important;
+    background-color: #1E231E !important; /* Fallback - brighter */
   }
   .dark .bg-gray-4 {
-    background-color: lab(6% -1 1.5) !important;
-    background-color: #111411 !important;
+    background-color: lab(9% -1.2 2) !important;
+    background-color: #1E231E !important; /* Fallback - brighter */
   }
 
   /* Ensure light mode header/cards stand out */
@@ -149,12 +149,12 @@
   /* Dark mode border overrides */
   .dark .border-gray-3,
   .dark .border-gray-4 {
-    border-color: lab(6% -1 1.5) !important;
-    border-color: #111411 !important; /* Fallback */
+    border-color: lab(9% -1.2 2) !important;
+    border-color: #1E231E !important; /* Fallback - brighter for visibility */
   }
   .dark .border-gray-2 {
-    border-color: lab(5.5% -0.8 1) !important;
-    border-color: #0F120F !important; /* Fallback */
+    border-color: lab(8.5% -1.1 2.2) !important;
+    border-color: #1C211C !important; /* Fallback - brighter */
   }
 
   /* Dark mode divider overrides */
@@ -168,16 +168,16 @@
      ============================================ */
   
   .dark .hover\:bg-gray-1:hover {
-    background-color: lab(5.5% -0.8 1) !important;
-    background-color: #0F120F !important; /* Fallback */
+    background-color: lab(9.5% -1.2 2.5) !important;
+    background-color: #202520 !important; /* Fallback - brighter */
   }
   .dark .hover\:bg-gray-2:hover {
-    background-color: lab(6% -1 1.5) !important;
-    background-color: #111411 !important; /* Fallback */
+    background-color: lab(10% -1.3 2.5) !important;
+    background-color: #222722 !important; /* Fallback - brighter */
   }
   .dark .hover\:bg-gray-3:hover {
-    background-color: lab(7% -1.2 2) !important;
-    background-color: #141714 !important; /* Fallback */
+    background-color: lab(10.5% -1.4 3) !important;
+    background-color: #242924 !important; /* Fallback - brighter */
   }
 
   /* ============================================
@@ -205,8 +205,8 @@
   }
   
   .dark footer .bg-gray-1 {
-    background-color: lab(4.5% -0.5 0.5) !important;
-    background-color: #0D0F0D !important; /* Fallback */
+    background-color: lab(8% -1 2) !important;
+    background-color: #1A1F1A !important; /* Fallback - brighter */
   }
   
   .dark footer .text-dark {
@@ -228,10 +228,10 @@
   .dark input,
   .dark textarea,
   .dark select {
-    background-color: lab(4.5% -0.5 0.5);
-    background-color: #0D0F0D; /* Fallback */
-    border-color: lab(6% -1 1.5);
-    border-color: #111411; /* Fallback */
+    background-color: lab(8% -1 2);
+    background-color: #1A1F1A; /* Fallback - brighter */
+    border-color: lab(9% -1.2 2);
+    border-color: #1E231E; /* Fallback - brighter */
     color: #E8F0E8;
   }
   
@@ -295,13 +295,13 @@
 
   /* Dark button styling */
   .dark .bg-dark {
-    background-color: lab(5.5% -0.8 1) !important;
-    background-color: #0F120F !important; /* Fallback */
+    background-color: lab(8.5% -1.1 2.2) !important;
+    background-color: #1C211C !important; /* Fallback - brighter */
   }
   
   .dark .bg-dark:hover {
-    background-color: lab(6% -1 1.5) !important;
-    background-color: #111411 !important; /* Fallback */
+    background-color: lab(9.5% -1.2 2.5) !important;
+    background-color: #202520 !important; /* Fallback - brighter */
   }
 }
 
@@ -520,10 +520,10 @@ input[type='search']::-webkit-search-results-decoration {
    ============================================ */
 
   .dark .product-card {
-    background-color: lab(4.5% -0.5 0.5);
-    background-color: #0D0F0D; /* Fallback */
-    border-color: lab(6% -1 1.5);
-    border-color: #111411; /* Fallback */
+    background-color: lab(8% -1 2);
+    background-color: #1A1F1A; /* Fallback - brighter for visibility */
+    border-color: lab(9% -1.2 2);
+    border-color: #1E231E; /* Fallback - brighter */
   }
 
 .dark .product-card:hover {
@@ -539,10 +539,10 @@ input[type='search']::-webkit-search-results-decoration {
 }
 
   .dark .modal-content {
-    background-color: lab(4.5% -0.5 0.5);
-    background-color: #0D0F0D; /* Fallback */
-    border-color: lab(6% -1 1.5);
-    border-color: #111411; /* Fallback */
+    background-color: lab(8% -1 2);
+    background-color: #1A1F1A; /* Fallback - brighter */
+    border-color: lab(9% -1.2 2);
+    border-color: #1E231E; /* Fallback - brighter */
   }
 
 /* ============================================
@@ -550,7 +550,7 @@ input[type='search']::-webkit-search-results-decoration {
    ============================================ */
 
   .dark .shadow-breadcrumb {
-    box-shadow: 0px 1px 0px 0px #111411, 0px -1px 0px 0px #111411;
+    box-shadow: 0px 1px 0px 0px #1E231E, 0px -1px 0px 0px #1E231E;
   }
 
 /* ============================================
@@ -583,13 +583,13 @@ input[type='search']::-webkit-search-results-decoration {
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: lab(6% -1 1.5);
-  background: #111411; /* Fallback */
+  background: lab(9% -1.2 2);
+  background: #1E231E; /* Fallback - brighter */
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: lab(7% -1.2 2);
-  background: #141714; /* Fallback */
+  background: lab(10% -1.3 2.5);
+  background: #222722; /* Fallback - brighter */
 }
 
 /* ============================================

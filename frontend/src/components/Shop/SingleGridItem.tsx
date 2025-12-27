@@ -41,9 +41,9 @@ const SingleGridItem = ({ item }: { item: Product }) => {
   };
 
   return (
-    <div className="group relative flex flex-col rounded-xl overflow-hidden bg-white dark:bg-bg-cardDark shadow-card dark:shadow-dark-2 transition-all duration-300 hover:shadow-hover dark:hover:shadow-dark-hover">
+    <div className="group relative flex flex-col rounded-xl overflow-hidden bg-white dark:bg-bg-cardDark border border-gray-3 dark:border-border-dark shadow-card dark:shadow-dark-2 transition-all duration-300 hover:shadow-hover dark:hover:shadow-dark-hover">
       {/* Product Image Section - Top 60-70% */}
-      <div className="relative w-full h-[280px] sm:h-[300px] lg:h-[320px] bg-gray-1 dark:bg-bg-main-dark flex items-center justify-center overflow-hidden">
+      <div className="relative w-full h-[280px] sm:h-[300px] lg:h-[320px] bg-gray-1 dark:bg-bg-cardDark flex items-center justify-center overflow-hidden">
         {/* Product Image */}
         <div className="relative w-full h-full flex items-center justify-center p-4">
           <Image
@@ -79,7 +79,7 @@ const SingleGridItem = ({ item }: { item: Product }) => {
       </div>
 
       {/* Product Details Section - Bottom 30-40% */}
-      <div className="flex-1 flex flex-col p-4 sm:p-5 bg-white dark:bg-bg-cardDark">
+      <div className="flex-1 flex flex-col p-4 sm:p-5 bg-white dark:bg-bg-cardDark border-t border-gray-3 dark:border-border-dark">
         {/* Rating */}
         <div className="flex items-center gap-2 mb-2.5">
           <div className="flex items-center gap-0.5">

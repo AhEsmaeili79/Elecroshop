@@ -59,9 +59,9 @@ const ShopDetailProductCard = ({ item }: { item: Product }) => {
   };
 
   return (
-    <div className="group relative flex flex-col h-full lg:my-[10px] rounded-xl overflow-hidden bg-white dark:bg-bg-cardDark transition-all duration-300">
+    <div className="group relative flex flex-col h-full lg:my-[10px] rounded-xl overflow-hidden bg-white dark:bg-bg-cardDark border border-gray-3 dark:border-border-dark shadow-card dark:shadow-dark-2 transition-all duration-300 hover:shadow-hover dark:hover:shadow-dark-hover">
       {/* Product Image Section - Top */}
-      <div className="relative w-full h-[220px] sm:h-[260px] lg:h-[300px] bg-gray-1 dark:bg-bg-main-dark flex items-center justify-center overflow-hidden rounded-t-xl">
+      <div className="relative w-full h-[220px] sm:h-[260px] lg:h-[300px] bg-gray-1 dark:bg-bg-cardDark flex items-center justify-center overflow-hidden rounded-t-xl">
         {/* Product Image */}
         <div className="relative w-full h-full flex items-center justify-center p-4 sm:p-6">
           <Image
@@ -75,7 +75,7 @@ const ShopDetailProductCard = ({ item }: { item: Product }) => {
       </div>
 
       {/* Product Details Section - Bottom with Dark Background */}
-      <div className="flex-1 flex flex-col p-4 sm:p-5 lg:p-6 bg-gray-2 dark:bg-bg-cardDark rounded-b-xl">
+      <div className="flex-1 flex flex-col p-4 sm:p-5 lg:p-6 bg-gray-2 dark:bg-bg-cardDark rounded-b-xl border-t border-gray-3 dark:border-border-dark">
         {/* Product Title */}
         <Link
           href="/shop-details"

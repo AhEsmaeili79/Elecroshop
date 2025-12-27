@@ -41,9 +41,9 @@ const SingleListItem = ({ item }: { item: Product }) => {
   };
 
   return (
-    <div className="group rounded-lg bg-white shadow-1">
+    <div className="group rounded-lg bg-white dark:bg-bg-cardDark border border-gray-3 dark:border-border-dark shadow-1 dark:shadow-dark-2">
       <div className="flex">
-        <div className="shadow-list relative overflow-hidden flex items-center justify-center max-w-[270px] w-full sm:min-h-[270px] p-4">
+        <div className="shadow-list relative overflow-hidden flex items-center justify-center max-w-[270px] w-full sm:min-h-[270px] p-4 bg-gray-1 dark:bg-bg-cardDark">
           <Image src={item.imgs.previews[0]} alt="" width={250} height={250} />
 
           <div className="absolute left-0 bottom-0 translate-y-full w-full flex items-center justify-center gap-2.5 pb-5 ease-linear duration-200 group-hover:translate-y-0">
@@ -53,7 +53,7 @@ const SingleListItem = ({ item }: { item: Product }) => {
                 handleQuickViewUpdate();
               }}
               aria-label="button for quick view"
-              className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-blue"
+              className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark dark:text-text-primary-dark bg-white dark:bg-bg-cardDark border border-gray-3 dark:border-border-dark hover:text-blue dark:hover:text-blue"
             >
               <svg
                 className="fill-current"
@@ -88,7 +88,7 @@ const SingleListItem = ({ item }: { item: Product }) => {
             <button
               onClick={() => handleItemToWishList()}
               aria-label="button for favorite select"
-              className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-blue"
+              className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark dark:text-text-primary-dark bg-white dark:bg-bg-cardDark border border-gray-3 dark:border-border-dark hover:text-blue dark:hover:text-blue"
             >
               <svg
                 className="fill-current"
@@ -109,15 +109,15 @@ const SingleListItem = ({ item }: { item: Product }) => {
           </div>
         </div>
 
-        <div className="w-full flex flex-col gap-5 sm:flex-row sm:items-center justify-center sm:justify-between py-5 px-4 sm:px-7.5 lg:pl-11 lg:pr-12">
+        <div className="w-full flex flex-col gap-5 sm:flex-row sm:items-center justify-center sm:justify-between py-5 px-4 sm:px-7.5 lg:pl-11 lg:pr-12 border-t border-gray-3 dark:border-border-dark">
           <div>
-            <h3 className="font-medium text-dark ease-out duration-200 hover:text-blue mb-1.5">
+            <h3 className="font-medium text-dark dark:text-text-primary-dark ease-out duration-200 hover:text-blue dark:hover:text-blue mb-1.5">
               <Link href="/shop-details"> {item.title} </Link>
             </h3>
 
             <span className="flex items-center gap-2 font-medium text-lg">
-              <span className="text-dark">${item.discountedPrice}</span>
-              <span className="text-dark-4 line-through">${item.price}</span>
+              <span className="text-dark dark:text-text-primary-dark">${item.discountedPrice}</span>
+              <span className="text-dark-4 dark:text-text-secondary-dark line-through">${item.price}</span>
             </span>
           </div>
 
@@ -155,7 +155,7 @@ const SingleListItem = ({ item }: { item: Product }) => {
               />
             </div>
 
-            <p className="text-custom-sm">({item.reviews})</p>
+            <p className="text-custom-sm text-dark dark:text-text-secondary-dark">({item.reviews})</p>
           </div>
         </div>
       </div>
