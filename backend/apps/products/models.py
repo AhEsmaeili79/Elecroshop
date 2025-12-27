@@ -1,23 +1,25 @@
 from django.db import models
 from django.contrib.postgres.indexes import GinIndex
 from django.conf import settings
-from category.models import Category, Brand
+from categories.models import Category, Brand, SubCategory, ProductModel
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from users.models import Seller
+from apps.core.models import BaseModel
+from decimal import Decimal
 
 
-class Product(models.Model):
+class Product(BaseModel):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    sub_category = models.ForeignKey(SubCategory, on_delete=models.PROTECT, null=True, blank=True)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    product_model = models.ForeignKey(ProductModel, on_delete=models.SET_NULL, null=True, blank=True, related_name="products")
     description = models.TextField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
 
     specifications = models.JSONField(default=dict, blank=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -46,20 +48,28 @@ class Product(models.Model):
 
 
 
-class ProductOffer(models.Model):
+class ProductOffer(BaseModel):
     product = models.ForeignKey(
         Product, related_name="offers", on_delete=models.CASCADE
     )
-    
+
     seller = models.ForeignKey(
     Seller, on_delete=models.CASCADE, related_name="offers"
     )
 
-
-    price = models.DecimalField(max_digits=10,decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     stock_status = models.BooleanField(default=True)
 
     is_active = models.BooleanField(default=True)
+
+    @property
+    def final_price(self):
+        """Return the final price after discount."""
+        if self.discount_price:
+            return self.discount_price
+        elif self.discount_percentage:
+            return self.price * (Decimal('1') - self.discount_percentage / Decimal('100'))
+        return self.price
 
     class Meta:
         constraints = [
@@ -78,7 +88,8 @@ class ProductOffer(models.Model):
 
 
 
-class Color(models.Model):
+class Color(BaseModel):
+    name = models.CharField(max_length=50, blank=True, help_text="Human readable color name")
     color_hex = models.CharField(max_length=7, unique=True)
 
     def __str__(self):
@@ -86,7 +97,7 @@ class Color(models.Model):
 
 
 
-class OfferColorQuantity(models.Model):
+class OfferColorQuantity(BaseModel):
     offer = models.ForeignKey(
         ProductOffer, related_name="color_quantities", on_delete=models.CASCADE
     )
@@ -98,7 +109,7 @@ class OfferColorQuantity(models.Model):
 
 
 
-class ProductImage(models.Model):
+class ProductImage(BaseModel):
     product = models.ForeignKey(
         Product, related_name="images", on_delete=models.CASCADE
     )

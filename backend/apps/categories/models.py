@@ -1,8 +1,9 @@
 from django.db import models
 from django.utils.text import slugify
+from apps.core.models import BaseModel
 
 
-class Category(models.Model):
+class Category(BaseModel):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to="categories/%Y/%m/%d/", blank=True, null=True)
@@ -16,7 +17,7 @@ class Category(models.Model):
 
 
 
-class SubCategory(models.Model):
+class SubCategory(BaseModel):
     name = models.CharField(max_length=255)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="subcategories"
@@ -31,7 +32,7 @@ class SubCategory(models.Model):
 
 
 
-class Brand(models.Model):
+class Brand(BaseModel):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True, blank=True)  # <-- Add slug field
     image = models.ImageField(upload_to="brands/%Y/%m/%d/", blank=True, null=True)
@@ -54,7 +55,7 @@ class Brand(models.Model):
 
 
 
-class ProductModel(models.Model):
+class ProductModel(BaseModel):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, blank=True)  # <-- Add slug
     brand = models.ForeignKey(
