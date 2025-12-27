@@ -1,10 +1,10 @@
 from django.db import models
 from django.contrib.postgres.indexes import GinIndex
 from django.conf import settings
-from categories.models import Category, Brand, SubCategory, ProductModel
+from apps.categories.models import Category, Brand, SubCategory, ProductModel
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
-from users.models import Seller
+from apps.users.models import Seller
 from apps.core.models import BaseModel
 from decimal import Decimal
 
