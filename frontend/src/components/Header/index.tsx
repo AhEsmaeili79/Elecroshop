@@ -20,7 +20,7 @@ const Header = () => {
   const [stickyMenu, setStickyMenu] = useState(false);
   const { openCartModal } = useCartModalContext();
   const { theme, toggleTheme } = useTheme();
-  const { language, setLanguage, direction } = useLanguage();
+  const { language } = useLanguage();
   const { t } = useTranslation();
 
   const product = useAppSelector((state) => state.cartReducer.items);
@@ -200,27 +200,6 @@ const Header = () => {
                 )}
               </button>
 
-              {/* Language Toggle Button */}
-              <button
-                onClick={() => setLanguage(language === "en" ? "fa" : "en")}
-                className="flex items-center justify-center min-w-[80px] h-10 px-3 rounded-lg hover:bg-gray-3 dark:hover:bg-bg-cardDark hover:border hover:border-gray-4 dark:hover:border-border-dark transition-all duration-200 gap-2"
-                aria-label={language === "en" ? "Switch to Persian" : "Switch to English"}
-              >
-                <svg
-                  className="w-5 h-5 text-dark-3 dark:text-text-primary-dark"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M3 5h12M3 9h12M3 13h6m6 0h6" />
-                </svg>
-                <span className="text-sm font-medium text-dark-3 dark:text-text-primary-dark">
-                  {language === "en" ? "English" : "فارسی"}
-                </span>
-              </button>
 
               <div className="flex items-center gap-5">
                 {isAuthenticated ? (
@@ -400,7 +379,7 @@ const Header = () => {
               {/* <!-- Main Nav Start --> */}
               <nav>
                 <ul className="flex xl:items-center flex-col xl:flex-row gap-5 xl:gap-6">
-                  {getMenuData(language).map((menuItem, i) =>
+                  {getMenuData().map((menuItem, i) =>
                     menuItem.submenu ? (
                       <Dropdown
                         key={i}

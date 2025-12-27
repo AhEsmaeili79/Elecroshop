@@ -10,11 +10,7 @@ import PriceDropdown from "./PriceDropdown";
 import shopData from "../Shop/shopData";
 import SingleGridItem from "../Shop/SingleGridItem";
 import SingleListItem from "../Shop/SingleListItem";
-import { useLanguage } from "@/app/context/LanguageContext";
-
 const ShopWithSidebar = () => {
-  const { direction } = useLanguage();
-  const isRTL = direction === "rtl";
   const [productStyle, setProductStyle] = useState("grid");
   const [productSidebar, setProductSidebar] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
@@ -110,13 +106,11 @@ const ShopWithSidebar = () => {
       />
       <section className="overflow-hidden relative pb-20 pt-5 lg:pt-20 xl:pt-28 bg-gray-2 dark:bg-bg-cardDark">
         <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
-          <div className={`flex gap-7.5 ${isRTL ? "flex-row-reverse" : ""}`}>
+          <div className="flex gap-7.5">
             {/* <!-- Sidebar Start --> */}
             <div
-              className={`sidebar-content fixed xl:z-1 z-9999 top-0 xl:translate-x-0 xl:static max-w-[310px] xl:max-w-[270px] w-full ease-out duration-200 ${
-                isRTL
-                  ? `xl:right-0 ${productSidebar ? "translate-x-0 right-0" : "translate-x-full right-0"}`
-                  : `xl:left-0 ${productSidebar ? "translate-x-0 left-0" : "-translate-x-full left-0"}`
+              className={`sidebar-content fixed xl:z-1 z-9999 top-0 xl:translate-x-0 xl:static max-w-[310px] xl:max-w-[270px] w-full ease-out duration-200 xl:left-0 ${
+                productSidebar ? "translate-x-0 left-0" : "-translate-x-full left-0"
               } ${
                 productSidebar
                   ? "bg-white dark:bg-bg-cardDark p-5 h-screen overflow-y-auto"
@@ -126,18 +120,14 @@ const ShopWithSidebar = () => {
               <button
                 onClick={() => setProductSidebar(!productSidebar)}
                 aria-label="button for product sidebar toggle"
-                className={`xl:hidden absolute flex items-center justify-center w-8 h-8 rounded-md bg-white dark:bg-bg-cardDark shadow-1 ${
-                  isRTL
-                    ? "-left-12.5 sm:-left-8"
-                    : "-right-12.5 sm:-right-8"
-                } ${
+                className={`xl:hidden absolute flex items-center justify-center w-8 h-8 rounded-md bg-white dark:bg-bg-cardDark shadow-1 -right-12.5 sm:-right-8 ${
                   stickyMenu
                     ? "lg:top-20 sm:top-34.5 top-35"
                     : "lg:top-24 sm:top-39 top-37"
                 }`}
               >
                 <svg
-                  className={`fill-current ${isRTL ? "rotate-180" : ""}`}
+                  className="fill-current"
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
@@ -163,7 +153,7 @@ const ShopWithSidebar = () => {
                 <div className="flex flex-col gap-6">
                   {/* <!-- filter box --> */}
                   <div className="bg-white dark:bg-bg-cardDark shadow-1 rounded-lg py-4 px-5">
-                    <div className={`flex items-center justify-between ${isRTL ? "flex-row-reverse" : ""}`}>
+                    <div className="flex items-center justify-between">
                       <p>Filters:</p>
                       <button className="text-blue">Clean All</button>
                     </div>
@@ -190,12 +180,10 @@ const ShopWithSidebar = () => {
 
             {/* // <!-- Content Start --> */}
             <div className="xl:max-w-[870px] w-full">
-              <div className={`rounded-lg bg-white dark:bg-bg-cardDark shadow-1 py-2.5 mb-6 ${
-                isRTL ? "pl-2.5 pr-3" : "pl-3 pr-2.5"
-              }`}>
-                <div className={`flex items-center justify-between ${isRTL ? "flex-row-reverse" : ""}`}>
+              <div className="rounded-lg bg-white dark:bg-bg-cardDark shadow-1 py-2.5 mb-6 pl-3 pr-2.5">
+                <div className="flex items-center justify-between">
                   {/* <!-- top bar left --> */}
-                  <div className={`flex flex-wrap items-center gap-4 ${isRTL ? "flex-row-reverse" : ""}`}>
+                  <div className="flex flex-wrap items-center gap-4">
                     <CustomSelect options={options} />
 
                     <p>
@@ -205,7 +193,7 @@ const ShopWithSidebar = () => {
                   </div>
 
                   {/* <!-- top bar right --> */}
-                  <div className={`flex items-center gap-2.5 ${isRTL ? "flex-row-reverse" : ""}`}>
+                  <div className="flex items-center gap-2.5">
                     <button
                       onClick={() => setProductStyle("grid")}
                       aria-label="button for product grid tab"
@@ -306,7 +294,7 @@ const ShopWithSidebar = () => {
               {/* <!-- Products Pagination Start --> */}
               <div className="flex justify-center mt-15">
                 <div className="bg-white dark:bg-bg-cardDark shadow-1 rounded-md p-2">
-                  <ul className={`flex items-center ${isRTL ? "flex-row-reverse" : ""}`}>
+                  <ul className="flex items-center">
                     <li>
                       <button
                         id="paginationLeft"
@@ -316,7 +304,7 @@ const ShopWithSidebar = () => {
                         className="flex items-center justify-center w-8 h-9 ease-out duration-200 rounded-[3px disabled:text-gray-4"
                       >
                         <svg
-                          className={`fill-current ${isRTL ? "rotate-180" : ""}`}
+                          className="fill-current"
                           width="18"
                           height="18"
                           viewBox="0 0 18 18"
@@ -402,7 +390,7 @@ const ShopWithSidebar = () => {
                         className="flex items-center justify-center w-8 h-9 ease-out duration-200 rounded-[3px] hover:text-white hover:bg-blue disabled:text-gray-4"
                       >
                         <svg
-                          className={`fill-current ${isRTL ? "rotate-180" : ""}`}
+                          className="fill-current"
                           width="18"
                           height="18"
                           viewBox="0 0 18 18"

@@ -1,13 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 
-export type Language = "en" | "fa";
+export type Language = "en";
 
 interface LanguageContextType {
   language: Language;
-  setLanguage: (lang: Language) => void;
-  direction: "ltr" | "rtl";
+  direction: "ltr";
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -21,34 +20,14 @@ export const useLanguage = () => {
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>("en");
-
   useEffect(() => {
-    // Load language from localStorage on mount
-    const savedLanguage = localStorage.getItem("language") as Language;
-    if (savedLanguage && (savedLanguage === "en" || savedLanguage === "fa")) {
-      setLanguageState(savedLanguage);
-    }
+    // Always set to English and LTR
+    document.documentElement.lang = "en";
+    document.documentElement.dir = "ltr";
   }, []);
 
-  useEffect(() => {
-    // Apply language and direction to document
-    const direction = language === "fa" ? "rtl" : "ltr";
-    document.documentElement.lang = language;
-    document.documentElement.dir = direction;
-
-    // Save to localStorage
-    localStorage.setItem("language", language);
-  }, [language]);
-
-  const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-  };
-
-  const direction = language === "fa" ? "rtl" : "ltr";
-
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, direction }}>
+    <LanguageContext.Provider value={{ language: "en", direction: "ltr" }}>
       {children}
     </LanguageContext.Provider>
   );

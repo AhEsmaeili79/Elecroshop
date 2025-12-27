@@ -1,8 +1,8 @@
 import { Menu } from "@/types/Menu";
-import { getTranslation, Language } from "@/app/translations";
+import { getTranslation } from "@/app/translations";
 
-export const getMenuData = (language: Language): Menu[] => {
-  const t = getTranslation(language);
+export const getMenuData = (): Menu[] => {
+  const t = getTranslation("en");
   
   return [
     {

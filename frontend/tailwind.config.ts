@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-import rtl from "tailwindcss-rtl";
 
 const defaultTheme = require("tailwindcss/defaultTheme");
 
@@ -313,12 +312,11 @@ const config: Config = {
         "dark-3": "0px 8px 32px 0px rgba(0, 0, 0, 0.4), 0px 4px 8px 0px rgba(0, 0, 0, 0.25)",
         "dark-hover": "0px 12px 40px 0px rgba(76, 175, 142, 0.25), 0px 4px 12px 0px rgba(76, 175, 142, 0.15)",
       },
-      // RTL support utilities
       screens: {
         ...defaultTheme.screens,
       },
     },
   },
-  plugins: [rtl],
+  plugins: [],
 };
 export default config;

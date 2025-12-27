@@ -32,7 +32,7 @@ export default function RootLayout({
   }, []);
 
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="en" dir="ltr" suppressHydrationWarning={true}>
       <body className="transition-colors duration-200">
         {loading ? (
           <PreLoader />
