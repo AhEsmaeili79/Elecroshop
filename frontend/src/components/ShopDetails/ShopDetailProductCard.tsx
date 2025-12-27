@@ -59,7 +59,7 @@ const ShopDetailProductCard = ({ item }: { item: Product }) => {
   };
 
   return (
-    <div className="group relative flex flex-col h-full lg:my-[10px] rounded-xl overflow-hidden bg-white dark:bg-bg-cardDark shadow-card dark:shadow-dark-2 transition-all duration-300 hover:shadow-hover dark:hover:shadow-dark-hover">
+    <div className="group relative flex flex-col h-full lg:my-[10px] rounded-xl overflow-hidden bg-white dark:bg-bg-cardDark transition-all duration-300">
       {/* Product Image Section - Top */}
       <div className="relative w-full h-[220px] sm:h-[260px] lg:h-[300px] bg-gray-1 dark:bg-bg-main-dark flex items-center justify-center overflow-hidden rounded-t-xl">
         {/* Product Image */}
@@ -113,7 +113,7 @@ const ShopDetailProductCard = ({ item }: { item: Product }) => {
             {/* Buy Now Button - Light Gray */}
             <button
               onClick={() => handleBuyNow()}
-              className="flex-1 inline-flex items-center justify-center font-medium text-xs sm:text-sm py-2.5 sm:py-3 px-4 sm:px-5 rounded-lg bg-gray-3 dark:bg-gray-2 text-text-primary dark:text-text-primary-dark transition-all duration-200 hover:bg-blue dark:hover:bg-blue hover:text-white dark:hover:text-white active:scale-95 whitespace-nowrap shadow-sm"
+              className="flex-1 inline-flex items-center justify-center font-medium text-xs sm:text-sm py-2.5 sm:py-3 px-4 sm:px-5 rounded-lg bg-gray-3 dark:bg-gray-2 text-text-primary dark:text-text-primary-dark transition-all duration-200 hover:bg-blue dark:hover:bg-blue hover:text-white dark:hover:text-white active:scale-95 whitespace-nowrap"
             >
               Buy Now
             </button>
@@ -146,7 +146,7 @@ const ShopDetailProductCard = ({ item }: { item: Product }) => {
             {/* Add to Cart Button - Primary */}
             <button
               onClick={() => handleAddToCart()}
-              className="flex-1 inline-flex items-center justify-center font-medium text-sm py-2.5 px-4 rounded-lg bg-blue dark:bg-blue text-white transition-all duration-200 hover:bg-blue-dark dark:hover:bg-blue-dark hover:shadow-lg active:scale-95"
+              className="flex-1 inline-flex items-center justify-center font-medium text-sm py-2.5 px-4 rounded-lg bg-blue dark:bg-blue text-white transition-all duration-200 hover:bg-blue-dark dark:hover:bg-blue-dark active:scale-95"
             >
               Add to Cart
             </button>
