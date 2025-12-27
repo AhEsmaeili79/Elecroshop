@@ -99,7 +99,7 @@ const RecentlyViewdItems = () => {
             modules={[Navigation]}
             slidesPerView={4}
             spaceBetween={20}
-            className="!pb-0 [&_.swiper-wrapper]:py-[10px]"
+            className="!pb-0 [&_.swiper-wrapper]:py-[10px] [&_.swiper-wrapper]:items-stretch"
             breakpoints={{
               1024: {
                 slidesPerView: 3,
@@ -112,8 +112,8 @@ const RecentlyViewdItems = () => {
             }}
           >
             {shopData.map((item, key) => (
-              <SwiperSlide key={key} className="!h-auto !flex !items-center !justify-center">
-                <div className="w-full flex flex-col mb-[5px]">
+              <SwiperSlide key={key} className="!h-auto !flex">
+                <div className="w-full h-full flex flex-col mb-[5px]">
                   <ShopDetailProductCard item={item} />
                 </div>
               </SwiperSlide>
