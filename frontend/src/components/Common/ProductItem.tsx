@@ -46,7 +46,7 @@ const ProductItem = ({ item }: { item: Product }) => {
   };
 
   return (
-    <div className="group relative flex flex-col rounded-xl overflow-hidden bg-white dark:bg-bg-cardDark border border-gray-3 dark:border-border-dark shadow-card dark:shadow-dark-2 transition-all duration-300 hover:shadow-hover dark:hover:shadow-dark-hover">
+    <div className="group relative flex flex-col rounded-xl overflow-hidden bg-white dark:bg-bg-cardDark border border-gray-3 dark:border-border-dark transition-all duration-300 hover:shadow-xl hover:shadow-black/10 dark:hover:shadow-black/30 hover:-translate-y-2 hover:border-blue/20 dark:hover:border-blue/30">
       {/* Product Image Section - Top 60-70% */}
       <div className="relative w-full h-[280px] sm:h-[300px] lg:h-[320px] bg-gray-1 dark:bg-bg-cardDark flex items-center justify-center overflow-hidden">
         {/* Product Image */}
@@ -56,7 +56,7 @@ const ProductItem = ({ item }: { item: Product }) => {
             alt={item.title}
             width={250}
             height={250}
-            className="object-contain max-w-full max-h-full transition-transform duration-300 group-hover:scale-105"
+            className="object-contain max-w-full max-h-full transition-all duration-500 ease-out group-hover:scale-110 group-hover:-rotate-1 group-hover:drop-shadow-lg"
           />
         </div>
 
@@ -64,7 +64,7 @@ const ProductItem = ({ item }: { item: Product }) => {
         <button
           onClick={() => handleItemToWishList()}
           aria-label="Add to wishlist"
-          className="absolute top-3 right-3 z-10 w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-lg bg-gray-3 dark:bg-bg-hoverDark border border-border dark:border-border-dark text-text-primary dark:text-text-primary-dark transition-all duration-200 hover:bg-red dark:hover:bg-red hover:text-white dark:hover:text-white hover:border-red dark:hover:border-red active:scale-95 shadow-sm"
+          className="absolute top-3 right-3 z-10 w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-lg bg-gray-3 dark:bg-bg-hoverDark border border-border dark:border-border-dark text-text-primary dark:text-text-primary-dark transition-all duration-300 hover:bg-red dark:hover:bg-red hover:text-white dark:hover:text-white hover:border-red dark:hover:border-red active:scale-95 shadow-sm transform hover:scale-110 hover:rotate-6"
         >
           <svg
             className="w-4 h-4 sm:w-5 sm:h-5"
@@ -84,7 +84,7 @@ const ProductItem = ({ item }: { item: Product }) => {
       </div>
 
       {/* Product Details Section - Bottom 30-40% */}
-      <div className="flex-1 flex flex-col p-4 sm:p-5 bg-white dark:bg-bg-cardDark border-t border-gray-3 dark:border-border-dark">
+      <div className="flex-1 flex flex-col p-4 sm:p-5 bg-white dark:bg-bg-cardDark border-t border-gray-3 dark:border-border-dark group-hover:bg-gray-50/50 dark:group-hover:bg-bg-hoverDark/50 transition-colors duration-300">
         {/* Rating */}
         <div className="flex items-center gap-2 mb-2.5">
           <div className="flex items-center gap-0.5">
@@ -133,7 +133,7 @@ const ProductItem = ({ item }: { item: Product }) => {
           {/* Add to Cart Button - Primary */}
           <button
             onClick={() => handleAddToCart()}
-            className="flex-1 inline-flex items-center justify-center font-medium text-custom-sm sm:text-base py-2.5 px-4 rounded-lg bg-blue dark:bg-blue text-white transition-all duration-200 hover:bg-blue-dark dark:hover:bg-blue-dark hover:shadow-lg active:scale-95"
+            className="flex-1 inline-flex items-center justify-center font-medium text-custom-sm sm:text-base py-2.5 px-4 rounded-lg bg-blue dark:bg-blue text-white transition-all duration-300 hover:bg-blue-dark dark:hover:bg-blue-dark hover:shadow-lg hover:shadow-blue/25 active:scale-95 transform hover:scale-105"
           >
             Add to Cart
           </button>
@@ -145,7 +145,7 @@ const ProductItem = ({ item }: { item: Product }) => {
               handleQuickViewUpdate();
             }}
             aria-label="Quick view"
-            className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-gray-3 dark:bg-bg-hoverDark border border-border dark:border-border-dark text-text-primary dark:text-text-primary-dark transition-all duration-200 hover:bg-blue dark:hover:bg-blue hover:text-white dark:hover:text-white hover:border-blue dark:hover:border-blue active:scale-95"
+            className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-gray-3 dark:bg-bg-hoverDark border border-border dark:border-border-dark text-text-primary dark:text-text-primary-dark transition-all duration-300 hover:bg-blue dark:hover:bg-blue hover:text-white dark:hover:text-white hover:border-blue dark:hover:border-blue active:scale-95 transform hover:scale-110 hover:rotate-12"
           >
             <svg
               className="w-4 h-4 sm:w-5 sm:h-5"
