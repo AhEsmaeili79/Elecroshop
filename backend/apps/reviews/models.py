@@ -10,7 +10,7 @@ User = settings.AUTH_USER_MODEL
 class Review(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
     product = models.ForeignKey(
-        'product.Product', on_delete=models.CASCADE, related_name='reviews'
+        'products.Product', on_delete=models.CASCADE, related_name='reviews'
     )
     title = models.CharField(max_length=50, blank=True, default='')
     rating = models.PositiveIntegerField(
