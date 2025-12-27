@@ -26,8 +26,8 @@
   .dark {
     /* Dark mode colors - using LAB color space for better eye comfort */
     --color-bg-main: lab(2.75381% 0 0); /* Base dark background - LAB color */
-    --color-bg-card: lab(8% -1 2); /* Card background - brighter with subtle green for better visibility */
-    --color-bg-white: lab(8% -1 2);
+    --color-bg-card: lab(12% -1.5 3); /* Card background - much brighter with subtle green for better visibility */
+    --color-bg-white: lab(12% -1.5 3);
     --color-text-primary: #E8F0E8; /* Soft green-tinted white for eye comfort */
     --color-text-secondary: #A8B5A8; /* Muted green-gray */
     --color-text-muted: #7A8A7A; /* Darker green-gray */
@@ -117,16 +117,16 @@
   
   /* Dark mode background overrides - using LAB colors with fallbacks */
   .dark .bg-white {
-    background-color: lab(8% -1 2) !important;
-    background-color: #1A1F1A !important; /* Fallback - brighter for better visibility */
+    background-color: lab(12% -1.5 3) !important;
+    background-color: #252A25 !important; /* Fallback - much brighter for better visibility */
   }
   .dark .bg-gray-1 {
-    background-color: lab(8% -1 2) !important;
-    background-color: #1A1F1A !important; /* Fallback - brighter */
+    background-color: lab(12% -1.5 3) !important;
+    background-color: #252A25 !important; /* Fallback - much brighter */
   }
   .dark .bg-gray-2 {
-    background-color: lab(8.5% -1.1 2.2) !important;
-    background-color: #1C211C !important; /* Fallback - brighter */
+    background-color: lab(6% -0.8 1.5) !important;
+    background-color: #141914 !important; /* Fallback - darker background for contrast */
   }
   .dark .bg-gray-3 {
     background-color: lab(9% -1.2 2) !important;
@@ -135,6 +135,18 @@
   .dark .bg-gray-4 {
     background-color: lab(9% -1.2 2) !important;
     background-color: #1E231E !important; /* Fallback - brighter */
+  }
+
+  /* Dark mode bg-bg-cardDark override - ensure cards are bright and visible */
+  .dark .bg-bg-cardDark {
+    background-color: lab(12% -1.5 3) !important;
+    background-color: #252A25 !important; /* Fallback - much brighter for visibility */
+  }
+
+  /* Dark mode bg-bg-main-dark override - ensure main background is darker for contrast */
+  .dark .bg-bg-main-dark {
+    background-color: lab(6% -0.8 1.5) !important;
+    background-color: #141914 !important; /* Fallback - darker for contrast */
   }
 
   /* Ensure light mode header/cards stand out */
@@ -149,12 +161,18 @@
   /* Dark mode border overrides */
   .dark .border-gray-3,
   .dark .border-gray-4 {
-    border-color: lab(9% -1.2 2) !important;
-    border-color: #1E231E !important; /* Fallback - brighter for visibility */
+    border-color: lab(14% -1.8 3.5) !important;
+    border-color: #2A302A !important; /* Fallback - much brighter for visibility */
   }
   .dark .border-gray-2 {
-    border-color: lab(8.5% -1.1 2.2) !important;
-    border-color: #1C211C !important; /* Fallback - brighter */
+    border-color: lab(12% -1.5 3) !important;
+    border-color: #252A25 !important; /* Fallback - brighter */
+  }
+
+  /* Dark mode border-border-dark override */
+  .dark .border-border-dark {
+    border-color: lab(14% -1.8 3.5) !important;
+    border-color: #2A302A !important; /* Fallback - much brighter */
   }
 
   /* Dark mode divider overrides */
@@ -168,16 +186,22 @@
      ============================================ */
   
   .dark .hover\:bg-gray-1:hover {
-    background-color: lab(9.5% -1.2 2.5) !important;
-    background-color: #202520 !important; /* Fallback - brighter */
+    background-color: lab(14% -1.8 3.5) !important;
+    background-color: #2A302A !important; /* Fallback - much brighter */
   }
   .dark .hover\:bg-gray-2:hover {
-    background-color: lab(10% -1.3 2.5) !important;
-    background-color: #222722 !important; /* Fallback - brighter */
+    background-color: lab(15% -2 4) !important;
+    background-color: #2F352F !important; /* Fallback - much brighter */
   }
   .dark .hover\:bg-gray-3:hover {
-    background-color: lab(10.5% -1.4 3) !important;
-    background-color: #242924 !important; /* Fallback - brighter */
+    background-color: lab(16% -2.2 4.5) !important;
+    background-color: #343A34 !important; /* Fallback - much brighter */
+  }
+
+  /* Dark mode bg-bg-hoverDark override */
+  .dark .bg-bg-hoverDark {
+    background-color: lab(14% -1.8 3.5) !important;
+    background-color: #2A302A !important; /* Fallback - much brighter */
   }
 
   /* ============================================
@@ -205,8 +229,8 @@
   }
   
   .dark footer .bg-gray-1 {
-    background-color: lab(8% -1 2) !important;
-    background-color: #1A1F1A !important; /* Fallback - brighter */
+    background-color: lab(12% -1.5 3) !important;
+    background-color: #252A25 !important; /* Fallback - much brighter */
   }
   
   .dark footer .text-dark {
@@ -228,10 +252,10 @@
   .dark input,
   .dark textarea,
   .dark select {
-    background-color: lab(8% -1 2);
-    background-color: #1A1F1A; /* Fallback - brighter */
-    border-color: lab(9% -1.2 2);
-    border-color: #1E231E; /* Fallback - brighter */
+    background-color: lab(12% -1.5 3);
+    background-color: #252A25; /* Fallback - much brighter */
+    border-color: lab(14% -1.8 3.5);
+    border-color: #2A302A; /* Fallback - brighter */
     color: #E8F0E8;
   }
   
@@ -307,9 +331,15 @@
 
 @layer components {
   .dropdown {
-    @apply flex-col gap-0 min-w-max xl:w-[193px] mt-2 lg:mt-0 bg-white dark:bg-bg-cardDark shadow-2 ease-in duration-200 py-2.5 rounded-md border border-gray-3 dark:border-border-dark left-0 hidden
+    @apply flex-col gap-0 min-w-max xl:w-[193px] mt-2 lg:mt-0 bg-white shadow-2 ease-in duration-200 py-2.5 rounded-md border border-gray-3 left-0 hidden
     xl:translate-y-10 xl:opacity-0 xl:invisible xl:absolute xl:flex
     xl:group-hover:opacity-100 xl:group-hover:visible;
+  }
+  .dark .dropdown {
+    background-color: lab(12% -1.5 3);
+    background-color: #252A25;
+    border-color: lab(14% -1.8 3.5);
+    border-color: #2A302A;
   }
 }
 
@@ -357,7 +387,14 @@ input[type='search']::-webkit-search-results-decoration {
 }
 
 .select-selected {
-  @apply bg-gray-1 dark:bg-bg-cardDark rounded-l-[5px] border border-gray-3 dark:border-border-dark !border-r-0 cursor-pointer text-dark dark:text-text-primary-dark text-custom-sm py-[11px] pl-3.5 pr-8 relative;
+  @apply bg-gray-1 rounded-l-[5px] border border-gray-3 !border-r-0 cursor-pointer text-dark text-custom-sm py-[11px] pl-3.5 pr-8 relative;
+}
+.dark .select-selected {
+  background-color: lab(12% -1.5 3);
+  background-color: #252A25;
+  border-color: lab(14% -1.8 3.5);
+  border-color: #2A302A;
+  color: #E8F0E8;
 }
 
 /* Style the arrow inside the select element: */
@@ -383,7 +420,13 @@ input[type='search']::-webkit-search-results-decoration {
 
 /* Style items (options): */
 .select-items {
-  @apply absolute top-full left-0 right-0 z-99 shadow-2 border border-gray-3 dark:border-border-dark bg-white dark:bg-bg-cardDark rounded-md py-2.5 mt-1.5;
+  @apply absolute top-full left-0 right-0 z-99 shadow-2 border border-gray-3 bg-white rounded-md py-2.5 mt-1.5;
+}
+.dark .select-items {
+  background-color: lab(12% -1.5 3);
+  background-color: #252A25;
+  border-color: lab(14% -1.8 3.5);
+  border-color: #2A302A;
 }
 
 /* Hide the items when the select box is closed: */
@@ -393,11 +436,22 @@ input[type='search']::-webkit-search-results-decoration {
 
 .select-items div:hover,
 .same-as-selected {
-  @apply bg-gray-1 dark:bg-bg-cardDark text-dark dark:text-text-primary-dark;
+  @apply bg-gray-1 text-dark;
+}
+.dark .select-items div:hover,
+.dark .same-as-selected {
+  background-color: lab(12% -1.5 3);
+  background-color: #252A25;
+  color: #E8F0E8;
 }
 
 .custom-select-2 .select-selected {
-  @apply bg-white dark:bg-bg-cardDark rounded-md !border-r text-dark-4 dark:text-text-secondary-dark py-1.5 pl-3 pr-9;
+  @apply bg-white rounded-md !border-r text-dark-4 py-1.5 pl-3 pr-9;
+}
+.dark .custom-select-2 .select-selected {
+  background-color: lab(12% -1.5 3);
+  background-color: #252A25;
+  color: #A8B5A8;
 }
 .custom-select-2 .select-selected:after {
   content: url("data:image/svg+xml,%3Csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.41444 1.03563L1.41443 1.03565L1.41725 1.0384L6.76725 6.2634L7.00126 6.49194L7.23418 6.26229L12.5842 0.987287L12.5842 0.987293L12.5858 0.985629C12.6807 0.890804 12.8196 0.890804 12.9144 0.985629C13.009 1.08018 13.0093 1.21861 12.9153 1.31341C12.915 1.31368 12.9147 1.31395 12.9144 1.31422L7.16652 6.96217L7.16651 6.96216L7.16444 6.96422C7.06814 7.06053 7.02327 7.06659 7.00015 7.06659C6.94122 7.06659 6.89018 7.05216 6.8204 6.99902L1.08502 1.36339C0.991024 1.26859 0.991301 1.13018 1.08585 1.03563C1.18067 0.940804 1.31962 0.940804 1.41444 1.03563Z' fill='%238D93A5' stroke='%238D93A5' stroke-width='0.666667'/%3E%3C/svg%3E%0A");
@@ -405,7 +459,12 @@ input[type='search']::-webkit-search-results-decoration {
 }
 
 .custom-select-common .select-selected {
-  @apply bg-gray-1 dark:bg-bg-cardDark rounded-md !border-r text-dark-4 dark:text-text-secondary-dark py-3 pl-5 pr-9 duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20;
+  @apply bg-gray-1 rounded-md !border-r text-dark-4 py-3 pl-5 pr-9 duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20;
+}
+.dark .custom-select-common .select-selected {
+  background-color: lab(12% -1.5 3);
+  background-color: #252A25;
+  color: #A8B5A8;
 }
 .custom-select-common .select-selected:after {
   content: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.41469 5.03569L2.41467 5.03571L2.41749 5.03846L7.76749 10.2635L8.0015 10.492L8.23442 10.2623L13.5844 4.98735L13.5844 4.98735L13.5861 4.98569C13.6809 4.89086 13.8199 4.89087 13.9147 4.98569C14.0092 5.08024 14.0095 5.21864 13.9155 5.31345C13.9152 5.31373 13.915 5.31401 13.9147 5.31429L8.16676 10.9622L8.16676 10.9622L8.16469 10.9643C8.06838 11.0606 8.02352 11.0667 8.00039 11.0667C7.94147 11.0667 7.89042 11.0522 7.82064 10.9991L2.08526 5.36345C1.99127 5.26865 1.99154 5.13024 2.08609 5.03569C2.18092 4.94086 2.31986 4.94086 2.41469 5.03569Z' fill='%238D93A5' stroke='%238D93A5' stroke-width='0.666667'/%3E%3C/svg%3E%0A");
@@ -439,7 +498,15 @@ input[type='search']::-webkit-search-results-decoration {
 
 .common-carousel .swiper-button-next,
 .common-carousel .swiper-button-prev {
-  @apply !static h-9 w-9 rounded-lg bg-white dark:bg-bg-cardDark text-dark dark:text-text-primary-dark border border-gray-3 dark:border-border-dark m-0 ease-out duration-200 hover:bg-blue hover:text-white hover:border-blue;
+  @apply !static h-9 w-9 rounded-lg bg-white text-dark border border-gray-3 m-0 ease-out duration-200 hover:bg-blue hover:text-white hover:border-blue;
+}
+.dark .common-carousel .swiper-button-next,
+.dark .common-carousel .swiper-button-prev {
+  background-color: lab(12% -1.5 3);
+  background-color: #252A25;
+  color: #E8F0E8;
+  border-color: lab(14% -1.8 3.5);
+  border-color: #2A302A;
 }
 
 .common-carousel .swiper-button-next svg,
@@ -471,7 +538,10 @@ input[type='search']::-webkit-search-results-decoration {
   @apply -top-3 h-7 w-7 rounded-full border border-gray-4 bg-white shadow-range before:block before:absolute before:left-1/2 before:top-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-4 before:h-4 before:rounded-full before:bg-blue;
 }
 .dark .priceSlide .noUi-horizontal .noUi-handle {
-  @apply border-border-dark bg-bg-cardDark;
+  background-color: lab(12% -1.5 3);
+  background-color: #252A25; /* Fallback */
+  border-color: lab(14% -1.8 3.5);
+  border-color: #2A302A; /* Fallback */
 }
 .priceSlide .noUi-tooltip {
   @apply border-none p-0 bg-transparent text-custom-sm text-dark-4;
@@ -498,7 +568,10 @@ input[type='search']::-webkit-search-results-decoration {
 }
 
 .dark .range-slider__thumb {
-  @apply !bg-bg-cardDark border-border-dark;
+  background-color: lab(12% -1.5 3) !important;
+  background-color: #252A25 !important; /* Fallback */
+  border-color: lab(14% -1.8 3.5) !important;
+  border-color: #2A302A !important; /* Fallback */
 }
 
 .range-slider__thumb::after {
@@ -520,10 +593,10 @@ input[type='search']::-webkit-search-results-decoration {
    ============================================ */
 
   .dark .product-card {
-    background-color: lab(8% -1 2);
-    background-color: #1A1F1A; /* Fallback - brighter for visibility */
-    border-color: lab(9% -1.2 2);
-    border-color: #1E231E; /* Fallback - brighter */
+    background-color: lab(12% -1.5 3);
+    background-color: #252A25; /* Fallback - much brighter for visibility */
+    border-color: lab(14% -1.8 3.5);
+    border-color: #2A302A; /* Fallback - brighter */
   }
 
 .dark .product-card:hover {
@@ -539,10 +612,10 @@ input[type='search']::-webkit-search-results-decoration {
 }
 
   .dark .modal-content {
-    background-color: lab(8% -1 2);
-    background-color: #1A1F1A; /* Fallback - brighter */
-    border-color: lab(9% -1.2 2);
-    border-color: #1E231E; /* Fallback - brighter */
+    background-color: lab(12% -1.5 3);
+    background-color: #252A25; /* Fallback - much brighter */
+    border-color: lab(14% -1.8 3.5);
+    border-color: #2A302A; /* Fallback - brighter */
   }
 
 /* ============================================

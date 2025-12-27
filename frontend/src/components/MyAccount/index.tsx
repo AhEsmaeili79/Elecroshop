@@ -170,13 +170,13 @@ const MyAccount = () => {
     <>
       <Breadcrumb title={"My Account"} pages={["my account"]} />
 
-      <section className="overflow-hidden py-20 bg-gray-2">
+      <section className="overflow-hidden py-20 bg-gray-2 dark:bg-bg-main-dark">
         <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
           <div className="flex flex-col xl:flex-row gap-7.5">
             {/* <!--== user dashboard menu start ==--> */}
-            <div className="xl:max-w-[370px] w-full bg-white rounded-xl shadow-1">
+            <div className="xl:max-w-[370px] w-full bg-white dark:bg-bg-cardDark rounded-xl shadow-1 dark:shadow-dark-2 border border-gray-3 dark:border-border-dark">
               <div className="flex xl:flex-col">
-                <div className="hidden lg:flex flex-wrap items-center gap-5 py-6 px-4 sm:px-7.5 xl:px-9 border-r xl:border-r-0 xl:border-b border-gray-3">
+                <div className="hidden lg:flex flex-wrap items-center gap-5 py-6 px-4 sm:px-7.5 xl:px-9 border-r xl:border-r-0 xl:border-b border-gray-3 dark:border-border-dark">
                   <div className="max-w-[64px] w-full h-16 rounded-full overflow-hidden">
                     <Image
                       src="/images/users/user-04.jpg"
@@ -187,10 +187,10 @@ const MyAccount = () => {
                   </div>
 
                   <div>
-                    <p className="font-medium text-dark mb-0.5">
+                    <p className="font-medium text-dark dark:text-text-primary-dark mb-0.5">
                       {getDisplayName()}
                     </p>
-                    <p className="text-custom-xs">
+                    <p className="text-custom-xs text-dark-4 dark:text-text-secondary-dark">
                       Member Since {userProfile?.created_at ? new Date(userProfile.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'N/A'}
                     </p>
                   </div>
@@ -203,7 +203,7 @@ const MyAccount = () => {
                       className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white ${
                         activeTab === "dashboard"
                           ? "text-white bg-blue"
-                          : "text-dark-2 bg-gray-1"
+                          : "text-dark-2 dark:text-text-secondary-dark bg-gray-1 dark:bg-bg-hoverDark"
                       }`}
                     >
                       <svg
@@ -408,23 +408,23 @@ const MyAccount = () => {
             {/* <!-- dashboard tab content start --> */}
 
             <div
-              className={`xl:max-w-[770px] w-full bg-white rounded-xl shadow-1 py-9.5 px-4 sm:px-7.5 xl:px-10 ${
+              className={`xl:max-w-[770px] w-full bg-white dark:bg-bg-cardDark rounded-xl shadow-1 dark:shadow-dark-2 border border-gray-3 dark:border-border-dark py-9.5 px-4 sm:px-7.5 xl:px-10 ${
                 activeTab === "dashboard" ? "block" : "hidden"
               }`}
             >
-              <p className="text-dark">
+              <p className="text-dark dark:text-text-primary-dark">
                 Hello {getDisplayName()} (
                 <button
                   onClick={logout}
                   disabled={isLoading}
-                  className="text-red ease-out duration-200 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="text-red dark:text-red-400 ease-out duration-200 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? 'Logging out...' : 'Log Out'}
                 </button>
                 )
               </p>
 
-              <p className="text-custom-sm mt-4">
+              <p className="text-custom-sm dark:text-text-secondary-dark mt-4">
                 From your account dashboard you can view your recent orders,
                 manage your shipping and billing addresses, and edit your
                 password and account details.
@@ -434,7 +434,7 @@ const MyAccount = () => {
 
           <!-- orders tab content start --> */}
             <div
-              className={`xl:max-w-[770px] w-full bg-white rounded-xl shadow-1 ${
+              className={`xl:max-w-[770px] w-full bg-white dark:bg-bg-cardDark rounded-xl shadow-1 dark:shadow-dark-2 border border-gray-3 dark:border-border-dark ${
                 activeTab === "orders" ? "block" : "hidden"
               }`}
             >
@@ -444,11 +444,11 @@ const MyAccount = () => {
 
           <!-- downloads tab content start --> */}
             <div
-              className={`xl:max-w-[770px] w-full bg-white rounded-xl shadow-1 py-9.5 px-4 sm:px-7.5 xl:px-10 ${
+              className={`xl:max-w-[770px] w-full bg-white dark:bg-bg-cardDark rounded-xl shadow-1 dark:shadow-dark-2 border border-gray-3 dark:border-border-dark py-9.5 px-4 sm:px-7.5 xl:px-10 ${
                 activeTab === "downloads" ? "block" : "hidden"
               }`}
             >
-              <p>You don&apos;t have any download</p>
+              <p className="text-dark dark:text-text-primary-dark">You don&apos;t have any download</p>
             </div>
             {/* <!-- downloads tab content end -->
 
@@ -458,14 +458,14 @@ const MyAccount = () => {
                 activeTab === "addresses" ? "flex" : "hidden"
               }`}
             >
-                <div className="xl:max-w-[370px] w-full bg-white shadow-1 rounded-xl">
-                <div className="flex items-center justify-between py-5 px-4 sm:pl-7.5 sm:pr-6 border-b border-gray-3">
-                  <p className="font-medium text-xl text-dark">
+                <div className="xl:max-w-[370px] w-full bg-white dark:bg-bg-cardDark shadow-1 dark:shadow-dark-2 rounded-xl border border-gray-3 dark:border-border-dark">
+                <div className="flex items-center justify-between py-5 px-4 sm:pl-7.5 sm:pr-6 border-b border-gray-3 dark:border-border-dark">
+                  <p className="font-medium text-xl text-dark dark:text-text-primary-dark">
                     User Profile
                   </p>
 
                   <button
-                    className="text-dark ease-out duration-200 hover:text-blue"
+                    className="text-dark dark:text-text-primary-dark ease-out duration-200 hover:text-blue dark:hover:text-blue"
                     onClick={() => setActiveTab("account-details")}
                   >
                     <svg
@@ -488,7 +488,7 @@ const MyAccount = () => {
 
                 <div className="p-4 sm:p-7.5">
                   <div className="flex flex-col gap-4">
-                    <p className="flex items-center gap-2.5 text-custom-sm">
+                    <p className="flex items-center gap-2.5 text-custom-sm text-dark dark:text-text-secondary-dark">
                       <svg
                         className="fill-current"
                         width="18"
@@ -513,7 +513,7 @@ const MyAccount = () => {
                       Name: {getDisplayName()}
                     </p>
 
-                    <p className="flex items-center gap-2.5 text-custom-sm">
+                    <p className="flex items-center gap-2.5 text-custom-sm text-dark dark:text-text-secondary-dark">
                       <svg
                         className="fill-current"
                         width="18"
@@ -532,7 +532,7 @@ const MyAccount = () => {
                       Email: {userProfile?.email || user?.email || 'Not provided'}
                     </p>
 
-                    <p className="flex items-center gap-2.5 text-custom-sm">
+                    <p className="flex items-center gap-2.5 text-custom-sm text-dark dark:text-text-secondary-dark">
                       <svg
                         className="fill-current"
                         width="18"
@@ -561,7 +561,7 @@ const MyAccount = () => {
                       Phone: {userProfile?.phone || user?.phone || 'Not provided'}
                     </p>
 
-                    <p className="flex gap-2.5 text-custom-sm">
+                    <p className="flex gap-2.5 text-custom-sm text-dark dark:text-text-secondary-dark">
                       <svg
                         className="fill-current mt-0.5"
                         width="18"
@@ -590,14 +590,14 @@ const MyAccount = () => {
                 </div>
               </div>
 
-              <div className="xl:max-w-[370px] w-full bg-white shadow-1 rounded-xl">
-                <div className="flex items-center justify-between py-5 px-4 sm:pl-7.5 sm:pr-6 border-b border-gray-3">
-                  <p className="font-medium text-xl text-dark">
+              <div className="xl:max-w-[370px] w-full bg-white dark:bg-bg-cardDark shadow-1 dark:shadow-dark-2 rounded-xl border border-gray-3 dark:border-border-dark">
+                <div className="flex items-center justify-between py-5 px-4 sm:pl-7.5 sm:pr-6 border-b border-gray-3 dark:border-border-dark">
+                  <p className="font-medium text-xl text-dark dark:text-text-primary-dark">
                     Billing Address
                   </p>
 
                   <button
-                    className="text-dark ease-out duration-200 hover:text-blue"
+                    className="text-dark dark:text-text-primary-dark ease-out duration-200 hover:text-blue dark:hover:text-blue"
                     onClick={openAddressModal}
                   >
                     <svg
@@ -620,7 +620,7 @@ const MyAccount = () => {
 
                 <div className="p-4 sm:p-7.5">
                   <div className="flex flex-col gap-4">
-                    <p className="flex items-center gap-2.5 text-custom-sm">
+                    <p className="flex items-center gap-2.5 text-custom-sm text-dark dark:text-text-secondary-dark">
                       <svg
                         className="fill-current"
                         width="18"
@@ -645,7 +645,7 @@ const MyAccount = () => {
                       Name: {getDisplayName()}
                     </p>
 
-                    <p className="flex items-center gap-2.5 text-custom-sm">
+                    <p className="flex items-center gap-2.5 text-custom-sm text-dark dark:text-text-secondary-dark">
                       <svg
                         className="fill-current"
                         width="18"
@@ -664,7 +664,7 @@ const MyAccount = () => {
                       Email: {userProfile?.email || user?.email || 'Not provided'}
                     </p>
 
-                    <p className="flex items-center gap-2.5 text-custom-sm">
+                    <p className="flex items-center gap-2.5 text-custom-sm text-dark dark:text-text-secondary-dark">
                       <svg
                         className="fill-current"
                         width="18"
@@ -693,7 +693,7 @@ const MyAccount = () => {
                       Phone: {userProfile?.phone || user?.phone || 'Not provided'}
                     </p>
 
-                    <p className="flex gap-2.5 text-custom-sm">
+                    <p className="flex gap-2.5 text-custom-sm text-dark dark:text-text-secondary-dark">
                       <svg
                         className="fill-current mt-0.5"
                         width="18"
@@ -731,10 +731,10 @@ const MyAccount = () => {
               }`}
             >
               <form onSubmit={handleProfileUpdate}>
-                <div className="bg-white shadow-1 rounded-xl p-4 sm:p-8.5">
+                <div className="bg-white dark:bg-bg-cardDark shadow-1 dark:shadow-dark-2 rounded-xl border border-gray-3 dark:border-border-dark p-4 sm:p-8.5">
                   <div className="flex flex-col lg:flex-row gap-5 sm:gap-8 mb-5">
                     <div className="w-full">
-                      <label htmlFor="first_name" className="block mb-2.5">
+                      <label htmlFor="first_name" className="block mb-2.5 text-dark dark:text-text-primary-dark">
                         First Name
                       </label>
 
@@ -810,20 +810,20 @@ const MyAccount = () => {
                 </div>
               </form>
 
-              <p className="text-custom-sm mt-5 mb-9">
+                <p className="text-custom-sm dark:text-text-secondary-dark mt-5 mb-9">
                   This will be how your name will be displayed in the account
                   section and in reviews
                 </p>
 
-                <p className="font-medium text-xl sm:text-2xl text-dark mb-7">
+                <p className="font-medium text-xl sm:text-2xl text-dark dark:text-text-primary-dark mb-7">
                   Password Change
                 </p>
 
                 <form onSubmit={handlePasswordUpdate}>
-                  <div className="bg-white shadow-1 rounded-xl p-4 sm:p-8.5">
+                  <div className="bg-white dark:bg-bg-cardDark shadow-1 dark:shadow-dark-2 rounded-xl border border-gray-3 dark:border-border-dark p-4 sm:p-8.5">
                     <div className="mb-5">
-                      <label htmlFor="oldPassword" className="block mb-2.5">
-                        Current Password <span className="text-red">*</span>
+                      <label htmlFor="oldPassword" className="block mb-2.5 text-dark dark:text-text-primary-dark">
+                        Current Password <span className="text-red dark:text-red-400">*</span>
                       </label>
 
                       <input
@@ -889,14 +889,14 @@ const MyAccount = () => {
 
           <!-- logout tab content start --> */}
             <div
-              className={`xl:max-w-[770px] w-full bg-white rounded-xl shadow-1 py-9.5 px-4 sm:px-7.5 xl:px-10 ${
+              className={`xl:max-w-[770px] w-full bg-white dark:bg-bg-cardDark rounded-xl shadow-1 dark:shadow-dark-2 border border-gray-3 dark:border-border-dark py-9.5 px-4 sm:px-7.5 xl:px-10 ${
                 activeTab === "logout" ? "block" : "hidden"
               }`}
             >
               <div className="text-center">
-                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
                   <svg
-                    className="h-8 w-8 text-red-600"
+                    className="h-8 w-8 text-red-600 dark:text-red-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -909,10 +909,10 @@ const MyAccount = () => {
                     />
                   </svg>
                 </div>
-                <h3 className="mb-4 text-xl font-semibold text-dark">
+                <h3 className="mb-4 text-xl font-semibold text-dark dark:text-text-primary-dark">
                   Ready to Log Out?
                 </h3>
-                <p className="mb-6 text-dark-2">
+                <p className="mb-6 text-dark-2 dark:text-text-secondary-dark">
                   You will be logged out of your account and redirected to the sign-in page.
                 </p>
                 <button

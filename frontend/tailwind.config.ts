@@ -45,11 +45,11 @@ const config: Config = {
         card: "#F9FAFB", // Light mode card/section background
         main: {
           DEFAULT: "#D1D5DB", // Light mode main
-          dark: "lab(2.75381% 0 0)", // Dark mode main background - base LAB color
+          dark: "lab(6% -0.8 1.5)", // Dark mode main background - darker for contrast with cards
         },
-        cardDark: "lab(8% -1 2)", // Dark mode card/section background - brighter with subtle green tint for better visibility
+        cardDark: "lab(12% -1.5 3)", // Dark mode card/section background - much brighter with subtle green tint for better visibility
         hover: "#E5E7EB", // Light mode hover state
-        hoverDark: "lab(9.5% -1.2 2.5)", // Dark mode hover state - brighter green-black
+        hoverDark: "lab(14% -1.8 3.5)", // Dark mode hover state - much brighter green-black
       },
       
       // Text colors
@@ -71,7 +71,7 @@ const config: Config = {
       // Border colors
       border: {
         DEFAULT: "#E5E7EB", // Light mode borders
-        dark: "lab(9% -1.2 2)", // Dark mode borders - brighter for better visibility
+        dark: "lab(14% -1.8 3.5)", // Dark mode borders - much brighter for better visibility
         light: "#F3F4F6", // Lighter borders
       },
       
