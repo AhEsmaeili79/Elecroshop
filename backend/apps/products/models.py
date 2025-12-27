@@ -4,7 +4,7 @@ from django.conf import settings
 from category.models import Category, Brand
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
-
+from users.models import Seller
 
 
 class Product(models.Model):
@@ -27,6 +27,15 @@ class Product(models.Model):
             raise ValidationError("Specifications must be a JSON object")
 
     def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name)
+            slug = base_slug
+            counter = 1
+            while Product.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+
         self.full_clean()
         super().save(*args, **kwargs)
 
@@ -41,9 +50,11 @@ class ProductOffer(models.Model):
     product = models.ForeignKey(
         Product, related_name="offers", on_delete=models.CASCADE
     )
+    
     seller = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    Seller, on_delete=models.CASCADE, related_name="offers"
     )
+
 
     price = models.DecimalField(max_digits=10,decimal_places=2)
     stock_status = models.BooleanField(default=True)
@@ -51,7 +62,12 @@ class ProductOffer(models.Model):
     is_active = models.BooleanField(default=True)
 
     class Meta:
-        unique_together = ('product', 'seller')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['product', 'seller'],
+                name='unique_product_seller_offer'
+            )
+        ]
         indexes = [
             models.Index(fields=['product', 'price']),
             models.Index(fields=['seller']),
@@ -91,6 +107,7 @@ class ProductImage(models.Model):
 
     class Meta:
         ordering = ['order']
+        unique_together = ('product', 'order')
 
 
     def save(self, *args, **kwargs):

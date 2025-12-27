@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.conf import settings
+from django.utils.text import slugify
 
 from apps.core.models import BaseModel
 from apps.core.validators import detect_email_or_phone
@@ -121,3 +123,32 @@ class User(BaseModel, AbstractBaseUser):
         """Check if user has permissions for a specific app."""
         return self.is_superuser
 
+class Seller(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="seller_profile"
+    )
+
+    slug = models.SlugField(unique=True, blank=True)
+    shop_name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    is_verified = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.shop_name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.shop_name)
+            slug = base_slug
+            counter = 1
+            while Seller.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+
+        super().save(*args, **kwargs)
