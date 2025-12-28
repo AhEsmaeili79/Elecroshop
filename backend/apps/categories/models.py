@@ -19,6 +19,7 @@ class Category(BaseModel):
 
 class SubCategory(BaseModel):
     name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="subcategories"
     )
@@ -28,6 +29,18 @@ class SubCategory(BaseModel):
 
     def __str__(self):
         return f"{self.category.name} → {self.name}"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(f"{self.category.name}-{self.name}")
+            slug = base_slug
+            counter = 1
+            # Ensure uniqueness
+            while SubCategory.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
 
 
