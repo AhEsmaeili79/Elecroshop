@@ -214,15 +214,22 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         from django.utils.text import slugify
         breadcrumb = []
         if obj.category:
-            breadcrumb.append({
-                'name': obj.category.name,
-                'slug': obj.category.slug
-            })
-        if obj.sub_category:
-            breadcrumb.append({
-                'name': obj.sub_category.name,
-                'slug': slugify(obj.sub_category.name.lower())
-            })
+            # If category has a parent, it's a subcategory - include both parent and child
+            if obj.category.parent:
+                breadcrumb.append({
+                    'name': obj.category.parent.name,
+                    'slug': obj.category.parent.slug
+                })
+                breadcrumb.append({
+                    'name': obj.category.name,
+                    'slug': obj.category.slug
+                })
+            else:
+                # It's a main category
+                breadcrumb.append({
+                    'name': obj.category.name,
+                    'slug': obj.category.slug
+                })
         return breadcrumb
 
     @extend_schema_field(list)

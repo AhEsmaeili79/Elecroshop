@@ -44,7 +44,7 @@ def get_products_list(
         queryset = queryset.filter(category__slug=category_slug)
 
     if subcategory_slug:
-        queryset = queryset.filter(sub_category__slug=subcategory_slug)
+        queryset = queryset.filter(category__slug=subcategory_slug, category__parent__isnull=False)
 
     if brand_slug:
         queryset = queryset.filter(brand__slug=brand_slug)
@@ -119,11 +119,11 @@ def get_product_detail(product_id: int, user: Optional[User] = None) -> Optional
         # Base queryset with all related data
         queryset = Product.objects.select_related(
             'category',
-            'sub_category',
+            'category__parent',
             'brand',
             'product_model',
             'product_model__brand',
-            'product_model__sub_category',
+            'product_model__category__parent',
             'product_model__sub_category__category'
         ).prefetch_related(
             # Product images
@@ -203,11 +203,11 @@ def get_product_by_slug(slug: str, user: Optional[User] = None) -> Optional[Prod
         # Base queryset with all related data
         queryset = Product.objects.select_related(
             'category',
-            'sub_category',
+            'category__parent',
             'brand',
             'product_model',
             'product_model__brand',
-            'product_model__sub_category',
+            'product_model__category__parent',
             'product_model__sub_category__category'
         ).prefetch_related(
             # Product images

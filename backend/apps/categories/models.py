@@ -7,9 +7,9 @@ class Category(BaseModel):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to="categories/%Y/%m/%d/", blank=True, null=True)
-    parent = models.OneToOneField(
+    parent = models.ForeignKey(
         'self', on_delete=models.CASCADE, null=True, blank=True,
-        related_name='child_category'
+        related_name='child_categories'
     )
 
     def __str__(self):

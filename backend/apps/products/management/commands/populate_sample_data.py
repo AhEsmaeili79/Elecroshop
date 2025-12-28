@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.core.management.base import BaseCommand, CommandError
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
-from apps.categories.models import Category, Brand, SubCategory, ProductModel
+from apps.categories.models import Category, Brand, ProductModel
 from apps.products.models import Product, ProductOffer, Color, OfferColorQuantity, ProductImage
 from apps.users.models import Seller
 
@@ -25,7 +25,7 @@ class Command(BaseCommand):
             self.create_brands()
             self.stdout.write(self.style.SUCCESS('Brands created successfully'))
 
-            # Create subcategories
+            # Create subcategories (as child categories)
             self.create_subcategories()
             self.stdout.write(self.style.SUCCESS('Subcategories created successfully'))
 
@@ -133,10 +133,11 @@ class Command(BaseCommand):
         ]
 
         for sub_data in subcategories_data:
-            category = Category.objects.get(slug=sub_data['category_slug'])
-            SubCategory.objects.get_or_create(
+            parent_category = Category.objects.get(slug=sub_data['category_slug'])
+            Category.objects.get_or_create(
                 name=sub_data['name'],
-                category=category
+                parent=parent_category,
+                defaults={'slug': f"{parent_category.slug}-{slugify(sub_data['name'])}"}
             )
 
     def create_product_models(self):
@@ -198,11 +199,12 @@ class Command(BaseCommand):
 
         for model_data in models_data:
             brand = Brand.objects.get(slug=model_data['brand_slug'])
-            subcategory = SubCategory.objects.get(name=model_data['subcategory_name'])
+            # Find the child category (subcategory) by name and parent relationship
+            subcategory = Category.objects.get(name=model_data['subcategory_name'], parent__isnull=False)
             ProductModel.objects.get_or_create(
                 name=model_data['name'],
                 brand=brand,
-                defaults={'sub_category': subcategory}
+                defaults={'category': subcategory}
             )
 
     def create_sellers(self):
@@ -514,7 +516,8 @@ class Command(BaseCommand):
     def create_products(self):
         # Get all necessary objects
         categories = {cat.slug: cat for cat in Category.objects.all()}
-        subcategories = {sub.name: sub for sub in SubCategory.objects.all()}
+        # Get child categories (subcategories) - those with parent not null
+        subcategories = {sub.name: sub for sub in Category.objects.filter(parent__isnull=False)}
         brands = {brand.slug: brand for brand in Brand.objects.all()}
         product_models = {(model.name, model.brand.slug): model for model in ProductModel.objects.all()}
         sellers = list(Seller.objects.all())
@@ -596,8 +599,7 @@ class Command(BaseCommand):
                         # Create product
                         product = Product.objects.create(
                             name=product_name,
-                            category=category,
-                            sub_category=subcategory,
+                            category=subcategory,  # Use child category as the product category
                             brand=brand,
                             product_model=product_model,
                             description=f"Premium {subcategory_name.lower()} from {brand.name}. Features advanced technology and superior performance.",
