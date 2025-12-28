@@ -275,10 +275,10 @@ class ProductListResponseSerializer(serializers.Serializer):
 class ProductQueryParamsSerializer(serializers.Serializer):
     """Serializer for product list query parameters."""
 
-    category_id = serializers.IntegerField(required=False, min_value=1)
-    subcategory_id = serializers.IntegerField(required=False, min_value=1)
-    brand_id = serializers.IntegerField(required=False, min_value=1)
-    product_model_id = serializers.IntegerField(required=False, min_value=1)
+    category_slug = serializers.CharField(required=False, max_length=100)
+    subcategory_slug = serializers.CharField(required=False, max_length=100)
+    brand_slug = serializers.CharField(required=False, max_length=100)
+    product_model_slug = serializers.CharField(required=False, max_length=100)
     search = serializers.CharField(required=False, max_length=100)
     ordering = serializers.ChoiceField(
         choices=[
@@ -298,10 +298,10 @@ class ProductQueryParamsSerializer(serializers.Serializer):
 
         # Validate filter combinations
         validate_product_filters(
-            category_id=attrs.get('category_id'),
-            subcategory_id=attrs.get('subcategory_id'),
-            brand_id=attrs.get('brand_id'),
-            product_model_id=attrs.get('product_model_id')
+            category_slug=attrs.get('category_slug'),
+            subcategory_slug=attrs.get('subcategory_slug'),
+            brand_slug=attrs.get('brand_slug'),
+            product_model_slug=attrs.get('product_model_slug')
         )
 
         # Validate search query if provided

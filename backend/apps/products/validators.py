@@ -122,50 +122,132 @@ def validate_product_model_id(product_model_id: int) -> ProductModel:
         raise ValidationError(f"Product model with id {product_model_id} does not exist.")
 
 
-def validate_product_filters(
-    category_id: Optional[int] = None,
-    subcategory_id: Optional[int] = None,
-    brand_id: Optional[int] = None,
-    product_model_id: Optional[int] = None
-) -> None:
+def validate_category_slug(category_slug: str) -> Category:
     """
-    Validate product filter combinations.
+    Validate that category exists by slug.
 
     Args:
-        category_id: Category ID filter
-        subcategory_id: Subcategory ID filter
-        brand_id: Brand ID filter
-        product_model_id: Product model ID filter
+        category_slug: Category slug to validate
+
+    Returns:
+        Category instance
+
+    Raises:
+        ValidationError: If category doesn't exist
+    """
+    try:
+        return Category.objects.get(slug=category_slug)
+    except Category.DoesNotExist:
+        raise ValidationError(f"Category with slug '{category_slug}' does not exist.")
+
+
+def validate_subcategory_slug(subcategory_slug: str) -> SubCategory:
+    """
+    Validate that subcategory exists by slug.
+
+    Args:
+        subcategory_slug: Subcategory slug to validate
+
+    Returns:
+        SubCategory instance
+
+    Raises:
+        ValidationError: If subcategory doesn't exist
+    """
+    try:
+        return SubCategory.objects.get(slug=subcategory_slug)
+    except SubCategory.DoesNotExist:
+        raise ValidationError(f"Subcategory with slug '{subcategory_slug}' does not exist.")
+
+
+def validate_brand_slug(brand_slug: str) -> Brand:
+    """
+    Validate that brand exists by slug.
+
+    Args:
+        brand_slug: Brand slug to validate
+
+    Returns:
+        Brand instance
+
+    Raises:
+        ValidationError: If brand doesn't exist
+    """
+    try:
+        return Brand.objects.get(slug=brand_slug)
+    except Brand.DoesNotExist:
+        raise ValidationError(f"Brand with slug '{brand_slug}' does not exist.")
+
+
+def validate_product_model_slug(product_model_slug: str) -> ProductModel:
+    """
+    Validate that product model exists by slug.
+
+    Args:
+        product_model_slug: Product model slug to validate
+
+    Returns:
+        ProductModel instance
+
+    Raises:
+        ValidationError: If product model doesn't exist
+    """
+    try:
+        return ProductModel.objects.get(slug=product_model_slug)
+    except ProductModel.DoesNotExist:
+        raise ValidationError(f"Product model with slug '{product_model_slug}' does not exist.")
+
+
+def validate_product_filters(
+    category_slug: Optional[str] = None,
+    subcategory_slug: Optional[str] = None,
+    brand_slug: Optional[str] = None,
+    product_model_slug: Optional[str] = None
+) -> None:
+    """
+    Validate product filter combinations using slugs.
+
+    Args:
+        category_slug: Category slug filter
+        subcategory_slug: Subcategory slug filter
+        brand_slug: Brand slug filter
+        product_model_slug: Product model slug filter
 
     Raises:
         ValidationError: If filter combination is invalid
     """
-    # Validate individual IDs exist
-    if category_id:
-        validate_category_id(category_id)
+    # Validate individual slugs exist
+    if category_slug:
+        validate_category_slug(category_slug)
 
-    if subcategory_id:
-        subcategory = validate_subcategory_id(subcategory_id)
+    if subcategory_slug:
+        subcategory = validate_subcategory_slug(subcategory_slug)
         # Check if subcategory belongs to the specified category
-        if category_id and subcategory.category_id != category_id:
-            raise ValidationError(
-                f"Subcategory '{subcategory.name}' does not belong to category with id {category_id}."
-            )
+        if category_slug:
+            category = validate_category_slug(category_slug)
+            if subcategory.category_id != category.id:
+                raise ValidationError(
+                    f"Subcategory '{subcategory.name}' does not belong to category '{category.name}'."
+                )
 
-    if brand_id:
-        validate_brand_id(brand_id)
+    if brand_slug:
+        validate_brand_slug(brand_slug)
 
-    if product_model_id:
-        product_model = validate_product_model_id(product_model_id)
+    if product_model_slug:
+        product_model = validate_product_model_slug(product_model_slug)
         # Check relationships
-        if brand_id and product_model.brand_id != brand_id:
-            raise ValidationError(
-                f"Product model '{product_model.name}' does not belong to brand with id {brand_id}."
-            )
-        if subcategory_id and product_model.sub_category_id != subcategory_id:
-            raise ValidationError(
-                f"Product model '{product_model.name}' does not belong to subcategory with id {subcategory_id}."
-            )
+        if brand_slug:
+            brand = validate_brand_slug(brand_slug)
+            if product_model.brand_id != brand.id:
+                raise ValidationError(
+                    f"Product model '{product_model.name}' does not belong to brand '{brand.name}'."
+                )
+        if subcategory_slug:
+            subcategory = validate_subcategory_slug(subcategory_slug)
+            if product_model.sub_category_id != subcategory.id:
+                raise ValidationError(
+                    f"Product model '{product_model.name}' does not belong to subcategory '{subcategory.name}'."
+                )
 
 
 def validate_search_query(search_query: str) -> str:

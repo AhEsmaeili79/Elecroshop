@@ -96,31 +96,31 @@ class ProductListRequestSchema(ProductQueryParamsSerializer):
 product_list_view_schema = {
     'parameters': [
         OpenApiParameter(
-            name='category_id',
-            type=int,
+            name='category_slug',
+            type=str,
             location=OpenApiParameter.QUERY,
-            description='Filter by category ID',
+            description='Filter by category slug',
             required=False
         ),
         OpenApiParameter(
-            name='subcategory_id',
-            type=int,
+            name='subcategory_slug',
+            type=str,
             location=OpenApiParameter.QUERY,
-            description='Filter by subcategory ID',
+            description='Filter by subcategory slug',
             required=False
         ),
         OpenApiParameter(
-            name='brand_id',
-            type=int,
+            name='brand_slug',
+            type=str,
             location=OpenApiParameter.QUERY,
-            description='Filter by brand ID',
+            description='Filter by brand slug',
             required=False
         ),
         OpenApiParameter(
-            name='product_model_id',
-            type=int,
+            name='product_model_slug',
+            type=str,
             location=OpenApiParameter.QUERY,
-            description='Filter by product model ID',
+            description='Filter by product model slug',
             required=False
         ),
         OpenApiParameter(

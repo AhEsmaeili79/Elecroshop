@@ -24,10 +24,10 @@ class ProductService:
 
     @staticmethod
     def get_products_list_with_filters(
-        category_id: Optional[int] = None,
-        subcategory_id: Optional[int] = None,
-        brand_id: Optional[int] = None,
-        product_model_id: Optional[int] = None,
+        category_slug: Optional[str] = None,
+        subcategory_slug: Optional[str] = None,
+        brand_slug: Optional[str] = None,
+        product_model_slug: Optional[str] = None,
         search_query: Optional[str] = None,
         ordering: str = '-created_at',
         user: Optional[User] = None
@@ -36,10 +36,10 @@ class ProductService:
         Get products list with filtering and additional metadata.
 
         Args:
-            category_id: Filter by category ID
-            subcategory_id: Filter by subcategory ID
-            brand_id: Filter by brand ID
-            product_model_id: Filter by product model ID
+            category_slug: Filter by category slug
+            subcategory_slug: Filter by subcategory slug
+            brand_slug: Filter by brand slug
+            product_model_slug: Filter by product model slug
             search_query: Search in product name and description
             ordering: Ordering field
             user: User for wishlist status
@@ -49,10 +49,10 @@ class ProductService:
         """
         # Get filtered products
         products = get_products_list(
-            category_id=category_id,
-            subcategory_id=subcategory_id,
-            brand_id=brand_id,
-            product_model_id=product_model_id,
+            category_slug=category_slug,
+            subcategory_slug=subcategory_slug,
+            brand_slug=brand_slug,
+            product_model_slug=product_model_slug,
             search_query=search_query,
             ordering=ordering,
             user=user
@@ -62,18 +62,18 @@ class ProductService:
         filter_options = {
             'categories': get_categories_for_filtering(),
             'brands': get_brands_for_filtering(),
-            'subcategories': get_subcategories_for_filtering(category_id),
-            'product_models': get_product_models_for_filtering(brand_id, subcategory_id),
+            'subcategories': get_subcategories_for_filtering(category_slug),
+            'product_models': get_product_models_for_filtering(brand_slug, subcategory_slug),
         }
 
         return {
             'products': products,
             'filter_options': filter_options,
             'applied_filters': {
-                'category_id': category_id,
-                'subcategory_id': subcategory_id,
-                'brand_id': brand_id,
-                'product_model_id': product_model_id,
+                'category_slug': category_slug,
+                'subcategory_slug': subcategory_slug,
+                'brand_slug': brand_slug,
+                'product_model_slug': product_model_slug,
                 'search_query': search_query,
                 'ordering': ordering,
             }
@@ -204,68 +204,6 @@ class ProductService:
             'max_price': max(prices),
             'offer_count': len(prices)
         }
-
-    @staticmethod
-    def validate_product_filters(
-        category_id: Optional[int] = None,
-        subcategory_id: Optional[int] = None,
-        brand_id: Optional[int] = None,
-        product_model_id: Optional[int] = None
-    ) -> None:
-        """
-        Validate product filter combinations.
-
-        Args:
-            category_id: Category ID
-            subcategory_id: Subcategory ID
-            brand_id: Brand ID
-            product_model_id: Product model ID
-
-        Raises:
-            ValidationError: If filter combination is invalid
-        """
-        from apps.categories.models import Category, SubCategory, Brand, ProductModel
-
-        # Validate category exists if provided
-        if category_id:
-            try:
-                Category.objects.get(id=category_id)
-            except Category.DoesNotExist:
-                raise ValidationError(f"Category with id {category_id} does not exist.")
-
-        # Validate subcategory exists and belongs to category if both provided
-        if subcategory_id:
-            try:
-                subcategory = SubCategory.objects.get(id=subcategory_id)
-                if category_id and subcategory.category_id != category_id:
-                    raise ValidationError(
-                        f"Subcategory {subcategory_id} does not belong to category {category_id}."
-                    )
-            except SubCategory.DoesNotExist:
-                raise ValidationError(f"Subcategory with id {subcategory_id} does not exist.")
-
-        # Validate brand exists if provided
-        if brand_id:
-            try:
-                Brand.objects.get(id=brand_id)
-            except Brand.DoesNotExist:
-                raise ValidationError(f"Brand with id {brand_id} does not exist.")
-
-        # Validate product model exists and relationships if provided
-        if product_model_id:
-            try:
-                product_model = ProductModel.objects.get(id=product_model_id)
-                if brand_id and product_model.brand_id != brand_id:
-                    raise ValidationError(
-                        f"Product model {product_model_id} does not belong to brand {brand_id}."
-                    )
-                if subcategory_id and product_model.sub_category_id != subcategory_id:
-                    raise ValidationError(
-                        f"Product model {product_model_id} does not belong to subcategory {subcategory_id}."
-                    )
-            except ProductModel.DoesNotExist:
-                raise ValidationError(f"Product model with id {product_model_id} does not exist.")
-
 
 class WishlistService:
     """Service class for wishlist-related operations."""

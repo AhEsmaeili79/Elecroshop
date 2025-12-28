@@ -11,10 +11,10 @@ User = get_user_model()
 
 
 def get_products_list(
-    category_id: Optional[int] = None,
-    subcategory_id: Optional[int] = None,
-    brand_id: Optional[int] = None,
-    product_model_id: Optional[int] = None,
+    category_slug: Optional[str] = None,
+    subcategory_slug: Optional[str] = None,
+    brand_slug: Optional[str] = None,
+    product_model_slug: Optional[str] = None,
     search_query: Optional[str] = None,
     is_active: bool = True,
     user: Optional[User] = None,
@@ -24,10 +24,10 @@ def get_products_list(
     Get products list with filtering, ratings, and wishlist status.
 
     Args:
-        category_id: Filter by category ID
-        subcategory_id: Filter by subcategory ID
-        brand_id: Filter by brand ID
-        product_model_id: Filter by product model ID
+        category_slug: Filter by category slug
+        subcategory_slug: Filter by subcategory slug
+        brand_slug: Filter by brand slug
+        product_model_slug: Filter by product model slug
         search_query: Search in product name and description
         is_active: Filter by active status (default True)
         user: User for wishlist status (optional)
@@ -40,17 +40,17 @@ def get_products_list(
     queryset = Product.objects.filter(is_active=is_active)
 
     # Apply filters
-    if category_id:
-        queryset = queryset.filter(category_id=category_id)
+    if category_slug:
+        queryset = queryset.filter(category__slug=category_slug)
 
-    if subcategory_id:
-        queryset = queryset.filter(sub_category_id=subcategory_id)
+    if subcategory_slug:
+        queryset = queryset.filter(sub_category__slug=subcategory_slug)
 
-    if brand_id:
-        queryset = queryset.filter(brand_id=brand_id)
+    if brand_slug:
+        queryset = queryset.filter(brand__slug=brand_slug)
 
-    if product_model_id:
-        queryset = queryset.filter(product_model_id=product_model_id)
+    if product_model_slug:
+        queryset = queryset.filter(product_model__slug=product_model_slug)
 
     if search_query:
         queryset = queryset.filter(
@@ -290,12 +290,12 @@ def get_brands_for_filtering() -> models.QuerySet:
     ).filter(product_count__gt=0).order_by('name')
 
 
-def get_subcategories_for_filtering(category_id: Optional[int] = None) -> models.QuerySet:
+def get_subcategories_for_filtering(category_slug: Optional[str] = None) -> models.QuerySet:
     """
     Get subcategories with product counts for filtering.
 
     Args:
-        category_id: Filter by category ID (optional)
+        category_slug: Filter by category slug (optional)
 
     Returns:
         QuerySet of subcategories with product counts
@@ -304,22 +304,22 @@ def get_subcategories_for_filtering(category_id: Optional[int] = None) -> models
         product_count=Count('product', filter=Q(product__is_active=True))
     ).filter(product_count__gt=0)
 
-    if category_id:
-        queryset = queryset.filter(category_id=category_id)
+    if category_slug:
+        queryset = queryset.filter(category__slug=category_slug)
 
     return queryset.order_by('name')
 
 
 def get_product_models_for_filtering(
-    brand_id: Optional[int] = None,
-    subcategory_id: Optional[int] = None
+    brand_slug: Optional[str] = None,
+    subcategory_slug: Optional[str] = None
 ) -> models.QuerySet:
     """
     Get product models with product counts for filtering.
 
     Args:
-        brand_id: Filter by brand ID (optional)
-        subcategory_id: Filter by subcategory ID (optional)
+        brand_slug: Filter by brand slug (optional)
+        subcategory_slug: Filter by subcategory slug (optional)
 
     Returns:
         QuerySet of product models with product counts
@@ -328,10 +328,10 @@ def get_product_models_for_filtering(
         product_count=Count('products', filter=Q(products__is_active=True))
     ).filter(product_count__gt=0)
 
-    if brand_id:
-        queryset = queryset.filter(brand_id=brand_id)
+    if brand_slug:
+        queryset = queryset.filter(brand__slug=brand_slug)
 
-    if subcategory_id:
-        queryset = queryset.filter(sub_category_id=subcategory_id)
+    if subcategory_slug:
+        queryset = queryset.filter(sub_category__slug=subcategory_slug)
 
     return queryset.order_by('name')

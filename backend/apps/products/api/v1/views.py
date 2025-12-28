@@ -47,10 +47,10 @@ class ProductListView(APIView):
 
             # Get products with filters
             result = ProductService.get_products_list_with_filters(
-                category_id=validated_data.get('category_id'),
-                subcategory_id=validated_data.get('subcategory_id'),
-                brand_id=validated_data.get('brand_id'),
-                product_model_id=validated_data.get('product_model_id'),
+                category_slug=validated_data.get('category_slug'),
+                subcategory_slug=validated_data.get('subcategory_slug'),
+                brand_slug=validated_data.get('brand_slug'),
+                product_model_slug=validated_data.get('product_model_slug'),
                 search_query=validated_data.get('search'),
                 ordering=validated_data.get('ordering', '-created_at'),
                 user=request.user if request.user.is_authenticated else None
