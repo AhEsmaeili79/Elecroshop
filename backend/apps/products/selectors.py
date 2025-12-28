@@ -235,6 +235,30 @@ def get_product_by_slug(slug: str, user: Optional[User] = None) -> Optional[Prod
             review_count=Count('reviews')
         )
 
+        # Add wishlist status if user is authenticated
+        if user and user.is_authenticated:
+            # Get user's wishlist offers
+            wishlist_offer_ids = Wishlist.objects.filter(
+                user=user
+            ).values_list('offer_id', flat=True)
+
+            # Annotate if any of the product's offers are in user's wishlist
+            queryset = queryset.annotate(
+                is_in_wishlist=Case(
+                    When(
+                        Q(offers__id__in=wishlist_offer_ids),
+                        then=Value(True)
+                    ),
+                    default=Value(False),
+                    output_field=BooleanField()
+                )
+            ).distinct()
+        else:
+            # For anonymous users, always False
+            queryset = queryset.annotate(
+                is_in_wishlist=Value(False, output_field=BooleanField())
+            )
+
         product = queryset.get(slug=slug, is_active=True)
 
         # Add wishlist status for each offer if user is authenticated
