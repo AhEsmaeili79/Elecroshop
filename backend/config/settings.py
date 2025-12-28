@@ -28,6 +28,7 @@ THIRD_PARTY_APPS = [
     'rest_framework_simplejwt.token_blacklist',  # JWT token blacklisting
     'drf_spectacular',
     'corsheaders',
+    'silk',
 ]
 
 LOCAL_APPS = [
@@ -45,6 +46,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'silk.middleware.SilkyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -260,3 +262,11 @@ CELERY_TASK_SOFT_TIME_LIMIT = 25 * 60  # 25 minutes
 
 # Development Mode
 DEVELOPMENT = os.environ.get('DEVELOPMENT', 'False').lower() == 'true'
+
+
+
+# Optional Silk configuration
+# SILKY_PYTHON_PROFILER = True  # Enable Python profiling
+# SILKY_PYTHON_PROFILER_BINARY = True  # Use binary format for profiler data
+# SILKY_AUTHENTICATION = True  # Require authentication to view Silk interface
+# SILKY_AUTHORISATION = True  # Require staff status

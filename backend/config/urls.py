@@ -8,6 +8,7 @@ from drf_spectacular.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('silk/', include('silk.urls', namespace='silk')),
     path('api/auth/', include('apps.authentication.api.v1.urls')),
     path('api/users/', include('apps.users.api.v1.urls')),
     path('api/products/', include('apps.products.api.v1.urls')),
