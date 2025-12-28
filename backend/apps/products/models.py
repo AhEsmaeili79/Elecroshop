@@ -65,10 +65,7 @@ class ProductOffer(BaseModel):
     @property
     def final_price(self):
         """Return the final price after discount."""
-        if self.discount_price:
-            return self.discount_price
-        elif self.discount_percentage:
-            return self.price * (Decimal('1') - self.discount_percentage / Decimal('100'))
+        # TODO: Implement discount functionality by adding discount_price and discount_percentage fields
         return self.price
 
     class Meta:

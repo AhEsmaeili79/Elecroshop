@@ -125,26 +125,26 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class ProductListSerializer(serializers.ModelSerializer):
-    """Serializer for product list response."""
+    """Serializer for simplified product list response."""
 
-    category = CategorySerializer(read_only=True)
-    brand = BrandSerializer(read_only=True)
-    main_image = serializers.SerializerMethodField()
-    avg_rating = serializers.FloatField(read_only=True)
-    review_count = serializers.IntegerField(read_only=True)
-    is_in_wishlist = serializers.BooleanField(read_only=True)
-    price_range = serializers.SerializerMethodField()
+    brand = serializers.CharField(source='brand.name', read_only=True)
+    model = serializers.CharField(source='product_model.name', read_only=True)
+    category = serializers.CharField(source='category.name', read_only=True)
+    image = serializers.SerializerMethodField()
+    price = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField()
+    in_stock = serializers.SerializerMethodField()
+    is_in_wishlist = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
         fields = [
-            'id', 'name', 'slug', 'category', 'brand',
-            'main_image', 'avg_rating', 'review_count',
-            'is_in_wishlist', 'price_range', 'created_at'
+            'slug', 'name', 'brand', 'model', 'category',
+            'image', 'price', 'rating', 'in_stock', 'is_in_wishlist'
         ]
 
     @extend_schema_field(str)
-    def get_main_image(self, obj):
+    def get_image(self, obj):
         """Get the main product image URL."""
         if hasattr(obj, 'ordered_images') and obj.ordered_images:
             return obj.ordered_images[0].image.url
@@ -152,19 +152,37 @@ class ProductListSerializer(serializers.ModelSerializer):
             return obj.images.first().image.url
         return None
 
-    @extend_schema_field(dict)
-    def get_price_range(self, obj):
-        """Get price range across all offers."""
+    @extend_schema_field(int)
+    def get_price(self, obj):
+        """Get minimum price."""
         offers = obj.offers.filter(is_active=True)
         if not offers.exists():
             return None
 
         prices = [offer.final_price for offer in offers]
+        return min(prices)
+
+    @extend_schema_field(dict)
+    def get_rating(self, obj):
+        """Get rating as average/count object."""
         return {
-            'min_price': min(prices),
-            'max_price': max(prices),
-            'offer_count': len(prices)
+            'average': obj.avg_rating,
+            'count': obj.review_count
         }
+
+    @extend_schema_field(bool)
+    def get_in_stock(self, obj):
+        """Check if product is in stock across any offers."""
+        return obj.offers.filter(is_active=True, stock_status=True).exists()
+
+    @extend_schema_field(bool)
+    def get_is_in_wishlist(self, obj):
+        """Check if product is in user's wishlist."""
+        request = self.context.get('request')
+        if not request or not request.user or not request.user.is_authenticated:
+            return False
+
+        return obj.is_in_wishlist
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
@@ -245,7 +263,7 @@ class ProductFiltersSerializer(serializers.Serializer):
 class ProductListResponseSerializer(serializers.Serializer):
     """Serializer for product list API response."""
 
-    products = ProductListSerializer(many=True)
+    data = ProductListSerializer(many=True)
     filter_options = ProductFiltersSerializer()
     applied_filters = serializers.DictField()
     total_count = serializers.IntegerField()

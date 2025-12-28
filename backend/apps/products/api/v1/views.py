@@ -81,7 +81,7 @@ class ProductListView(APIView):
 
             # Prepare response data
             response_data = {
-                'products': product_serializer.data,
+                'data': product_serializer.data,
                 'filter_options': filter_serializer.data,
                 'applied_filters': result['applied_filters'],
                 'total_count': paginator.count,
