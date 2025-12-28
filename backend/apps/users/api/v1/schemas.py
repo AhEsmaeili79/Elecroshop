@@ -47,9 +47,9 @@ password_update_response_schema = inline_serializer(
     fields={'message': serializers.CharField(help_text='Success message')}
 )
 
-# Generic validation error schema (covers all possible fields)
-validation_error_response_schema = inline_serializer(
-    name='ValidationErrorResponse',
+# User-specific validation error schema
+user_validation_error_response_schema = inline_serializer(
+    name='UserValidationErrorResponse',
     fields={
         field_name: serializers.ListField(
             child=serializers.CharField(),
@@ -106,7 +106,7 @@ user_update_profile_view_schema = {
     'request': UserUpdateRequestSchema,  # Use enhanced schema with examples
     'responses': {
         200: user_update_response_schema,
-        400: validation_error_response_schema,
+        400: user_validation_error_response_schema,
         401: OpenApiResponse(description='Authentication required'),
     },
     'summary': 'Update user profile',
@@ -118,7 +118,7 @@ password_update_view_schema = {
     'request': password_update_request_schema,
     'responses': {
         200: password_update_response_schema,
-        400: validation_error_response_schema,
+        400: user_validation_error_response_schema,
         401: OpenApiResponse(description='Authentication required'),
     },
     'summary': 'Update user password',
