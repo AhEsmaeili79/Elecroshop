@@ -186,60 +186,178 @@ class ProductListSerializer(serializers.ModelSerializer):
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
-    """Serializer for product detail response."""
+    """Serializer for product detail response with flattened structure."""
 
-    category = CategorySerializer(read_only=True)
-    sub_category = SubCategorySerializer(read_only=True)
-    brand = BrandSerializer(read_only=True)
-    product_model = ProductModelSerializer(read_only=True)
-    images = ProductImageSerializer(many=True, read_only=True, source='ordered_images')
-    offers = ProductOfferSerializer(many=True, read_only=True, source='active_offers')
-    reviews = ReviewSerializer(many=True, read_only=True, source='all_reviews')
-    avg_rating = serializers.FloatField(read_only=True)
-    review_count = serializers.IntegerField(read_only=True)
-    rating_summary = serializers.SerializerMethodField()
-    is_in_wishlist = serializers.SerializerMethodField()
+    # Flattened fields
+    breadcrumb = serializers.SerializerMethodField()
+    brand = serializers.CharField(source='brand.name', read_only=True)
+    model = serializers.CharField(source='product_model.name', read_only=True)
+    images = serializers.SerializerMethodField()
+    specifications = serializers.SerializerMethodField()
+    pricing = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField()
+    offers = serializers.SerializerMethodField()
+
+    # Conditional fields based on authentication
+    user = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
         fields = [
-            'id', 'name', 'slug', 'category', 'sub_category', 'brand',
-            'product_model', 'description', 'specifications', 'is_active',
-            'images', 'offers', 'reviews', 'avg_rating', 'review_count',
-            'rating_summary', 'is_in_wishlist', 'created_at', 'updated_at'
+            'id', 'name', 'breadcrumb', 'brand', 'model', 'description',
+            'images', 'specifications', 'pricing', 'rating', 'offers', 'user'
         ]
 
+    def to_representation(self, instance):
+        """Conditionally include user field only for authenticated users."""
+        data = super().to_representation(instance)
+        request = self.context.get('request')
+        if not (request and request.user and request.user.is_authenticated):
+            data.pop('user', None)
+        return data
+
+    @extend_schema_field(list)
+    def get_breadcrumb(self, obj):
+        """Get breadcrumb with category and subcategory."""
+        from django.utils.text import slugify
+        breadcrumb = []
+        if obj.category:
+            breadcrumb.append({
+                'name': obj.category.name,
+                'slug': obj.category.slug
+            })
+        if obj.sub_category:
+            breadcrumb.append({
+                'name': obj.sub_category.name,
+                'slug': slugify(obj.sub_category.name.lower())
+            })
+        return breadcrumb
+
+    @extend_schema_field(list)
+    def get_images(self, obj):
+        """Get product images as URL list."""
+        images = []
+        if hasattr(obj, 'ordered_images') and obj.ordered_images:
+            for img in obj.ordered_images:
+                if img.image:
+                    images.append(img.image.url)
+        return images
+
     @extend_schema_field(dict)
-    def get_rating_summary(self, obj):
-        """Get detailed rating summary."""
-        from django.db.models import Count
+    def get_specifications(self, obj):
+        """Transform specifications to simplified format."""
+        specs = obj.specifications or {}
 
-        if not hasattr(obj, 'reviews') or not obj.reviews.exists():
-            return {
-                'average_rating': 0,
-                'total_reviews': 0,
-                'rating_distribution': {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
-            }
+        # Map the complex nested specs to simplified format
+        simplified = {}
 
-        # Calculate rating distribution
-        rating_counts = {}
-        for i in range(1, 6):
-            rating_counts[i] = obj.reviews.filter(rating=i).count()
+        # Processor
+        if 'processor' in specs and isinstance(specs['processor'], dict):
+            cpu = specs['processor'].get('cpu', '')
+            cores = specs['processor'].get('cores', '')
+            simplified['processor'] = f"{cpu} ({cores} cores)" if cpu and cores else cpu or ''
 
+        # Memory
+        if 'memory' in specs and isinstance(specs['memory'], dict):
+            ram = specs['memory'].get('ram', '')
+            ram_type = specs['memory'].get('type', '')
+            simplified['ram'] = f"{ram} {ram_type}".strip() if ram else ''
+
+            storage = specs['memory'].get('storage', '')
+            simplified['storage'] = storage
+
+        # Display
+        if 'display' in specs and isinstance(specs['display'], dict):
+            size = specs['display'].get('size', '')
+            resolution = specs['display'].get('resolution', '')
+            refresh_rate = specs['display'].get('refresh_rate', '')
+            display_type = specs['display'].get('type', '')
+
+            display_parts = [size, display_type, resolution]
+            if refresh_rate:
+                # Only add Hz if it's not already present
+                refresh_str = str(refresh_rate)
+                if not refresh_str.endswith('Hz'):
+                    refresh_str = f"{refresh_str}Hz"
+                display_parts.append(refresh_str)
+            simplified['display'] = " ".join(filter(None, display_parts))
+
+        # Graphics
+        if 'graphics' in specs and isinstance(specs['graphics'], dict):
+            gpu = specs['graphics'].get('gpu', '')
+            vram = specs['graphics'].get('vram', '')
+            simplified['graphics'] = f"{gpu} ({vram})" if gpu and vram else gpu or ''
+
+        # Battery
+        if 'battery' in specs and isinstance(specs['battery'], dict):
+            life = specs['battery'].get('life', '')
+            capacity = specs['battery'].get('capacity', '')
+            simplified['battery'] = f"{capacity} ({life})" if capacity and life else capacity or life or ''
+
+        # Weight
+        if 'weight' in specs:
+            simplified['weight'] = specs['weight']
+
+        return simplified
+
+    @extend_schema_field(dict)
+    def get_pricing(self, obj):
+        """Get pricing information across all offers."""
+        offers = obj.offers.filter(is_active=True)
+        if not offers.exists():
+            return {'min': None, 'max': None, 'currency': 'USD'}
+
+        prices = [offer.final_price for offer in offers]
         return {
-            'average_rating': obj.avg_rating or 0,
-            'total_reviews': obj.review_count or 0,
-            'rating_distribution': rating_counts
+            'min': float(min(prices)),
+            'max': float(max(prices)),
+            'currency': 'USD'
         }
 
-    @extend_schema_field(bool)
-    def get_is_in_wishlist(self, obj):
-        """Check if product is in user's wishlist."""
-        request = self.context.get('request')
-        if not request or not request.user or not request.user.is_authenticated:
-            return False
+    @extend_schema_field(dict)
+    def get_rating(self, obj):
+        """Get rating information."""
+        return {
+            'average': float(obj.avg_rating or 0),
+            'count': obj.review_count or 0
+        }
 
-        return obj.is_in_wishlist
+    @extend_schema_field(list)
+    def get_offers(self, obj):
+        """Get simplified offers information."""
+        offers_data = []
+        for offer in obj.active_offers:
+            offer_data = {
+                'seller': {
+                    'name': offer.seller.shop_name,
+                    'verified': offer.seller.is_verified
+                },
+                'price': float(offer.final_price),
+                'in_stock': offer.stock_status
+            }
+
+            # Add colors if available
+            if hasattr(offer, 'color_quantities') and offer.color_quantities.exists():
+                colors = []
+                for cq in offer.color_quantities.all():
+                    colors.append({
+                        'name': cq.color.name,
+                        'hex': cq.color.color_hex,
+                        'quantity': cq.quantity
+                    })
+                offer_data['colors'] = colors
+
+            offers_data.append(offer_data)
+
+        return offers_data
+
+    @extend_schema_field(dict)
+    def get_user(self, obj):
+        """Get user-specific data (wishlist) only for authenticated users."""
+        request = self.context.get('request')
+        if request and request.user and request.user.is_authenticated:
+            return {'is_in_wishlist': obj.is_in_wishlist}
+        return None
 
 
 class FilterOptionSerializer(serializers.Serializer):
