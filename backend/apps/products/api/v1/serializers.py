@@ -121,17 +121,35 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     brand = serializers.CharField(source='brand.name', read_only=True)
     model = serializers.CharField(source='product_model.name', read_only=True)
-    category = serializers.CharField(source='category.name', read_only=True)
+    category = serializers.SerializerMethodField()
+    subcategory = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
     price = serializers.SerializerMethodField()
     rating = serializers.SerializerMethodField()
     in_stock = serializers.SerializerMethodField()
     is_in_wishlist = serializers.SerializerMethodField()
 
+    @extend_schema_field(str)
+    def get_category(self, obj):
+        """Get category name - parent category if it exists, otherwise the category itself."""
+        if obj.category:
+            if obj.category.parent:
+                return obj.category.parent.name
+            else:
+                return obj.category.name
+        return None
+
+    @extend_schema_field(str)
+    def get_subcategory(self, obj):
+        """Get subcategory name if category has a parent."""
+        if obj.category and obj.category.parent:
+            return obj.category.name
+        return None
+
     class Meta:
         model = Product
         fields = [
-            'slug', 'name', 'brand', 'model', 'category',
+            'slug', 'name', 'brand', 'model', 'category', 'subcategory',
             'image', 'price', 'rating', 'in_stock', 'is_in_wishlist'
         ]
 
