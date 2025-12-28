@@ -245,7 +245,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 class FilterOptionSerializer(serializers.Serializer):
     """Serializer for filter options."""
 
-    id = serializers.IntegerField()
+    id = serializers.UUIDField()
     name = serializers.CharField()
     slug = serializers.CharField(required=False)
     product_count = serializers.IntegerField()

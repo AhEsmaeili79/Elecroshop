@@ -123,7 +123,7 @@ class User(BaseModel, AbstractBaseUser):
         """Check if user has permissions for a specific app."""
         return self.is_superuser
 
-class Seller(models.Model):
+class Seller(BaseModel):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

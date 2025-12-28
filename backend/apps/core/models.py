@@ -1,4 +1,5 @@
 """Common models and mixins for shared functionality across applications."""
+import uuid
 from django.db import models
 from django.utils import timezone
 
@@ -68,7 +69,15 @@ class SoftDeleteManager(models.Manager):
 
 
 class BaseModel(TimestampedModel, SoftDeleteModel):
-    """Combined base model with timestamps and soft delete functionality."""
+    """Combined base model with timestamps, soft delete functionality, and UUID primary key."""
+
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+        verbose_name='ID',
+        help_text='Unique identifier for this record'
+    )
 
     active_objects = SoftDeleteManager()
 
