@@ -167,16 +167,6 @@ product_list_view_schema = {
     'operation_id': 'list_products',
 }
 
-product_detail_by_id_view_schema = {
-    'responses': {
-        200: product_detail_response_schema,
-        404: not_found_response_schema,
-    },
-    'summary': 'Get product details by ID',
-    'tags': ['Products'],
-    'operation_id': 'get_product_detail_by_id',
-}
-
 product_detail_by_slug_view_schema = {
     'responses': {
         200: product_detail_response_schema,

@@ -10,7 +10,6 @@ from rest_framework.views import APIView
 
 from apps.products.api.v1.schemas import (
     product_list_view_schema,
-    product_detail_by_id_view_schema,
     product_detail_by_slug_view_schema,
 )
 from apps.products.api.v1.serializers import (
@@ -20,7 +19,7 @@ from apps.products.api.v1.serializers import (
     ProductFiltersSerializer,
 )
 from apps.products.services import ProductService
-from apps.products.validators import validate_product_id, validate_product_slug
+from apps.products.validators import validate_product_slug
 
 logger = logging.getLogger('apps.products')
 
@@ -107,59 +106,6 @@ class ProductListView(APIView):
             )
             return Response(
                 {'detail': 'An error occurred while fetching products.'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
-
-
-class ProductDetailByIdView(APIView):
-    """View for getting product details by ID."""
-
-    permission_classes = [AllowAny]
-
-    @extend_schema(**product_detail_by_id_view_schema)
-    def get(self, request, product_id):
-        """Get detailed information about a product by ID."""
-        try:
-            # Validate product ID
-            try:
-                product_id = int(product_id)
-                validate_product_id(product_id)
-            except (ValueError, ValidationError):
-                return Response(
-                    {'detail': 'Invalid product ID.'},
-                    status=status.HTTP_404_NOT_FOUND
-                )
-
-            product = ProductService.get_product_detail(product_id, request.user)
-
-            if not product:
-                return Response(
-                    {'detail': 'Product not found.'},
-                    status=status.HTTP_404_NOT_FOUND
-                )
-
-            # Serialize product
-            serializer = ProductDetailSerializer(
-                product,
-                context={'request': request}
-            )
-
-            logger.info(
-                f'Product detail by ID requested: product_id={product.id}, slug={product.slug}, '
-                f'user_id={request.user.id if request.user.is_authenticated else None}, '
-                f'ip={request.META.get("REMOTE_ADDR")}'
-            )
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        except Exception as e:
-            logger.error(
-                f'Product detail by ID error: product_id={product_id}, error={str(e)}, '
-                f'user_id={request.user.id if request.user.is_authenticated else None}, '
-                f'ip={request.META.get("REMOTE_ADDR")}'
-            )
-            return Response(
-                {'detail': 'An error occurred while fetching product details.'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 

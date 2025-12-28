@@ -6,26 +6,6 @@ from apps.categories.models import Category, SubCategory, Brand, ProductModel
 from apps.products.models import Product
 
 
-def validate_product_id(product_id: int) -> Product:
-    """
-    Validate that product exists and is active.
-
-    Args:
-        product_id: Product ID to validate
-
-    Returns:
-        Product instance
-
-    Raises:
-        ValidationError: If product doesn't exist or is inactive
-    """
-    try:
-        product = Product.objects.get(id=product_id, is_active=True)
-        return product
-    except Product.DoesNotExist:
-        raise ValidationError(f"Product with id {product_id} not found or inactive.")
-
-
 def validate_product_slug(slug: str) -> Product:
     """
     Validate that product exists by slug and is active.
