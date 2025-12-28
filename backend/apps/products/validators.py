@@ -2,7 +2,7 @@ from typing import Optional
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-from apps.categories.models import Category, SubCategory, Brand, ProductModel
+from apps.categories.models import Category, Brand, ProductModel
 from apps.products.models import Product
 
 
@@ -45,23 +45,6 @@ def validate_category_id(category_id: int) -> Category:
         raise ValidationError(f"Category with id {category_id} does not exist.")
 
 
-def validate_subcategory_id(subcategory_id: int) -> SubCategory:
-    """
-    Validate that subcategory exists.
-
-    Args:
-        subcategory_id: Subcategory ID to validate
-
-    Returns:
-        SubCategory instance
-
-    Raises:
-        ValidationError: If subcategory doesn't exist
-    """
-    try:
-        return SubCategory.objects.get(id=subcategory_id)
-    except SubCategory.DoesNotExist:
-        raise ValidationError(f"Subcategory with id {subcategory_id} does not exist.")
 
 
 def validate_brand_id(brand_id: int) -> Brand:
@@ -121,23 +104,6 @@ def validate_category_slug(category_slug: str) -> Category:
         raise ValidationError(f"Category with slug '{category_slug}' does not exist.")
 
 
-def validate_subcategory_slug(subcategory_slug: str) -> SubCategory:
-    """
-    Validate that subcategory exists by slug.
-
-    Args:
-        subcategory_slug: Subcategory slug to validate
-
-    Returns:
-        SubCategory instance
-
-    Raises:
-        ValidationError: If subcategory doesn't exist
-    """
-    try:
-        return SubCategory.objects.get(slug=subcategory_slug)
-    except SubCategory.DoesNotExist:
-        raise ValidationError(f"Subcategory with slug '{subcategory_slug}' does not exist.")
 
 
 def validate_brand_slug(brand_slug: str) -> Brand:
@@ -180,7 +146,6 @@ def validate_product_model_slug(product_model_slug: str) -> ProductModel:
 
 def validate_product_filters(
     category_slug: Optional[str] = None,
-    subcategory_slug: Optional[str] = None,
     brand_slug: Optional[str] = None,
     product_model_slug: Optional[str] = None
 ) -> None:
@@ -189,7 +154,6 @@ def validate_product_filters(
 
     Args:
         category_slug: Category slug filter
-        subcategory_slug: Subcategory slug filter
         brand_slug: Brand slug filter
         product_model_slug: Product model slug filter
 
@@ -199,16 +163,6 @@ def validate_product_filters(
     # Validate individual slugs exist
     if category_slug:
         validate_category_slug(category_slug)
-
-    if subcategory_slug:
-        subcategory = validate_subcategory_slug(subcategory_slug)
-        # Check if subcategory belongs to the specified category
-        if category_slug:
-            category = validate_category_slug(category_slug)
-            if subcategory.category_id != category.id:
-                raise ValidationError(
-                    f"Subcategory '{subcategory.name}' does not belong to category '{category.name}'."
-                )
 
     if brand_slug:
         validate_brand_slug(brand_slug)
@@ -222,11 +176,11 @@ def validate_product_filters(
                 raise ValidationError(
                     f"Product model '{product_model.name}' does not belong to brand '{brand.name}'."
                 )
-        if subcategory_slug:
-            subcategory = validate_subcategory_slug(subcategory_slug)
-            if product_model.sub_category_id != subcategory.id:
+        if category_slug:
+            category = validate_category_slug(category_slug)
+            if product_model.category_id != category.id:
                 raise ValidationError(
-                    f"Product model '{product_model.name}' does not belong to subcategory '{subcategory.name}'."
+                    f"Product model '{product_model.name}' does not belong to category '{category.name}'."
                 )
 
 

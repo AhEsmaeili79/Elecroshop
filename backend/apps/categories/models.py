@@ -7,40 +7,33 @@ class Category(BaseModel):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to="categories/%Y/%m/%d/", blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
-
-
-class SubCategory(BaseModel):
-    name = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True, blank=True, null=True)
-    category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, related_name="subcategories"
+    parent = models.OneToOneField(
+        'self', on_delete=models.CASCADE, null=True, blank=True,
+        related_name='child_category'
     )
 
-    class Meta:
-        unique_together = ('name', 'category')
-
     def __str__(self):
-        return f"{self.category.name} → {self.name}"
+        if self.parent:
+            return f"{self.parent.name} → {self.name}"
+        return self.name
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            base_slug = slugify(f"{self.category.name}-{self.name}")
+            if self.parent:
+                base_slug = slugify(f"{self.parent.name}-{self.name}")
+            else:
+                base_slug = slugify(self.name)
             slug = base_slug
             counter = 1
             # Ensure uniqueness
-            while SubCategory.objects.filter(slug=slug).exists():
+            while Category.objects.filter(slug=slug).exists():
                 slug = f"{base_slug}-{counter}"
                 counter += 1
             self.slug = slug
         super().save(*args, **kwargs)
+
+
+
 
 
 
@@ -74,8 +67,8 @@ class ProductModel(BaseModel):
     brand = models.ForeignKey(
         Brand, on_delete=models.CASCADE, related_name="product_models"
     )
-    sub_category = models.ForeignKey(
-        SubCategory, on_delete=models.CASCADE, related_name="product_models"
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, related_name="product_models"
     )
 
     class Meta:

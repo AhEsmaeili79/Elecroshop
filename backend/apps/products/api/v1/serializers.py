@@ -3,7 +3,7 @@ from django.conf import settings
 from drf_spectacular.utils import extend_schema_field
 
 from apps.products.models import Product, ProductOffer, ProductImage, Color, OfferColorQuantity
-from apps.categories.models import Category, SubCategory, Brand, ProductModel
+from apps.categories.models import Category, Brand, ProductModel
 from apps.reviews.models import Review
 from apps.users.models import Seller
 
@@ -16,14 +16,6 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'slug', 'image']
 
 
-class SubCategorySerializer(serializers.ModelSerializer):
-    """Serializer for SubCategory model."""
-
-    category = CategorySerializer(read_only=True)
-
-    class Meta:
-        model = SubCategory
-        fields = ['id', 'name', 'category']
 
 
 class BrandSerializer(serializers.ModelSerializer):
@@ -38,11 +30,11 @@ class ProductModelSerializer(serializers.ModelSerializer):
     """Serializer for ProductModel model."""
 
     brand = BrandSerializer(read_only=True)
-    sub_category = SubCategorySerializer(read_only=True)
+    category = CategorySerializer(read_only=True)
 
     class Meta:
         model = ProductModel
-        fields = ['id', 'name', 'slug', 'brand', 'sub_category']
+        fields = ['id', 'name', 'slug', 'brand', 'category']
 
 
 class SellerSerializer(serializers.ModelSerializer):

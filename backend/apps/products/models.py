@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.postgres.indexes import GinIndex
 from django.conf import settings
-from apps.categories.models import Category, Brand, SubCategory, ProductModel
+from apps.categories.models import Category, Brand, ProductModel
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from apps.users.models import Seller
@@ -13,7 +13,6 @@ class Product(BaseModel):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    sub_category = models.ForeignKey(SubCategory, on_delete=models.PROTECT, null=True, blank=True)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     product_model = models.ForeignKey(ProductModel, on_delete=models.SET_NULL, null=True, blank=True, related_name="products")
     description = models.TextField(null=True, blank=True)
