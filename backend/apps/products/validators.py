@@ -146,6 +146,7 @@ def validate_product_model_slug(product_model_slug: str) -> ProductModel:
 
 def validate_product_filters(
     category_slug: Optional[str] = None,
+    subcategory_slug: Optional[str] = None,
     brand_slug: Optional[str] = None,
     product_model_slug: Optional[str] = None
 ) -> None:
@@ -154,6 +155,7 @@ def validate_product_filters(
 
     Args:
         category_slug: Category slug filter
+        subcategory_slug: Subcategory slug filter
         brand_slug: Brand slug filter
         product_model_slug: Product model slug filter
 
@@ -163,6 +165,9 @@ def validate_product_filters(
     # Validate individual slugs exist
     if category_slug:
         validate_category_slug(category_slug)
+
+    if subcategory_slug:
+        validate_category_slug(subcategory_slug)
 
     if brand_slug:
         validate_brand_slug(brand_slug)
@@ -176,7 +181,13 @@ def validate_product_filters(
                 raise ValidationError(
                     f"Product model '{product_model.name}' does not belong to brand '{brand.name}'."
                 )
-        if category_slug:
+        if subcategory_slug:
+            subcategory = validate_category_slug(subcategory_slug)
+            if product_model.category_id != subcategory.id:
+                raise ValidationError(
+                    f"Product model '{product_model.name}' does not belong to subcategory '{subcategory.name}'."
+                )
+        elif category_slug:
             category = validate_category_slug(category_slug)
             if product_model.category_id != category.id:
                 raise ValidationError(

@@ -325,7 +325,7 @@ def get_subcategories_for_filtering(category_slug: Optional[str] = None) -> mode
         QuerySet of subcategories with product counts
     """
     queryset = Category.objects.annotate(
-        product_count=Count('productmodel__products', filter=Q(productmodel__products__is_active=True))
+        product_count=Count('product_models__products', filter=Q(product_models__products__is_active=True))
     ).filter(product_count__gt=0, parent__isnull=False)
 
     if category_slug:

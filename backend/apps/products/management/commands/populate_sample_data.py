@@ -579,7 +579,7 @@ class Command(BaseCommand):
 
         for subcategory_name, templates in product_templates.items():
             subcategory = subcategories[subcategory_name]
-            category = subcategory.category
+            category = subcategory.parent
 
             for template in templates:
                 brand = brands[template['brand']]
