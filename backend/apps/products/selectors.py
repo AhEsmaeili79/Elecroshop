@@ -41,7 +41,15 @@ def get_products_list(
 
     # Apply filters
     if category_slug:
-        queryset = queryset.filter(category__slug=category_slug)
+        # Check if category_slug corresponds to a parent category
+        try:
+            parent_category = Category.objects.get(slug=category_slug, parent__isnull=True)
+            # If it's a parent category, get products from all its child categories
+            child_category_ids = parent_category.child_categories.values_list('id', flat=True)
+            queryset = queryset.filter(category_id__in=child_category_ids)
+        except Category.DoesNotExist:
+            # If not a parent category, filter by exact category match
+            queryset = queryset.filter(category__slug=category_slug)
 
     if subcategory_slug:
         queryset = queryset.filter(category__slug=subcategory_slug, category__parent__isnull=False)
