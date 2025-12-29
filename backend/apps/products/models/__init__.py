@@ -5,3 +5,10 @@ from .product import (
     OfferColorQuantity,
     ProductImage,
 )
+from .home import (
+    HeroBanner,
+    PromoBanner,
+    CountdownOffer,
+    Testimonial,
+    NewsletterSubscription,
+)
