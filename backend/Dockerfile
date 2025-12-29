@@ -17,7 +17,7 @@ RUN apk add --no-cache \
 # Set environment variables for development
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    DJANGO_SETTINGS_MODULE=config.settings
+    DJANGO_SETTINGS_MODULE=config.settings.dev
 
 # Set work directory
 WORKDIR /app
