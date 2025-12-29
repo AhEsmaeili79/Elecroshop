@@ -41,8 +41,8 @@ services:
     volumes:
       # Mount the entire backend directory for hot reload
       - .:/app
-    ports:
-      - "8006:8000"
+      # Mount static files volume for nginx to serve
+      - static_files:/app/staticfiles
     environment:
       - DEBUG=True
       - DB_NAME=${POSTGRES_DB:-electroshop}
@@ -111,6 +111,7 @@ services:
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./config/nginx/503.html:/usr/share/nginx/html/503.html:ro
       - nginx_logs:/var/log/nginx
+      - static_files:/usr/share/nginx/static
     depends_on:
       - web
     restart: unless-stopped
@@ -136,3 +137,4 @@ volumes:
   postgres_data_dev:
   redis_data_dev:
   nginx_logs:
+  static_files:
