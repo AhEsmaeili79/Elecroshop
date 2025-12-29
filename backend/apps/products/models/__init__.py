@@ -1,4 +1,4 @@
-from apps.products.models.product import (
+from .product import (
     Product,
     ProductOffer,
     Color,
