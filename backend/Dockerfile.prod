@@ -10,7 +10,7 @@ RUN apk add --no-cache \
     openssl-dev \
     cargo \
     rust \
-    && pip install --no-cache-dir --upgrade pip
+    && pip install --no-cache-dir --upgrade pip setuptools wheel
 
 # Set work directory
 WORKDIR /app
@@ -47,8 +47,9 @@ COPY --from=builder /root/.local /home/django/.local
 # Copy project files
 COPY --chown=django:django . /app/
 
-# Create logs and staticfiles directories with proper permissions
-RUN mkdir -p /app/logs /app/staticfiles && \
+# Make entrypoint script executable and create logs and staticfiles directories with proper permissions
+RUN chmod +x /app/entrypoint.sh && \
+    mkdir -p /app/logs /app/staticfiles && \
     chown -R django:django /app/logs /app/staticfiles && \
     chmod 775 /app/logs /app/staticfiles
 
@@ -60,4 +61,4 @@ USER django
 EXPOSE 8000
 
 # Default command - using Granian ASGI server
-CMD ["granian", "--interface", "asgi", "config.asgi:application", "--host", "0.0.0.0", "--port", "8000", "--workers", "4", "--threads", "4", "--loop", "uvloop"]
+CMD ["granian", "--interface", "asgi", "config.asgi:application", "--host", "0.0.0.0", "--port", "8000", "--workers", "4", "--loop", "uvloop"]

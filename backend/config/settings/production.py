@@ -272,6 +272,9 @@ CHANNEL_LAYERS = {
     },
 }
 
+# Production Mode - Silk and debug tools disabled
+DEVELOPMENT = False
+
 # Security settings for production
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True

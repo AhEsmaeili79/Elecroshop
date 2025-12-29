@@ -24,8 +24,6 @@ services:
   redis:
     image: redis:8.2-alpine
     container_name: electroshop-redis-prod
-    ports:
-      - "6379:6379"
     volumes:
       - redis_data:/data
     networks:
@@ -38,7 +36,7 @@ services:
       dockerfile: Dockerfile.prod
     image: electroshop-backend-prod:latest
     container_name: electroshop-backend-prod
-    command: sh -c "sleep 10 && python manage.py migrate --noinput && python manage.py collectstatic --noinput"
+    command: ["/app/entrypoint.sh"]
     volumes:
       - static_files:/app/staticfiles
     environment:
@@ -63,7 +61,7 @@ services:
         condition: service_started
     networks:
       - electroshop-prod
-    restart: unless-stopped
+    restart: "no"
 
   granian:
     build:
@@ -71,7 +69,7 @@ services:
       dockerfile: Dockerfile.prod
     image: electroshop-backend-prod:latest
     container_name: electroshop-granian-prod
-    command: granian --interface asgi config.asgi:application --host 0.0.0.0 --port 8000 --workers 4 --threads 4 --loop uvloop
+    command: granian --interface asgi config.asgi:application --host 0.0.0.0 --port 8000 --workers 4 --loop uvloop
     environment:
       - DB_NAME=${POSTGRES_DB:-electroshop}
       - DB_USER=${POSTGRES_USER:-postgres}
@@ -128,8 +126,7 @@ services:
     image: nginx:alpine
     container_name: electroshop-nginx-prod
     ports:
-      - "80:80"
-      - "443:443"
+      - "8090:80"
     volumes:
       - ./config/nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
       - ./config/nginx/ssl:/etc/nginx/ssl:ro
