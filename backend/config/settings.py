@@ -177,6 +177,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3005",
     "http://95.216.121.250:3005",
     "http://95.216.121.250:3006",
+    "http://95.216.121.250",
+    "http://95.216.121.250:8090",
 ]
 
 # Allow credentials for CORS (needed for cookies/auth headers)
