@@ -303,6 +303,19 @@ class OTPRequestView(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+        if purpose == 'register' and user_exists:
+            logger.warning(
+                f'OTP request denied: user already exists, identifier={normalized_identifier}, purpose={purpose}, '
+                f'ip={request.META.get("REMOTE_ADDR")}'
+            )
+            return Response(
+                {
+                    'error': 'A user with this email/phone already exists. Please login instead.',
+                    'identifier': original_identifier,
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
         # Generate and store OTP (use normalized identifier for Redis)
         otp_code, success, error_message = OTPService.generate_and_store_otp(normalized_identifier, purpose)

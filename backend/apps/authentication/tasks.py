@@ -209,10 +209,10 @@ def send_email_otp(self, email: str, otp_code: str):
     
     try:
         # SMTP configuration
-        smtp_server = os.environ.get('smtp_server', 'smtp.gmail.com')
-        smtp_port = int(os.environ.get('smtp_port', '587'))
-        smtp_username = os.environ.get('gmail_username', '')
-        smtp_password = os.environ.get('gmail_app_password', '')
+        smtp_server = os.environ.get('EMAIL_HOST', os.environ.get('smtp_server', 'smtp.gmail.com'))
+        smtp_port = int(os.environ.get('EMAIL_PORT', os.environ.get('smtp_port', '587')))
+        smtp_username = os.environ.get('EMAIL_HOST_USER', os.environ.get('gmail_username', ''))
+        smtp_password = os.environ.get('EMAIL_HOST_PASSWORD', os.environ.get('gmail_app_password', ''))
         
         if not all([smtp_server, smtp_username, smtp_password]):
             logger.error("Email SMTP configuration is missing")
